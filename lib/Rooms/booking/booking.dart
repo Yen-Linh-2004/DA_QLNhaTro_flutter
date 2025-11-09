@@ -64,24 +64,24 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Quản lý đặt phòng"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add_box_outlined, color: Colors.blue),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const CreateBookingPage(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Quản lý đặt phòng"),
+      //   backgroundColor: Colors.white,
+      //   foregroundColor: Colors.black,
+      //   actions: [
+      //     IconButton(
+      //       icon: const Icon(Icons.add_box_outlined, color: Colors.blue),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => const CreateBookingPage(),
+      //           ),
+      //         );
+      //       },
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(14),
         child: Column(

@@ -41,10 +41,17 @@ class _MainPageState extends State<MainPage> {
     'rooms',
     'finance',
     'chat',
-    'settings'
+    'settings',
   ];
 
   void _selectPage(String pageKey) {
+    setState(() {
+      _selectedPage = pageKey;
+    });
+    if (Navigator.canPop(context)) Navigator.pop(context);
+  }
+
+  void _selectBottomItem(String pageKey) {
     setState(() {
       _selectedPage = pageKey;
     });
@@ -60,7 +67,10 @@ class _MainPageState extends State<MainPage> {
       drawer: _buildAppDrawer(context),
       appBar: AppBar(
         backgroundColor: const Color(0xFF007BFF),
-        title: Text(_getPageTitle(), style: const TextStyle(color: Colors.white)),
+        title: Text(
+          _getPageTitle(),
+          style: const TextStyle(color: Colors.white),
+        ),
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -68,22 +78,38 @@ class _MainPageState extends State<MainPage> {
         duration: const Duration(milliseconds: 300),
         child: _pages[_selectedPage] ?? const Placeholder(),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex == -1 ? 0 : currentIndex,
-        onTap: (i) => _selectPage(_bottomNavPages[i]),
-        selectedItemColor: const Color(0xFF007BFF),
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: "Trang chủ"),
-          BottomNavigationBarItem(icon: Icon(Icons.meeting_room_outlined), label: "Phòng trọ"),
-          BottomNavigationBarItem(icon: Icon(Icons.attach_money_outlined), label: "Tài chính"),
-          BottomNavigationBarItem(icon: Icon(Icons.chat_bubble_outline), label: "Chat"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: "Cài đặt"),
-        ],
-      ),
-    );
-  }
+    //   bottomNavigationBar: BottomNavigationBar(
+    //     currentIndex: currentIndex == -1 ? 0 : currentIndex,
+    //     onTap: (i) => _selectPage(_bottomNavPages[i]),
+    //     selectedItemColor: const Color(0xFF007BFF),
+    //     unselectedItemColor: Colors.grey,
+    //     type: BottomNavigationBarType.fixed,
+    //     items: const [
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.home_outlined),
+    //         label: "Trang chủ",
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.meeting_room_outlined),
+    //         label: "Phòng trọ",
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.attach_money_outlined),
+    //         label: "Tài chính",
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.chat_bubble_outline),
+    //         label: "Chat",
+    //       ),
+    //       BottomNavigationBarItem(
+    //         icon: Icon(Icons.settings_outlined),
+    //         label: "Cài đặt",
+    //       ),
+    //     ],
+    //   ),
+    // );
+  );
+}
 
   /// Drawer
   Drawer _buildAppDrawer(BuildContext context) {
@@ -110,14 +136,20 @@ class _MainPageState extends State<MainPage> {
                 "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
               ),
             ),
-            accountName: const Text("Nguyễn Văn Minh",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            accountName: const Text(
+              "Nguyễn Văn Minh",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
             accountEmail: const Text("minh.nguyen@example.com"),
           ),
 
           _buildDrawerSectionTitle("Trang chính"),
           _buildDrawerItem(Icons.home_outlined, "Trang chủ", 'home'),
-           _buildDrawerItem(Icons.local_offer_outlined, "Loại phòng", 'typeroom'),
+          _buildDrawerItem(
+            Icons.local_offer_outlined,
+            "Loại phòng",
+            'typeroom',
+          ),
           _buildDrawerItem(Icons.meeting_room_outlined, "Phòng trọ", 'rooms'),
           _buildDrawerItem(Icons.attach_money_outlined, "Đặt phòng", 'booking'),
           _buildDrawerItem(Icons.contact_emergency, "Hợp đồng", 'contact'),
@@ -137,8 +169,13 @@ class _MainPageState extends State<MainPage> {
           const Divider(height: 24),
           ListTile(
             leading: const Icon(Icons.logout, color: Colors.redAccent),
-            title: const Text("Đăng xuất",
-                style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
+            title: const Text(
+              "Đăng xuất",
+              style: TextStyle(
+                color: Colors.redAccent,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             onTap: () {
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
@@ -155,8 +192,10 @@ class _MainPageState extends State<MainPage> {
   Widget _buildDrawerSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 10, 0, 4),
-      child: Text(title,
-          style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
+      child: Text(
+        title,
+        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+      ),
     );
   }
 
@@ -164,7 +203,10 @@ class _MainPageState extends State<MainPage> {
   Widget _buildDrawerItem(IconData icon, String title, String pageKey) {
     final bool isSelected = _selectedPage == pageKey;
     return ListTile(
-      leading: Icon(icon, color: isSelected ? const Color(0xFF007BFF) : Colors.grey[700]),
+      leading: Icon(
+        icon,
+        color: isSelected ? const Color(0xFF007BFF) : Colors.grey[700],
+      ),
       title: Text(
         title,
         style: TextStyle(

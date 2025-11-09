@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/users/contact.dart';
-import 'package:flutter_application/users/home.dart';
-import 'package:flutter_application/users/RepairRequestDetail/RepairRequest.dart';
-import 'package:flutter_application/users/room.dart';
+import 'package:flutter_application/generalPage/dashbroad.dart';
+import 'package:flutter_application/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
       // home: const RegisterPage(),
-       home: const RoomPage(),
+       home: const HomeMobilePage(),
     );
   }
 }

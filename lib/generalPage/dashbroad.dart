@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/generalPage/register.dart';
 import 'package:flutter_application/main_page.dart';
+import 'package:flutter_application/users/home.dart';
 
 const kPrimary = Color(0xFF4F46E5);
 
@@ -92,12 +93,12 @@ class HomeMobilePage extends StatelessWidget {
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => const RegisterPage(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TenantHomePage(),
+                          ),
+                        );
                       },
                       child: const Text("Demo Khách"),
                     ),

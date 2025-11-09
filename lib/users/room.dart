@@ -6,20 +6,20 @@ class RoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff8f9fb),
-      appBar: AppBar(
-        title: const Text(
-          "Quản lý thông tin phòng trọ",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black,
-            fontSize: 22,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        elevation: 0,
-      ),
+      // backgroundColor: const Color(0xfff8f9fb),
+      // appBar: AppBar(
+      //   title: const Text(
+      //     "Quản lý thông tin phòng trọ",
+      //     style: TextStyle(
+      //       fontWeight: FontWeight.bold,
+      //       color: Colors.black,
+      //       fontSize: 22,
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.white,
+      //   centerTitle: true,
+      //   elevation: 0,
+      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

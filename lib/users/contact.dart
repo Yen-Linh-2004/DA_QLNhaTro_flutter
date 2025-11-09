@@ -7,23 +7,23 @@ class ContractPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff8f9fb),
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text(
-          "Thông tin hợp đồng thuê",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: false,
-        elevation: 0,
-        // actions: [
-        //   TextButton.icon(
-        //     onPressed: () {},
-        //     icon: const Icon(Icons.file_copy_outlined, color: Colors.indigo),
-        //     label: const Text("Xem hợp đồng đầy đủ",
-        //         style: TextStyle(color: Colors.indigo, fontSize: 13)),
-        //   )
-        // ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   title: const Text(
+      //     "Thông tin hợp đồng thuê",
+      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+      //   ),
+      //   centerTitle: false,
+      //   elevation: 0,
+      //   // actions: [
+      //   //   TextButton.icon(
+      //   //     onPressed: () {},
+      //   //     icon: const Icon(Icons.file_copy_outlined, color: Colors.indigo),
+      //   //     label: const Text("Xem hợp đồng đầy đủ",
+      //   //         style: TextStyle(color: Colors.indigo, fontSize: 13)),
+      //   //   )
+      //   // ],
+      // ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(

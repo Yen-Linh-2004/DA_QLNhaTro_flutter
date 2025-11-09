@@ -52,33 +52,33 @@ class RepairRequestPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Yêu cầu sửa chữa"),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.add_circle_outline),
-            tooltip: "Tạo yêu cầu mới",
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: const Text("Yêu cầu sửa chữa"),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {},
+      //       icon: const Icon(Icons.add_circle_outline),
+      //       tooltip: "Tạo yêu cầu mới",
+      //     ),
+      //   ],
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            // Thống kê nhanh
-            Row(
-              children: [
-                buildSummaryCard("Chờ xử lý", "1", Colors.orange, Icons.access_time),
-                buildSummaryCard("Đang xử lý", "1", Colors.blue, Icons.engineering),
-              ],
-            ),
-            Row(
-              children: [
-                buildSummaryCard("Hoàn thành", "1", Colors.green, Icons.check_circle),
-                buildSummaryCard("Ưu tiên cao", "1", Colors.red, Icons.warning),
-              ],
-            ),
+            // // Thống kê nhanh
+            // Row(
+            //   children: [
+            //     buildSummaryCard("Chờ xử lý", "1", Colors.orange, Icons.access_time),
+            //     buildSummaryCard("Đang xử lý", "1", Colors.blue, Icons.engineering),
+            //   ],
+            // ),
+            // Row(
+            //   children: [
+            //     buildSummaryCard("Hoàn thành", "1", Colors.green, Icons.check_circle),
+            //     buildSummaryCard("Ưu tiên cao", "1", Colors.red, Icons.warning),
+            //   ],
+            // ),
             const SizedBox(height: 8),
 
             // Danh sách yêu cầu

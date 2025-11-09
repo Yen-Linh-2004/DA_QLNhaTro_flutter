@@ -47,19 +47,19 @@ class _RoomPageState extends State<RoomPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF4F6F9),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: const Text(
-          "Danh sách phòng trọ",
-          style: TextStyle(
-            color: Color(0xFF2E3A59),
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        iconTheme: const IconThemeData(color: Color(0xFF2E3A59)),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0,
+      //   backgroundColor: Colors.white,
+      //   centerTitle: true,
+      //   title: const Text(
+      //     "Danh sách phòng trọ",
+      //     style: TextStyle(
+      //       color: Color(0xFF2E3A59),
+      //       fontWeight: FontWeight.bold,
+      //     ),
+      //   ),
+      //   iconTheme: const IconThemeData(color: Color(0xFF2E3A59)),
+      // ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
