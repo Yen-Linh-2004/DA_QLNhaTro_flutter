@@ -1,0 +1,314 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application/Rooms/type_room/add_typeroom.dart';
+
+class TypeRoomPage extends StatelessWidget {
+  const TypeRoomPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      // appBar: AppBar(
+      //   title: const Text(
+      //     "Quản lý loại phòng trọ",
+      //     style: TextStyle(fontWeight: FontWeight.bold),
+      //   ),
+      //   centerTitle: true,
+      // ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSummaryCards(),
+            const SizedBox(height: 20),
+            const Text(
+              "Danh sách loại phòng",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            ..._roomList.map((room) => RoomCard(room: room)).toList(),
+          ],
+        ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTypeRoomPage()),
+          );
+        },
+        backgroundColor: const Color(0xFF4A90E2),
+        child: Icon(Icons.add),
+        // label: const Text(""),
+      ),
+    );
+  }
+
+  Widget _buildSummaryCards() {
+    final items = [
+      SummaryItem("Tổng loại phòng", "6", Icons.category, Colors.indigo),
+      SummaryItem("Tổng phòng", "54", Icons.meeting_room, Colors.green),
+      SummaryItem("Phòng trống", "1", Icons.hotel_class, Colors.orange),
+      SummaryItem("Giá trung bình", "2.6M", Icons.attach_money, Colors.redAccent),
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 2.3,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) => SummaryCard(item: items[index]),
+    );
+  }
+}
+
+class SummaryItem {
+  final String title;
+  final String value;
+  final IconData icon;
+  final Color color;
+
+  SummaryItem(this.title, this.value, this.icon, this.color);
+}
+
+class SummaryCard extends StatelessWidget {
+  final SummaryItem item;
+  const SummaryCard({super.key, required this.item});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.08),
+            blurRadius: 8,
+            offset: const Offset(0, 4),
+          )
+        ],
+      ),
+      padding: const EdgeInsets.all(12),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: item.color.withOpacity(0.1),
+            child: Icon(item.icon, color: item.color, size: 22),
+          ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(item.title, style: const TextStyle(fontSize: 13)),
+              const SizedBox(height: 2),
+              Text(item.value,
+                  style: TextStyle(
+                      color: item.color,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 17)),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class RoomInfo {
+  final String name;
+  final String desc;
+  final String price;
+  final String area;
+  final List<String> features;
+  final int rented;
+  final int available;
+  final int maintenance;
+  final Color color;
+
+  RoomInfo({
+    required this.name,
+    required this.desc,
+    required this.price,
+    required this.area,
+    required this.features,
+    required this.rented,
+    required this.available,
+    required this.maintenance,
+    required this.color,
+  });
+}
+
+class RoomCard extends StatelessWidget {
+  final RoomInfo room;
+  const RoomCard({super.key, required this.room});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: InkWell(
+        onTap: () {},
+        borderRadius: BorderRadius.circular(18),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 22,
+                    backgroundColor: room.color.withOpacity(0.1),
+                    child: Icon(Icons.meeting_room, color: room.color),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      room.name,
+                      style: TextStyle(
+                        color: room.color,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Text(room.desc, style: const TextStyle(fontSize: 13)),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  Icon(Icons.price_change, size: 18),
+                  const SizedBox(width: 4),
+                  Text(room.price),
+                  const Spacer(),
+                  Text(room.area, style: const TextStyle(color: Colors.black54)),
+                ],
+              ),
+              const SizedBox(height: 8),
+              Wrap(
+                spacing: 6,
+                children: room.features
+                    .map((e) => Chip(
+                          label: Text(e),
+                          backgroundColor: Colors.grey.shade100,
+                          side: BorderSide(color: Colors.grey.shade300),
+                        ))
+                    .toList(),
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _statusItem(Icons.check_circle, "Đã thuê", room.rented, Colors.green),
+                  _statusItem(Icons.meeting_room, "Trống", room.available, Colors.orange),
+                  _statusItem(Icons.build, "Bảo trì", room.maintenance, Colors.redAccent),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _statusItem(IconData icon, String label, int count, Color color) {
+    return Row(
+      children: [
+        Icon(icon, color: color, size: 18),
+        const SizedBox(width: 4),
+        Text("$label: $count", style: TextStyle(color: color)),
+      ],
+    );
+  }
+}
+
+final List<RoomInfo> _roomList = [
+  RoomInfo(
+    name: "Phòng thường",
+    desc: "Phòng tiêu chuẩn cho sinh viên hoặc người đi làm, có gác lửng.",
+    price: "2.600.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 30,
+    available: 0,
+    maintenance: 0,
+    color: Colors.blue,
+  ),
+  RoomInfo(
+    name: "Phòng kiot",
+    desc: "Phù hợp cho hộ gia đình nhỏ hoặc kinh doanh tại nhà.",
+    price: "2.700.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 2,
+    available: 0,
+    maintenance: 0,
+    color: Colors.teal,
+  ),
+  RoomInfo(
+    name: "Phòng ban công",
+    desc: "Có ban công rộng rãi, đón ánh sáng tự nhiên.",
+    price: "2.600.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 5,
+    available: 1,
+    maintenance: 0,
+    color: Colors.orange,
+  ),
+  RoomInfo(
+    name: "Phòng gốc",
+    desc: "Phòng ở góc tòa nhà, tạo cảm giác riêng tư, yên tĩnh quanh năm.",
+    price: "2.600.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 8,
+    available: 0,
+    maintenance: 0,
+    color: Colors.green,
+  ),
+  RoomInfo(
+    name: "Phòng trệt",
+    desc: "Tầng trệt, thuận tiện di chuyển, phù hợp cho gia đình có trẻ nhỏ.",
+    price: "2.600.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 6,
+    available: 0,
+    maintenance: 0,
+    color: Colors.purple,
+  ),
+  RoomInfo(
+    name: "Phòng tầng thượng",
+    desc: "Tầng cao, thoáng mát, yên tĩnh, thích hợp nghỉ ngơi buổi tối.",
+    price: "2.500.000đ/tháng",
+    area: "25m²",
+    features: ["Gác", "Kệ chén bát"],
+    rented: 3,
+    available: 0,
+    maintenance: 0,
+    color: Colors.redAccent,
+  ),
+];
