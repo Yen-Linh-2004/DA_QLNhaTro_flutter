@@ -21,9 +21,9 @@ class _LoginPage extends State<LoginPage> {
       backgroundColor: Colors.grey[100],
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
           child: Container(
-            padding: const EdgeInsets.all(24.0),
+            padding:EdgeInsets.all(24.0),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16.0),
@@ -31,7 +31,7 @@ class _LoginPage extends State<LoginPage> {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 8,
-                  offset: const Offset(0, 4),
+                  offset: Offset(0, 4),
                 ),
               ],
             ),
@@ -43,10 +43,7 @@ class _LoginPage extends State<LoginPage> {
                 children: [
                   Icon(Icons.lock_outline, size: 64, color: Colors.blue),
                   SizedBox(height: 12),
-                  Text(
-                    "Quản lý phòng trọ",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+                  Text("Quản lý phòng trọ", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                   SizedBox(height: 8),
                   Text("Đăng nhập vào hệ thống"),
                   SizedBox(height: 32),
@@ -92,7 +89,7 @@ class _LoginPage extends State<LoginPage> {
                         children: [
                           Checkbox(
                             value: rememberMe,
-                            checkColor: const Color.fromARGB(115, 46, 46, 46),
+                            checkColor: Color.fromARGB(115, 46, 46, 46),
                             onChanged: (value) {
                               setState(() {
                                 rememberMe = value ?? false;
@@ -111,7 +108,7 @@ class _LoginPage extends State<LoginPage> {
                             ),
                           );
                         },
-                        child: const Text('Quên mật khẩu?'),
+                        child: Text('Quên mật khẩu?'),
                       ),
                     ],
                   ),
@@ -124,7 +121,7 @@ class _LoginPage extends State<LoginPage> {
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding: EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
@@ -136,10 +133,7 @@ class _LoginPage extends State<LoginPage> {
                           print(passwordController.text);
                         }
                       },
-                      child: const Text(
-                        "Đăng nhập",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      ),
+                      child: Text("Đăng nhập", style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
 
@@ -147,20 +141,17 @@ class _LoginPage extends State<LoginPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text("Chưa có tài khoản? "),
+                      Text("Chưa có tài khoản? "),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const RegisterPage(),
+                              builder: (context) => RegisterPage(),
                             ),
                           );
                         },
-                        child: const Text(
-                          "Đăng ký ngay",
-                          style: TextStyle(color: Colors.blue),
-                        ),
+                        child: Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
                       ),
                     ],
                   ),
@@ -183,11 +174,8 @@ class _LoginPage extends State<LoginPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 6),
+        Text( title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        SizedBox(height: 6),
         TextFormField(
           controller: controller,
           validator: validator,
@@ -207,7 +195,7 @@ class _LoginPage extends State<LoginPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.blue, width: 2),
+              borderSide: BorderSide(color: Colors.blue, width: 2),
             ),
           ),
         ),

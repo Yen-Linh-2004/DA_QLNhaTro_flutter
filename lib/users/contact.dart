@@ -3,124 +3,111 @@ import 'package:flutter/material.dart';
 class ContractPage extends StatelessWidget {
   const ContractPage({super.key});
 
+  static Color primaryColor = Colors.teal;
+  static Color highlightColor = Colors.deepOrange;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xfff8f9fb),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   title: const Text(
-      //     "Thông tin hợp đồng thuê",
-      //     style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-      //   ),
-      //   centerTitle: false,
-      //   elevation: 0,
-      //   // actions: [
-      //   //   TextButton.icon(
-      //   //     onPressed: () {},
-      //   //     icon: const Icon(Icons.file_copy_outlined, color: Colors.indigo),
-      //   //     label: const Text("Xem hợp đồng đầy đủ",
-      //   //         style: TextStyle(color: Colors.indigo, fontSize: 13)),
-      //   //   )
-      //   // ],
-      // ),
+      backgroundColor: Colors.grey[50],
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
             _buildContractInfo(),
-            const SizedBox(height: 16),
-            _buildImportantNotice(),
+            SizedBox(height: 20),
+            _buildImportantNotice(), 
+            SizedBox(height: 100),
           ],
         ),
       ),
     );
   }
 
-  // ===== Thông tin hợp đồng =====
   Widget _buildContractInfo() {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(18),
       decoration: _cardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _sectionTitle(Icons.description_outlined, "Thông tin cơ bản"),
-          const SizedBox(height: 8),
+          Divider(height: 16, color: Colors.black12),
           _infoRow("Số hợp đồng:", "HD001-2024"),
           _infoRow("Phòng:", "A401"),
           _infoRow("Người thuê:", "Nguyễn Văn An", isBold: true),
           _infoRow("Số điện thoại:", "0912345678"),
-          Row(
-            children: [
-              Text("Trạng thái: "),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                decoration: BoxDecoration(
-                  color: Colors.green.shade50,
-                  borderRadius: BorderRadius.circular(8),
+          Padding(
+            padding: EdgeInsets.only(bottom: 8),
+            child: Row(
+              children: [
+                Text("Trạng thái: ", style: TextStyle(color: Colors.black54)),
+                Chip(
+                  label: Text("Đang hiệu lực", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: 13)),
+                  backgroundColor: Colors.green.shade600,
+                  padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                 ),
-                child: Text("Đang hiệu lực",
-                    style: TextStyle(
-                        color: Colors.green, fontWeight: FontWeight.w600)),
-              ),
-            ],
+              ],
+            ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 16),
           _contractDuration(),
-          const SizedBox(height: 16),
+          SizedBox(height: 20),
           _monthlyCost(),
-          const SizedBox(height: 16),
+          SizedBox(height: 20),
           _depositSection(),
         ],
       ),
     );
   }
 
-  // ===== Thời hạn hợp đồng =====
   Widget _contractDuration() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xffeef3ff),
+        color: primaryColor.withOpacity(0.08),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Thời hạn hợp đồng",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 15, color: Colors.indigo)),
-          SizedBox(height: 8),
+          Row(
+            children: [
+              Icon(Icons.calendar_month, color: primaryColor, size: 20),
+              SizedBox(width: 6),
+              Text("Thời hạn hợp đồng", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: primaryColor)),
+            ],
+          ),
+          Divider(color: Colors.black12, height: 16),
           _durationRow("Ngày ký:", "2024-01-10"),
           _durationRow("Bắt đầu:", "2024-01-15"),
           _durationRow("Kết thúc:", "2025-01-14"),
-          _durationRow("Gia hạn tiếp theo:", "2025-01-14",
-              highlight: Colors.redAccent),
+          _durationRow("Gia hạn tiếp theo:", "2025-01-14", highlight: highlightColor),
         ],
       ),
     );
   }
 
-  // ===== Chi phí hàng tháng =====
   Widget _monthlyCost() {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xfff0faf2),
+        color: Colors.green.withOpacity(0.08),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Chi phí hàng tháng",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.teal, fontSize: 15)),
-          const SizedBox(height: 6),
-          _infoRow("Tiền thuê phòng:", "2.500.000 ₫",
-              color: Colors.green, isBold: true),
-          const SizedBox(height: 10),
+          Row(
+            children: [
+              Icon(Icons.payments_outlined, color: Colors.green.shade700, size: 20),
+              SizedBox(width: 6),
+              Text("Chi phí hàng tháng", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green.shade700, fontSize: 16)),
+            ],
+          ),
+          Divider(color: Colors.black12, height: 16),
+          _infoRow("Tiền thuê phòng:", "2.500.000 ₫", color: Colors.black87, isBold: true),
+          SizedBox(height: 10),
           _serviceSection(),
         ],
       ),
@@ -129,100 +116,115 @@ class ContractPage extends StatelessWidget {
 
   Widget _serviceSection() {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey.shade200),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Dịch vụ",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 14, color: Colors.black87)),
-          const SizedBox(height: 6),
-          _infoRow("Điện:", "3.500đ × 120kWh = 420.000đ"),
-          _infoRow("Nước:", "60.000đ / người × 1 = 60.000đ"),
-          _infoRow("Internet:", "50.000đ / phòng"),
-          _infoRow("Rác:", "40.000đ / phòng"),
-          _infoRow("Gửi xe:", "100.000đ / xe × 1 = 100.000đ"),
-          const Divider(),
-          _infoRow("Tổng dịch vụ:", "670.000đ"),
+          Text("Dịch vụ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.black87)),
+          Divider(height: 10, color: Colors.black12),
+          _infoRow("Điện:", "3.500đ × 120kWh = 420.000đ", isSmall: true),
+          _infoRow("Nước:", "60.000đ / người × 1 = 60.000đ", isSmall: true),
+          _infoRow("Internet:", "50.000đ / phòng", isSmall: true),
+          _infoRow("Rác:", "40.000đ / phòng", isSmall: true),
+          _infoRow("Gửi xe:", "100.000đ / xe × 1 = 100.000đ", isSmall: true),
+          Divider(height: 20),
+          _infoRow("Tổng dịch vụ:", "670.000đ", color: primaryColor, isBold: true),
           _infoRow("TỔNG CỘNG / THÁNG:", "3.170.000đ",
-              color: Colors.indigo, isBold: true),
+              color: primaryColor, isLarge: true),
         ],
       ),
     );
   }
 
-  // ===== Tiền cọc =====
   Widget _depositSection() {
     return Container(
-      margin: const EdgeInsets.only(top: 8),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xfffff6ed),
+        color: highlightColor.withOpacity(0.08),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Tiền cọc",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.deepOrange)),
-          SizedBox(height: 6),
-          _infoRow("Số tiền:", "2.500.000 ₫",
-              color: Colors.redAccent, isBold: true),
+          Row(
+            children: [
+              Icon(Icons.account_balance_wallet_outlined, color: highlightColor, size: 20),
+              SizedBox(width: 6),
+              Text("Tiền cọc", style: TextStyle(fontWeight: FontWeight.bold, color: highlightColor, fontSize: 16)),
+            ],
+          ),
+         Divider(height: 16, color: Colors.black12),
+          _infoRow("Số tiền:", "2.500.000 ₫", color: highlightColor, isBold: true),
           SizedBox(height: 4),
-          Text("💡 Tiền cọc = 1 tháng tiền thuê (tự động theo giá phòng)",
-              style: TextStyle(fontSize: 12, color: Colors.black54)),
+          Row(
+            children: [
+              Icon(Icons.lightbulb_outline, size: 14, color: Colors.black54),
+              SizedBox(width: 4),
+              Text("Tiền cọc = 1 tháng tiền thuê", style: TextStyle(fontSize: 12, color: Colors.black54)),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  // ===== Lưu ý =====
   Widget _buildImportantNotice() {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xfffff9eb),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: Colors.amber.shade300),
+        color: Color.fromARGB(255, 255, 250, 235), 
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.amber.shade200, width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text("⚠️ Lưu ý quan trọng",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, color: Colors.orange)),
-          SizedBox(height: 8),
-          Text("• Hợp đồng sẽ hết hạn vào 2025-01-14"),
-          Text("• Liên hệ quản lý trước 30 ngày để gia hạn"),
-          Text("• Tiền cọc được hoàn trả khi kết thúc hợp đồng (trừ phát sinh)"),
-          Text("• Mọi thay đổi cần có văn bản xác nhận"),
+        children: [
+          Row(
+            children: [
+              Icon(Icons.warning_amber_outlined, color: Colors.orange.shade700),
+              SizedBox(width: 8),
+              Text("Lưu ý quan trọng", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.orange.shade700, fontSize: 16)),
+            ],
+          ),
+          Divider(height: 15, color: Colors.amberAccent), 
+          _notePoint("Hợp đồng sẽ hết hạn vào 2025-01-14"),
+          _notePoint("Liên hệ quản lý trước 30 ngày để gia hạn"),
+          _notePoint("Tiền cọc được hoàn trả khi kết thúc hợp đồng (trừ phát sinh)"),
+          _notePoint("Mọi thay đổi cần có văn bản xác nhận"),
         ],
       ),
     );
   }
 
-  // ===== Tiện ích tái sử dụng =====
-  static Widget _infoRow(String label, String value,
-      {Color? color, bool isBold = false}) {
+  Widget _notePoint(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 130, child: Text(label, style: const TextStyle(color: Colors.black54))),
+          Text("• ", style: TextStyle(color: Colors.black87)),
+          Expanded(child: Text(text, style: TextStyle(fontSize: 14, height: 1.4, color: Colors.black87))),
+        ],
+      ),
+    );
+  }
+
+  static Widget _infoRow(String label, String value,
+      {Color? color, bool isBold = false, bool isSmall = false, bool isLarge = false}) {
+    double fontSize = isSmall ? 14 : (isLarge ? 17 : 16);
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(width: 140, child: Text(label, style: TextStyle(color: Colors.black54, fontSize: fontSize))),
           Expanded(
-            child: Text(
-              value,
-              style: TextStyle(
-                color: color ?? Colors.black87,
-                fontWeight: isBold ? FontWeight.w600 : FontWeight.normal,
-              ),
-            ),
+            child: Text(value, style: TextStyle(color: color ?? Colors.black87, fontWeight: isBold ? FontWeight.bold : FontWeight.normal, fontSize: fontSize)),
           ),
         ],
       ),
@@ -231,15 +233,12 @@ class ContractPage extends StatelessWidget {
 
   static Widget _durationRow(String label, String value, {Color? highlight}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
-          SizedBox(width: 130, child: Text(label, style: TextStyle(color: Colors.grey.shade700))),
+          SizedBox(width: 140, child: Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 15))),
           Text(value,
-              style: TextStyle(
-                color: highlight ?? Colors.black87,
-                fontWeight: highlight != null ? FontWeight.bold : FontWeight.normal,
-              )),
+           style: TextStyle(color: highlight ?? Colors.black87, fontWeight: highlight != null ? FontWeight.bold : FontWeight.normal, fontSize: 15)),
         ],
       ),
     );
@@ -248,11 +247,9 @@ class ContractPage extends StatelessWidget {
   Widget _sectionTitle(IconData icon, String title) {
     return Row(
       children: [
-        Icon(icon, size: 18, color: Colors.indigo),
-        const SizedBox(width: 6),
-        Text(title,
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 15, color: Colors.indigo)),
+        Icon(icon, size: 20, color: primaryColor),
+        SizedBox(width: 6),
+        Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: primaryColor)),
       ],
     );
   }
@@ -260,13 +257,9 @@ class ContractPage extends StatelessWidget {
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(15),
       boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 6,
-          offset: const Offset(0, 2),
-        ),
+        BoxShadow(color: Colors.black.withOpacity(0.08), blurRadius: 10, offset: Offset(0, 4)),
       ],
     );
   }

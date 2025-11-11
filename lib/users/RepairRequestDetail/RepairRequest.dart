@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/users/RepairRequestDetail/RepairRequestDetail.dart';
+import 'package:flutter_application/users/RepairRequestDetail/creater_repair.dart';
+import 'package:flutter_application/users/RepairRequestDetail/update_repair.dart';
 
 class RepairRequestPage extends StatelessWidget {
-  const RepairRequestPage({Key? key}) : super(key: key);
+  const RepairRequestPage({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,40 +35,46 @@ class RepairRequestPage extends StatelessWidget {
       },
     ];
 
-    Widget buildSummaryCard(String label, String value, Color color, IconData icon) {
-      return Expanded(
-        child: Card(
-          color: color.withOpacity(0.1),
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              children: [
-                Icon(icon, color: color),
-                const SizedBox(height: 8),
-                Text(label, style: TextStyle(color: color, fontWeight: FontWeight.bold)),
-                Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-              ],
-            ),
-          ),
-        ),
-      );
-    }
-
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Yêu cầu sửa chữa"),
-      //   actions: [
-      //     IconButton(
-      //       onPressed: () {},
-      //       icon: const Icon(Icons.add_circle_outline),
-      //       tooltip: "Tạo yêu cầu mới",
-      //     ),
-      //   ],
-      // ),
+      // appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
+            // --- Tilte ---
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Yêu cầu sửa chữa",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateRepairPage(),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.add_circle_outline),
+                      tooltip: "Tạo yêu cầu mới",
+                    ),
+                  ],
+                ),
+                Text(
+                  "Quản lý yêu cầu bảo trì và sửa chữa",
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
             // // Thống kê nhanh
             // Row(
             //   children: [
@@ -105,7 +114,9 @@ class RepairRequestPage extends StatelessWidget {
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     elevation: 2,
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(12),
                       child: Column(
@@ -128,14 +139,14 @@ class RepairRequestPage extends StatelessWidget {
                                 backgroundColor: r["priority"] == "Cao"
                                     ? Colors.red.withOpacity(0.2)
                                     : r["priority"] == "Trung bình"
-                                        ? Colors.orange.withOpacity(0.2)
-                                        : Colors.green.withOpacity(0.2),
+                                    ? Colors.orange.withOpacity(0.2)
+                                    : Colors.green.withOpacity(0.2),
                                 labelStyle: TextStyle(
                                   color: r["priority"] == "Cao"
                                       ? Colors.red
                                       : r["priority"] == "Trung bình"
-                                          ? Colors.orange
-                                          : Colors.green,
+                                      ? Colors.orange
+                                      : Colors.green,
                                 ),
                               ),
                             ],
@@ -147,7 +158,10 @@ class RepairRequestPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Danh mục: ${r["category"]}"),
-                              Text("Ngày: ${r["date"]}", style: const TextStyle(color: Colors.grey)),
+                              Text(
+                                "Ngày: ${r["date"]}",
+                                style: const TextStyle(color: Colors.grey),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 8),
@@ -160,12 +174,53 @@ class RepairRequestPage extends StatelessWidget {
                                 labelStyle: TextStyle(color: statusColor),
                               ),
                               Row(
-                                children: const [
-                                  Icon(Icons.visibility_outlined, color: Colors.blueGrey),
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const RepairRequestDetailPage(),
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.visibility_outlined,
+                                      color: Colors.blueGrey,
+                                    ),
+                                  ),
                                   SizedBox(width: 10),
-                                  Icon(Icons.edit_outlined, color: Colors.blueAccent),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              const UpdateRepairPage(),
+                                        ),
+                                      );
+                                    },
+                                    icon: Icon(
+                                      Icons.edit_outlined,
+                                      color: Colors.blueAccent,
+                                    ),
+                                  ),
                                   SizedBox(width: 10),
-                                  Icon(Icons.delete_outline, color: Colors.redAccent),
+                                  IconButton(
+                                    onPressed: () {
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => const RegisterPage(),
+                                      //   ),
+                                      // );
+                                    },
+                                    icon: Icon(
+                                      Icons.delete_outline,
+                                      color: Colors.redAccent,
+                                    ),
+                                  ),
                                 ],
                               ),
                             ],

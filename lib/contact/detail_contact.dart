@@ -7,33 +7,30 @@ class ContractDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Chi tiết hợp đồng HD001"),
-        centerTitle: true,
+        title: Text("Chi tiết hợp đồng HD001"),
+        // centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ✅ THÔNG TIN HỢP ĐỒNG --------------------------------------------
             _sectionTitle("Thông tin hợp đồng"),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             _infoCard([
               _infoRow("Số hợp đồng", "HD001"),
-              // _infoRow("Khách thuê", "Nguyễn Văn A", bold: true),
-              // _infoRow("Phòng", "P101"),
               _infoRow("Ngày ký", "10/1/2024"),
               _infoRow("Ngày bắt đầu", "15/1/2024"),
               _infoRow("Ngày kết thúc", "15/12/2024"),
               _infoRow("Trạng thái", "Đang hiệu lực", color: Colors.green, bold: true),
               _infoRow("Số lần gia hạn", "2"),
             ]),
-
-            const SizedBox(height: 22),
+            SizedBox(height: 22),
 
             // ✅ THÔNG TIN KHÁCH THUÊ & PHÒNG ----------------------------------------
             _sectionTitle("Thông tin khách thuê & phòng"),
-            const SizedBox(height: 10),
+            SizedBox(height: 10),
             _infoCard([
               _infoRow("Khách thuê", "Nguyễn Văn A", bold: true),
               _infoRow("Phòng", "P101"),
@@ -52,12 +49,9 @@ class ContractDetailPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Chỉnh sửa",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
 
@@ -70,12 +64,9 @@ class ContractDetailPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Chấm dứt",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Chấm dứt", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
               ],
@@ -92,12 +83,9 @@ class ContractDetailPage extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Xóa hợp đồng",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Xóa hợp đồng", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
 
@@ -107,15 +95,10 @@ class ContractDetailPage extends StatelessWidget {
                     onPressed: () {},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black26,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: const Text(
-                      "Đóng",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Đóng", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
               ],
@@ -130,7 +113,7 @@ class ContractDetailPage extends StatelessWidget {
   Widget _sectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
     );
   }
 
@@ -164,11 +147,7 @@ class ContractDetailPage extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
-                color: color,
-              ),
+              style: TextStyle(fontSize: 15, fontWeight: bold ? FontWeight.bold : FontWeight.normal, color: color),
             ),
           ),
         ],
