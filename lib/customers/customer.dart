@@ -17,7 +17,7 @@ class _CustomerPageState extends State<CustomerPage> {
       "room": "A101",
       "contract": "15/1/2024 - 15/12/2024",
       "rent": "3.500.000đ",
-      "deposit": "7.000.000đ",
+      "deposit": "7.000.000đ", 
       "status": "Đang thuê",
     },
     {
@@ -71,102 +71,102 @@ class _CustomerPageState extends State<CustomerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Quản lý khách thuê"),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AddCustomerPage(),
-                ),
-              );
-            },
-            tooltip: "Thêm khách thuê",
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   title: Text("Quản lý khách thuê"),
+      //   actions: [
+      //     IconButton(
+      //       icon: Icon(Icons.add),
+      //       onPressed: () {
+      //         Navigator.push(
+      //           context,
+      //           MaterialPageRoute(
+      //             builder: (context) => const AddCustomerPage(),
+      //           ),
+      //         );
+      //       },
+      //       tooltip: "Thêm khách thuê",
+      //     ),
+      //   ],
+      // ),
       body: Padding(
-        padding: EdgeInsets.all(12),
-        child: ListView.builder(
-          itemCount: tenants.length,
-          itemBuilder: (context, i) {
-            var t = tenants[i];
-            return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => CustomerDetailPage(
-                   //   tenantData: t, // truyền dữ liệu nếu cần
+            padding: EdgeInsets.all(12),
+            child: ListView.builder(
+              itemCount: tenants.length,
+              itemBuilder: (context, i) {
+                var t = tenants[i];
+                return InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => CustomerDetailPage(
+                      //   tenantData: t, // truyền dữ liệu nếu cần
+                        ),
+                      ),
+                  );
+                  },
+                  child: Card(
+                    margin: EdgeInsets.only(bottom: 12),
+                    elevation: 1.5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
                     ),
-                  ),
-               );
-              },
-              child: Card(
-                margin: EdgeInsets.only(bottom: 12),
-                elevation: 1.5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: EdgeInsets.all(14),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                    child: Padding(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CircleAvatar(radius: 22, child: Text(t['name'][0])),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  t['name'],
+                          Row(
+                            children: [
+                              CircleAvatar(radius: 22, child: Text(t['name'][0])),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      t['name'],
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      "CCCD: ${t['id']}",
+                                      style: TextStyle(fontSize: 13),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: 4,
+                                  horizontal: 10,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: getStatusColor(t['status']),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text(
+                                  t['status'],
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 12,
                                     fontWeight: FontWeight.bold,
+                                    color: getStatusTextColor(t['status']),
                                   ),
                                 ),
-                                SizedBox(height: 2),
-                                Text(
-                                  "CCCD: ${t['id']}",
-                                  style: TextStyle(fontSize: 13),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                              vertical: 4,
-                              horizontal: 10,
-                            ),
-                            decoration: BoxDecoration(
-                              color: getStatusColor(t['status']),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              t['status'],
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                                color: getStatusTextColor(t['status']),
                               ),
-                            ),
+                            ],
                           ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
+                );
+              },
+            ),
+          ),
     );
   }
 }

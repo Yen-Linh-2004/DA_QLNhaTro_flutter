@@ -3,10 +3,14 @@ import 'package:flutter_application/Home.dart';
 import 'package:flutter_application/Rooms/Room.dart';
 import 'package:flutter_application/Rooms/booking/booking.dart';
 import 'package:flutter_application/Rooms/type_room/type_room.dart';
+import 'package:flutter_application/account/account_page.dart';
 import 'package:flutter_application/contact/contactPage.dart';
 import 'package:flutter_application/customers/customer.dart';
+import 'package:flutter_application/devices/devicesPage.dart';
 import 'package:flutter_application/finance.dart';
 import 'package:flutter_application/generalPage/dashbroad.dart';
+import 'package:flutter_application/notifications/notifications_page.dart';
+import 'package:flutter_application/setting.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -25,25 +29,23 @@ class _MainPageState extends State<MainPage> {
     'rooms': RoomPage(),
     'booking': BookingManagementPage(),
     'contact': ContractManagementPage(),
-
     'finance': FinancePage(),
-    'chat': Placeholder(),
-    'settings': Placeholder(),
-
+    'devices': EquipmentManagementPage(),
+    'settings': SystemSettingPage(),
     'tenants': CustomerPage(),
-    'invoices': Placeholder(),
-    'reports': Placeholder(),
+    'account': AccountManagementPage(),
+    'notifications': NotificationManagementPage(),
     'support': Placeholder(),
   };
 
-  // Danh sách trang trong bottom nav
-  final List<String> _bottomNavPages = [
-    'home',
-    'rooms',
-    'finance',
-    'chat',
-    'settings',
-  ];
+  // // Danh sách trang trong bottom nav
+  // final List<String> _bottomNavPages = [
+  //   'home',
+  //   'rooms',
+  //   'finance',
+  //   'chat',
+  //   'settings',
+  // ];
 
   void _selectPage(String pageKey) {
     setState(() {
@@ -52,16 +54,16 @@ class _MainPageState extends State<MainPage> {
     if (Navigator.canPop(context)) Navigator.pop(context);
   }
 
-  void _selectBottomItem(String pageKey) {
-    setState(() {
-      _selectedPage = pageKey;
-    });
-    if (Navigator.canPop(context)) Navigator.pop(context);
-  }
+  // void _selectBottomItem(String pageKey) {
+  //   setState(() {
+  //     _selectedPage = pageKey;
+  //   });
+  //   if (Navigator.canPop(context)) Navigator.pop(context);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final currentIndex = _bottomNavPages.indexOf(_selectedPage);
+    // final currentIndex = _bottomNavPages.indexOf(_selectedPage);
 
     return Scaffold(
       appBar: AppBar(
@@ -115,12 +117,14 @@ class _MainPageState extends State<MainPage> {
           Divider(),
           _buildDrawerSectionTitle("Quản lý"),
           _buildDrawerItem(Icons.people_outline, "Khách thuê", 'tenants'),
-          _buildDrawerItem(Icons.receipt_long_outlined, "Hóa đơn", 'invoices'),
+          _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
+          _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
           _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo", 'reports'),
+          
 
           Divider(),
           _buildDrawerSectionTitle("Khác"),
-          _buildDrawerItem(Icons.chat_bubble_outline, "Chat", 'chat'),
+          _buildDrawerItem(Icons.electrical_services, "Thiết bị", 'devices'),
           _buildDrawerItem(Icons.settings_outlined, "Cài đặt", 'settings'),
           _buildDrawerItem(Icons.support_agent_outlined, "Hỗ trợ", 'support'),
 
@@ -175,12 +179,14 @@ class _MainPageState extends State<MainPage> {
     switch (_selectedPage) {
       case 'home':
         return "Trang chủ";
+      case 'typeroom':
+        return "Danh sách loại phòng";
       case 'rooms':
         return "Phòng trọ";
       case 'finance':
         return "Tài chính";
-      case 'chat':
-        return "Chat";
+      case 'devices':
+        return "Danh sách các thiết bị";
       case 'settings':
         return "Cài đặt";
       case 'tenants':
@@ -191,6 +197,14 @@ class _MainPageState extends State<MainPage> {
         return "Báo cáo";
       case 'support':
         return "Hỗ trợ";
+      case 'booking':
+        return "Đặt phòng";
+      case 'contact':
+        return "Danh sách hợp đồng";
+      case 'account':
+        return "Thông tin tài khoản";
+      case 'notifications':
+        return "Quản lý thông báo";
       default:
         return "Quản lý Nhà trọ";
     }

@@ -27,8 +27,6 @@ class ContractManagementPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      // appBar: AppBar(title: Text("Quản lý hợp đồng"), centerTitle: true),
-
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(

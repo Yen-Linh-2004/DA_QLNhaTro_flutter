@@ -8,30 +8,30 @@ class CustomerDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Nguyễn Văn A"),
+        title: Text("Nguyễn Văn A"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // const Text(
+            // Text(
             //   "Nguyễn Văn A",
             //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             // ),
-            // const SizedBox(height: 16),
+            // SizedBox(height: 16),
 
             // ---------- THÔNG TIN CÁ NHÂN ----------
-            const Text("Thông tin cá nhân",
+            Text("Thông tin cá nhân",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFEFF4FF),
+                color: Color(0xFFEFF4FF),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: _buildInfoSection({
@@ -44,17 +44,17 @@ class CustomerDetailPage extends StatelessWidget {
               }),
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             // ---------- THÔNG TIN LIÊN HỆ ----------
-            const Text("Thông tin liên hệ",
+            Text("Thông tin liên hệ",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.all(12),
+              padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFE9F9EE),
+                color: Color(0xFFE9F9EE),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: _buildInfoSection({
@@ -66,7 +66,7 @@ class CustomerDetailPage extends StatelessWidget {
                 "Ghi chú": "Khách hàng thân thiết",
               }),
             ),
-            const SizedBox(height: 24),
+            SizedBox(height: 24),
 
             // ---------- CÁC NÚT HÀNH ĐỘNG ----------
             Row(
@@ -75,33 +75,33 @@ class CustomerDetailPage extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12),
                     ),
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const UpdateCustomerPage(),
+                          builder: (context) => UpdateCustomerPage(),
                         ),
                       );
                     },
-                    child: const Text("Chỉnh sửa", style: TextStyle(color: Colors.white)),
+                    child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white)),
                   ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 Expanded(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12),
                     ),
                     onPressed: () {},
-                    child: const Text("Xóa", style: TextStyle(color: Colors.white)),
+                    child: Text("Xóa", style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 40),
+            SizedBox(height: 40),
           ],
         ),
       ),
@@ -115,21 +115,21 @@ class CustomerDetailPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: data.entries
           .map((e) => Padding(
-                padding: const EdgeInsets.only(bottom: 6),
+                padding: EdgeInsets.only(bottom: 6),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
                       flex: 4,
                       child: Text("${e.key}:",
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.w500, color: Colors.black54)),
                     ),
                     Expanded(
                       flex: 6,
                       child: Text(
                         e.value,
-                        style: const TextStyle(fontWeight: FontWeight.w600),
+                        style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
                   ],
@@ -142,13 +142,13 @@ class CustomerDetailPage extends StatelessWidget {
   Widget _buildRowItem(String label, String value,
       {Color? valueColor, bool bold = false}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6),
+      padding: EdgeInsets.only(bottom: 6),
       child: Row(
         children: [
           Expanded(
               flex: 4,
               child: Text(label,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontWeight: FontWeight.w500, color: Colors.black54))),
           Expanded(
             flex: 6,
@@ -172,7 +172,7 @@ class CustomerDetailPage extends StatelessWidget {
     required Color textColor,
   }) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(8),
@@ -181,8 +181,8 @@ class CustomerDetailPage extends StatelessWidget {
         children: [
           Text(label,
               textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 13, color: Colors.black54)),
-          const SizedBox(height: 6),
+              style: TextStyle(fontSize: 13, color: Colors.black54)),
+          SizedBox(height: 6),
           Text(value,
               style: TextStyle(
                   fontSize: 16, fontWeight: FontWeight.bold, color: textColor)),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/main_page.dart';
 
 class ContractDetailPage extends StatelessWidget {
   const ContractDetailPage({super.key});
@@ -23,7 +24,12 @@ class ContractDetailPage extends StatelessWidget {
               _infoRow("Ngày ký", "10/1/2024"),
               _infoRow("Ngày bắt đầu", "15/1/2024"),
               _infoRow("Ngày kết thúc", "15/12/2024"),
-              _infoRow("Trạng thái", "Đang hiệu lực", color: Colors.green, bold: true),
+              _infoRow(
+                "Trạng thái",
+                "Đang hiệu lực",
+                color: Colors.green,
+                bold: true,
+              ),
               _infoRow("Số lần gia hạn", "2"),
             ]),
             SizedBox(height: 22),
@@ -34,7 +40,12 @@ class ContractDetailPage extends StatelessWidget {
             _infoCard([
               _infoRow("Khách thuê", "Nguyễn Văn A", bold: true),
               _infoRow("Phòng", "P101"),
-              _infoRow("Tiền thuê tháng", "3.500.000đ", color: Colors.green, bold: true),
+              _infoRow(
+                "Tiền thuê tháng",
+                "3.500.000đ",
+                color: Colors.green,
+                bold: true,
+              ),
               _infoRow("Tiền cọc", "7.000.000đ", color: Colors.red, bold: true),
             ]),
 
@@ -51,7 +62,10 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white, fontSize: 18)),
+                    child: Text(
+                      "Chỉnh sửa",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
 
@@ -66,7 +80,10 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text("Chấm dứt", style: TextStyle(color: Colors.white, fontSize: 18)),
+                    child: Text(
+                      "Chấm dứt",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
               ],
@@ -85,24 +102,37 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text("Xóa hợp đồng", style: TextStyle(color: Colors.white, fontSize: 18)),
+                    child: Text(
+                      "Xóa hợp đồng",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
 
                 SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const MainPage()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black26,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text("Đóng", style: TextStyle(color: Colors.white, fontSize: 18)),
+                    child: Text(
+                      "Đóng",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
               ],
-            ),         
+            ),
           ],
         ),
       ),
@@ -147,7 +177,11 @@ class ContractDetailPage extends StatelessWidget {
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 15, fontWeight: bold ? FontWeight.bold : FontWeight.normal, color: color),
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+                color: color,
+              ),
             ),
           ),
         ],

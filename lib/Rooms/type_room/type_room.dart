@@ -15,17 +15,17 @@ class TypeRoomPage extends StatelessWidget {
       //   centerTitle: true,
       // ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildSummaryCards(),
-            const SizedBox(height: 20),
-            const Text(
+            SizedBox(height: 20),
+            Text(
               "Danh sách loại phòng",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             ..._roomList.map((room) => RoomCard(room: room)).toList(),
           ],
         ),
@@ -68,15 +68,6 @@ class TypeRoomPage extends StatelessWidget {
   }
 }
 
-class SummaryItem {
-  final String title;
-  final String value;
-  final IconData icon;
-  final Color color;
-
-  SummaryItem(this.title, this.value, this.icon, this.color);
-}
-
 class SummaryCard extends StatelessWidget {
   final SummaryItem item;
   const SummaryCard({super.key, required this.item});
@@ -91,11 +82,11 @@ class SummaryCard extends StatelessWidget {
           BoxShadow(
             color: Colors.black12.withOpacity(0.08),
             blurRadius: 8,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           )
         ],
       ),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12),
       child: Row(
         children: [
           CircleAvatar(
@@ -103,13 +94,13 @@ class SummaryCard extends StatelessWidget {
             backgroundColor: item.color.withOpacity(0.1),
             child: Icon(item.icon, color: item.color, size: 22),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(item.title, style: const TextStyle(fontSize: 13)),
-              const SizedBox(height: 2),
+              Text(item.title, style: TextStyle(fontSize: 13)),
+              SizedBox(height: 2),
               Text(item.value,
                   style: TextStyle(
                       color: item.color,
@@ -123,30 +114,6 @@ class SummaryCard extends StatelessWidget {
   }
 }
 
-class RoomInfo {
-  final String name;
-  final String desc;
-  final String price;
-  final String area;
-  final List<String> features;
-  final int rented;
-  final int available;
-  final int maintenance;
-  final Color color;
-
-  RoomInfo({
-    required this.name,
-    required this.desc,
-    required this.price,
-    required this.area,
-    required this.features,
-    required this.rented,
-    required this.available,
-    required this.maintenance,
-    required this.color,
-  });
-}
-
 class RoomCard extends StatelessWidget {
   final RoomInfo room;
   const RoomCard({super.key, required this.room});
@@ -154,7 +121,7 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -162,7 +129,7 @@ class RoomCard extends StatelessWidget {
           BoxShadow(
             color: Colors.black12.withOpacity(0.05),
             blurRadius: 10,
-            offset: const Offset(0, 5),
+            offset: Offset(0, 5),
           ),
         ],
       ),
@@ -170,7 +137,7 @@ class RoomCard extends StatelessWidget {
         onTap: () {},
         borderRadius: BorderRadius.circular(18),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -181,7 +148,7 @@ class RoomCard extends StatelessWidget {
                     backgroundColor: room.color.withOpacity(0.1),
                     child: Icon(Icons.meeting_room, color: room.color),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10),
                   Expanded(
                     child: Text(
                       room.name,
@@ -194,19 +161,19 @@ class RoomCard extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 8),
-              Text(room.desc, style: const TextStyle(fontSize: 13)),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
+              Text(room.desc, style: TextStyle(fontSize: 13)),
+              SizedBox(height: 8),
               Row(
                 children: [
                   Icon(Icons.price_change, size: 18),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                   Text(room.price),
-                  const Spacer(),
-                  Text(room.area, style: const TextStyle(color: Colors.black54)),
+                  Spacer(),
+                  Text(room.area, style: TextStyle(color: Colors.black54)),
                 ],
               ),
-              const SizedBox(height: 8),
+              SizedBox(height: 8),
               Wrap(
                 spacing: 6,
                 children: room.features
@@ -312,3 +279,36 @@ final List<RoomInfo> _roomList = [
     color: Colors.redAccent,
   ),
 ];
+
+class RoomInfo {
+  final String name;
+  final String desc;
+  final String price;
+  final String area;
+  final List<String> features;
+  final int rented;
+  final int available;
+  final int maintenance;
+  final Color color;
+
+  RoomInfo({
+    required this.name,
+    required this.desc,
+    required this.price,
+    required this.area,
+    required this.features,
+    required this.rented,
+    required this.available,
+    required this.maintenance,
+    required this.color,
+  });
+}
+
+class SummaryItem {
+  final String title;
+  final String value;
+  final IconData icon;
+  final Color color;
+
+  SummaryItem(this.title, this.value, this.icon, this.color);
+}

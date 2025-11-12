@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddContactPage extends StatefulWidget {
-  const AddContactPage({super.key});
+ const AddContactPage({super.key});
 
   @override
   State<AddContactPage> createState() => _AddContactPageState();
@@ -9,28 +9,28 @@ class AddContactPage extends StatefulWidget {
 
 class _AddContactPageState extends State<AddContactPage> {
   // Controllers
-  final TextEditingController _contactNumberControl = TextEditingController(
+  final _contactNumberControl = TextEditingController(
     text: "HD005",
   );
-  final TextEditingController _dateStartControl = TextEditingController(
+  final _dateStartControl = TextEditingController(
     text: "01/01/2025",
   );
-  final TextEditingController _dateRegistrationControl = TextEditingController(
+  final _dateRegistrationControl = TextEditingController(
     text: "01/11/2025",
   );
-  final TextEditingController _dateEndController = TextEditingController(
+  final _dateEndController = TextEditingController(
     text: "01/11/2025",
   );
-  final TextEditingController _moneyControl = TextEditingController(
+  final _moneyControl = TextEditingController(
     text: "01/11/2025",
   );
-  final TextEditingController _depositControl = TextEditingController(
+  final _depositControl = TextEditingController(
     text: "01/11/2025",
   );
-  final TextEditingController _electricityBillControl = TextEditingController(
+  final _electricityBillControl = TextEditingController(
     text: "01/11/2025",
   );
-  final TextEditingController _waterBillControl = TextEditingController(
+  final _waterBillControl = TextEditingController(
     text: "01/11/2025",
   );
 
@@ -45,12 +45,12 @@ class _AddContactPageState extends State<AddContactPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tạo hợp đồng"),
+        title: Text("Tạo hợp đồng"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -229,14 +229,14 @@ class _AddContactPageState extends State<AddContactPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Hủy"),
+                    child: Text("Hủy"),
                   ),
                   ElevatedButton(
                     onPressed: (){},
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
-                    child: const Text("Thêm phòng", style: TextStyle(color: Colors.white),),
+                    child: Text("Thêm phòng", style: TextStyle(color: Colors.white),),
                   ),
                 ],
               ),

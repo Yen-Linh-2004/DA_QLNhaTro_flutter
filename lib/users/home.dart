@@ -142,7 +142,7 @@ class _TenantHomePage extends State<TenantHomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.meeting_room_outlined),
             activeIcon: Icon(Icons.meeting_room),
-            label: 'Phòng trọ',
+            label: 'Phòng của tôi',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.description_outlined),
@@ -153,11 +153,6 @@ class _TenantHomePage extends State<TenantHomePage> {
             icon: Icon(Icons.build_circle_outlined),
             activeIcon: Icon(Icons.build_circle),
             label: 'Bảo trì',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.outbond_outlined),
-            activeIcon: Icon(Icons.outbond_outlined),
-            label: 'Phòng của tôi',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -177,8 +172,8 @@ class _TenantHomePage extends State<TenantHomePage> {
       selected: _selectedIndex == pageIndex,
       selectedTileColor: kPrimaryColor.withOpacity(0.1),
       onTap: () {
-        Navigator.pop(context); // Đóng drawer
-        _onItemTapped(pageIndex); // Chuyển trang
+        Navigator.pop(context); 
+        _onItemTapped(pageIndex); 
       },
     );
   }
@@ -196,7 +191,7 @@ class TenantHomeContentPage extends StatelessWidget {
       backgroundColor: kBackgroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          padding: EdgeInsets.symmetric(horizontal: 18, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

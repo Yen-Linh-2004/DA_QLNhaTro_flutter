@@ -40,22 +40,22 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Thêm thiết bị mới")),
+      appBar: AppBar(title:  Text("Thêm thiết bị mới")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 "Mã thiết bị",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _deviceIdController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập mã thiết bị",
                 ),
@@ -67,15 +67,15 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 12),
-              const Text(
+               SizedBox(height: 12),
+               Text(
                 "Tên thiết bị",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _devicesNameController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập tên của thiết bị",
                 ),
@@ -87,9 +87,9 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 16),
-              const Text("Danh mục", style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 6),
+               SizedBox(height: 16),
+               Text("Danh mục", style: TextStyle(fontWeight: FontWeight.bold)),
+               SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedCatalog,
                 items: catalog
@@ -105,7 +105,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                     selectedCatalog = value; // cập nhật giá trị đúng biến
                   });
                 },
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   contentPadding: EdgeInsets.symmetric(
                     horizontal: 12,
@@ -120,9 +120,9 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 16),
-              const Text("Phòng", style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 6),
+               SizedBox(height: 16),
+               Text("Phòng", style: TextStyle(fontWeight: FontWeight.bold)),
+               SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedRoom,
                 items: rooms
@@ -138,7 +138,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                     selectedRoom = value; // gán đúng biến selectedRoom
                   });
                 },
-                decoration: const InputDecoration(border: OutlineInputBorder()),
+                decoration:  InputDecoration(border: OutlineInputBorder()),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
                     return "Vui lòng chọn phòng";
@@ -147,16 +147,16 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 16),
-              const Text(
+               SizedBox(height: 16),
+               Text(
                 "Ngày mua",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _dateBuyController,
                 keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập ngày mua vào (dd/mm/yyyy)",
                 ),
@@ -168,16 +168,16 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 16),
-              const Text(
+               SizedBox(height: 16),
+               Text(
                 "Giá mua (VNĐ)",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập giá mua",
                 ),
@@ -193,7 +193,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                 },
               ),
 
-              const SizedBox(height: 24),
+               SizedBox(height: 24),
 
               // Nút hành động
               Row(
@@ -203,7 +203,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
-                    child: const Text("Hủy"),
+                    child:  Text("Hủy"),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -224,7 +224,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                     ),
-                    child: const Text(
+                    child:  Text(
                       "Thêm Thiết bị",
                       style: TextStyle(color: Colors.white),
                     ),
