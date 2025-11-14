@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 
-Widget buildTextField(
-  String label,
-  String hint,
-  TextEditingController controller,
-) {
+// buildContendField("Mô tả",  "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController),
+Widget buildTextField(String label, String hint, TextEditingController controller) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -22,6 +19,39 @@ Widget buildTextField(
   );
 }
 
+// buildContendField("Mô tả",  "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController, context),
+Widget buildContendField(String label, String hint, TextEditingController controller, BuildContext context){
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+      SizedBox(height: 6),
+      TextFormField(
+        controller: controller,
+        maxLines: 6,
+        decoration: InputDecoration(
+          hintText: "Mô tả chi tiết vấn đề cần sửa chữa...",
+          hintStyle: TextStyle(color: Colors.grey),
+          contentPadding: EdgeInsets.all(12),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(6),
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 1.2,
+            ),
+          ),
+        ),
+      ),
+    ],
+  );
+}
 
 class CustomDropdown extends StatelessWidget {
   final String label;
@@ -38,12 +68,7 @@ class CustomDropdown extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 6),
-        DropdownButtonFormField<String>(
+    var dropdownButtonFormField = DropdownButtonFormField<String>(
           value: value,
           items: items
               .map((item) => DropdownMenuItem(
@@ -56,7 +81,13 @@ class CustomDropdown extends StatelessWidget {
             border: OutlineInputBorder(),
             contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           ),
-        ),
+        );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(height: 6),
+        dropdownButtonFormField,
       ],
     );
   }

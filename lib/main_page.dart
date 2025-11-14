@@ -9,7 +9,12 @@ import 'package:flutter_application/customers/customer.dart';
 import 'package:flutter_application/devices/devicesPage.dart';
 import 'package:flutter_application/finance.dart';
 import 'package:flutter_application/generalPage/dashbroad.dart';
+import 'package:flutter_application/maintenance/maintenance_page.dart';
 import 'package:flutter_application/notifications/notifications_page.dart';
+import 'package:flutter_application/paying/payment_page.dart';
+import 'package:flutter_application/report/report_page.dart';
+import 'package:flutter_application/rule/rule_paging.dart';
+import 'package:flutter_application/services/servicesPage.dart';
 import 'package:flutter_application/setting.dart';
 
 class MainPage extends StatefulWidget {
@@ -35,7 +40,11 @@ class _MainPageState extends State<MainPage> {
     'tenants': CustomerPage(),
     'account': AccountManagementPage(),
     'notifications': NotificationManagementPage(),
-    'support': Placeholder(),
+    'paying': PaymentManagementPage(),
+    'service': ServiceManagementPage(),
+    'rule': RuleManagementPage(),
+    'reports': ReportPage(),
+    'maintenance': MaintenancePage()
   };
 
   // // Danh sách trang trong bottom nav
@@ -109,24 +118,28 @@ class _MainPageState extends State<MainPage> {
           ),
 
           _buildDrawerSectionTitle("Trang chính"),
-          _buildDrawerItem(Icons.home_outlined, "Trang chủ", 'home'),
+          _buildDrawerItem(Icons.home_outlined, "Tổng quan", 'home'),
           _buildDrawerItem(Icons.local_offer_outlined, "Loại phòng", 'typeroom',),
           _buildDrawerItem(Icons.meeting_room_outlined, "Phòng trọ", 'rooms'),
+          _buildDrawerItem(Icons.people_outline, "Khách thuê", 'tenants'),
           _buildDrawerItem(Icons.attach_money_outlined, "Đặt phòng", 'booking'),
           _buildDrawerItem(Icons.contact_emergency, "Hợp đồng", 'contact'),
-          Divider(),
-          _buildDrawerSectionTitle("Quản lý"),
-          _buildDrawerItem(Icons.people_outline, "Khách thuê", 'tenants'),
-          _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
-          _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
-          _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo", 'reports'),
+          _buildDrawerItem(Icons.payment_outlined, "Thanh toán", 'paying'),
+          _buildDrawerItem(Icons.design_services, "Dịch vụ", 'service'),
+          _buildDrawerItem(Icons.support_agent_outlined, "Bảo trì", 'maintenance'),
+          _buildDrawerItem(Icons.electrical_services, "Thiết bị", 'devices'),
+          _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo & Thống kê", 'reports'),
           
+          _buildDrawerItem(Icons.running_with_errors_rounded, "Nội quy và vi phạm", 'rule'),
+          _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
+          _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
+          _buildDrawerItem(Icons.settings_outlined, "Cài đặt", 'settings'),
+          
+          // Divider(),
+          // _buildDrawerSectionTitle("Quản lý"),
 
           Divider(),
-          _buildDrawerSectionTitle("Khác"),
-          _buildDrawerItem(Icons.electrical_services, "Thiết bị", 'devices'),
-          _buildDrawerItem(Icons.settings_outlined, "Cài đặt", 'settings'),
-          _buildDrawerItem(Icons.support_agent_outlined, "Hỗ trợ", 'support'),
+          // _buildDrawerSectionTitle("Khác"),
 
           Divider(height: 24),
           ListTile(
@@ -194,7 +207,7 @@ class _MainPageState extends State<MainPage> {
       case 'invoices':
         return "Hóa đơn";
       case 'reports':
-        return "Báo cáo";
+        return "Báo cáo & Thống kê";
       case 'support':
         return "Hỗ trợ";
       case 'booking':
@@ -205,7 +218,13 @@ class _MainPageState extends State<MainPage> {
         return "Thông tin tài khoản";
       case 'notifications':
         return "Quản lý thông báo";
-      default:
+      case 'paying':
+        return "Quản lý thanh toán";
+      case 'service':
+        return "Quản lý dịch vụ";
+      case 'rule':
+        return "Quản lý nội quy và vi phạm";
+      default:    
         return "Quản lý Nhà trọ";
     }
   }
