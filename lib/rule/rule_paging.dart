@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/rule/add_rules.dart';
 
 class RuleManagementPage extends StatefulWidget {
   const RuleManagementPage({super.key});
@@ -65,7 +66,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       "degree": "Vừa",
       "status": "Đã cảnh báo",
       "date": "15/3/2024",
-      "reporter": "Hồng Điên"
+      "reporter": "Hồng Điên",
     },
     {
       "rule": "Vệ sinh chung",
@@ -74,7 +75,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       "degree": "Nhẹ",
       "status": "Đã giải quyết",
       "date": "10/3/2024",
-      "reporter": "Quản lý"
+      "reporter": "Quản lý",
     },
     {
       "rule": "Thanh toán tiền thuê",
@@ -83,7 +84,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       "degree": "Nghiêm trọng",
       "status": "Đã giải quyết",
       "date": "8/3/2024",
-      "reporter": "Quản lý"
+      "reporter": "Quản lý",
     },
     {
       "rule": "An toàn cháy nổ",
@@ -92,7 +93,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       "degree": "Rất nghiêm trọng",
       "status": "Đã báo cáo",
       "date": "20/3/2024",
-      "reporter": "Quản lý"
+      "reporter": "Quản lý",
     },
   ];
 
@@ -113,32 +114,26 @@ class _RuleManagementPageState extends State<RuleManagementPage>
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Padding(
-        padding:  EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // TabBar
-            TabBar(
-              controller: _tabController,
-              labelColor: Colors.deepPurple,
-              unselectedLabelColor: Colors.grey,
-              indicatorColor: Colors.deepPurple,
-              tabs:  [
-                Tab(text: "Nội quy"),
-                Tab(text: "Vi phạm"),
-              ],
+            Container(
+              child: TabBar(
+                controller: _tabController,
+                tabs: [
+                  Tab(text: "Nội quy"),
+                  Tab(text: "Vi phạm"),
+                ],
+              ),
             ),
-
-             SizedBox(height: 12),
+            SizedBox(height: 12),
 
             // Nội dung 2 tab
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                children: [
-                  _buildRulesTab(),
-                  _buildViolationsTab(),
-                ],
+                children: [_buildRulesTab(), _buildViolationsTab()],
               ),
             ),
           ],
@@ -146,17 +141,17 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.deepPurple,
-        icon:  Icon(Icons.add),
+        icon: Icon(Icons.add),
         label: Text(
           _tabController.index == 0 ? "Thêm nội quy" : "Thêm vi phạm",
         ),
         onPressed: () {
           if (_tabController.index == 0) {
             // Action khi ở tab Nội quy
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) =>  AddRulePage()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) =>  AddRulePage()),
+            );
           } else {
             // Action khi ở tab Vi phạm
             // Navigator.push(
@@ -177,29 +172,34 @@ class _RuleManagementPageState extends State<RuleManagementPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildStatCard(
-                icon: Icons.description,
-                color: Colors.blue.shade100,
-                title: "Tổng nội quy",
-                value: "4"),
+              icon: Icons.description,
+              color: Colors.blue.shade100,
+              title: "Tổng nội quy",
+              value: "4",
+            ),
             _buildStatCard(
-                icon: Icons.check_circle,
-                color: Colors.green.shade100,
-                title: "Đang áp dụng",
-                value: "5"),
+              icon: Icons.check_circle,
+              color: Colors.green.shade100,
+              title: "Đang áp dụng",
+              value: "5",
+            ),
             _buildStatCard(
-                icon: Icons.error_outline,
-                color: Colors.red.shade100,
-                title: "Vi phạm tháng này",
-                value: "4"),
+              icon: Icons.error_outline,
+              color: Colors.red.shade100,
+              title: "Vi phạm tháng này",
+              value: "4",
+            ),
           ],
         ),
-         SizedBox(height: 20),
-         Align(
+        SizedBox(height: 20),
+        Align(
           alignment: Alignment.centerLeft,
-          child: Text("Danh sách nội quy",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          child: Text(
+            "Danh sách nội quy",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
         ),
-         SizedBox(height: 10),
+        SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: rules.length,
@@ -222,29 +222,34 @@ class _RuleManagementPageState extends State<RuleManagementPage>
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             _buildStatCard(
-                icon: Icons.pending_actions,
-                color: Colors.amber.shade100,
-                title: "Chờ xử lý",
-                value: "1"),
+              icon: Icons.pending_actions,
+              color: Colors.amber.shade100,
+              title: "Chờ xử lý",
+              value: "1",
+            ),
             _buildStatCard(
-                icon: Icons.notifications_active,
-                color: Colors.blue.shade100,
-                title: "Đã cảnh báo",
-                value: "1"),
+              icon: Icons.notifications_active,
+              color: Colors.blue.shade100,
+              title: "Đã cảnh báo",
+              value: "1",
+            ),
             _buildStatCard(
-                icon: Icons.check_circle,
-                color: Colors.green.shade100,
-                title: "Đã giải quyết",
-                value: "2"),
+              icon: Icons.check_circle,
+              color: Colors.green.shade100,
+              title: "Đã giải quyết",
+              value: "2",
+            ),
           ],
         ),
-         SizedBox(height: 20),
-         Align(
+        SizedBox(height: 20),
+        Align(
           alignment: Alignment.centerLeft,
-          child: Text("Danh sách vi phạm",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+          child: Text(
+            "Danh sách vi phạm",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
         ),
-         SizedBox(height: 10),
+        SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: violations.length,
@@ -267,14 +272,17 @@ class _RuleManagementPageState extends State<RuleManagementPage>
   }) {
     return Expanded(
       child: Container(
-        margin:  EdgeInsets.symmetric(horizontal: 4),
-        padding:  EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 4),
+        padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-                color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
+              color: Colors.black12,
+              blurRadius: 4,
+              offset: Offset(0, 2),
+            ),
           ],
         ),
         child: Column(
@@ -284,12 +292,13 @@ class _RuleManagementPageState extends State<RuleManagementPage>
               backgroundColor: color,
               child: Icon(icon, color: Colors.black54),
             ),
-             SizedBox(height: 8),
-            Text(title, style:  TextStyle(fontSize: 13)),
-             SizedBox(height: 4),
-            Text(value,
-                style:  TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 18)),
+            SizedBox(height: 8),
+            Text(title, style: TextStyle(fontSize: 13)),
+            SizedBox(height: 4),
+            Text(
+              value,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
           ],
         ),
       ),
@@ -298,50 +307,53 @@ class _RuleManagementPageState extends State<RuleManagementPage>
 
   Widget _buildRuleCard(Map<String, dynamic> rule) {
     return Container(
-      margin:  EdgeInsets.only(bottom: 12),
-      padding:  EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(
-              color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(rule["title"],
-              style:
-                   TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-           SizedBox(height: 4),
-          Text(rule["description"], style:  TextStyle(color: Colors.grey)),
-           SizedBox(height: 8),
+          Text(
+            rule["title"],
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          SizedBox(height: 4),
+          Text(rule["description"], style: TextStyle(color: Colors.grey)),
+          SizedBox(height: 8),
           Row(
             children: [
               _buildChip(rule["category"], rule["color"]),
-               SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildStatusChip(rule["status"]),
-               Spacer(),
+              Spacer(),
               Text(
                 rule["date"],
-                style:  TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ],
           ),
-           Divider(height: 16),
+          Divider(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.visibility, color: Colors.blue)),
+                onPressed: () {},
+                icon: Icon(Icons.visibility, color: Colors.blue),
+              ),
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.edit, color: Colors.green)),
+                onPressed: () {},
+                icon: Icon(Icons.edit, color: Colors.green),
+              ),
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.delete, color: Colors.red)),
+                onPressed: () {},
+                icon: Icon(Icons.delete, color: Colors.red),
+              ),
             ],
           ),
         ],
@@ -378,58 +390,64 @@ class _RuleManagementPageState extends State<RuleManagementPage>
     }
 
     return Container(
-      margin:  EdgeInsets.only(bottom: 12),
-      padding:  EdgeInsets.all(12),
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
-          BoxShadow(
-              color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(v["rule"],
-              style:
-                   TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          Text("${v["tenant"]}\n${v["room"]}",
-              style:  TextStyle(color: Colors.grey)),
-           SizedBox(height: 8),
+          Text(
+            v["rule"],
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          ),
+          Text(
+            "${v["tenant"]}\n${v["room"]}",
+            style: TextStyle(color: Colors.grey),
+          ),
+          SizedBox(height: 8),
           Row(
             children: [
               _buildChip(v["degree"], degreeColor),
-               SizedBox(width: 8),
+              SizedBox(width: 8),
               _buildChip(v["status"], statusColor),
-               Spacer(),
+              Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(v["date"],
-                      style:
-                           TextStyle(fontSize: 12, color: Colors.grey)),
-                  Text("Bởi: ${v["reporter"]}",
-                      style:
-                           TextStyle(fontSize: 12, color: Colors.grey)),
+                  Text(
+                    v["date"],
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  Text(
+                    "Bởi: ${v["reporter"]}",
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
-           Divider(height: 16),
+          Divider(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.visibility, color: Colors.blue)),
+                onPressed: () {},
+                icon: Icon(Icons.visibility, color: Colors.blue),
+              ),
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.notifications_active,
-                      color: Colors.amber)),
+                onPressed: () {},
+                icon: Icon(Icons.notifications_active, color: Colors.amber),
+              ),
               IconButton(
-                  onPressed: () {},
-                  icon:  Icon(Icons.delete, color: Colors.red)),
+                onPressed: () {},
+                icon: Icon(Icons.delete, color: Colors.red),
+              ),
             ],
           ),
         ],
@@ -439,24 +457,23 @@ class _RuleManagementPageState extends State<RuleManagementPage>
 
   Widget _buildChip(String text, Color color) {
     return Container(
-      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(text, style:  TextStyle(fontSize: 12)),
+      child: Text(text, style: TextStyle(fontSize: 12)),
     );
   }
 
   Widget _buildStatusChip(String text) {
     return Container(
-      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.green.shade100,
         borderRadius: BorderRadius.circular(12),
       ),
-      child:
-          Text(text, style:  TextStyle(fontSize: 12, color: Colors.green)),
+      child: Text(text, style: TextStyle(fontSize: 12, color: Colors.green)),
     );
   }
 }

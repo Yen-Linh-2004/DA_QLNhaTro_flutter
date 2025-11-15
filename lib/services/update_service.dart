@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/shared/buildCard.dart';
 
-class AddServicePage extends StatefulWidget {
-  const AddServicePage({super.key});
+class UpdateServicePage extends StatefulWidget {
+  const UpdateServicePage({super.key});
 
   @override
-  State<AddServicePage> createState() => _AddServicePageState();
+  State<UpdateServicePage> createState() => _UpdateServicePageState();
 }
 
-class _AddServicePageState extends State<AddServicePage> {
+class _UpdateServicePageState extends State<UpdateServicePage> {
   // Controllers
   final TextEditingController _serviceNameControl = TextEditingController();
   final TextEditingController _describeControl = TextEditingController();
@@ -17,24 +17,26 @@ class _AddServicePageState extends State<AddServicePage> {
 
   String? selectedcatalog = "Khác";
 
-  List<String> catalog = ["Vệ sinh", "Giặc sấy", "Gửi xe", "Internet", "Khác"];
+  List<String> catalog = ["Vệ sinh", "Giặt sấy", "Gửi xe", "Internet", "Khác"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Color(0xFFF6F6F8),
-      appBar: AppBar(title:  Text("Thêm dịch vụ mới")),
+      backgroundColor:  Color(0xFFF6F6F8), // nền sáng tổng thể
+      appBar: AppBar(
+        title:  Text("Cập nhật dịch vụ"),
+      ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
         child: Container(
-          padding:  EdgeInsets.all(16),
+          padding:  EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(18),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 8,
+                color: Colors.black.withOpacity(0.06),
+                blurRadius: 10,
                 offset:  Offset(0, 4),
               ),
             ],
@@ -42,6 +44,7 @@ class _AddServicePageState extends State<AddServicePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Tên dịch vụ
                SizedBox(height: 10),
                Text("Tên dịch vụ", style: TextStyle(fontWeight: FontWeight.bold)),
                SizedBox(height: 6),
@@ -51,9 +54,16 @@ class _AddServicePageState extends State<AddServicePage> {
                   border: OutlineInputBorder(),
                   hintText: "Nhập tên dịch vụ",
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Vui lòng nhập tên dịch vụ";
+                  }
+                  return null;
+                },
               ),
 
                SizedBox(height: 16),
+              // Mô tả
                Text("Mô tả", style: TextStyle(fontWeight: FontWeight.bold)),
                SizedBox(height: 6),
               TextFormField(
@@ -65,6 +75,7 @@ class _AddServicePageState extends State<AddServicePage> {
               ),
 
                SizedBox(height: 16),
+              // Danh mục
                Text("Danh mục", style: TextStyle(fontWeight: FontWeight.bold)),
                SizedBox(height: 6),
               DropdownButtonFormField<String>(
@@ -79,15 +90,14 @@ class _AddServicePageState extends State<AddServicePage> {
                     .toList(),
                 onChanged: (value) {
                   setState(() {
-                    selectedcatalog = value;
+                    selectedcatalog = value; // cập nhật giá trị
                   });
                 },
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+                decoration:  InputDecoration(border: OutlineInputBorder()),
               ),
 
                SizedBox(height: 16),
+              // Giá
                Text("Giá (VND)", style: TextStyle(fontWeight: FontWeight.bold)),
                SizedBox(height: 6),
               TextFormField(
@@ -96,9 +106,16 @@ class _AddServicePageState extends State<AddServicePage> {
                   border: OutlineInputBorder(),
                   hintText: "Nhập giá của dịch vụ",
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Vui lòng nhập giá của dịch vụ";
+                  }
+                  return null;
+                },
               ),
 
                SizedBox(height: 16),
+              // Đơn vị
                Text("Đơn vị", style: TextStyle(fontWeight: FontWeight.bold)),
                SizedBox(height: 6),
               TextFormField(
@@ -107,6 +124,12 @@ class _AddServicePageState extends State<AddServicePage> {
                   border: OutlineInputBorder(),
                   hintText: "Nhập đơn vị",
                 ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Vui lòng nhập đơn vị";
+                  }
+                  return null;
+                },
               ),
 
                SizedBox(height: 24),
@@ -115,8 +138,8 @@ class _AddServicePageState extends State<AddServicePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
-                  SizedBox(width: 15),
-                  buildActionBtn(Icons.add, "Thêm dịch vụ", Colors.blue, () {}),
+                  SizedBox(width: 16),
+                  buildActionBtn(Icons.update, "Lưu thay đổi", Colors.blue, (){}),
                 ],
               ),
             ],

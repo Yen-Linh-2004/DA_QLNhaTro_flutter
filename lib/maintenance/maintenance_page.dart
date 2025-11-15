@@ -60,10 +60,7 @@ class _MaintenanceBody extends StatelessWidget {
         children: [
           // Thống kê
           _statusGrid(),
-           SizedBox(height: 16),
-          // Bộ lọc
-          _filterSection(),
-           SizedBox(height: 16),
+          SizedBox(height: 16),
           // Danh sách yêu cầu
           ..._requestItems.map((e) => _maintenanceCard(e, context)).toList(),
         ],
@@ -82,18 +79,18 @@ Widget _statusGrid() {
 
   return GridView.builder(
     shrinkWrap: true,
-    physics:  NeverScrollableScrollPhysics(),
-    gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: 2.2,
-      crossAxisSpacing: 12,
+    physics: NeverScrollableScrollPhysics(),
+    gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: 200, // mỗi item tối đa 200px, tự động tính số cột
       mainAxisSpacing: 12,
+      crossAxisSpacing: 12,
+      childAspectRatio: 2.2,
     ),
     itemCount: items.length,
     itemBuilder: (context, i) {
       var item = items[i];
       return Container(
-        padding:  EdgeInsets.all(16),
+        padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -103,55 +100,33 @@ Widget _statusGrid() {
           children: [
             CircleAvatar(
               backgroundColor: (item["color"] as Color).withOpacity(.15),
-              child: Icon(Icons.circle, color: item["color"] as Color),
+              child: Icon(Icons.circle, color: item["color"] as Color, size: 16),
             ),
-             SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${item["count"]}",
-                  style:  TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+            SizedBox(width: 10),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "${item["count"]}",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                Text("${item["name"]}"),
-              ],
+                  Text(
+                    "${item["name"]}",
+                    style: TextStyle(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
       );
     },
-  );
-}
-
-Widget _filterSection() {
-  return Column(
-    children: [
-      // Wrap(
-      //   spacing: 12,
-      //   runSpacing: 12,
-      //   children: [
-      //     _dropdown("Tất cả trạng thái"),
-      //     _dropdown("Tất cả mức độ"),
-      //     _dropdown("Tất cả danh mục"),
-      //   ],
-      // ),
-       SizedBox(height: 12),
-      TextField(
-        decoration: InputDecoration(
-          hintText: "Tìm kiếm theo tiêu đề, phòng...",
-          suffixIcon:  Icon(Icons.search),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide.none,
-          ),
-        ),
-      ),
-    ],
   );
 }
 

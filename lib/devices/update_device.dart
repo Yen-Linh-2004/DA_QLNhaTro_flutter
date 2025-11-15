@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/shared/buildCard.dart';
 import 'package:flutter_application/shared/input_field.dart';
 
-class AddDevicesPage extends StatefulWidget {
-  const AddDevicesPage({super.key});
+class UpdateDevicesPage extends StatefulWidget {
+  const UpdateDevicesPage({super.key});
 
   @override
-  State<AddDevicesPage> createState() => _AddDevicesPageState();
+  State<UpdateDevicesPage> createState() => _UpdateDevicesPageState();
 }
 
-class _AddDevicesPageState extends State<AddDevicesPage> {
+class _UpdateDevicesPageState extends State<UpdateDevicesPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _deviceIdController = TextEditingController();
@@ -18,12 +18,12 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
   final _priceController = TextEditingController();
   final _manufacturerController = TextEditingController();
   final _noteController = TextEditingController();
+  DateTime selectedDate = DateTime(2025, 1, 1);
 
-  String? selectedCatalog; 
+  String? selectedCatalog;
   String? selectedRoom;
   String? selectedFloor;
   String? selectStatus;
-  DateTime selectedDate = DateTime(2025, 1, 1);
 
   final List<String> rooms = ["A101", "A102", "B101"];
   final List<String> catalog = [
@@ -46,7 +46,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Thêm thiết bị mới")),
+      appBar: AppBar(title: Text("Cập nhật thiết bị")),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Form(
@@ -122,6 +122,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                   return null;
                 },
               ),
+
               SizedBox(height: 16),
               CustomDropdown(
                 label: "Dãy",
@@ -164,7 +165,6 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                   selectedDate = date;
                 });
               }),
-
               SizedBox(height: 16),
               Text(
                 "Giá mua (VNĐ)",
@@ -208,7 +208,9 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
               ),
               SizedBox(height: 16),
               buildContendField("Ghi chú", "", _noteController, context),
+
               SizedBox(height: 24),
+
               // Nút hành động
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -221,8 +223,8 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
                   ),
                   SizedBox(width: 15),
                   buildActionBtn(
-                    Icons.add,
-                    "Thêm thiết bị",
+                    Icons.update,
+                    "Lưu thay đổi",
                     Colors.blue,
                     () {},
                   ),

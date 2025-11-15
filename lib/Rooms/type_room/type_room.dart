@@ -121,7 +121,7 @@ class RoomCard extends StatelessWidget {
                     }, icon: Icon(Icons.edit_outlined, size: 22, color: Colors.blue)
                   ),
                   IconButton(
-                    onPressed: (){}, icon: Icon(Icons.delete, size: 22, color: Colors.blue)
+                    onPressed: (){}, icon: Icon(Icons.delete, size: 22, color: Colors.redAccent)
                   ),
                 ],
               ),

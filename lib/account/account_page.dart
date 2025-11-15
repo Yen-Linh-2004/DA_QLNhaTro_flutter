@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/account/add_account.dart';
+import 'package:flutter_application/account/update_account.dart';
 
 class AccountManagementPage extends StatelessWidget {
   const AccountManagementPage({super.key});
@@ -152,7 +153,12 @@ class AccountManagementPage extends StatelessWidget {
                           children: [
                             IconButton(
                               icon: Icon(Icons.edit, color: Colors.blue),
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => UpdateAccountPage()),
+                                );
+                              },
                               tooltip: 'Chỉnh sửa',
                             ),
                             IconButton(

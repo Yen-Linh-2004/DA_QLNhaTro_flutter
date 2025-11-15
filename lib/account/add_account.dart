@@ -47,15 +47,6 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Thông tin tài khoản",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.indigo,
-                      ),
-                    ),
-                    SizedBox(height: 16),
                     buildTextField("Họ tên", "Nhập họ và tên", _nameController),
                     SizedBox(height: 12),
                     buildTextField("Email", "Nhập email", _emailController),
@@ -93,7 +84,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildActionBtn(Icons.close, "Hủy", Colors.redAccent, (){}),
+                        buildActionBtn(Icons.close, "Hủy", Colors.redAccent, () => Navigator.pop(context)),
                         SizedBox(width: 15),
                         buildActionBtn(Icons.add, "Thêm tài khoản", Colors.blue, (){}),
                       ],

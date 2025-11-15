@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/services/add_service.dart';
 import 'package:flutter_application/services/detail_services.dart';
 
 class ServiceManagementPage extends StatelessWidget {
@@ -39,230 +40,96 @@ class ServiceManagementPage extends StatelessWidget {
       },
     ];
 
-    final List<Map<String, dynamic>> serviceUsageList = [
-      {
-        "name": "Nguyễn Văn A",
-        "room": "P101",
-        "service": "Giặt sấy",
-        "quantity": 3,
-        "total": "75.000đ",
-        "date": "15/3/2024",
-        "status": "Hoàn thành",
-      },
-      {
-        "name": "Trần Thị B",
-        "room": "P202",
-        "service": "Gửi xe máy",
-        "quantity": 1,
-        "total": "150.000đ",
-        "date": "1/3/2024",
-        "status": "Hoàn thành",
-      },
-      {
-        "name": "Phạm Thị D",
-        "room": "P301",
-        "service": "Dọn phòng",
-        "quantity": 2,
-        "total": "200.000đ",
-        "date": "20/3/2024",
-        "status": "Chờ xử lý",
-      },
-    ];
+    return Scaffold(
+      backgroundColor:  Color(0xFFF6F6F8),
+      body: ListView.builder(
+        itemCount: services.length,
+        padding:  EdgeInsets.all(12),
+        itemBuilder: (context, index) {
+          final s = services[index];
+          final Color statusColor = s["statusColor"];
 
-    return DefaultTabController(
-      length: 2,
-      child: Column(
-        children: [
-          // TabBar
-          TabBar(
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
-            indicatorWeight: 2.5,
-            labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            tabs: const [
-              Tab(text: 'Danh sách dịch vụ'),
-              Tab(text: 'Lịch sử sử dụng'),
-            ],
-          ),
-          // TabBarView
-          Expanded(
-            child: TabBarView(
-              children: [
-                // ---------- TAB 1: Danh sách dịch vụ ----------
-                ListView.builder(
-                  itemCount: services.length,
-                  padding: const EdgeInsets.all(12),
-                  itemBuilder: (context, index) {
-                    final s = services[index];
-                    final Color statusColor = s["statusColor"];
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.black12),
-                      ),
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 8,
-                        ),
-                        title: Text(
-                          s["name"],
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
-                          ),
-                        ),
-                        subtitle: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Row(
-                            children: [
-                              Text(
-                                s["price"],
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              const SizedBox(width: 10),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8,
-                                  vertical: 3,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: statusColor.withOpacity(0.12),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  s["status"],
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: statusColor,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        trailing: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ServiceDetailPage(
-                                  service: {
-                                    "name": s["name"],
-                                    "price": s["price"],
-                                    "status": s["status"],
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                          icon: const Icon(Icons.more_vert),
-                        ),
-                      ),
-                    );
-                  },
-                ),
-
-                // ---------- TAB 2: Lịch sử sử dụng dịch vụ ----------
-                ListView.builder(
-                  padding: const EdgeInsets.all(12),
-                  itemCount: serviceUsageList.length,
-                  itemBuilder: (context, index) {
-                    final item = serviceUsageList[index];
-
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 12),
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.06),
-                            blurRadius: 6,
-                            offset: const Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${item['name']} (${item['room']})",
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item["service"],
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                              Text(
-                                "x${item['quantity']}",
-                                style: const TextStyle(fontSize: 14),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            "Ngày sử dụng: ${item['date']}",
-                            style: const TextStyle(fontSize: 13),
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                item["total"],
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10,
-                                  vertical: 5,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: item["status"] == "Hoàn thành"
-                                      ? Colors.green.withOpacity(0.15)
-                                      : Colors.orange.withOpacity(0.15),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Text(
-                                  item["status"],
-                                  style: TextStyle(
-                                    color: item["status"] == "Hoàn thành"
-                                        ? Colors.green
-                                        : Colors.orange,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  },
+          return Container(
+            margin:  EdgeInsets.only(bottom: 12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.black12),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.03),
+                  blurRadius: 6,
+                  offset:  Offset(0, 2),
                 ),
               ],
             ),
-          ),
-        ],
+            child: ListTile(
+              contentPadding:  EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              title: Text(
+                s["name"],
+                style:  TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                ),
+              ),
+              subtitle: Padding(
+                padding:  EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    Text(
+                      s["price"],
+                      style:  TextStyle(fontSize: 14),
+                    ),
+                     SizedBox(width: 10),
+                    Container(
+                      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(
+                        color: statusColor.withOpacity(0.12),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        s["status"],
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: statusColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              trailing: IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ServiceDetailPage(
+                        service: {
+                          "name": s["name"],
+                          "price": s["price"],
+                          "status": s["status"],
+                        },
+                      ),
+                    ),
+                  );
+                },
+                icon:  Icon(Icons.more_vert),
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => AddServicePage()),
+          );
+        },
+        backgroundColor: Colors.blue,
+        icon:  Icon(Icons.add, color: Colors.white,),
+        label:  Text("Thêm dịch vụ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
   }

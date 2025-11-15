@@ -207,7 +207,9 @@ class _MainPageState extends State<MainPage> {
       case 'service':
         return "Quản lý dịch vụ";
       case 'rule':
-        return "Quản lý nội quy và vi phạm";
+        return "Nội quy & vi phạm";
+      case 'maintenance':
+        return "Quản lý bảo trì";
       default:    
         return "Quản lý Nhà trọ";
     }

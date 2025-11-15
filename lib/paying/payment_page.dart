@@ -95,7 +95,7 @@ class PaymentManagementPage extends StatelessWidget {
         ),
       ),
       floatingActionButton: Column(
-        mainAxisSize: MainAxisSize.min,
+       mainAxisAlignment: MainAxisAlignment.end,
         children: [
           FloatingActionButton.extended(
             onPressed: () {

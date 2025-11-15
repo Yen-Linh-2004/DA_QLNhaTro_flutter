@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/devices/update_device.dart';
 import 'package:flutter_application/shared/buildCard.dart';
 
 class DeviceDetailPage extends StatelessWidget {
@@ -34,8 +35,6 @@ class DeviceDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:  Text("Chi tiết thiết bị", style: TextStyle(fontWeight: FontWeight.bold)),
-        // centerTitle: true,
-        // backgroundColor: Colors.blueAccent,
         elevation: 3,
       ),
       body: SingleChildScrollView(
@@ -133,15 +132,15 @@ class DeviceDetailPage extends StatelessWidget {
               children: [
                 buildActionBtn(Icons.delete, "Xóa", Colors.redAccent, (){}),
                 SizedBox(width: 15),
-                buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, (){}),
+                buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => UpdateDevicesPage()),
+                  );
+                }),
               ],
             ),
             SizedBox(height: 10),
-            Row(
-              children: [
-                buildActionBtn(Icons.build_circle, "Tạo yêu cầu bảo trì", Colors.green, (){}),
-              ],
-            )
           ],
         ),
       ),

@@ -742,8 +742,8 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
               padding:  EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  SizedBox(width: 16),
                   buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 16),
                   buildActionBtn(Icons.add, "Lưu thay đổi", Colors.blue, (){}),
                 ],
               ),
