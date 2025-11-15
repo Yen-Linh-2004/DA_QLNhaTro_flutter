@@ -26,12 +26,12 @@ class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cập nhật thông tin khách thuê"),
+        title:  Text("Cập nhật thông tin khách thuê"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -135,7 +135,7 @@ class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
             Text(
               "Thông tin liên hệ",
@@ -247,10 +247,10 @@ class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Hủy"),
+                    child:  Text("Hủy"),
                   ),
                 ),
-                const SizedBox(width: 12),
+                 SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class collectmoneyPage extends StatelessWidget {
   const collectmoneyPage({super.key});
@@ -42,16 +43,14 @@ class collectmoneyPage extends StatelessWidget {
                     ],
                   ),
                    SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  [
-                      Text("Tổng tiền: 3.780.000đ",
-                          style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text("Đã thanh toán: 3.200.000đ",
-                          style: TextStyle(
-                              color: Colors.green, fontWeight: FontWeight.bold)),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children:  [
+                  Text("Tổng tiền: 3.780.000đ", style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(height: 6),
+                  Text("Đã thanh toán: 3.200.000đ", style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold)),
+                  //   ],
+                  // ),
                    SizedBox(height: 6),
                    Text(
                     "Còn lại: 580.000đ",
@@ -163,39 +162,14 @@ class collectmoneyPage extends StatelessWidget {
                 ),
               ),
             ),
-
-             SizedBox(height: 24),
+            SizedBox(height: 24),
 
             // Nút hành động
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      padding:  EdgeInsets.symmetric(vertical: 18),
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                    child:  Text("Hủy", style: TextStyle(fontSize: 16),),
-                  ),
-                ),
-                 SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon:  Icon(Icons.check_circle_outline, color: Colors.white),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:  EdgeInsets.symmetric(vertical: 18),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () {},
-                    label:  Text(
-                      "Thu tiền",
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                ),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 15),
+                buildActionBtn(Icons.check_circle_outline, "Thu tiền", Colors.blue, (){ }),
               ],
             ),
           ],

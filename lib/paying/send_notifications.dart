@@ -43,9 +43,9 @@ class SendNotificationsPage extends StatelessWidget {
                     ],
                   ),
                    SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  [
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children:  [
                       Text(
                         "Số tiền cần thu: 580.000đ",
                         style: TextStyle(
@@ -53,6 +53,7 @@ class SendNotificationsPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(height: 8),
                       Text(
                         "Hạn thanh toán: 5/11/2025",
                         style: TextStyle(
@@ -60,8 +61,8 @@ class SendNotificationsPage extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ],
-                  ),
+                  //   ],
+                  // ),
                 ],
               ),
             ),

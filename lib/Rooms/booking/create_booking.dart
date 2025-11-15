@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class CreateBookingPage extends StatefulWidget {
   const CreateBookingPage({super.key});
@@ -35,10 +36,10 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tạo đặt phòng mới")
+        title:  Text("Tạo đặt phòng mới")
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -75,7 +76,7 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
                 setState(() => selectedDate = date);
               },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                padding:  EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(color: Colors.grey),
@@ -87,9 +88,9 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
                       selectedDate == null
                           ? "mm/dd/yyyy"
                           : "${selectedDate!.month}/${selectedDate!.day}/${selectedDate!.year}",
-                      style: const TextStyle(fontSize: 15),
+                      style:  TextStyle(fontSize: 15),
                     ),
-                    const Icon(Icons.calendar_today_outlined, size: 18),
+                     Icon(Icons.calendar_today_outlined, size: 18),
                   ],
                 ),
               ),
@@ -109,22 +110,12 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
             _buildLabel("Ghi chú"),
             _buildInput(noteCtrl, hint: "Nhập ghi chú (tùy chọn)", keyboard: TextInputType.text),
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Hủy"),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Tạo đặt phòng"),
-                  ),
-                ),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 12),
+                buildActionBtn(Icons.add, "Tạo đặt phòng", Colors.blue, (){}),
               ],
             ),
           ],
@@ -135,8 +126,8 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
 
   Widget _buildLabel(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 6, top: 14),
-      child: Text(text, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+      padding:  EdgeInsets.only(bottom: 6, top: 14),
+      child: Text(text, style:  TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
     );
   }
 
@@ -159,7 +150,7 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
     required String hint,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding:  EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey),

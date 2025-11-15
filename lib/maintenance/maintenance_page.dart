@@ -11,29 +11,18 @@ class MaintenancePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title: const Text("Quản lý bảo trì"),
-        actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 12),
-            child: ElevatedButton.icon(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AddMaintenancePage()),
-                );
-              },
-              icon: Icon(Icons.add),
-              label: Text("Tạo yêu cầu"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.deepPurple,
-                foregroundColor: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
       body: _MaintenanceBody(),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>  AddMaintenancePage()),
+          );
+        },
+        backgroundColor: Colors.purple,
+        label:  Text("Tạo yêu cầu", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        icon:  Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }
@@ -65,16 +54,16 @@ class _MaintenanceBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Thống kê
           _statusGrid(),
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
           // Bộ lọc
           _filterSection(),
-          const SizedBox(height: 16),
+           SizedBox(height: 16),
           // Danh sách yêu cầu
           ..._requestItems.map((e) => _maintenanceCard(e, context)).toList(),
         ],
@@ -93,8 +82,8 @@ Widget _statusGrid() {
 
   return GridView.builder(
     shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+    physics:  NeverScrollableScrollPhysics(),
+    gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
       crossAxisCount: 2,
       childAspectRatio: 2.2,
       crossAxisSpacing: 12,
@@ -104,7 +93,7 @@ Widget _statusGrid() {
     itemBuilder: (context, i) {
       var item = items[i];
       return Container(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -116,13 +105,13 @@ Widget _statusGrid() {
               backgroundColor: (item["color"] as Color).withOpacity(.15),
               child: Icon(Icons.circle, color: item["color"] as Color),
             ),
-            const SizedBox(width: 12),
+             SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "${item["count"]}",
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
@@ -149,11 +138,11 @@ Widget _filterSection() {
       //     _dropdown("Tất cả danh mục"),
       //   ],
       // ),
-      const SizedBox(height: 12),
+       SizedBox(height: 12),
       TextField(
         decoration: InputDecoration(
           hintText: "Tìm kiếm theo tiêu đề, phòng...",
-          suffixIcon: const Icon(Icons.search),
+          suffixIcon:  Icon(Icons.search),
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -168,8 +157,8 @@ Widget _filterSection() {
 
 Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
   return Container(
-    margin: const EdgeInsets.only(bottom: 12),
-    padding: const EdgeInsets.all(16),
+    margin:  EdgeInsets.only(bottom: 12),
+    padding:  EdgeInsets.all(16),
     decoration: BoxDecoration(
       color: Colors.white,
       borderRadius: BorderRadius.circular(12),
@@ -180,18 +169,18 @@ Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
       children: [
         Text(
           item["title"],
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          style:  TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         Text(
           "Ngày yêu cầu: ${item["date"]}",
           style: TextStyle(color: Colors.grey.shade600),
         ),
-        const SizedBox(height: 8),
+         SizedBox(height: 8),
 
         // Khách
         Text("👤 ${item["guest"]} – ${item["room"]}"),
 
-        const SizedBox(height: 8),
+         SizedBox(height: 8),
 
         // Chips
         Wrap(
@@ -203,7 +192,7 @@ Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
           ],
         ),
 
-        const SizedBox(height: 12),
+         SizedBox(height: 12),
 
         // Phân công
         Text(
@@ -211,7 +200,7 @@ Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
           style: TextStyle(color: Colors.grey.shade800),
         ),
 
-        const SizedBox(height: 12),
+         SizedBox(height: 12),
 
         // Actions
         Row(
@@ -221,46 +210,46 @@ Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const MaintenanceDetailPage()),
+                  MaterialPageRoute(builder: (context) =>  MaintenanceDetailPage()),
                 );
               }, icon: Icon(Icons.visibility_outlined, size: 22, color: Colors.grey.shade600)
             ),
             
-            const SizedBox(width: 12),
+             SizedBox(width: 12),
             IconButton(
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const UpdateStatusPage()),
+                  MaterialPageRoute(builder: (context) =>  UpdateStatusPage()),
                 );
               }, icon: Icon(Icons.edit_outlined, size: 22, color: Colors.blue)
             ),
-            const SizedBox(width: 12),
+             SizedBox(width: 12),
             IconButton(
               onPressed: (){
                 // Navigator.push(
                 //   context,
-                //   MaterialPageRoute(builder: (context) => const UpdateStatusPage()),
+                //   MaterialPageRoute(builder: (context) =>  UpdateStatusPage()),
                 // );
               }, icon: Icon(Icons.delete_outline, size: 22, color: Colors.red)
             ),
 
-            const SizedBox(width: 12),
+             SizedBox(width: 12),
             IconButton(
               onPressed: (){
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StaffAssignmentPage()),
+                  MaterialPageRoute(builder: (context) =>  StaffAssignmentPage()),
                 );
               }, icon: Icon(Icons.person_add, size: 22, color: Colors.blue)
             ),
             
-            const SizedBox(width: 12),
+             SizedBox(width: 12),
             IconButton(
               onPressed: (){
                 // Navigator.push(
                 //   context,
-                //   MaterialPageRoute(builder: (context) => const UpdateStatusPage()),
+                //   MaterialPageRoute(builder: (context) =>  UpdateStatusPage()),
                 // );
               }, icon: Icon(Icons.history, size: 22, color: Colors.amber)
             ),
@@ -274,7 +263,7 @@ Widget _maintenanceCard(Map<String, dynamic> item, BuildContext context) {
 
 Widget _chip(String label, Color color) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 4),
     decoration: BoxDecoration(
       // ignore: deprecated_member_use
       color: color.withOpacity(.15),

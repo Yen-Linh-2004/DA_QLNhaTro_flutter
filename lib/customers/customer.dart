@@ -89,84 +89,94 @@ class _CustomerPageState extends State<CustomerPage> {
       //   ],
       // ),
       body: Padding(
-            padding: EdgeInsets.all(12),
-            child: ListView.builder(
-              itemCount: tenants.length,
-              itemBuilder: (context, i) {
-                var t = tenants[i];
-                return InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => CustomerDetailPage(
-                      //   tenantData: t, // truyền dữ liệu nếu cần
-                        ),
+        padding: EdgeInsets.all(12),
+        child: Scrollbar(
+          thumbVisibility: true, // hiện thanh kéo luôn, dễ dùng
+          thickness: 6, // độ dày thanh kéo
+          radius: Radius.circular(10),
+          child: ListView.builder(
+            itemCount: tenants.length,
+            itemBuilder: (context, i) {
+              var t = tenants[i];
+              return InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => CustomerDetailPage(
+                        // tenantData: t, // truyền dữ liệu nếu cần
                       ),
-                  );
-                  },
-                  child: Card(
-                    margin: EdgeInsets.only(bottom: 12),
-                    elevation: 1.5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Padding(
-                      padding: EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
+                  );
+                },
+                child: Card(
+                  margin: EdgeInsets.only(bottom: 12),
+                  elevation: 1.5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.all(14),
+                    child: Row(
+                      children: [
+                        CircleAvatar(radius: 22, child: Text(t['name'][0])),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CircleAvatar(radius: 22, child: Text(t['name'][0])),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      t['name'],
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 2),
-                                    Text(
-                                      "CCCD: ${t['id']}",
-                                      style: TextStyle(fontSize: 13),
-                                    ),
-                                  ],
+                              Text(
+                                t['name'],
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: 4,
-                                  horizontal: 10,
-                                ),
-                                decoration: BoxDecoration(
-                                  color: getStatusColor(t['status']),
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                child: Text(
-                                  t['status'],
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: getStatusTextColor(t['status']),
-                                  ),
-                                ),
+                              SizedBox(height: 2),
+                              Text(
+                                "CCCD: ${t['id']}",
+                                style: TextStyle(fontSize: 13),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: getStatusColor(t['status']),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            t['status'],
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                              color: getStatusTextColor(t['status']),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddCustomerPage(),
+            ),
+          );
+        },
+        backgroundColor: Colors.blue,
+        label:  Text("Thêm khách thuê", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        icon:  Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }

@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/generalPage/dashbroad.dart';
-import 'package:flutter_application/paying/Createinvoicesinbulk.dart';
-import 'package:flutter_application/paying/Input_electricity.dart';
-import 'package:flutter_application/paying/create_bill.dart';
-import 'package:flutter_application/users/home.dart';
 
 void main() {
   runApp(const MyApp());

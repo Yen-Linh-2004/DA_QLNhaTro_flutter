@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class DepositPage extends StatelessWidget {
+  const DepositPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title:  Text(
           "Đặt cọc phòng B205",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
@@ -15,15 +17,15 @@ class DepositPage extends StatelessWidget {
         // Nút Đóng (X)
         // actions: [
         //   IconButton(
-        //     icon: const Icon(Icons.close, color: Colors.grey),
+        //     icon:  Icon(Icons.close, color: Colors.grey),
         //     onPressed: () => Navigator.pop(context),
         //   ),
         // ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(bottom: 100), // Khoảng trống cho nút cố định
+        padding:  EdgeInsets.only(bottom: 100), // Khoảng trống cho nút cố định
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -36,7 +38,7 @@ class DepositPage extends StatelessWidget {
                 deposit: "2.600.000 VNĐ",
               ),
               
-              const SizedBox(height: 25),
+               SizedBox(height: 25),
 
               // --- 2. THÔNG TIN CÁ NHÂN & NGÀY DỰ KIẾN ---
               _buildSectionTitle("Thông Tin Liên Hệ"),
@@ -51,7 +53,7 @@ class DepositPage extends StatelessWidget {
                       icon: Icons.person_outline,
                     ),
                   ),
-                  const SizedBox(width: 15),
+                   SizedBox(width: 15),
                   Expanded(
                     child: _buildTextField(
                       label: "Số điện thoại *",
@@ -62,7 +64,7 @@ class DepositPage extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
+               SizedBox(height: 15),
 
               // Email
               _buildTextField(
@@ -71,20 +73,20 @@ class DepositPage extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 icon: Icons.email_outlined,
               ),
-              const SizedBox(height: 15),
+               SizedBox(height: 15),
 
               // Ngày dự kiến vào ở
               _buildDateField(
                 label: "Ngày dự kiến vào ở *",
                 hintText: "mm/dd/yyyy",
               ),
-              const SizedBox(height: 25),
+               SizedBox(height: 25),
 
               // --- 3. GHI CHÚ ---
               _buildSectionTitle("Ghi Chú"),
               _buildNoteField(),
               
-              const SizedBox(height: 25),
+               SizedBox(height: 25),
 
               // --- 4. LƯU Ý QUAN TRỌNG ---
               _buildImportantNote(),
@@ -101,7 +103,7 @@ class DepositPage extends StatelessWidget {
 
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
+      padding:  EdgeInsets.only(bottom: 10.0),
       child: Text(
         title,
         style: TextStyle(
@@ -120,7 +122,7 @@ class DepositPage extends StatelessWidget {
     required String deposit,
   }) {
     return Container(
-      padding: const EdgeInsets.all(15.0),
+      padding:  EdgeInsets.all(15.0),
       decoration: BoxDecoration(
         color: Colors.deepPurple[50], // Nền nhẹ
         borderRadius: BorderRadius.circular(12),
@@ -129,7 +131,7 @@ class DepositPage extends StatelessWidget {
       child: Column(
         children: [
           _buildInfoRow("Phòng:", room, "Diện tích:", area),
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
           _buildInfoRow("Giá thuê:", rent, "Tiền cọc:", deposit, isPrice: true),
         ],
       ),
@@ -147,7 +149,7 @@ class DepositPage extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: label1 + " ",
-              style: const TextStyle(color: Colors.black54, fontSize: 15),
+              style:  TextStyle(color: Colors.black54, fontSize: 15),
               children: <TextSpan>[
                 TextSpan(text: value1, style: valueStyle),
               ],
@@ -158,7 +160,7 @@ class DepositPage extends StatelessWidget {
           child: RichText(
             text: TextSpan(
               text: label2 + " ",
-              style: const TextStyle(color: Colors.black54, fontSize: 15),
+              style:  TextStyle(color: Colors.black54, fontSize: 15),
               children: <TextSpan>[
                 TextSpan(text: value2, style: valueStyle),
               ],
@@ -183,13 +185,13 @@ class DepositPage extends StatelessWidget {
         prefixIcon: icon != null ? Icon(icon, color: Colors.deepPurple) : null,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
+          borderSide:  BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+          borderSide:  BorderSide(color: Colors.deepPurple, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        contentPadding:  EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       ),
     );
   }
@@ -200,16 +202,16 @@ class DepositPage extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         hintText: hintText,
-        suffixIcon: const Icon(Icons.calendar_today_outlined, color: Colors.deepPurple),
+        suffixIcon:  Icon(Icons.calendar_today_outlined, color: Colors.deepPurple),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.grey),
+          borderSide:  BorderSide(color: Colors.grey),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: const BorderSide(color: Colors.deepPurple, width: 2),
+          borderSide:  BorderSide(color: Colors.deepPurple, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+        contentPadding:  EdgeInsets.symmetric(vertical: 15, horizontal: 15),
       ),
       onTap: () {
         // Mở DatePicker khi người dùng nhấn
@@ -238,7 +240,7 @@ class DepositPage extends StatelessWidget {
 
   Widget _buildImportantNote() {
     return Container(
-      padding: const EdgeInsets.all(15),
+      padding:  EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: Colors.amber[50], // Nền vàng nhạt
         borderRadius: BorderRadius.circular(12),
@@ -250,7 +252,7 @@ class DepositPage extends StatelessWidget {
           Row(
             children: <Widget>[
               Icon(Icons.warning_amber_outlined, color: Colors.amber[800], size: 24),
-              const SizedBox(width: 8),
+               SizedBox(width: 8),
               Text(
                 "Lưu ý quan trọng",
                 style: TextStyle(
@@ -261,7 +263,7 @@ class DepositPage extends StatelessWidget {
               ),
             ],
           ),
-          const Divider(color: Colors.amber, height: 15),
+           Divider(color: Colors.amber, height: 15),
           _buildNotePoint("Tiền cọc sẽ được hoàn trả khi kết thúc hợp đồng (trừ các khoản phát sinh)"),
           _buildNotePoint("Sau khi đặt cọc, bạn có 3 ngày để hoàn tất thủ tục ký hợp đồng"),
           _buildNotePoint("Nếu không ký hợp đồng trong thời hạn, tiền cọc sẽ không được hoàn trả"),
@@ -273,15 +275,15 @@ class DepositPage extends StatelessWidget {
 
   Widget _buildNotePoint(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4.0),
+      padding:  EdgeInsets.only(bottom: 4.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          const Text("• ", style: TextStyle(fontSize: 15, color: Colors.black87)),
+           Text("• ", style: TextStyle(fontSize: 15, color: Colors.black87)),
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(fontSize: 14, height: 1.4, color: Colors.black87),
+              style:  TextStyle(fontSize: 14, height: 1.4, color: Colors.black87),
             ),
           ),
         ],
@@ -298,11 +300,11 @@ class DepositPage extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: const Offset(0, -3),
+            offset:  Offset(0, -3),
           ),
         ],
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      padding:  EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: SafeArea(
         child: Row(
           children: <Widget>[
@@ -313,17 +315,17 @@ class DepositPage extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 style: OutlinedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  side: const BorderSide(color: Colors.deepPurple, width: 1),
+                  padding:  EdgeInsets.symmetric(vertical: 15),
+                  side:  BorderSide(color: Colors.deepPurple, width: 1),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                 ),
-                child: const Text(
+                child:  Text(
                   "Hủy",
                   style: TextStyle(fontSize: 16, color: Colors.deepPurple, fontWeight: FontWeight.bold),
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+             SizedBox(width: 10),
             // Nút Xác nhận đặt cọc (Elevated Button)
             Expanded(
               child: ElevatedButton(
@@ -333,11 +335,11 @@ class DepositPage extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.deepPurple,
-                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  padding:  EdgeInsets.symmetric(vertical: 15),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   elevation: 5,
                 ),
-                child: const Text(
+                child:  Text(
                   "Xác nhận đặt cọc",
                   style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
                 ),

@@ -173,7 +173,7 @@ class _ReportPageState extends State<ReportPage>
         children: [
           Text(title, style: TextStyle(fontSize: 14)),
           SizedBox(height: 8),
-          Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: color)),
+          Text(value, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: color)),
         ],
       ),
     );

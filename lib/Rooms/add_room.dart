@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 class AddRoomPage extends StatefulWidget {
   const AddRoomPage({super.key});
 
@@ -41,7 +42,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text("Thêm phòng thành công"),
+          title:  Text("Thêm phòng thành công"),
           content: Text(
               "Phòng $roomNumber đã được thêm vào $block, $floor, loại $roomType, diện tích $area m², giá thuê $price VNĐ."),
           actions: [
@@ -52,7 +53,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 Navigator.of(context)
                     .pop();
               },
-              child: const Text("OK"),
+              child:  Text("OK"),
             ),
           ],
         ),
@@ -63,22 +64,22 @@ class _AddRoomPageState extends State<AddRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Thêm phòng mới")),
+      appBar: AppBar(title:  Text("Thêm phòng mới")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-               const Text(
+                Text(
                 "Số phòng",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _roomNumberController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập số phòng",
                 ),
@@ -94,10 +95,10 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 "Phòng",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _roomNumberController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập số phòng",
                 ),
@@ -126,7 +127,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
                     selectedBlock = value;
                   });
                 },
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -134,7 +135,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
               SizedBox(height: 16),
               // Tầng
               Text("Tầng", style: TextStyle(fontWeight: FontWeight.bold)),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedFloor,
                 items: floors
@@ -148,18 +149,18 @@ class _AddRoomPageState extends State<AddRoomPage> {
                     selectedFloor = value;
                   });
                 },
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                 ),
               ),
 
-              const SizedBox(height: 16),
+               SizedBox(height: 16),
               // Loại phòng
-              const Text(
+               Text(
                 "Loại phòng",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedRoomType,
                 items: roomTypes
@@ -173,23 +174,23 @@ class _AddRoomPageState extends State<AddRoomPage> {
                     selectedRoomType = value;
                   });
                 },
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                 ),
               ),
 
-              const SizedBox(height: 16),
+               SizedBox(height: 16),
               // Diện tích
-              const Text(
+               Text(
                 "Diện tích (m²)",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _areaController,
                 keyboardType:
-                    const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(
+                     TextInputType.numberWithOptions(decimal: true),
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập diện tích",
                 ),
@@ -204,17 +205,17 @@ class _AddRoomPageState extends State<AddRoomPage> {
                   return null;
                 },
               ),
-              const SizedBox(height: 16),
+               SizedBox(height: 16),
               // Giá thuê
-              const Text(
+               Text(
                 "Giá thuê (VNĐ)",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _priceController,
                 keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập giá thuê",
                 ),
@@ -230,25 +231,15 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 },
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24),
 
               // Nút hành động
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Hủy"),
-                  ),
-                  ElevatedButton(
-                    onPressed: _onAddRoom,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: const Text("Thêm phòng", style: TextStyle(color: Colors.white),),
-                  ),
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 16),
+                  buildActionBtn(Icons.add, "Thêm phòng", Colors.blue, _onAddRoom),
                 ],
               ),
             ],

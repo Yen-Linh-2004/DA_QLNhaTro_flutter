@@ -9,15 +9,15 @@ import 'package:flutter/material.dart';
         color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(16),
       ),
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(icon, color: color, size: 30),
-          const SizedBox(height: 8),
+           SizedBox(height: 8),
           Text(title, style: TextStyle(fontWeight: FontWeight.w600, color: color)),
-          const SizedBox(height: 4),
-          Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+           SizedBox(height: 4),
+          Text(value, style:  TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -31,7 +31,7 @@ import 'package:flutter/material.dart';
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding:  EdgeInsets.symmetric(vertical: 12),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         onPressed: onPressed,
@@ -40,3 +40,123 @@ import 'package:flutter/material.dart';
       ),
     );
   }
+
+  void showConfirmDialog({
+  required BuildContext context,
+  required String title,
+  required String message,
+  required VoidCallback onConfirm,
+  Color confirmColor = Colors.blue,
+  String confirmText = "Xác nhận",
+  String cancelText = "Hủy",
+  IconData? icon,
+  double maxHeight = 200,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+
+          // ✅ Giới hạn chiều cao dialog
+          content: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: maxHeight,
+            ),
+            child: SingleChildScrollView(
+              child: Text(message),
+            ),
+          ),
+
+          title: Row(
+            children: [
+              if (icon != null) ...[
+                Icon(icon, color: confirmColor),
+                 SizedBox(width: 6),
+              ],
+              Text(title, style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            ],
+          ),
+
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(cancelText, style:  TextStyle(color: Colors.grey)),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: confirmColor),
+              onPressed: () {
+                Navigator.of(context).pop();
+                onConfirm();
+              },
+              child: Text(confirmText),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+// show message
+void showQuickRefundDialog(BuildContext context, String title, String message, String content, Color color) {
+  showConfirmDialog(
+    context: context,
+    title: title,
+    message: message,
+    confirmColor: color,
+    icon: Icons.flash_on_outlined,
+    maxHeight: 140,
+    onConfirm: () {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(content),
+          backgroundColor: color,
+        ),
+      );
+    },
+  );
+}
+
+  Widget infoCard(List<Widget> children) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 3,
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(children: children),
+      ),
+    );
+  }
+
+  Widget infoRow(
+    String label,
+    String value, {
+    bool bold = false,
+    Color? color,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 10),
+      child: Row(
+        children: [
+          SizedBox(
+            width: 130,
+            child: Text(label, style: TextStyle(color: Colors.grey[700])),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 15,
+                fontWeight: bold ? FontWeight.bold : FontWeight.normal,
+                color: color,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  

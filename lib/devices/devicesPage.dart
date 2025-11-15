@@ -77,37 +77,15 @@ class EquipmentManagementPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Quản lý thiết bị"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
-        actions: [
-          TextButton.icon(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const AddDevicesPage()),
-              );
-            },
-            icon: const Icon(Icons.add_circle, color: Colors.blue),
-            label: const Text(
-              "Thêm thiết bị",
-              style: TextStyle(color: Colors.blue, fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-
       body: ListView.builder(
-        padding: const EdgeInsets.all(12),
+        padding:  EdgeInsets.all(12),
         itemCount: equipmentList.length,
         itemBuilder: (context, index) {
           final item = equipmentList[index];
 
           return Container(
-            margin: const EdgeInsets.only(bottom: 12),
-            padding: const EdgeInsets.all(14),
+            margin:  EdgeInsets.only(bottom: 12),
+            padding:  EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(12),
@@ -115,7 +93,7 @@ class EquipmentManagementPage extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.06),
                   blurRadius: 6,
-                  offset: const Offset(0, 2),
+                  offset:  Offset(0, 2),
                 ),
               ],
             ),
@@ -124,37 +102,37 @@ class EquipmentManagementPage extends StatelessWidget {
               children: [
                 Text(
                   item["name"],
-                  style: const TextStyle(
+                  style:  TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   item["code"],
-                  style: const TextStyle(fontSize: 12, color: Colors.grey),
+                  style:  TextStyle(fontSize: 12, color: Colors.grey),
                 ),
-                const SizedBox(height: 6),
+                 SizedBox(height: 6),
 
                 Row(
                   children: [
                     _tag(item["category"], Colors.blue),
-                    const SizedBox(width: 8),
+                     SizedBox(width: 8),
                     _tag(item["status"], item["statusColor"]),
                   ],
                 ),
 
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
                       "Phòng: ${item["room"]}",
-                      style: const TextStyle(fontSize: 14),
+                      style:  TextStyle(fontSize: 14),
                     ),
                     Text(
                       item["price"],
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
@@ -162,10 +140,10 @@ class EquipmentManagementPage extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 4),
+                 SizedBox(height: 4),
                 Text(
                   "Ngày nhập: ${item["date"]}",
-                  style: const TextStyle(fontSize: 12),
+                  style:  TextStyle(fontSize: 12),
                 ),
                 Text(
                   "Bảo trì: ${item["maintenance"]}",
@@ -178,7 +156,7 @@ class EquipmentManagementPage extends StatelessWidget {
                   ),
                 ),
 
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
 
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -204,14 +182,14 @@ class EquipmentManagementPage extends StatelessWidget {
                           ),
                         );
                       },
-                      child: const Text(
+                      child:  Text(
                         "Chi tiết",
                         style: TextStyle(color: Colors.blue),
                       ),
                     ),
                     TextButton(
                       onPressed: () {},
-                      child: const Text(
+                      child:  Text(
                         "Bảo trì",
                         style: TextStyle(color: Colors.green),
                       ),
@@ -223,12 +201,20 @@ class EquipmentManagementPage extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          
+        },
+        backgroundColor: Colors.blue,
+        label:  Text("Thêm thiết bị", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        icon:  Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 
   Widget _tag(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color.withOpacity(0.15),
         borderRadius: BorderRadius.circular(8),

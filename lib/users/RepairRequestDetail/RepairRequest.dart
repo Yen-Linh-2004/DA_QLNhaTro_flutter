@@ -112,13 +112,13 @@ class RepairRequestPage extends StatelessWidget {
                   }
 
                   return Card(
-                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    margin: EdgeInsets.symmetric(vertical: 6),
                     elevation: 2,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(12),
+                      padding: EdgeInsets.all(12),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -128,7 +128,7 @@ class RepairRequestPage extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   r["title"]!,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -151,20 +151,20 @@ class RepairRequestPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 4),
+                          SizedBox(height: 4),
                           Text(r["desc"]!),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text("Danh mục: ${r["category"]}"),
                               Text(
                                 "Ngày: ${r["date"]}",
-                                style: const TextStyle(color: Colors.grey),
+                                style: TextStyle(color: Colors.grey),
                               ),
                             ],
                           ),
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -180,8 +180,7 @@ class RepairRequestPage extends StatelessWidget {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const RepairRequestDetailPage(),
+                                          builder: (context) =>const RepairRequestDetailPage(),
                                         ),
                                       );
                                     },
@@ -191,13 +190,19 @@ class RepairRequestPage extends StatelessWidget {
                                     ),
                                   ),
                                   SizedBox(width: 10),
+                                  
+                                  if (r["status"] == "Chờ xử lý") ...[
+                                    IconButton(
+                                      onPressed: (){},
+                                      icon: Icon( Icons.cancel, color: Colors.red, size: 22)
+                                    )  
+                                  ],
                                   IconButton(
                                     onPressed: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) =>
-                                              const UpdateRepairPage(),
+                                          builder: (context) => const UpdateRepairPage(),
                                         ),
                                       );
                                     },

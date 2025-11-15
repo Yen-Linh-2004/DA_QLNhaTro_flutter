@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/Rooms/Room.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -85,32 +84,32 @@ class HomePage extends StatelessWidget {
               childAspectRatio: 1.2,
               children: [
                 StatCard(
-                  icon: Icons.trending_up,
-                  color: Color(0xFF4CAF50),
-                  value: "45.2M",
-                  title: "Doanh thu tháng",
-                  subtitle: "+12.5% so với tháng trước",
+                  icon: Icons.home,
+                  color: Colors.blue,
+                  value: "48",
+                  title: "Tổng số phòng",
+                  subtitle: "+2 so với tháng trước ",
                 ),
                 StatCard(
                   icon: Icons.home_work_outlined,
-                  color: Color(0xFF2196F3),
-                  value: "85%",
-                  title: "Tỷ lệ lấp đầy",
-                  subtitle: "34/40 phòng",
+                  color: Color.fromARGB(255, 94, 228, 103),
+                  value: "42",
+                  title: "Phòng đã thuê",
+                  subtitle: "+5 so với tháng trước",
                 ),
                 StatCard(
-                  icon: Icons.receipt_long_outlined,
+                  icon: Icons.room_outlined,
                   color: Color(0xFFFF9800),
-                  value: "12",
-                  title: "Hóa đơn chưa thu",
-                  subtitle: "8.5M VND",
+                  value: "6",
+                  title: "Phòng trống",
+                  subtitle: "+3 so với tháng trước",
                 ),
                 StatCard(
                   icon: Icons.warning_amber_rounded,
-                  color: Color(0xFFE53935),
-                  value: "7",
-                  title: "Yêu cầu xử lý",
-                  subtitle: "3 khẩn cấp",
+                  color: Colors.purpleAccent,
+                  value: "125.5M",
+                  title: "Doanh thu tháng",
+                  subtitle: "+12 so với tháng trước",
                 ),
               ],
             ),
@@ -179,7 +178,7 @@ class StatCard extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.only(top: 10, right: 14, left: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -189,8 +188,7 @@ class StatCard extends StatelessWidget {
           SizedBox(height: 4),
           Text(title, style: TextStyle(color: Colors.black54)),
           SizedBox(height: 4),
-          Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 12),
-          ),
+          Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 8)),
         ],
       ),
     );
@@ -239,7 +237,7 @@ class ActivityItem extends StatelessWidget {
               children: [
                 Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
                 SizedBox(height: 2),
-                Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 8)),
               ],
             ),
           ),

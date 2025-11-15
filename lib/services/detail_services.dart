@@ -8,18 +8,18 @@ class ServiceDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F8),
+      backgroundColor:  Color(0xFFF6F6F8),
       appBar: AppBar(
-        title: const Text("Chi tiết dịch vụ"),
+        title:  Text("Chi tiết dịch vụ"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
       ),
 
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding:  EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(18),
@@ -27,7 +27,7 @@ class ServiceDetailPage extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.06),
                 blurRadius: 10,
-                offset: const Offset(0, 4),
+                offset:  Offset(0, 4),
               ),
             ],
           ),
@@ -37,13 +37,13 @@ class ServiceDetailPage extends StatelessWidget {
               // Tên dịch vụ
               Text(
                 service["name"],
-                style: const TextStyle(
+                style:  TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
 
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
 
               // Giá
               _valueTag(
@@ -53,7 +53,7 @@ class ServiceDetailPage extends StatelessWidget {
                 color: Colors.green,
               ),
 
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
 
               // Danh mục
               _smallTagRow(
@@ -63,7 +63,7 @@ class ServiceDetailPage extends StatelessWidget {
                 tagColor: Colors.purple,
               ),
 
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
 
               // Trạng thái
               _smallTagRow(
@@ -74,22 +74,22 @@ class ServiceDetailPage extends StatelessWidget {
                     service["status"] == "Hoạt động" ? Colors.green : Colors.red,
               ),
 
-              const SizedBox(height: 18),
+               SizedBox(height: 18),
 
               // Mô tả
               _sectionTitle("Mô tả"),
               _descriptionBox(service["description"] ?? "Không có mô tả"),
 
-              const SizedBox(height: 18),
+               SizedBox(height: 18),
 
               // Số lần sử dụng
               _sectionTitle("Số lần sử dụng"),
               Text(
                 (service["usage"] ?? 0).toString(),
-                style: const TextStyle(fontSize: 16),
+                style:  TextStyle(fontSize: 16),
               ),
 
-              const SizedBox(height: 32),
+               SizedBox(height: 32),
 
               // Nút hành động
               Row(
@@ -97,32 +97,32 @@ class ServiceDetailPage extends StatelessWidget {
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.edit, size: 18),
+                      icon:  Icon(Icons.edit, size: 18),
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         backgroundColor: Colors.blue,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding:  EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      label: const Text("Chỉnh sửa"),
+                      label:  Text("Chỉnh sửa"),
                     ),
                   ),
-                  const SizedBox(width: 14),
+                   SizedBox(width: 14),
                   Expanded(
                     child: ElevatedButton.icon(
                       onPressed: () {},
-                      icon: const Icon(Icons.pause_circle_filled, size: 18),
+                      icon:  Icon(Icons.pause_circle_filled, size: 18),
                       style: ElevatedButton.styleFrom(
                         elevation: 0,
                         backgroundColor: Colors.red,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        padding:  EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      label: const Text("Tạm dừng"),
+                      label:  Text("Tạm dừng"),
                     ),
                   ),
                 ],
@@ -143,9 +143,9 @@ class ServiceDetailPage extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, color: Colors.grey.shade700),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 15)),
-        const Spacer(),
+         SizedBox(width: 10),
+        Text(label, style:  TextStyle(fontSize: 15)),
+         Spacer(),
         Text(
           value,
           style: TextStyle(
@@ -167,11 +167,11 @@ class ServiceDetailPage extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, color: Colors.grey.shade700),
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 15)),
-        const Spacer(),
+         SizedBox(width: 10),
+        Text(label, style:  TextStyle(fontSize: 15)),
+         Spacer(),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: tagColor.withOpacity(0.12),
             borderRadius: BorderRadius.circular(12),
@@ -192,20 +192,20 @@ class ServiceDetailPage extends StatelessWidget {
   Widget _sectionTitle(String title) {
     return Text(
       title,
-      style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+      style:  TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
     );
   }
 
   Widget _descriptionBox(String text) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(top: 6),
-      padding: const EdgeInsets.all(14),
+      margin:  EdgeInsets.only(top: 6),
+      padding:  EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.grey.shade100,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 14)),
+      child: Text(text, style:  TextStyle(fontSize: 14)),
     );
   }
 }

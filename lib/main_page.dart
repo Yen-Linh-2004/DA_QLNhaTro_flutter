@@ -77,9 +77,9 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF007BFF),
-        title: Text(_getPageTitle(), style: const TextStyle(color: Colors.white),
+        title: Text(_getPageTitle(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        centerTitle: true,
+        // centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: AnimatedSwitcher(
@@ -117,7 +117,6 @@ class _MainPageState extends State<MainPage> {
             accountEmail: Text("minh.nguyen@example.com"),
           ),
 
-          _buildDrawerSectionTitle("Trang chính"),
           _buildDrawerItem(Icons.home_outlined, "Tổng quan", 'home'),
           _buildDrawerItem(Icons.local_offer_outlined, "Loại phòng", 'typeroom',),
           _buildDrawerItem(Icons.meeting_room_outlined, "Phòng trọ", 'rooms'),
@@ -134,13 +133,6 @@ class _MainPageState extends State<MainPage> {
           _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
           _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
           _buildDrawerItem(Icons.settings_outlined, "Cài đặt", 'settings'),
-          
-          // Divider(),
-          // _buildDrawerSectionTitle("Quản lý"),
-
-          Divider(),
-          // _buildDrawerSectionTitle("Khác"),
-
           Divider(height: 24),
           ListTile(
             leading: Icon(Icons.logout, color: Colors.redAccent),
@@ -154,14 +146,6 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-    );
-  }
-
-  /// Tiêu đề nhóm trong Drawer
-  Widget _buildDrawerSectionTitle(String title) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(16, 10, 0, 4),
-      child: Text(title, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
     );
   }
 

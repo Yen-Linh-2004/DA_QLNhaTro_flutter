@@ -6,28 +6,7 @@ class RoomPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      // appBar: AppBar(
-      //   title: const Text(
-      //     "Phòng của tôi", 
-      //     style: TextStyle(
-      //       fontWeight: FontWeight.bold,
-      //       color: Colors.black87,
-      //       fontSize: 20,
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.white,
-      //   centerTitle: true,
-      //   elevation: 1, 
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.edit_outlined, color: Colors.blueAccent),
-      //       onPressed: () {
-      //       },
-      //     ),
-      //   ],
-      // ),
-     
+      backgroundColor: Colors.grey[50],     
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(
@@ -49,10 +28,10 @@ class RoomPage extends StatelessWidget {
 
             // --- THÀNH VIÊN ---
             _buildSectionTitle(context, "Thành viên trong phòng (2)", Icons.group_outlined),
-            const SizedBox(height: 8),
+            SizedBox(height: 8),
             _buildMembersCard(),
             
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
           ],
         ),
       ),
@@ -117,12 +96,10 @@ class RoomPage extends StatelessWidget {
           SizedBox(height: 10),
 
           // Thông tin cơ bản 2 cột
-        //  _buildInfoGrid([
             _infoRow("Tầng:", "Tầng 4", Icons.layers_outlined),
             _infoRow("Diện tích:", "25m²", Icons.aspect_ratio),
             _infoRow("Loại phòng:", "Studio", Icons.house_outlined),
             _infoRow("Ngày vào ở:", "2024-01-15", Icons.date_range),
-         // ]),
 
           SizedBox(height: 15),
           // Giá thuê & Tiền cọc (Làm nổi bật hơn)
@@ -159,7 +136,7 @@ class RoomPage extends StatelessWidget {
                         "Điện (theo công tơ)", "Nước (theo số người)",
                         "Internet (Gói chung)", "Thu gom rác", "Gửi xe",
                       ],
-                      icon: Icons.electrical_services_outlined,
+                      icon: Icons.favorite,
                       color: Colors.purple,
                     ),
                   ),

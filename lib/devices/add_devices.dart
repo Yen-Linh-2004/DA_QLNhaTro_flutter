@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class AddDevicesPage extends StatefulWidget {
   const AddDevicesPage({super.key});
@@ -199,36 +200,9 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child:  Text("Hủy"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        // xử lý thêm thiết bị
-                        final newDevice = {
-                          "id": _deviceIdController.text.trim(),
-                          "name": _devicesNameController.text.trim(),
-                          "catalog": selectedCatalog,
-                          "room": selectedRoom,
-                          "dateBuy": _dateBuyController.text.trim(),
-                          "price": _priceController.text.trim(),
-                        };
-                        // TODO: lưu newDevice vào DB hoặc trả về
-                        Navigator.of(context).pop(newDevice);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
-                    child:  Text(
-                      "Thêm Thiết bị",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                 buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 15),
+                  buildActionBtn(Icons.add, "Thêm thiết bị", Colors.blue, (){ }),
                 ],
               ),
             ],

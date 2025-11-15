@@ -6,17 +6,17 @@ class ForgotPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
     final emailController = TextEditingController();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF3F4FF),
+      backgroundColor:  Color(0xFFF3F4FF),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0),
           child: Container(
             width: 400,
-            padding: const EdgeInsets.all(24),
+            padding:  EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -24,7 +24,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
                   blurRadius: 10,
-                  offset: const Offset(0, 4),
+                  offset:  Offset(0, 4),
                 ),
               ],
             ),
@@ -33,28 +33,28 @@ class ForgotPasswordPage extends StatelessWidget {
               children: [
                 // Icon
                 Container(
-                  padding: const EdgeInsets.all(16),
-                  decoration: const BoxDecoration(
+                  padding:  EdgeInsets.all(16),
+                  decoration:  BoxDecoration(
                     color: Color(0xFF4F46E5),
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child:  Icon(
                     Icons.lock_outline,
                     color: Colors.white,
                     size: 40,
                   ),
                 ),
-                const SizedBox(height: 16),
+                 SizedBox(height: 16),
 
                 // Title
-                const Text(
+                 Text(
                   "Quên mật khẩu?",
                   style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
 
-                const SizedBox(height: 8),
+                 SizedBox(height: 8),
 
-                const Text(
+                 Text(
                   "Nhập email để nhận hướng dẫn khôi phục mật khẩu",
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.black54),
@@ -63,7 +63,7 @@ class ForgotPasswordPage extends StatelessWidget {
                 SizedBox(height: 24),
 
                 Form(
-                  key: _formKey,
+                  key: formKey,
                   child: buildInput(
                     title: "Địa chỉ email",
                     icon: Icons.email,
@@ -103,7 +103,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
+                      if (formKey.currentState!.validate()) {
                           print("Register: ");
                           print(emailController.text);
                         }
@@ -192,9 +192,9 @@ class ForgotPasswordPage extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          style:  TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 6),
+         SizedBox(height: 6),
         TextFormField(
           controller: controller,
           validator: validator,
@@ -214,7 +214,7 @@ class ForgotPasswordPage extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.blue, width: 2),
+              borderSide:  BorderSide(color: Colors.blue, width: 2),
             ),
           ),
         ),

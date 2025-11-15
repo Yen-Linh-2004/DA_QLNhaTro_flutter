@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class AddContactPage extends StatefulWidget {
  const AddContactPage({super.key});
@@ -225,19 +226,9 @@ class _AddContactPageState extends State<AddContactPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Hủy"),
-                  ),
-                  ElevatedButton(
-                    onPressed: (){},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: Text("Thêm phòng", style: TextStyle(color: Colors.white),),
-                  ),
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 15),
+                  buildActionBtn(Icons.add, "Thêm phòng mới", Colors.green, (){ }),
                 ],
               ),
           ],

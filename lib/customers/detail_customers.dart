@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/customers/update_customer.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class CustomerDetailPage extends StatelessWidget {
+  // const CustomerDetailPage({super.key, required Map<String, dynamic> tenants});
   const CustomerDetailPage({super.key});
 
   @override
@@ -17,12 +19,6 @@ class CustomerDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Text(
-            //   "Nguyễn Văn A",
-            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            // ),
-            // SizedBox(height: 16),
-
             // ---------- THÔNG TIN CÁ NHÂN ----------
             Text("Thông tin cá nhân",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
@@ -71,34 +67,16 @@ class CustomerDetailPage extends StatelessWidget {
             // ---------- CÁC NÚT HÀNH ĐỘNG ----------
             Row(
               children: [
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                buildActionBtn(Icons.update, "Chỉnh sửa", Colors.blue, (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateCustomerPage(),
                     ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => UpdateCustomerPage(),
-                        ),
-                      );
-                    },
-                    child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white)),
-                  ),
-                ),
+                  );
+                }),
                 SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.red,
-                      padding: EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    onPressed: () {},
-                    child: Text("Xóa", style: TextStyle(color: Colors.white)),
-                  ),
-                ),
+                buildActionBtn(Icons.close, "Xóa", Colors.redAccent, (){}),
               ],
             ),
             SizedBox(height: 40),
@@ -109,85 +87,32 @@ class CustomerDetailPage extends StatelessWidget {
   }
 
   // ---------------------- WIDGET PHỤ ----------------------
-
   Widget _buildInfoSection(Map<String, String> data) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: data.entries
-          .map((e) => Padding(
-                padding: EdgeInsets.only(bottom: 6),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 4,
-                      child: Text("${e.key}:",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500, color: Colors.black54)),
+        .map((e) => Padding(
+              padding: EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text("${e.key}:",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.black54)),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      e.value,
+                      style: TextStyle(fontWeight: FontWeight.w600),
                     ),
-                    Expanded(
-                      flex: 6,
-                      child: Text(
-                        e.value,
-                        style: TextStyle(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ],
-                ),
-              ))
-          .toList(),
-    );
-  }
-
-  Widget _buildRowItem(String label, String value,
-      {Color? valueColor, bool bold = false}) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 6),
-      child: Row(
-        children: [
-          Expanded(
-              flex: 4,
-              child: Text(label,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, color: Colors.black54))),
-          Expanded(
-            flex: 6,
-            child: Text(
-              value,
-              style: TextStyle(
-                fontWeight: bold ? FontWeight.bold : FontWeight.w600,
-                color: valueColor ?? Colors.black,
+                  ),
+                ],
               ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _priceCard({
-    required String label,
-    required String value,
-    required Color color,
-    required Color textColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        children: [
-          Text(label,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: Colors.black54)),
-          SizedBox(height: 6),
-          Text(value,
-              style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold, color: textColor)),
-        ],
-      ),
+            ))
+        .toList(),
     );
   }
 }

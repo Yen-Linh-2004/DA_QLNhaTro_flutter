@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/users/room_entity/deposit_room.dart';
-import 'package:flutter_application/users/room_entity/detail_room_entity.dart';
+import 'package:flutter_application/room_entity/deposit_room.dart';
+import 'package:flutter_application/room_entity/detail_room_entity.dart';
 
 class RoomsEntityPage extends StatelessWidget {
   final List<Room> rooms = [
@@ -27,11 +27,6 @@ class RoomsEntityPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Danh sách phòng trống"),
-      //   backgroundColor: const Color(0xFF007BFF),
-      //   centerTitle: true,
-      // ),
       body: ListView.builder(
         padding: EdgeInsets.all(12),
         itemCount: rooms.length,

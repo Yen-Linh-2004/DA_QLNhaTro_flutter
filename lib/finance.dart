@@ -14,11 +14,11 @@ class _FinancePageState extends State<FinancePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F8FB),
+      backgroundColor:  Color(0xFFF6F8FB),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title:  Text(
           "Báo cáo tài chính",
           style: TextStyle(
             color: Colors.black87,
@@ -28,7 +28,7 @@ class _FinancePageState extends State<FinancePage> {
         centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -36,7 +36,7 @@ class _FinancePageState extends State<FinancePage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text(
+                 Text(
                   "Tổng quan",
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -61,7 +61,7 @@ class _FinancePageState extends State<FinancePage> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
 
             // Tổng quan doanh thu / chi phí / lợi nhuận
             Row(
@@ -73,12 +73,12 @@ class _FinancePageState extends State<FinancePage> {
               ],
             ),
 
-            const SizedBox(height: 24),
-            const Text(
+             SizedBox(height: 24),
+             Text(
               "Biểu đồ thu chi",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             // Biểu đồ cột (thu / chi theo tuần)
             SizedBox(
@@ -129,12 +129,12 @@ class _FinancePageState extends State<FinancePage> {
               ),
             ),
 
-            const SizedBox(height: 24),
-            const Text(
+             SizedBox(height: 24),
+             Text(
               "Giao dịch gần đây",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             _buildTransactionItem(
               Icons.trending_up,
@@ -170,8 +170,8 @@ class _FinancePageState extends State<FinancePage> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {},
         backgroundColor: Colors.blue,
-        label: const Text("Thêm giao dịch"),
-        icon: const Icon(Icons.add),
+        label:  Text("Thêm giao dịch"),
+        icon:  Icon(Icons.add),
       ),
     );
   }
@@ -180,8 +180,8 @@ class _FinancePageState extends State<FinancePage> {
   Widget _buildSummaryCard(String title, String value, Color color) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.all(12),
+        margin:  EdgeInsets.symmetric(horizontal: 4),
+        padding:  EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
@@ -189,14 +189,14 @@ class _FinancePageState extends State<FinancePage> {
             BoxShadow(
               color: Colors.black.withOpacity(0.05),
               blurRadius: 5,
-              offset: const Offset(0, 3),
+              offset:  Offset(0, 3),
             ),
           ],
         ),
         child: Column(
           children: [
-            Text(title, style: const TextStyle(color: Colors.black54)),
-            const SizedBox(height: 8),
+            Text(title, style:  TextStyle(color: Colors.black54)),
+             SizedBox(height: 8),
             Text(
               value,
               style: TextStyle(
@@ -215,25 +215,25 @@ class _FinancePageState extends State<FinancePage> {
   Widget _buildTransactionItem(
       IconData icon, String title, String amount, String time, Color color) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin:  EdgeInsets.only(bottom: 12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
       ),
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(12),
       child: Row(
         children: [
           CircleAvatar(
             backgroundColor: color.withOpacity(0.1),
             child: Icon(icon, color: color),
           ),
-          const SizedBox(width: 12),
+           SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
-                Text(time, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                Text(title, style:  TextStyle(fontWeight: FontWeight.bold)),
+                Text(time, style:  TextStyle(color: Colors.grey, fontSize: 12)),
               ],
             ),
           ),

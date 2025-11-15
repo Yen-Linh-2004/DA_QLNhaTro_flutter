@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 import 'package:flutter_application/shared/input_field.dart';
 
 class CreateInvoicesPage extends StatefulWidget {
@@ -158,7 +159,6 @@ class _CreateInvoicesPageState extends State<CreateInvoicesPage> {
 
              SizedBox(height: 12),
 
-            // Tổng kết
             Container(
               width: double.infinity,
               padding:  EdgeInsets.all(12),
@@ -172,31 +172,19 @@ class _CreateInvoicesPageState extends State<CreateInvoicesPage> {
               ),
             ),
 
-             SizedBox(height: 20),
-
+            SizedBox(height: 20),
             // Nút hành động
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () {},
-                    child:  Text("Hủy"),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 15),
+                if (tongSoPhongChon > 0)
+                  buildActionBtn(
+                    Icons.receipt_long,
+                    "Tạo $tongSoPhongChon hóa đơn",
+                    Colors.blue,
+                    () {},
                   ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    onPressed: tongSoPhongChon > 0 ? () {} : null,
-                    icon:  Icon(Icons.receipt_long),
-                    label: Text("Tạo $tongSoPhongChon hóa đơn"),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      foregroundColor: Colors.white,
-                      textStyle:  TextStyle(fontSize: 16),
-                      minimumSize:  Size(double.infinity, 50),
-                    ),
-                  ),
-                ),
               ],
             ),
           ],

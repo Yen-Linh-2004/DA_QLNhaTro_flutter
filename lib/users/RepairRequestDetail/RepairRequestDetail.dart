@@ -7,9 +7,9 @@ class RepairRequestDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(),
+      appBar: AppBar(title: Text("Chi tiết yêu cầu bảo trì")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -20,18 +20,18 @@ class RepairRequestDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                     Text(
                       "Thông tin cơ bản",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                     SizedBox(height: 10),
                     _infoRow("Tiêu đề", "Điều hòa không hoạt động"),
                     _infoRow("Danh mục", "Điện lạnh"),
                     _infoRow("Ưu tiên", "Cao", valueColor: Colors.red),
@@ -45,7 +45,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             // --- Thông tin xử lý ---
             Card(
@@ -54,18 +54,18 @@ class RepairRequestDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                     Text(
                       "Thông tin xử lý",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                     SizedBox(height: 10),
                     _infoRow("Ngày tạo", "2024-12-10"),
                     _infoRow(
                       "Chi phí ước tính",
@@ -77,7 +77,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             // --- Mô tả vấn đề ---
             Card(
@@ -86,10 +86,10 @@ class RepairRequestDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children:  [
                     Text(
                       "Mô tả vấn đề",
                       style: TextStyle(
@@ -107,7 +107,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             // --- Ghi chú ---
             Card(
@@ -116,10 +116,10 @@ class RepairRequestDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children:  [
                     Text(
                       "Ghi chú",
                       style: TextStyle(
@@ -137,7 +137,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
             // --- Hình ảnh minh họa ---
             Card(
@@ -146,22 +146,22 @@ class RepairRequestDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                     Text(
                       "Hình ảnh minh họa",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 10),
+                     SizedBox(height: 10),
                     Row(
                       children: [
                         _imagePlaceholder(),
-                        const SizedBox(width: 10),
+                         SizedBox(width: 10),
                         _imagePlaceholder(),
                       ],
                     ),
@@ -176,7 +176,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(12),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -199,7 +199,7 @@ class RepairRequestDetailPage extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.all(20),
+                    padding:  EdgeInsets.all(12),
                   ),
                   child: Container(width: 140, alignment: Alignment.center, child: Text("Đóng", style: TextStyle(fontSize: 16),))
                 ),
@@ -210,7 +210,7 @@ class RepairRequestDetailPage extends StatelessWidget {
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: const EdgeInsets.all(16),
+                    padding:  EdgeInsets.all(12),
                   ),
                   child: Container(width: 140, alignment: Alignment.center, child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white, fontSize: 16)))
                 ),
@@ -224,11 +224,11 @@ class RepairRequestDetailPage extends StatelessWidget {
 
   Widget _infoRow(String label, String value, {Color? valueColor}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding:  EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
+          Text(label, style:  TextStyle(fontWeight: FontWeight.w500)),
           Text(
             value,
             style: TextStyle(
@@ -249,7 +249,7 @@ class RepairRequestDetailPage extends StatelessWidget {
         color: Colors.grey[300],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: const Icon(Icons.image, color: Colors.grey),
+      child:  Icon(Icons.image, color: Colors.grey),
     );
   }
 }

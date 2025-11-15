@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class AddTypeRoomPage extends StatefulWidget {
   const AddTypeRoomPage({super.key});
@@ -28,9 +29,9 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Thêm loại phòng mới")),
+      appBar: AppBar(title:  Text("Thêm loại phòng mới")),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
@@ -43,7 +44,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _nameTypeRoomController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập tên loại phòng",
                 ),
@@ -63,7 +64,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _priceController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập giá của loại phòng",
                 ),
@@ -80,7 +81,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _changeRoomController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập diện tích của loại phòng",
                 ),
@@ -98,7 +99,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               TextFormField(
                 controller: _discribeController,
                 maxLines: 3,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập mô tả về loại phòng",
                 ),
@@ -110,16 +111,16 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
                 },
               ),
 
-              const SizedBox(height: 16),
-              const Text(
+               SizedBox(height: 16),
+               Text(
                 "Tiện nghi",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _amenitiesController,
                 maxLines: 3,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập tiện nghi của loại phòng",
                 ),
@@ -136,15 +137,10 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text("Hủy"),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 15),
+                  buildActionBtn(Icons.add, "Thêm loại phòng", Colors.blue, (){
+                    if (_formKey.currentState?.validate() ?? false) {
                         final newDevice = {
                           "id": _nameTypeRoomController.text.trim(),
                           "name": _discribeController.text.trim(),
@@ -154,15 +150,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
                         };
                         Navigator.of(context).pop(newDevice);
                       }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                    ),
-                    child: const Text(
-                      "Thêm loại phòng",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
+                  }),
                 ],
               ),
             ],

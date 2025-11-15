@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/shared/buildCard.dart';
 import 'package:flutter_application/shared/input_field.dart';
 
-class AddAccountPage extends StatefulWidget {
-  const AddAccountPage({super.key});
+class UpdateAccountPage extends StatefulWidget {
+  const UpdateAccountPage({super.key});
 
   @override
-  State<AddAccountPage> createState() => _AddAccountPageState();
+  State<UpdateAccountPage> createState() => _UpdateAccountPageState();
 }
 
-class _AddAccountPageState extends State<AddAccountPage> {
+class _UpdateAccountPageState extends State<UpdateAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController(text: "Nguyễn Văn Anh");
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
-  final _passwordController = TextEditingController();
 
   final List<String> listRole = ["Admin", "Quản lý", "Nhân viên", "Khách hàng"];
   final List<String> listStatus = ["Hoạt động", "Tạm khóa"];
@@ -87,8 +86,6 @@ class _AddAccountPageState extends State<AddAccountPage> {
                         });
                       },
                     ),
-                    SizedBox(height: 12),
-                    buildTextField("Mật khẩu", "******", _passwordController),
                     SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

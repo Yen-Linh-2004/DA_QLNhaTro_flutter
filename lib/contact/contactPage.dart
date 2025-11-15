@@ -35,8 +35,8 @@ class ContractManagementPage extends StatelessWidget {
           );
         },
         backgroundColor: Colors.deepPurple,
-        label: Text("Tạo hợp đồng mới"),
-        icon: Icon(Icons.add),
+        label: Text("Tạo hợp đồng mới",style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+        icon: Icon(Icons.add, color: Colors.white),
       ),
 
       body: Padding(

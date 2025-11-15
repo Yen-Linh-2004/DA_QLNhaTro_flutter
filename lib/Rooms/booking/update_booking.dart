@@ -22,10 +22,10 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Cập nhật thông tin đặt phòng")
+        title:  Text("Cập nhật thông tin đặt phòng")
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,7 +34,7 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
               SizedBox(height: 6),
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập họ tên",
                 ),
@@ -88,7 +88,7 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
                 "Phòng",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedRoom,
                 items: rooms
@@ -110,10 +110,10 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
                 "Ngày nhận phòng",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _checkInDateController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập ngày nhận phòng",
                 ),
@@ -130,10 +130,10 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
                 "Số tiền đặt cọc",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _moneyNumberController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "Nhập số số tiền",
                 ),
@@ -150,30 +150,30 @@ class _UpdateBookingPage extends State<UpdateBookingPage> {
                 "Ghi chú",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              const SizedBox(height: 6),
+               SizedBox(height: 6),
               TextFormField(
                 controller: _noteController,
-                decoration: const InputDecoration(
+                decoration:  InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "ghi chú (nếu có)",
                 ),
               ),
 
 
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => Navigator.pop(context),
-                    child: const Text("Hủy"),
+                    child:  Text("Hủy"),
                   ),
                 ),
-                const SizedBox(width: 12),
+                 SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {},
-                    child: const Text("Lưu thay đổi"),
+                    child:  Text("Lưu thay đổi"),
                   ),
                 ),
               ],

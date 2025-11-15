@@ -49,18 +49,18 @@ class AccountManagementPage extends StatelessWidget {
         padding: EdgeInsets.all(12.0),
         child: Column(
           children: [
-            // Ô tìm kiếm
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Tìm theo tên, username, email...',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-              ),
-            ),
+            // // Ô tìm kiếm
+            // TextField(
+            //   decoration: InputDecoration(
+            //     hintText: 'Tìm theo tên, username, email...',
+            //     prefixIcon: Icon(Icons.search),
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(12),
+            //     ),
+            //     contentPadding:
+            //         EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            //   ),
+            // ),
             SizedBox(height: 10),
 
             // Danh sách tài khoản

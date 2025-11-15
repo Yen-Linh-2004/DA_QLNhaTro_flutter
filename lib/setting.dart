@@ -29,15 +29,15 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
+          duration:  Duration(milliseconds: 300),
           child: _buildContent(_selectedIndex),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items:  [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
             activeIcon: Icon(Icons.home),
@@ -79,7 +79,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       case 3:
         return _settingSystem();
       default:
-        return const SizedBox();
+        return  SizedBox();
     }
   }
 
@@ -89,36 +89,36 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Thông tin chung",
+             Text("Thông tin chung",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
             _buildTextField("Tên hệ thống", "Nhập tên hệ thống", _nameController),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             _buildTextField("Email", "Nhập email", _emailController),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             _buildTextField("Số điện thoại", "Nhập số điện thoại", _phoneController),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             _buildTextField("Mô tả hệ thống", "Nhập mô tả hệ thống", _noteController),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             _buildTextField("Địa chỉ liên hệ trực tiếp", "Nhập địa chỉ liên hệ", _addressController),
-            const SizedBox(height: 24),
+             SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {},
-                icon: const Icon(Icons.save, color: Colors.white),
-                label: const Text(
+                icon:  Icon(Icons.save, color: Colors.white),
+                label:  Text(
                   "Lưu thay đổi",
                   style: TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueAccent,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding:  EdgeInsets.symmetric(vertical: 14),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
               ),
@@ -133,14 +133,14 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-        const SizedBox(height: 6),
+        Text(label, style:  TextStyle(fontWeight: FontWeight.bold)),
+         SizedBox(height: 6),
         TextFormField(
           controller: controller,
           decoration: InputDecoration(
-            border: const OutlineInputBorder(),
+            border:  OutlineInputBorder(),
             hintText: hint,
-            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            contentPadding:  EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           ),
         ),
       ],
@@ -154,13 +154,13 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Cài đặt thông báo",
+             Text("Cài đặt thông báo",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
             _buildSwitchTile(
               title: "Thông báo email",
               subtitle: "Gửi thông báo qua email",
@@ -168,7 +168,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
               onChanged: (val) => setState(() => emailNotification = val),
               bgColor: Colors.blue[50]
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             _buildSwitchTile(
               title: "Thông báo ứng dụng",
               subtitle: "Gửi thông báo qua ứng dụng",
@@ -191,7 +191,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
     Color? color 
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding:  EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: bgColor ?? Colors.grey.shade50, 
         borderRadius: BorderRadius.circular(12),
@@ -209,7 +209,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
                     fontSize: 15,
                   ),
                 ),
-                const SizedBox(height: 4),
+                 SizedBox(height: 4),
                 Text(
                   subtitle,
                   style: TextStyle(
@@ -239,18 +239,18 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Cài đặt bảo mật",
+             Text("Cài đặt bảo mật",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            const SizedBox(height: 16),
-            const Text("Số lần nhập sai tối đa", style: TextStyle(fontWeight: FontWeight.bold)),
-            const SizedBox(height: 6),
+             SizedBox(height: 16),
+             Text("Số lần nhập sai tối đa", style: TextStyle(fontWeight: FontWeight.bold)),
+             SizedBox(height: 6),
             TextFormField(
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
+              decoration:  InputDecoration(
                 border: OutlineInputBorder(),
                 hintText: "Nhập số lần cho phép",
               ),
@@ -276,7 +276,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -291,64 +291,60 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
               color: Colors.green
             ),
             SizedBox(height: 16),
-            const Text("Thời gian sao lưu", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+             Text("Thời gian sao lưu", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
 
             OutlinedButton.icon(
               onPressed: () {
                 // Hàm chọn thời gian ở đây
               },
-              icon: const Icon(Icons.access_time_outlined, size: 20),
-              label: const Text("02:00 AM"),
+              icon:  Icon(Icons.access_time_outlined, size: 20),
+              label:  Text("02:00 AM"),
               style: OutlinedButton.styleFrom(
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                padding:  EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               ),
             ),
 
-            const SizedBox(height: 16),
-            const Divider(height: 1),
-            const SizedBox(height: 16),
-            const Text(
+             SizedBox(height: 16),
+             Divider(height: 1),
+             SizedBox(height: 16),
+             Text(
               "Thao tác hệ thống",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
 
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // Hàm khôi phục mặc định
-                  },
-                  icon: const Icon(Icons.refresh_outlined, size: 20),
-                  label: const Text("Khôi phục mặc định"),
-                  style: OutlinedButton.styleFrom(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  ),
-                ),
+             SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () {
+                // Hàm khôi phục mặc định
+              },
+              icon:  Icon(Icons.refresh_outlined, size: 20),
+              label:  Text("Khôi phục mặc định"),
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding:  EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              ),
+            ),
 
-                const SizedBox(width: 12),
+             SizedBox(height: 12),
 
-                // Nút Sao lưu ngay
-                OutlinedButton.icon(
-                  onPressed: () {
-                    // Hàm sao lưu ngay
-                  },
-                  icon: const Icon(Icons.download_outlined, size: 20, color: Colors.green),
-                  label: const Text(
-                    "Sao lưu ngay",
-                    style: TextStyle(color: Colors.green),
-                  ),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.green),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  ),
-                ),
-              ],
+            // Nút Sao lưu ngay
+            OutlinedButton.icon(
+              onPressed: () {
+                // Hàm sao lưu ngay
+              },
+              icon:  Icon(Icons.download_outlined, size: 20, color: Colors.green),
+              label:  Text(
+                "Sao lưu ngay",
+                style: TextStyle(color: Colors.green),
+              ),
+              style: OutlinedButton.styleFrom(
+                side:  BorderSide(color: Colors.green),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding:  EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              ),
             ),
           ],
         ),

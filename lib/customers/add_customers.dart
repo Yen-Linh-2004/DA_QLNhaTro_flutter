@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({super.key});
@@ -26,12 +27,12 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Thêm khách thuê mới"),
+        title: Text("Thêm khách thuê mới"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -135,7 +136,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 return null;
               },
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
 
             Text(
               "Thông tin liên hệ",
@@ -244,22 +245,9 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
             SizedBox(height: 24),
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text("Hủy"),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: xử lý lưu dữ liệu
-                      print("Tên khách: ${nameController.text}");
-                    },
-                    child: Text("Thêm khách thuê"),
-                  ),
-                ),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 12),
+                buildActionBtn(Icons.add, "Thêm khách thuê", Colors.blue, (){ print("Tên khách: ${nameController.text}"); }),
               ],
             ),
             SizedBox(height: 20),
@@ -268,5 +256,4 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
       ),
     );
   }
-
 }

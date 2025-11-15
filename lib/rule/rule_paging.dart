@@ -113,7 +113,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
     return Scaffold(
       backgroundColor: Colors.grey[50],
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -123,13 +123,13 @@ class _RuleManagementPageState extends State<RuleManagementPage>
               labelColor: Colors.deepPurple,
               unselectedLabelColor: Colors.grey,
               indicatorColor: Colors.deepPurple,
-              tabs: const [
+              tabs:  [
                 Tab(text: "Nội quy"),
                 Tab(text: "Vi phạm"),
               ],
             ),
 
-            const SizedBox(height: 12),
+             SizedBox(height: 12),
 
             // Nội dung 2 tab
             Expanded(
@@ -146,7 +146,7 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.deepPurple,
-        icon: const Icon(Icons.add),
+        icon:  Icon(Icons.add),
         label: Text(
           _tabController.index == 0 ? "Thêm nội quy" : "Thêm vi phạm",
         ),
@@ -155,13 +155,13 @@ class _RuleManagementPageState extends State<RuleManagementPage>
             // Action khi ở tab Nội quy
             // Navigator.push(
             //   context,
-            //   MaterialPageRoute(builder: (context) => const AddRulePage()),
+            //   MaterialPageRoute(builder: (context) =>  AddRulePage()),
             // );
           } else {
             // Action khi ở tab Vi phạm
             // Navigator.push(
             //   context,
-            //   MaterialPageRoute(builder: (context) => const AddViolationPage()),
+            //   MaterialPageRoute(builder: (context) =>  AddViolationPage()),
             // );
           }
         },
@@ -193,13 +193,13 @@ class _RuleManagementPageState extends State<RuleManagementPage>
                 value: "4"),
           ],
         ),
-        const SizedBox(height: 20),
-        const Align(
+         SizedBox(height: 20),
+         Align(
           alignment: Alignment.centerLeft,
           child: Text("Danh sách nội quy",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
-        const SizedBox(height: 10),
+         SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: rules.length,
@@ -238,13 +238,13 @@ class _RuleManagementPageState extends State<RuleManagementPage>
                 value: "2"),
           ],
         ),
-        const SizedBox(height: 20),
-        const Align(
+         SizedBox(height: 20),
+         Align(
           alignment: Alignment.centerLeft,
           child: Text("Danh sách vi phạm",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         ),
-        const SizedBox(height: 10),
+         SizedBox(height: 10),
         Expanded(
           child: ListView.builder(
             itemCount: violations.length,
@@ -267,14 +267,14 @@ class _RuleManagementPageState extends State<RuleManagementPage>
   }) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 4),
-        padding: const EdgeInsets.all(16),
+        margin:  EdgeInsets.symmetric(horizontal: 4),
+        padding:  EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-                color: Colors.black12, blurRadius: 4, offset: const Offset(0, 2))
+                color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
           ],
         ),
         child: Column(
@@ -284,11 +284,11 @@ class _RuleManagementPageState extends State<RuleManagementPage>
               backgroundColor: color,
               child: Icon(icon, color: Colors.black54),
             ),
-            const SizedBox(height: 8),
-            Text(title, style: const TextStyle(fontSize: 13)),
-            const SizedBox(height: 4),
+             SizedBox(height: 8),
+            Text(title, style:  TextStyle(fontSize: 13)),
+             SizedBox(height: 4),
             Text(value,
-                style: const TextStyle(
+                style:  TextStyle(
                     fontWeight: FontWeight.bold, fontSize: 18)),
           ],
         ),
@@ -298,14 +298,14 @@ class _RuleManagementPageState extends State<RuleManagementPage>
 
   Widget _buildRuleCard(Map<String, dynamic> rule) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin:  EdgeInsets.only(bottom: 12),
+      padding:  EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.black12, blurRadius: 4, offset: const Offset(0, 2))
+              color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
         ],
       ),
       child: Column(
@@ -313,35 +313,35 @@ class _RuleManagementPageState extends State<RuleManagementPage>
         children: [
           Text(rule["title"],
               style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-          const SizedBox(height: 4),
-          Text(rule["description"], style: const TextStyle(color: Colors.grey)),
-          const SizedBox(height: 8),
+                   TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+           SizedBox(height: 4),
+          Text(rule["description"], style:  TextStyle(color: Colors.grey)),
+           SizedBox(height: 8),
           Row(
             children: [
               _buildChip(rule["category"], rule["color"]),
-              const SizedBox(width: 8),
+               SizedBox(width: 8),
               _buildStatusChip(rule["status"]),
-              const Spacer(),
+               Spacer(),
               Text(
                 rule["date"],
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style:  TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ],
           ),
-          const Divider(height: 16),
+           Divider(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.visibility, color: Colors.blue)),
+                  icon:  Icon(Icons.visibility, color: Colors.blue)),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.edit, color: Colors.green)),
+                  icon:  Icon(Icons.edit, color: Colors.green)),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.delete, color: Colors.red)),
+                  icon:  Icon(Icons.delete, color: Colors.red)),
             ],
           ),
         ],
@@ -378,14 +378,14 @@ class _RuleManagementPageState extends State<RuleManagementPage>
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      margin:  EdgeInsets.only(bottom: 12),
+      padding:  EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.black12, blurRadius: 4, offset: const Offset(0, 2))
+              color: Colors.black12, blurRadius: 4, offset:  Offset(0, 2))
         ],
       ),
       child: Column(
@@ -393,43 +393,43 @@ class _RuleManagementPageState extends State<RuleManagementPage>
         children: [
           Text(v["rule"],
               style:
-                  const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                   TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
           Text("${v["tenant"]}\n${v["room"]}",
-              style: const TextStyle(color: Colors.grey)),
-          const SizedBox(height: 8),
+              style:  TextStyle(color: Colors.grey)),
+           SizedBox(height: 8),
           Row(
             children: [
               _buildChip(v["degree"], degreeColor),
-              const SizedBox(width: 8),
+               SizedBox(width: 8),
               _buildChip(v["status"], statusColor),
-              const Spacer(),
+               Spacer(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Text(v["date"],
                       style:
-                          const TextStyle(fontSize: 12, color: Colors.grey)),
+                           TextStyle(fontSize: 12, color: Colors.grey)),
                   Text("Bởi: ${v["reporter"]}",
                       style:
-                          const TextStyle(fontSize: 12, color: Colors.grey)),
+                           TextStyle(fontSize: 12, color: Colors.grey)),
                 ],
               )
             ],
           ),
-          const Divider(height: 16),
+           Divider(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.visibility, color: Colors.blue)),
+                  icon:  Icon(Icons.visibility, color: Colors.blue)),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.notifications_active,
+                  icon:  Icon(Icons.notifications_active,
                       color: Colors.amber)),
               IconButton(
                   onPressed: () {},
-                  icon: const Icon(Icons.delete, color: Colors.red)),
+                  icon:  Icon(Icons.delete, color: Colors.red)),
             ],
           ),
         ],
@@ -439,24 +439,24 @@ class _RuleManagementPageState extends State<RuleManagementPage>
 
   Widget _buildChip(String text, Color color) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: color,
         borderRadius: BorderRadius.circular(12),
       ),
-      child: Text(text, style: const TextStyle(fontSize: 12)),
+      child: Text(text, style:  TextStyle(fontSize: 12)),
     );
   }
 
   Widget _buildStatusChip(String text) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding:  EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
         color: Colors.green.shade100,
         borderRadius: BorderRadius.circular(12),
       ),
       child:
-          Text(text, style: const TextStyle(fontSize: 12, color: Colors.green)),
+          Text(text, style:  TextStyle(fontSize: 12, color: Colors.green)),
     );
   }
 }

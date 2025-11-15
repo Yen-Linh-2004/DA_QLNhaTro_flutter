@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 import 'package:flutter_application/shared/input_field.dart';
 
 class AddNotificationsPage extends StatefulWidget {
@@ -108,60 +109,11 @@ class _AddNotificationsPageState extends State<AddNotificationsPage> {
                     ),
                     SizedBox(height: 24),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 14,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            elevation: 3,
-                          ),
-                          label: Text(
-                            "Hủy",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        ElevatedButton.icon(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Thông báo đã được thêm"),
-                                ),
-                              );
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.indigo,
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 40,
-                              vertical: 14,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            elevation: 3,
-                          ),
-                          label: Text(
-                            "Thêm thông báo",
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
+                        buildActionBtn(Icons.add, "Thêm thông báo", Colors.blue, (){}),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),

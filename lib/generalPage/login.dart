@@ -96,7 +96,7 @@ class _LoginPage extends State<LoginPage> {
                               });
                             },
                           ),
-                          Text("Ghi nhớ đăng nhập", style: TextStyle(fontSize: 10, color: Colors.black45)),
+                          Text("Ghi nhớ đăng nhập", style: TextStyle(fontSize: 11, color: Colors.black45)),
                         ],
                       ),
                       TextButton(

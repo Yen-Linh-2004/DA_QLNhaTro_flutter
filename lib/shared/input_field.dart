@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart'; 
 
-// buildContendField("Mô tả",  "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController),
 Widget buildTextField(String label, String hint, TextEditingController controller) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
@@ -19,18 +19,56 @@ Widget buildTextField(String label, String hint, TextEditingController controlle
   );
 }
 
+// buildDatePickerField(context, "Ngày ký", selectedDate, (date) {setState(() { selectedDate = date;  });})
+Widget buildDatePickerField(BuildContext context, String label, DateTime initialDate, ValueChanged<DateTime> onDateSelected) {
+  final TextEditingController controller = TextEditingController(
+    text: DateFormat('dd/MM/yyyy').format(initialDate),
+  );
+
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
+      SizedBox(height: 8),
+      TextFormField(
+        controller: controller,
+        readOnly: true,
+        decoration: InputDecoration(
+          suffixIcon: Icon(Icons.calendar_today_outlined),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
+          contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+        ),
+        onTap: () async {
+          DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: initialDate,
+            firstDate: DateTime(1900),
+            lastDate: DateTime(2100),
+          );
+          if (picked != null) {
+            controller.text = DateFormat('dd/MM/yyyy').format(picked);
+            onDateSelected(picked);
+          }
+        },
+      ),
+    ],
+  );
+}
+
 // buildContendField("Mô tả",  "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController, context),
 Widget buildContendField(String label, String hint, TextEditingController controller, BuildContext context){
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text(label, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+      Text(label, style: TextStyle(fontWeight: FontWeight.bold)),
       SizedBox(height: 6),
       TextFormField(
         controller: controller,
         maxLines: 6,
         decoration: InputDecoration(
-          hintText: "Mô tả chi tiết vấn đề cần sửa chữa...",
+          hintText: hint,
           hintStyle: TextStyle(color: Colors.grey),
           contentPadding: EdgeInsets.all(12),
           border: OutlineInputBorder(

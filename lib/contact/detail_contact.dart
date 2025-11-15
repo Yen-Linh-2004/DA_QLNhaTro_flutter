@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/contact/extension_contract.dart';
+import 'package:flutter_application/contact/termination_contract.dart';
+import 'package:flutter_application/contact/update_contact.dart';
 import 'package:flutter_application/main_page.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class ContractDetailPage extends StatelessWidget {
   const ContractDetailPage({super.key});
@@ -54,7 +58,14 @@ class ContractDetailPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UpdateContactPage(),
+                        ),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       shape: RoundedRectangleBorder(
@@ -62,17 +73,19 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text(
-                      "Chỉnh sửa",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
 
                 SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const TerminationContractPage()),
+                      );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.orange,
                       shape: RoundedRectangleBorder(
@@ -80,10 +93,7 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text(
-                      "Chấm dứt",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Chấm dứt", style: TextStyle(color: Colors.white, fontSize: 18)),
                   ),
                 ),
               ],
@@ -94,7 +104,25 @@ class ContractDetailPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                    showConfirmDialog(
+                      context: context,
+                      title: "Xác nhận xóa hợp đồng",
+                      message: "Bạn có chắc chắn muốn xóa hợp đồng này không?",
+                      confirmColor: Colors.redAccent,
+                      icon: Icons.delete_forever,
+                      maxHeight: 140,
+                      onConfirm: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                          content: Text(
+                            "Đã xóa hợp đồng thành công!",
+                          ),
+                          backgroundColor: Colors.orange,
+                        ));
+                      },
+                    );
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,
                       shape: RoundedRectangleBorder(
@@ -102,9 +130,7 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text(
-                      "Xóa hợp đồng",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                    child: Text("Xóa hợp đồng", style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ),
@@ -115,7 +141,7 @@ class ContractDetailPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const MainPage()),
+                        MaterialPageRoute(builder: (context) => const ExtensionContractPage()),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -125,10 +151,7 @@ class ContractDetailPage extends StatelessWidget {
                       ),
                       padding: EdgeInsets.symmetric(vertical: 16),
                     ),
-                    child: Text(
-                      "Đóng",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
+                    child: Text("Gia hạn", style: TextStyle(color: Colors.greenAccent, fontSize: 18)),
                   ),
                 ),
               ],
@@ -139,7 +162,6 @@ class ContractDetailPage extends StatelessWidget {
     );
   }
 
-  // ✅ Title của mỗi phần
   Widget _sectionTitle(String title) {
     return Text(
       title,
@@ -147,19 +169,17 @@ class ContractDetailPage extends StatelessWidget {
     );
   }
 
-  // ✅ Card chứa các dòng thông tin
   Widget _infoCard(List<Widget> children) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 3,
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(children: children),
       ),
     );
   }
 
-  // ✅ Tạo 1 dòng label + value
   Widget _infoRow(
     String label,
     String value, {
@@ -167,7 +187,7 @@ class ContractDetailPage extends StatelessWidget {
     Color? color,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
           SizedBox(

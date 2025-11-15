@@ -1,12 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/generalPage/register.dart';
 import 'package:flutter_application/main_page.dart';
-import 'package:flutter_application/users/home.dart';
+import 'package:flutter_application/room_entity/room_entity.dart';
+import 'package:flutter_application/users/usemain.dart';
 
 const kPrimary = Color(0xFF4F46E5);
 
-class HomeMobilePage extends StatelessWidget {
+class HomeMobilePage extends StatefulWidget {
   const HomeMobilePage({super.key});
+
+  @override
+  State<HomeMobilePage> createState() => _HomeMobilePage();
+}
+
+class _HomeMobilePage extends State<HomeMobilePage> {
+  final List<Room> rooms = [
+    Room(
+      id: "R001",
+      name: "Phòng 101",
+      description: "Phòng ban công - dãy 2",
+      area: 20,
+      price: 2500000,
+      imageUrl: "lib/assets/images/room1.jpg",
+      isAvailable: true,
+    ),
+    Room(
+      id: "R002",
+      name: "Phòng 102",
+      description: "Phòng thường - dãy 3",
+      area: 18,
+      price: 2200000,
+      imageUrl: "lib/assets/images/room2.jpg",
+      isAvailable: true,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +40,80 @@ class HomeMobilePage extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: [_hero(context), _features(context)],
+          children: [
+            /// Hero Section — bọc thêm Container nền trắng + bóng
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 6,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: _hero(context),
+            ),
+
+            SizedBox(height: 16),
+
+            // /// Feature section — bọc thêm Container bo góc + màu nền
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 16),
+            //   child: Container(
+            //     padding: EdgeInsets.all(16),
+            //     decoration: BoxDecoration(
+            //       color: Colors.white,
+            //       borderRadius: BorderRadius.circular(18),
+            //       boxShadow: [
+            //         BoxShadow(
+            //           color: Colors.black12,
+            //           blurRadius: 8,
+            //           offset: Offset(0, 3),
+            //         ),
+            //       ],
+            //     ),
+            //     child:,
+            //   ),
+            // ),
+            // SizedBox(height: 20),
+            /// Danh sách phòng — thêm title + spacing đẹp hơn
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Phòng còn trống",
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+
+            /// Room Enity List
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: List.generate(
+                  rooms.length,
+                  (index) => Container(
+                    margin: EdgeInsets.only(bottom: 14),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: RoomCard(room: rooms[index]),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            _features(context),
+            SizedBox(height: 20),
+          ],
         ),
       ),
     );
@@ -24,7 +123,7 @@ class HomeMobilePage extends StatelessWidget {
   Widget _hero(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(top: 60, left: 24, right: 24, bottom: 32),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xFFEFF6FF), Color(0xFFEDEBFF)],
           begin: Alignment.topLeft,
@@ -33,13 +132,13 @@ class HomeMobilePage extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Text(
-            "Hệ thống quản lý",
+          Text(
+            "Tìm phòng trọ lý tưởng",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
           ),
-          const Text(
-            "phòng trọ thông minh",
+          Text(
+            "An toàn - Tiện nghi - nhanh chóng",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 26,
@@ -47,13 +146,13 @@ class HomeMobilePage extends StatelessWidget {
               color: kPrimary,
             ),
           ),
-          const SizedBox(height: 14),
-          const Text(
-            "Giải pháp toàn diện cho chủ trọ",
+          SizedBox(height: 14),
+          Text(
+            "Hệ thống phòng trọ chuyên nghiệp với nhiều lựa chọn đã được xác thực. Tìm tổ ấm của bạn ngay hôm nay.",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15, color: Colors.black54),
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: 18),
 
           Column(
             children: [
@@ -61,49 +160,32 @@ class HomeMobilePage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterPage(),
-                    ),
+                    MaterialPageRoute(builder: (context) => TenantHomePage()),
                   );
                 },
                 style: FilledButton.styleFrom(
                   backgroundColor: kPrimary,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                  minimumSize: const Size(double.infinity, 50),
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  minimumSize: Size(double.infinity, 50),
                 ),
-                child: Text("Bắt đầu ngay", style: TextStyle(fontSize: 16)),
+                child: Text(
+                  "Xem trải nghiệm khách thuê",
+                  style: TextStyle(fontSize: 14),
+                ),
               ),
               SizedBox(height: 10),
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MainPage(),
-                          ),
-                        );
-                      },
-                      child: Text("Demo Admin"),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TenantHomePage(),
-                          ),
-                        );
-                      },
-                      child: const Text("Demo Khách"),
-                    ),
-                  ),
-                ],
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  padding: EdgeInsets.symmetric(vertical: 18),
+                  minimumSize: Size(double.infinity, 50),
+                ),
+                child: Text("Bạn là chủ trọ?", style: TextStyle(fontSize: 14)),
               ),
             ],
           ),
@@ -114,65 +196,80 @@ class HomeMobilePage extends StatelessWidget {
 
   // Features Mobile
   Widget _features(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    // Điều chỉnh tỷ lệ item theo độ rộng màn hình
+    // Màn hình nhỏ -> item vuông; màn hình lớn -> item thấp hơn
+    final aspectRatio = screenWidth < 360 ? 0.85 : 1.05;
+
     final items = [
       {
         "icon": Icons.meeting_room_outlined,
-        "title": "Quản lý phòng",
-        "desc": "Theo dõi tình trạng",
+        "title": "An ninh 24/7",
+        "desc": "Camera, cửa vân tay, bảo vệ an toàn.",
       },
       {
         "icon": Icons.person_outline,
-        "title": "Khách thuê",
-        "desc": "Lưu trữ thông tin",
+        "title": "Minh bạch hợp đồng",
+        "desc": "Hợp đồng điện tử rõ ràng.",
       },
       {
         "icon": Icons.calendar_month,
-        "title": "Đặt phòng",
-        "desc": "Giữ chỗ online",
-      },
-      {
-        "icon": Icons.payments_outlined,
-        "title": "Thanh toán",
-        "desc": "Tự động tính hóa đơn",
+        "title": "Tiện ích đầy đủ",
+        "desc": "Wifi, nội thất, giặt sấy tiện lợi.",
       },
       {
         "icon": Icons.build_circle_outlined,
-        "title": "Bảo trì",
-        "desc": "Theo dõi sửa chữa",
+        "title": "Hỗ trợ kỹ thuật",
+        "desc": "Xử lý sự cố nhanh chóng.",
       },
-      {"icon": Icons.bar_chart, "title": "Thống kê", "desc": "Xem doanh thu"},
+      {
+        "icon": Icons.bar_chart,
+        "title": "Dịch vụ chuyên nghiệp",
+        "desc": "Quản lý thân thiện.",
+      },
+      {
+        "icon": Icons.payments_outlined,
+        "title": "Vị trí thuận lợi",
+        "desc": "Gần trường & văn phòng.",
+      },
     ];
+
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            "Tính năng nổi bật",
+          Text(
+            "An tâm sống cùng Hệ thống",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          const SizedBox(height: 6),
-          const Text(
-            "Quản lý phòng trọ dễ dàng hơn",
+          SizedBox(height: 6),
+          Text(
+            "Trải nghiệm dịch vụ phòng trọ chuyên nghiệp, minh bạch và an toàn.",
             style: TextStyle(color: Colors.black54),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
 
-          GridView.count(
+          /// GRID
+          GridView.builder(
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 12,
-            crossAxisSpacing: 12,
-            childAspectRatio: 0.95,
-            children: items
-                .map(
-                  (e) => _featureCard(
-                    e["icon"] as IconData,
-                    e["title"] as String,
-                    e["desc"] as String,
-                  ),
-                )
-                .toList(),
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: items.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12,
+              crossAxisSpacing: 12,
+              childAspectRatio: aspectRatio, // 🔥 auto điều chỉnh theo màn hình
+            ),
+            itemBuilder: (context, index) {
+              final e = items[index];
+              return _featureCard(
+                e["icon"] as IconData,
+                e["title"] as String,
+                e["desc"] as String,
+              );
+            },
           ),
         ],
       ),
@@ -180,35 +277,49 @@ class HomeMobilePage extends StatelessWidget {
   }
 
   Widget _featureCard(IconData icon, String title, String desc) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          children: [
-            Container(
-              width: 52,
-              height: 52,
-              decoration: BoxDecoration(
-                color: const Color(0xFFEDEBFF),
-                borderRadius: BorderRadius.circular(40),
-              ),
-              child: Icon(icon, size: 28, color: kPrimary),
+    return Container(
+      padding: EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: Offset(0, 3),
+          )
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: Color(0xFFEDEBFF),
+              borderRadius: BorderRadius.circular(40),
             ),
-            const SizedBox(height: 10),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              desc,
-              textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.black54, fontSize: 12),
-            ),
-          ],
-        ),
+            child: Icon(icon, size: 26, color: kPrimary),
+          ),
+          SizedBox(height: 8),
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          SizedBox(height: 4),
+          Text(
+            desc,
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black54, fontSize: 12),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

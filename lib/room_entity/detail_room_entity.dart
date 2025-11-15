@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/users/room_entity/deposit_room.dart';
+import 'package:flutter_application/room_entity/deposit_room.dart';
 
 class RoomDetailPage extends StatelessWidget {
   // Dữ liệu mock (tạm thời)
@@ -48,7 +48,7 @@ class RoomDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(roomName), elevation: 0),
       body: ListView(
-        padding: const EdgeInsets.only(bottom: 100),
+        padding: EdgeInsets.only(bottom: 100),
         children: [
           // --- THÔNG TIN CƠ BẢN VÀ TRẠNG THÁI ---
           _buildInfoSection(
@@ -78,7 +78,7 @@ class RoomDetailPage extends StatelessWidget {
             icon: Icons.description_outlined,
             children: [
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: EdgeInsets.all(12.0),
                 child: Text(
                   "Phòng studio rộng rãi, đầy đủ nội thất, view đẹp. Thích hợp cho sinh viên hoặc người đi làm.",
                   style: TextStyle(fontSize: 15, color: Colors.grey[700]),
@@ -93,7 +93,7 @@ class RoomDetailPage extends StatelessWidget {
             icon: Icons.check_circle_outline,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 12.0,
                   vertical: 4.0,
                 ),
@@ -153,7 +153,7 @@ class RoomDetailPage extends StatelessWidget {
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               SizedBox(
                 width: 180,

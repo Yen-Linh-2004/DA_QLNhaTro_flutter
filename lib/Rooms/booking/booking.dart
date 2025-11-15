@@ -3,6 +3,8 @@ import 'package:flutter_application/Rooms/booking/create_booking.dart';
 import 'package:flutter_application/Rooms/booking/create_contact_booking.dart';
 import 'package:flutter_application/Rooms/booking/detail_booking.dart';
 import 'package:flutter_application/Rooms/booking/refund.dart';
+import 'package:flutter_application/shared/SummaryCard.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class BookingManagementPage extends StatefulWidget {
   const BookingManagementPage({super.key});
@@ -64,103 +66,55 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text("Quản lý đặt phòng"),
-      //   backgroundColor: Colors.white,
-      //   foregroundColor: Colors.black,
-      //   actions: [
-      //     IconButton(
-      //       icon: const Icon(Icons.add_box_outlined, color: Colors.blue),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => const CreateBookingPage(),
-      //           ),
-      //         );
-      //       },
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(14),
+        padding:  EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Tổng quan ---
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildStatCard(
-                  "Chờ xác nhận",
-                  "1",
-                  Colors.amber.shade100,
-                  Colors.orange,
-                ),
-                _buildStatCard(
-                  "Đã xác nhận",
-                  "1",
-                  Colors.green.shade100,
-                  Colors.green,
-                ),
-              ],
-            ),
-            const SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildStatCard(
-                  "Hoàn thành",
-                  "1",
-                  Colors.blue.shade100,
-                  Colors.blue,
-                ),
-                _buildStatCard("Đã hủy", "1", Colors.red.shade100, Colors.red),
-              ],
-            ),
-            const SizedBox(height: 16),
+            _buildSummaryCards(),
+            SizedBox(height: 16),
 
-            // --- Thanh tìm kiếm & lọc ---
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: searchController,
-                    decoration: InputDecoration(
-                      hintText: "Tìm kiếm theo tên khách hàng...",
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(vertical: 0),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                IconButton(
-                  icon: const Icon(Icons.filter_list, color: Colors.grey),
-                  onPressed: () {},
-                ),
-              ],
-            ),
+            // // --- Thanh tìm kiếm & lọc ---
+            // Row(
+            //   children: [
+            //     Expanded(
+            //       child: TextField(
+            //         controller: searchController,
+            //         decoration: InputDecoration(
+            //           hintText: "Tìm kiếm theo tên khách hàng...",
+            //           prefixIcon:  Icon(Icons.search),
+            //           border: OutlineInputBorder(
+            //             borderRadius: BorderRadius.circular(10),
+            //           ),
+            //           contentPadding:  EdgeInsets.symmetric(vertical: 0),
+            //         ),
+            //       ),
+            //     ),
+            //      SizedBox(width: 10),
+            //     IconButton(
+            //       icon:  Icon(Icons.filter_list, color: Colors.grey),
+            //       onPressed: () {},
+            //     ),
+            //   ],
+            // ),
 
-            const SizedBox(height: 20),
+            //  SizedBox(height: 20),
 
             // --- Danh sách đặt phòng ---
             ListView.builder(
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              physics:  NeverScrollableScrollPhysics(),
               itemCount: bookings.length,
               itemBuilder: (context, index) {
                 final booking = bookings[index];
                 return Card(
-                  margin: const EdgeInsets.only(bottom: 12),
+                  margin:  EdgeInsets.only(bottom: 12),
                   elevation: 1,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding:  EdgeInsets.all(12),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -170,26 +124,26 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                           children: [
                             Text(
                               booking["name"],
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               booking["room"],
-                              style: const TextStyle(
+                              style:  TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                         SizedBox(height: 4),
                         Text(
                           booking["phone"],
-                          style: const TextStyle(color: Colors.grey),
+                          style:  TextStyle(color: Colors.grey),
                         ),
-                        const SizedBox(height: 8),
+                         SizedBox(height: 8),
 
                         _buildInfoRow("Ngày nhận phòng:", booking["date"]),
                         _buildInfoRow("Thời hạn:", booking["duration"]),
@@ -199,10 +153,10 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                           valueColor: Colors.green.shade700,
                         ),
 
-                        const SizedBox(height: 8),
+                         SizedBox(height: 8),
                         // Trạng thái
                         Container(
-                          padding: const EdgeInsets.symmetric(
+                          padding:  EdgeInsets.symmetric(
                             vertical: 4,
                             horizontal: 10,
                           ),
@@ -219,7 +173,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                           ),
                         ),
 
-                        const SizedBox(height: 10),
+                         SizedBox(height: 10),
                         // Hành động
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
@@ -234,7 +188,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                   ),
                                 );
                               },
-                              icon: const Icon(
+                              icon:  Icon(
                                 Icons.visibility_outlined,
                                 color: Colors.purple,
                               ),
@@ -245,7 +199,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                             if (booking["status"] == "Chờ xác nhận") ...[
                               IconButton(
                                 onPressed: () {
-                                 showConfirmDialog(
+                                  showConfirmDialog(
                                     context: context,
                                     title: "Xác nhận đặt phòng",
                                     message:
@@ -257,7 +211,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                         SnackBar(
                                           content: Text(
                                             "Đã xác nhận đặt phòng thành công!",
                                           ),
@@ -267,7 +221,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     },
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.check,
                                   color: Colors.green,
                                 ),
@@ -282,12 +236,12 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                         "Bạn có chắc chắn muốn hủy đặt phòng cho khách thuê này không không? Hành động này không thể hoàn tác.",
                                     confirmColor: Colors.orange,
                                     icon: Icons.flash_on_outlined,
-                                    maxHeight: 140,
+                                    // maxHeight: 140,
                                     onConfirm: () {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                         SnackBar(
                                           content: Text(
                                             "Đã hủy đặt phòng thành công!",
                                           ),
@@ -297,7 +251,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     },
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.close,
                                   color: Colors.red,
                                 ),
@@ -317,7 +271,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                         SnackBar(
                                           content: Text(
                                             "Đã hoàn cọc nhanh thành công!",
                                           ),
@@ -327,7 +281,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     },
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.flash_on_outlined,
                                   color: Colors.orange,
                                 ),
@@ -339,11 +293,11 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const RefundFullPage(),
+                                           RefundFullPage(),
                                     ),
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.attach_money,
                                   color: Colors.teal,
                                 ),
@@ -359,11 +313,11 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const CreateContractPage(),
+                                           CreateContractPage(),
                                     ),
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.description_outlined,
                                   color: Colors.blue,
                                 ),
@@ -383,7 +337,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                       ScaffoldMessenger.of(
                                         context,
                                       ).showSnackBar(
-                                        const SnackBar(
+                                         SnackBar(
                                           content: Text(
                                             "Đã hoàn cọc nhanh thành công!",
                                           ),
@@ -393,7 +347,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     },
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.flash_on_outlined,
                                   color: Colors.orange,
                                 ),
@@ -405,11 +359,11 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                          const RefundFullPage(),
+                                           RefundFullPage(),
                                     ),
                                   );
                                 },
-                                icon: const Icon(
+                                icon:  Icon(
                                   Icons.attach_money,
                                   color: Colors.teal,
                                 ),
@@ -432,6 +386,17 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateBookingPage()),
+          );
+        },
+        backgroundColor: Color(0xFF4A90E2),
+        icon: Icon(Icons.add, color: Colors.white,),
+        label: Text("Tạo đặt phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+      ),
     );
   }
 
@@ -444,8 +409,8 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
   ) {
     return Expanded(
       child: Container(
-        margin: const EdgeInsets.all(4),
-        padding: const EdgeInsets.symmetric(vertical: 12),
+        margin:  EdgeInsets.all(4),
+        padding:  EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
           color: bgColor,
           borderRadius: BorderRadius.circular(12),
@@ -460,7 +425,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                 color: textColor,
               ),
             ),
-            const SizedBox(height: 4),
+             SizedBox(height: 4),
             Text(
               label,
               style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
@@ -473,12 +438,12 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
 
   Widget _buildInfoRow(String label, String value, {Color? valueColor}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding:  EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
           Expanded(
             flex: 4,
-            child: Text(label, style: const TextStyle(color: Colors.black54)),
+            child: Text(label, style:  TextStyle(color: Colors.black54)),
           ),
           Expanded(
             flex: 6,
@@ -495,61 +460,25 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     );
   }
 
-  void showConfirmDialog({
-    required BuildContext context,
-    required String title,
-    required String message,
-    required VoidCallback onConfirm,
-    Color confirmColor = Colors.blue,
-    String confirmText = "Xác nhận",
-    String cancelText = "Hủy",
-    IconData? icon,
-    double maxHeight = 200,
-  }) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-
-          // ✅ Giới hạn chiều cao dialog
-          content: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: maxHeight,
-            ),
-            child: SingleChildScrollView(
-              child: Text(message),
-            ),
-          ),
-
-          title: Row(
-            children: [
-              if (icon != null) ...[
-                Icon(icon, color: confirmColor),
-                const SizedBox(width: 6),
-              ],
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            ],
-          ),
-
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(),
-              child: Text(cancelText, style: const TextStyle(color: Colors.grey)),
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: confirmColor),
-              onPressed: () {
-                Navigator.of(context).pop();
-                onConfirm();
-              },
-              child: Text(confirmText),
-            ),
-          ],
-        );
-      },
+  Widget _buildSummaryCards() {
+    final items = [
+      SummaryItem("Chờ xác nhận", "6", Icons.pending_actions, Colors.indigo),
+      SummaryItem("Đã xác nhận", "54", Icons.check_circle, Colors.green),
+      SummaryItem("Hoàn thành", "1", Icons.done_all, Colors.orange),
+      SummaryItem("Đã hủy", "1", Icons.cancel, Colors.redAccent),
+    ];
+    
+    return GridView.builder(
+      shrinkWrap: true,
+      physics:  NeverScrollableScrollPhysics(),
+      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+        childAspectRatio: 1.8,
+      ),
+      itemCount: items.length,
+      itemBuilder: (context, index) => SummaryCard(item: items[index]),
     );
   }
 }

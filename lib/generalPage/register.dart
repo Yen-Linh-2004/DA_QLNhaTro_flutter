@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration:  BoxDecoration(
           gradient: LinearGradient(
             colors: [Color(0xFFEFF6FF), Color(0xFFE0E7FF)],
             begin: Alignment.topLeft,
@@ -36,7 +36,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: GestureDetector(
                 onTap: () => Navigator.pop(context),
                 child: Row(
-                  children: const [
+                  children:  [
                     Icon(Icons.arrow_back, color: Colors.blue),
                     SizedBox(width: 6),
                     Text(
@@ -53,13 +53,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
             Center(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
+                padding:  EdgeInsets.all(20),
                 child: Container(
-                  padding: const EdgeInsets.all(24),
+                  padding:  EdgeInsets.all(24),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: const [
+                    boxShadow:  [
                       BoxShadow(
                         color: Colors.black12,
                         blurRadius: 10,
@@ -77,7 +77,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(50),
                         ),
-                        child: const Icon(
+                        child:  Icon(
                           Icons.person_add,
                           color: Colors.white,
                           size: 32,
@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 18),
+                             SizedBox(height: 18),
 
                             buildInput(
                               title: "Email",
@@ -135,7 +135,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 18),
+                             SizedBox(height: 18),
 
                             buildInput(
                               title: "Số điện thoại",
@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 18),
+                             SizedBox(height: 18),
 
                             buildInput(
                               title: "Mật khẩu",
@@ -169,7 +169,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 18),
+                             SizedBox(height: 18),
 
                             buildInput(
                               title: "Xác nhận mật khẩu",
@@ -186,7 +186,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 return null;
                               },
                             ),
-                            const SizedBox(height: 24),
+                             SizedBox(height: 24),
 
                             // Button
                             SizedBox(
@@ -194,7 +194,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.blue,
-                                  padding: const EdgeInsets.symmetric(
+                                  padding:  EdgeInsets.symmetric(
                                     vertical: 14,
                                   ),
                                   shape: RoundedRectangleBorder(
@@ -210,7 +210,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                     print(password.text);
                                   }
                                 },
-                                child: const Text(
+                                child:  Text(
                                   "Đăng ký",
                                   style: TextStyle(
                                     color: Colors.white,
@@ -223,21 +223,21 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
 
-                      const SizedBox(height: 18),
+                       SizedBox(height: 18),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text("Đã có tài khoản? "),
+                           Text("Đã có tài khoản? "),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const LoginPage(),
+                                  builder: (context) =>  LoginPage(),
                                 ),
                               );
                             },
-                            child: const Text(
+                            child:  Text(
                               "Đăng nhập ngay",
                               style: TextStyle(color: Colors.blue),
                             ),
@@ -267,9 +267,9 @@ class _RegisterPageState extends State<RegisterPage> {
       children: [
         Text(
           title,
-          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+          style:  TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 6),
+         SizedBox(height: 6),
         TextFormField(
           controller: controller,
           validator: validator,
@@ -291,7 +291,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: Colors.blue, width: 2),
+              borderSide:  BorderSide(color: Colors.blue, width: 2),
             ),
           ),
         ),

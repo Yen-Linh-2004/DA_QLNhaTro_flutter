@@ -1,7 +1,7 @@
 #include "win32_window.h"
 
 #include <dwmapi.h>
-#include <flutter_windows.h>
+// #include <flutter_windows.h>
 
 #include "resource.h"
 
@@ -131,7 +131,8 @@ bool Win32Window::Create(const std::wstring& title,
   const POINT target_point = {static_cast<LONG>(origin.x),
                               static_cast<LONG>(origin.y)};
   HMONITOR monitor = MonitorFromPoint(target_point, MONITOR_DEFAULTTONEAREST);
-  UINT dpi = FlutterDesktopGetDpiForMonitor(monitor);
+  HWND hwnd = Win32Window::GetNativeWindow();
+  UINT dpi = GetDpiForWindow(hwnd);
   double scale_factor = dpi / 96.0;
 
   HWND window = CreateWindow(

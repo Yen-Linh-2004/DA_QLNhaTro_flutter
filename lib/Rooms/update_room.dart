@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class UpdateRoomPage extends StatefulWidget {
   const UpdateRoomPage({super.key});
@@ -75,10 +76,10 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
       length: 4,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Cập nhật thông tin phòng'),
+          title:  Text('Cập nhật thông tin phòng'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          bottom: const TabBar(
+          bottom:  TabBar(
             labelColor: Colors.blue,
             unselectedLabelColor: Colors.grey,
             indicatorColor: Colors.blue,
@@ -186,7 +187,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                                 )
                                 .toList(),
                             onChanged: (value) {},
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -198,10 +199,10 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                           SizedBox(height: 6),
                           TextFormField(
                             controller: _areaController,
-                            keyboardType: const TextInputType.numberWithOptions(
+                            keyboardType:  TextInputType.numberWithOptions(
                               decimal: true,
                             ),
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Nhập diện tích",
                             ),
@@ -216,7 +217,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
-                          const SizedBox(height: 16),
+                           SizedBox(height: 16),
                           Text(
                             "Giá thuê (VNĐ)",
                             style: TextStyle(fontWeight: FontWeight.bold),
@@ -225,7 +226,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                           TextFormField(
                             controller: _priceController,
                             keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Nhập giá thuê",
                             ),
@@ -257,7 +258,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                                 )
                                 .toList(),
                             onChanged: (value) {},
-                            decoration: const InputDecoration(
+                            decoration:  InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -500,7 +501,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
 
                   Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(14.0),
+                      padding:  EdgeInsets.all(14.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -509,7 +510,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               color: Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            padding: const EdgeInsets.all(16),
+                            padding:  EdgeInsets.all(16),
                             child: Wrap(
                               //   spacing: 20,
                               //   runSpacing: 10,
@@ -702,9 +703,9 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               onPressed: () {},
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                minimumSize: const Size(0, 0),
+                                minimumSize:  Size(0, 0),
                               ),
-                              child: const Text(
+                              child:  Text(
                                 "Xóa thành viên",
                                 style: TextStyle(
                                   color: Colors.red,
@@ -736,24 +737,14 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                 ],
               ),
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding:  EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('Hủy'),
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('Lưu thay đổi'),
-                    ),
-                  ),
+                  SizedBox(width: 16),
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  buildActionBtn(Icons.add, "Lưu thay đổi", Colors.blue, (){}),
                 ],
               ),
             ),

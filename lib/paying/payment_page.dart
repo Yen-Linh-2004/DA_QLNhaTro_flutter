@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/paying/Createinvoicesinbulk.dart';
+import 'package:flutter_application/paying/Input_electricity.dart';
 import 'package:flutter_application/paying/add_incidentalcosts.dart';
 import 'package:flutter_application/paying/collectmoney.dart';
+import 'package:flutter_application/paying/create_bill.dart';
 import 'package:flutter_application/paying/detail_paying.dart';
 import 'package:flutter_application/paying/send_notifications.dart';
 import 'package:flutter_application/shared/buildCard.dart';
@@ -12,7 +15,7 @@ class PaymentManagementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Column(
           children: [
             // ---- Summary Cards ----
@@ -21,7 +24,7 @@ class PaymentManagementPage extends StatelessWidget {
               crossAxisSpacing: 12,
               mainAxisSpacing: 12,
               shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
+              physics:  NeverScrollableScrollPhysics(),
               children: [
                 buildSummaryCard(Icons.check_circle, "Đã thu", "11.835.000đ", Colors.green),
                 buildSummaryCard(Icons.schedule, "Chưa thu", "15.415.000đ", Colors.orange),
@@ -29,7 +32,7 @@ class PaymentManagementPage extends StatelessWidget {
                 buildSummaryCard(Icons.receipt_long, "Tổng hóa đơn", "6", Colors.blue),
               ],
             ),
-            const SizedBox(height: 16),
+             SizedBox(height: 16),
 
             // ---- Danh sách hóa đơn ----
             buildPaymentCard(
@@ -91,6 +94,48 @@ class PaymentManagementPage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateBillPage()),
+              );
+            },
+            backgroundColor: Color(0xFF4A90E2),
+            icon: Icon(Icons.add, color: Colors.white),
+            label: Text("Tạo hóa đơn mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+
+          SizedBox(height: 12),
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CreateInvoicesPage()),
+              );
+            },
+            backgroundColor: Colors.purple,
+            icon: Icon(Icons.receipt_long, color: Colors.white),
+            label: Text("Tạo hóa đơn hàng loạt", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+          
+          SizedBox(height: 12),
+          FloatingActionButton.extended(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => InputElectricityPage()),
+              );
+            },
+            backgroundColor: Colors.green,
+            icon: Icon(Icons.electric_rickshaw, color: Colors.white),
+            label: Text("Nhập chỉ số điện", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          ),
+        ],
+      ),
     );
   }
 
@@ -114,14 +159,14 @@ class PaymentManagementPage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 2,
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding:  EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(name, style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
              Align(
               alignment: Alignment.centerRight,
               child: Container(
@@ -144,21 +189,21 @@ class PaymentManagementPage extends StatelessWidget {
             ),
             Text(room, style: TextStyle(color: Colors.grey.shade700)),
             SizedBox(height: 6),
-            Text(month, style: const TextStyle(color: Colors.black87)),
+            Text(month, style:  TextStyle(color: Colors.black87)),
             Divider(),
             // Text(rent),
             // Text(electricity),
             // Text(water),
-            if (extra != null) Text(extra, style: const TextStyle(color: Colors.redAccent)),
+            if (extra != null) Text(extra, style:  TextStyle(color: Colors.redAccent)),
             SizedBox(height: 6),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Tổng: $total", style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text("Tổng: $total", style:  TextStyle(fontWeight: FontWeight.w600)),
                 Text("Đã trả: $paid", style: TextStyle(color: Colors.green.shade700)),
               ],
             ),
-            const SizedBox(height: 8),
+             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -172,7 +217,7 @@ class PaymentManagementPage extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PayingDetailPage()),
+                      MaterialPageRoute(builder: (context) =>  PayingDetailPage()),
                     );
                   },
                 ),
@@ -184,7 +229,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const AddincidentalCostsPage()),
+                        MaterialPageRoute(builder: (context) =>  AddincidentalCostsPage()),
                       );
                     },
                   ),
@@ -195,7 +240,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                       //   Navigator.push(
                       //   context,
-                      //   MaterialPageRoute(builder: (context) => const PayingDetailPage()),
+                      //   MaterialPageRoute(builder: (context) =>  PayingDetailPage()),
                       // );
                     },
                   ),
@@ -208,7 +253,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const AddincidentalCostsPage()),
+                      MaterialPageRoute(builder: (context) =>  AddincidentalCostsPage()),
                     );
                     },
                   ),
@@ -220,7 +265,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                       //   Navigator.push(
                       //   context,
-                      //   MaterialPageRoute(builder: (context) => const PayingDetailPage()),
+                      //   MaterialPageRoute(builder: (context) =>  PayingDetailPage()),
                       // );
                     },
                   ),
@@ -232,7 +277,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                         Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const collectmoneyPage()),
+                        MaterialPageRoute(builder: (context) =>  collectmoneyPage()),
                       );
                     },
                   ),
@@ -244,7 +289,7 @@ class PaymentManagementPage extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SendNotificationsPage()),
+                        MaterialPageRoute(builder: (context) =>  SendNotificationsPage()),
                       );
                     },
                   ),

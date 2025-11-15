@@ -21,6 +21,11 @@ class ContractPage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        backgroundColor: Colors.blue,
+        label: Text("Xem hơp đồng đầy đủ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      ),
     );
   }
 
