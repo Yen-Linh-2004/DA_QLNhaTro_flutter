@@ -1,0 +1,245 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+
+class AddContactPage extends StatefulWidget {
+ const AddContactPage({super.key});
+
+  @override
+  State<AddContactPage> createState() => _AddContactPageState();
+}
+
+class _AddContactPageState extends State<AddContactPage> {
+  // Controllers
+  final _contactNumberControl = TextEditingController(
+    text: "HD005",
+  );
+  final _dateStartControl = TextEditingController(
+    text: "01/01/2025",
+  );
+  final _dateRegistrationControl = TextEditingController(
+    text: "01/11/2025",
+  );
+  final _dateEndController = TextEditingController(
+    text: "01/11/2025",
+  );
+  final _moneyControl = TextEditingController(
+    text: "01/11/2025",
+  );
+  final _depositControl = TextEditingController(
+    text: "01/11/2025",
+  );
+  final _electricityBillControl = TextEditingController(
+    text: "01/11/2025",
+  );
+  final _waterBillControl = TextEditingController(
+    text: "01/11/2025",
+  );
+
+  // Dropdown values
+  String? selectedRoom = "A101";
+  String? selectedCustomers = "Nguyễn Văn A";
+
+  List<String> rooms = ["A101", "A102", "B201", "B202"];
+  List<String> customers = ["Nguyễn Văn A", "Trần Thị B"];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Tạo hợp đồng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 10),
+            Text("Số hợp đồng", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _contactNumberControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập số hợp đồng",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập số hợp đồng";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16),
+            Text("Khách thuê", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            DropdownButtonFormField<String>(
+              value: selectedCustomers,
+              items: customers
+                  .map(
+                    (customer) => DropdownMenuItem(
+                      value: customer,
+                      child: Text(customer),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedRoom = value; // cập nhật giá trị
+                });
+              },
+              decoration: InputDecoration(border: OutlineInputBorder()),
+            ),
+
+            SizedBox(height: 16),
+            Text("Ngày bắt đầu", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _dateStartControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập ngày bắt đầu",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập ngày bắt đầu";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16),
+            Text("Ngày đăng ký", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _dateRegistrationControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập ngày đăng ký",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập ngày đăng ký";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16),
+            Text(
+              "Ngày kết thúc",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _dateEndController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập ngày kết thúc",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập ngày kết thúc";
+                }
+                return null;
+              },
+            ),
+
+            SizedBox(height: 16),
+            Text("Phòng", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            DropdownButtonFormField<String>(
+              value: selectedRoom,
+              items: rooms
+                  .map(
+                    (rooms) => DropdownMenuItem(
+                      value: rooms,
+                      child: Text(rooms),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (value) {
+                setState(() {
+                  selectedRoom = value;
+                });
+              },
+              decoration: InputDecoration(border: OutlineInputBorder()),
+            ),
+
+            SizedBox(height: 16),
+            Text("Tiền thuê", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _moneyControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập số tiền thuê phòng",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập số tiền thuê phòng";
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 16),
+            Text("Tiền cọc", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _depositControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập số tiền cọc",
+              ),
+              validator: (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập số tiền cọc";
+                }
+                return null;
+              },
+            ),
+            SizedBox(height: 16),
+            Text("Giá điện", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _electricityBillControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập giá điện",
+              ),
+            ),
+
+            SizedBox(height: 16),
+            Text("Giá nước", style: TextStyle(fontWeight: FontWeight.bold)),
+            SizedBox(height: 6),
+            TextFormField(
+              controller: _waterBillControl,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Nhập giá nước",
+              ),
+            ),
+              SizedBox(height: 16),
+             // Nút hành động
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  SizedBox(width: 15),
+                  buildActionBtn(Icons.add, "Thêm phòng mới", Colors.green, (){ }),
+                ],
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
