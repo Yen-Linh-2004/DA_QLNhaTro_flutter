@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class SendNotificationsPage extends StatelessWidget {
   const SendNotificationsPage({super.key});
@@ -7,8 +8,15 @@ class SendNotificationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Gửi thông báo thu tiền - Trần Thị B"),
-        backgroundColor: Colors.blue.shade700,
+        title:  Text("Gửi thông báo thu tiền - Trần Thị B", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
@@ -140,30 +148,9 @@ class SendNotificationsPage extends StatelessWidget {
             // Nút hành động
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child:  Text("Hủy"),
-                  ),
-                ),
-                 SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton.icon(
-                    icon:  Icon(Icons.send),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
-                      padding:  EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    onPressed: () {},
-                    label:  Text(
-                      "Gửi thông báo",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 12),
+                buildActionBtn(Icons.send, "Gửi thông báo", Colors.blue, (){}),
               ],
             ),
           ],

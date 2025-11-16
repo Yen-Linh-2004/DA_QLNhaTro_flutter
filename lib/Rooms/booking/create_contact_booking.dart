@@ -7,11 +7,15 @@ class CreateContractPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tạo hợp đồng từ đặt phòng"),
+        title: Text("Tạo hợp đồng từ đặt phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 0,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

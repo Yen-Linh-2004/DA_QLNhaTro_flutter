@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/shared/input_field.dart';
 
 class SystemSettingPage extends StatefulWidget {
   const SystemSettingPage({super.key});
@@ -93,19 +94,18 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Text("Thông tin chung",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-             SizedBox(height: 16),
-            _buildTextField("Tên hệ thống", "Nhập tên hệ thống", _nameController),
-             SizedBox(height: 12),
-            _buildTextField("Email", "Nhập email", _emailController),
-             SizedBox(height: 12),
-            _buildTextField("Số điện thoại", "Nhập số điện thoại", _phoneController),
-             SizedBox(height: 12),
-            _buildTextField("Mô tả hệ thống", "Nhập mô tả hệ thống", _noteController),
-             SizedBox(height: 12),
-            _buildTextField("Địa chỉ liên hệ trực tiếp", "Nhập địa chỉ liên hệ", _addressController),
-             SizedBox(height: 24),
+            Text("Thông tin chung", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 16),
+            buildTextField("Tên hệ thống", "Nhập tên hệ thống", _nameController),
+            SizedBox(height: 12),
+            buildTextField("Email", "Nhập email", _emailController),
+            SizedBox(height: 12),
+            buildTextField("Số điện thoại", "Nhập số điện thoại", _phoneController),
+            SizedBox(height: 12),
+            buildTextField("Mô tả hệ thống", "Nhập mô tả hệ thống", _noteController),
+            SizedBox(height: 12),
+            buildTextField("Địa chỉ liên hệ trực tiếp", "Nhập địa chỉ liên hệ", _addressController),
+            SizedBox(height: 24),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -128,25 +128,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
       ),
     );
   }
-
-  Widget _buildTextField(String label, String hint, TextEditingController controller) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style:  TextStyle(fontWeight: FontWeight.bold)),
-         SizedBox(height: 6),
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            border:  OutlineInputBorder(),
-            hintText: hint,
-            contentPadding:  EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          ),
-        ),
-      ],
-    );
-  }
-
+  
   // ---------- THÔNG BÁO ----------
   Widget _notifications() {
     return Card(
@@ -332,9 +314,7 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
 
             // Nút Sao lưu ngay
             OutlinedButton.icon(
-              onPressed: () {
-                // Hàm sao lưu ngay
-              },
+              onPressed: () {},
               icon:  Icon(Icons.download_outlined, size: 20, color: Colors.green),
               label:  Text(
                 "Sao lưu ngay",

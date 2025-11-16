@@ -36,7 +36,15 @@ class _CreateBookingPageState extends State<CreateBookingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Tạo đặt phòng mới")
+        title:  Text("Tạo đặt phòng mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),

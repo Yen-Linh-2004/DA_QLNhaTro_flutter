@@ -234,7 +234,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     title: "Hủy đặt phòng",
                                     message:
                                         "Bạn có chắc chắn muốn hủy đặt phòng cho khách thuê này không không? Hành động này không thể hoàn tác.",
-                                    confirmColor: Colors.orange,
+                                    confirmColor: Colors.red,
                                     icon: Icons.flash_on_outlined,
                                     // maxHeight: 140,
                                     onConfirm: () {
@@ -245,7 +245,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                           content: Text(
                                             "Đã hủy đặt phòng thành công!",
                                           ),
-                                          backgroundColor: Colors.orange,
+                                          backgroundColor: Colors.red,
                                         ),
                                       );
                                     },

@@ -21,7 +21,15 @@ class _UpdateStatusPageState extends State<UpdateStatusPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cập nhật trạng thái", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("Cập nhật trạng thái", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),

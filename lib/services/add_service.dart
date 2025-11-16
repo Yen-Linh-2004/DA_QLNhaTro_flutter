@@ -23,7 +23,16 @@ class _AddServicePageState extends State<AddServicePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:  Color(0xFFF6F6F8),
-      appBar: AppBar(title:  Text("Thêm dịch vụ mới")),
+      appBar: AppBar(title:  Text("Thêm dịch vụ mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
         child: Container(

@@ -10,9 +10,15 @@ class CustomerDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Nguyễn Văn A"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        title: Text("Nguyễn Văn A", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -76,7 +82,25 @@ class CustomerDetailPage extends StatelessWidget {
                   );
                 }),
                 SizedBox(width: 10),
-                buildActionBtn(Icons.close, "Xóa", Colors.redAccent, (){}),
+                buildActionBtn(Icons.close, "Xóa", Colors.redAccent, (){
+                    showConfirmDialog(
+                        context: context,
+                        title: "Xác nhận xóa khách thuê",
+                        message: "Bạn có chắc chắn muốn xóa khách thuê này không?",
+                        confirmColor: Colors.redAccent,
+                        icon: Icons.delete_forever,
+                        maxHeight: 140,
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text(
+                              "Đã xóa khách thuê thành công!",
+                            ),
+                            backgroundColor: Colors.red,
+                          ));
+                        },
+                      );
+                }),
               ],
             ),
             SizedBox(height: 40),

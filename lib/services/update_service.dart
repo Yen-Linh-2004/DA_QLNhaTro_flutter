@@ -24,7 +24,15 @@ class _UpdateServicePageState extends State<UpdateServicePage> {
     return Scaffold(
       backgroundColor:  Color(0xFFF6F6F8), // nền sáng tổng thể
       appBar: AppBar(
-        title:  Text("Cập nhật dịch vụ"),
+        title:  Text("Cập nhật dịch vụ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),

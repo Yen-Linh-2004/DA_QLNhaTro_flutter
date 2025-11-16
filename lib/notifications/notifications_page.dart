@@ -57,10 +57,6 @@ class _NotificationManagementPageState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title:  Text("Quản lý thông báo"),
-      //   backgroundColor: Colors.blueAccent,
-      // ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.blueAccent,
         onPressed: () {

@@ -29,7 +29,17 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:  Text("Thêm loại phòng mới")),
+      appBar: AppBar(
+        title:  Text("Thêm loại phòng mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
         child: Form(
@@ -38,7 +48,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Tên loại phòng",
+                "Tên loại phòng:",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 6),
@@ -46,7 +56,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
                 controller: _nameTypeRoomController,
                 decoration:  InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "Nhập tên loại phòng",
+                  hintText: "Nhập tên loại phòng:",
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -58,7 +68,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
 
               SizedBox(height: 12),
               Text(
-                "Giá cơ bản (VNĐ)",
+                "Giá cơ bản (VNĐ):",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 6),
@@ -77,7 +87,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               ),
 
               SizedBox(height: 16),
-              Text("Diện tích", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Diện tích:", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 6),
               TextFormField(
                 controller: _changeRoomController,
@@ -94,7 +104,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
               ),
 
               SizedBox(height: 16),
-              Text("Mô tả", style: TextStyle(fontWeight: FontWeight.bold)),
+              Text("Mô tả:", style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(height: 6),
               TextFormField(
                 controller: _discribeController,
@@ -113,7 +123,7 @@ class _AddTypeRoomPage extends State<AddTypeRoomPage> {
 
                SizedBox(height: 16),
                Text(
-                "Tiện nghi",
+                "Tiện nghi:",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
                SizedBox(height: 6),

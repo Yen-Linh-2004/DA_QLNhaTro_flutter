@@ -26,9 +26,15 @@ class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Cập nhật thông tin khách thuê"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        title:  Text("Cập nhật thông tin khách thuê", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),

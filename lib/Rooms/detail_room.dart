@@ -7,9 +7,6 @@ class RoomDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width; // chuẩn hoá kích thước Samsung
-    final isSmallPhone = width < 380; // Galaxy A10 / A12 / M20
-    final isLargePhone = width > 410; // S22 Ultra / S23 Ultra
 
     return DefaultTabController(
       length: 4,
@@ -18,14 +15,19 @@ class RoomDetailPage extends StatelessWidget {
 
         // ----------------------- APPBAR -----------------------
         appBar: AppBar(
-          title: const Text("Chi tiết phòng A101"),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
+          title:  Text("Chi tiết phòng A101", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          backgroundColor: Colors.blue,
           elevation: 1,
-          bottom: const TabBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          bottom:  TabBar(
             indicatorColor: Colors.blue,
             labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
+            unselectedLabelColor: Colors.white,
             tabs: [
               Tab(text: "Thông tin"),
               Tab(text: "Khách thuê"),
@@ -38,8 +40,6 @@ class RoomDetailPage extends StatelessWidget {
         // ----------------------- NỘI DUNG -----------------------
         body: TabBarView(
           children: [
-            _tabThongTin(context, isSmallPhone),
-            _tabKhachThue(context, isSmallPhone),
             _tabDichVu(context),
             _tabThanhVien(context),
           ],
@@ -56,12 +56,12 @@ class RoomDetailPage extends StatelessWidget {
   // ============================================================================================
   Widget _tabThongTin(BuildContext context, bool isSmallPhone) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       child: Column(
         children: [
           _card(
             title: "Thông tin cơ bản",
-            children: const [
+            children:  [
               _infoRow("Số phòng", "A101"),
               _infoRow("Dãy", "A"),
               _infoRow("Tầng", "1"),
@@ -71,10 +71,10 @@ class RoomDetailPage extends StatelessWidget {
               _infoRow("Trạng thái", "Đã thuê", color: Colors.blue),
             ],
           ),
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
           _card(
             title: "Tiện nghi",
-            children: const [
+            children:  [
               _amenity("Điều hòa"),
               _amenity("Tủ lạnh"),
               _amenity("Giường"),
@@ -91,12 +91,12 @@ class RoomDetailPage extends StatelessWidget {
   // ============================================================================================
   Widget _tabKhachThue(BuildContext context, bool isSmallPhone) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       child: Column(
         children: [
           _card(
             title: "Thông tin khách thuê",
-            children: const [
+            children:  [
               _infoRow("Họ tên", "Nguyễn Văn A"),
               _infoRow("Ngày sinh", "20/05/1995"),
               _infoRow("CMND/CCCD", "0123456789"),
@@ -105,7 +105,7 @@ class RoomDetailPage extends StatelessWidget {
               _infoRow("Địa chỉ", "123 Nguyễn Trãi, TP.HCM"),
             ],
           ),
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
         ],
       ),
     );
@@ -116,7 +116,7 @@ class RoomDetailPage extends StatelessWidget {
   // ============================================================================================
   Widget _tabDichVu(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       children: [
         _card(
           title: "Dịch vụ đang sử dụng",
@@ -147,12 +147,12 @@ class RoomDetailPage extends StatelessWidget {
     ];
 
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16),
       itemCount: list.length,
       itemBuilder: (context, i) {
         final tv = list[i];
         return _card(
-          margin: const EdgeInsets.only(bottom: 12),
+          margin:  EdgeInsets.only(bottom: 12),
           title: tv["Họ tên"],
           children: [
             _infoRow("Điện thoại", tv["SĐT"]!),
@@ -169,13 +169,13 @@ class RoomDetailPage extends StatelessWidget {
   // ============================================================================================
   Widget _bottomButtons(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding:  EdgeInsets.all(12),
       color: Colors.white,
       child: Row(
         children: [
           buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, () {
             Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const UpdateRoomPage()));
+              MaterialPageRoute(builder: (_) =>  UpdateRoomPage()));
           }),
           SizedBox(width: 10),
           buildActionBtn(Icons.picture_as_pdf, "Hợp đồng pdf", Colors.green, (){ }),
@@ -203,16 +203,16 @@ class RoomDetailPage extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       elevation: 1,
       child: Padding(
-        padding: const EdgeInsets.all(14),
+        padding:  EdgeInsets.all(14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (title != null)
               Padding(
-                padding: const EdgeInsets.only(bottom: 12),
+                padding:  EdgeInsets.only(bottom: 12),
                 child: Text(
                   title,
-                  style: const TextStyle(
+                  style:  TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -232,12 +232,12 @@ class _infoRow extends StatelessWidget {
   final String value;
   final Color? color;
 
-  const _infoRow(this.label, this.value, {this.color});
+   _infoRow(this.label, this.value, {this.color});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding:  EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
           SizedBox(width: 110, child: Text(label)),
@@ -257,16 +257,16 @@ class _infoRow extends StatelessWidget {
 class _amenity extends StatelessWidget {
   final String name;
 
-  const _amenity(this.name);
+   _amenity(this.name);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
+      padding:  EdgeInsets.symmetric(vertical: 3),
       child: Row(
         children: [
-          const Icon(Icons.check_circle, color: Colors.green, size: 18),
-          const SizedBox(width: 6),
+           Icon(Icons.check_circle, color: Colors.green, size: 18),
+           SizedBox(width: 6),
           Text(name),
         ],
       ),

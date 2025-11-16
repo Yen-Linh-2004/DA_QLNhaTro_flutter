@@ -7,7 +7,6 @@ import 'package:flutter_application/account/account_page.dart';
 import 'package:flutter_application/contact/contactPage.dart';
 import 'package:flutter_application/customers/customer.dart';
 import 'package:flutter_application/devices/devicesPage.dart';
-import 'package:flutter_application/finance.dart';
 import 'package:flutter_application/generalPage/dashbroad.dart';
 import 'package:flutter_application/maintenance/maintenance_page.dart';
 import 'package:flutter_application/notifications/notifications_page.dart';
@@ -33,8 +32,7 @@ class _MainPageState extends State<MainPage> {
     'typeroom': TypeRoomPage(),
     'rooms': RoomPage(),
     'booking': BookingManagementPage(),
-    'contact': ContractManagementPage(),
-    'finance': FinancePage(),
+    'contact': ContractManagementPage(),    
     'devices': EquipmentManagementPage(),
     'settings': SystemSettingPage(),
     'tenants': CustomerPage(),
@@ -47,15 +45,6 @@ class _MainPageState extends State<MainPage> {
     'maintenance': MaintenancePage()
   };
 
-  // // Danh sách trang trong bottom nav
-  // final List<String> _bottomNavPages = [
-  //   'home',
-  //   'rooms',
-  //   'finance',
-  //   'chat',
-  //   'settings',
-  // ];
-
   void _selectPage(String pageKey) {
     setState(() {
       _selectedPage = pageKey;
@@ -63,23 +52,13 @@ class _MainPageState extends State<MainPage> {
     if (Navigator.canPop(context)) Navigator.pop(context);
   }
 
-  // void _selectBottomItem(String pageKey) {
-  //   setState(() {
-  //     _selectedPage = pageKey;
-  //   });
-  //   if (Navigator.canPop(context)) Navigator.pop(context);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // final currentIndex = _bottomNavPages.indexOf(_selectedPage);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF007BFF),
         title: Text(_getPageTitle(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        // centerTitle: true,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: AnimatedSwitcher(
@@ -103,20 +82,17 @@ class _MainPageState extends State<MainPage> {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [Color(0xFF007BFF), Color(0xFF5AA9FF)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
             ),
-            currentAccountPicture: CircleAvatar(
-              backgroundImage: NetworkImage("https://cdn-icons-png.flaticon.com/512/3135/3135715.png"),
-            ),
+            currentAccountPicture: CircleAvatar(backgroundImage: NetworkImage("https://cdn-icons-png.flaticon.com/512/3135/3135715.png")),
             accountName: Text("Nguyễn Văn Minh", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             accountEmail: Text("minh.nguyen@example.com"),
           ),
-
           _buildDrawerItem(Icons.home_outlined, "Tổng quan", 'home'),
           _buildDrawerItem(Icons.local_offer_outlined, "Loại phòng", 'typeroom',),
           _buildDrawerItem(Icons.meeting_room_outlined, "Phòng trọ", 'rooms'),
@@ -127,8 +103,7 @@ class _MainPageState extends State<MainPage> {
           _buildDrawerItem(Icons.design_services, "Dịch vụ", 'service'),
           _buildDrawerItem(Icons.support_agent_outlined, "Bảo trì", 'maintenance'),
           _buildDrawerItem(Icons.electrical_services, "Thiết bị", 'devices'),
-          _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo & Thống kê", 'reports'),
-          
+          _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo & Thống kê", 'reports'),   
           _buildDrawerItem(Icons.running_with_errors_rounded, "Nội quy và vi phạm", 'rule'),
           _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
           _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
@@ -175,31 +150,27 @@ class _MainPageState extends State<MainPage> {
   String _getPageTitle() {
     switch (_selectedPage) {
       case 'home':
-        return "Trang chủ";
+        return "Tổng quan";
       case 'typeroom':
-        return "Danh sách loại phòng";
+        return "Quản lý loại phòng";
       case 'rooms':
-        return "Phòng trọ";
-      case 'finance':
-        return "Tài chính";
+        return "Quản lý phòng";
       case 'devices':
-        return "Danh sách các thiết bị";
+        return "Quản lý thiết bị";
       case 'settings':
         return "Cài đặt";
       case 'tenants':
-        return "Người thuê";
+        return "Quản lý khách thuê";
       case 'invoices':
         return "Hóa đơn";
       case 'reports':
         return "Báo cáo & Thống kê";
-      case 'support':
-        return "Hỗ trợ";
       case 'booking':
-        return "Đặt phòng";
+        return "Quản lý đặt phòng";
       case 'contact':
-        return "Danh sách hợp đồng";
+        return "Quản lý hợp đồng";
       case 'account':
-        return "Thông tin tài khoản";
+        return "Quản lý tài khoản";
       case 'notifications':
         return "Quản lý thông báo";
       case 'paying':

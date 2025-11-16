@@ -82,11 +82,15 @@ class _UpdateNotificationsPageState extends State<UpdateNotificationsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Cập nhật thông báo",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text("Cập nhật thông báo", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        elevation: 2,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -219,7 +223,9 @@ class _UpdateNotificationsPageState extends State<UpdateNotificationsPage> {
                       child: Text(
                         "Số phòng đã chọn: $selectedCount",
                         style: TextStyle(
-                          color: Colors.green,
+                          color: Colors
+                          
+                          .green,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -232,7 +238,7 @@ class _UpdateNotificationsPageState extends State<UpdateNotificationsPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        buildActionBtn(Icons.close, "Hủy", Colors.red, () {}),
+                        buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
                         SizedBox(width: 15),
                         buildActionBtn(
                           Icons.save,

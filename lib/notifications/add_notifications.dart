@@ -29,13 +29,15 @@ class _AddNotificationsPageState extends State<AddNotificationsPage> {
       backgroundColor: Color(0xFFF4F6F9),
       appBar: AppBar(
         title: Text(
-          "Tạo thông báo mới",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          "Tạo thông báo mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        // centerTitle: true,
-        backgroundColor: Colors.indigo,
-        foregroundColor: Colors.white,
-        elevation: 2,
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),

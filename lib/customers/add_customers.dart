@@ -27,9 +27,15 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thêm khách thuê mới"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        title: Text("Thêm khách thuê mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),

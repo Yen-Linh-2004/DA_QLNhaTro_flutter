@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/account/add_account.dart';
 import 'package:flutter_application/account/update_account.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class AccountManagementPage extends StatelessWidget {
   const AccountManagementPage({super.key});
@@ -39,29 +40,10 @@ class AccountManagementPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Quản lý tài khoản"),
-      //   centerTitle: true,
-      //   backgroundColor: Colors.white,
-      //   foregroundColor: Colors.black87,
-      //   elevation: 0,
-      // ),
       body: Padding(
         padding: EdgeInsets.all(12.0),
         child: Column(
           children: [
-            // // Ô tìm kiếm
-            // TextField(
-            //   decoration: InputDecoration(
-            //     hintText: 'Tìm theo tên, username, email...',
-            //     prefixIcon: Icon(Icons.search),
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(12),
-            //     ),
-            //     contentPadding:
-            //         EdgeInsets.symmetric(vertical: 8, horizontal: 12),
-            //   ),
-            // ),
             SizedBox(height: 10),
 
             // Danh sách tài khoản
@@ -169,7 +151,25 @@ class AccountManagementPage extends StatelessWidget {
                             ),
                             IconButton(
                               icon: Icon(Icons.delete, color: Colors.red),
-                              onPressed: () {},
+                              onPressed: () {
+                                  showConfirmDialog(
+                                  context: context,
+                                  title: "Xác nhận xóa tài khoản",
+                                  message: "Bạn có chắc chắn muốn xóa tài khoản này không?",
+                                  confirmColor: Colors.redAccent,
+                                  icon: Icons.delete_forever,
+                                  maxHeight: 140,
+                                  onConfirm: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                      content: Text(
+                                        "Đã xóa tài khoản thành công!",
+                                      ),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  },
+                                );
+                              },
                               tooltip: 'Xóa tài khoản',
                             ),
                           ],

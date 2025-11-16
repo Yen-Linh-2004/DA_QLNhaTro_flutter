@@ -37,7 +37,16 @@ class _UpdateRepairPageState extends State<UpdateRepairPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chỉnh sửa yêu cầu")),
+      appBar: AppBar(title: Text("Chỉnh sửa yêu cầu", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
         child: Column(

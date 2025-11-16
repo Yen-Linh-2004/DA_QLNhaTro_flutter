@@ -79,7 +79,6 @@ import 'package:flutter/material.dart';
               Text(title, style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             ],
           ),
-
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
@@ -91,7 +90,7 @@ import 'package:flutter/material.dart';
                 Navigator.of(context).pop();
                 onConfirm();
               },
-              child: Text(confirmText),
+              child: Text(confirmText, style: TextStyle(color: Colors.white)),
             ),
           ],
         );

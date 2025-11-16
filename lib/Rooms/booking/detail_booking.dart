@@ -7,12 +7,15 @@ class BookingDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF5F7FA),
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 1,
-        foregroundColor: Colors.black,
         title: Text(
-          "Chi tiết đặt phòng",
-          style: TextStyle(fontWeight: FontWeight.w600),
+          "Chi tiết đặt phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -94,24 +97,6 @@ class BookingDetailPage extends StatelessWidget {
                     ),
                     child: Text(
                       "Từ chối",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                ),
-
-                SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                     onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black38,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      padding: EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: Text(
-                      "Đóng ",
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),

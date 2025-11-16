@@ -16,8 +16,15 @@ class _AddincidentalCostsPageState extends State<AddincidentalCostsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Thêm chi phí phát sinh"),
-        // backgroundColor: Colors.blue.shade700,
+        title:  Text("Thêm chi phí phát sinh", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),

@@ -34,8 +34,15 @@ class DeviceDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Chi tiết thiết bị", style: TextStyle(fontWeight: FontWeight.bold)),
-        elevation: 3,
+        title:  Text("Chi tiết thiết bị", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
@@ -130,7 +137,25 @@ class DeviceDetailPage extends StatelessWidget {
              SizedBox(height: 30),
             Row(
               children: [
-                buildActionBtn(Icons.delete, "Xóa", Colors.redAccent, (){}),
+                buildActionBtn(Icons.delete, "Xóa", Colors.redAccent, (){
+                  showConfirmDialog(
+                      context: context,
+                      title: "Xác nhận xóa thiết bị",
+                      message: "Bạn có chắc chắn muốn xóa thiết bị này không?",
+                      confirmColor: Colors.redAccent,
+                      icon: Icons.delete_forever,
+                      maxHeight: 140,
+                      onConfirm: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                          content: Text(
+                            "Đã xóa thiết bị thành công!",
+                          ),
+                          backgroundColor: Colors.red,
+                        ));
+                      },
+                    );
+                }),
                 SizedBox(width: 15),
                 buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, (){
                   Navigator.push(

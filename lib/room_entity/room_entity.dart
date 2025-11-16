@@ -2,44 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/room_entity/deposit_room.dart';
 import 'package:flutter_application/room_entity/detail_room_entity.dart';
 
-class RoomsEntityPage extends StatelessWidget {
-  final List<Room> rooms = [
-    Room(
-      id: "R001",
-      name: "Phòng 101",
-      description: "Phòng ban công - dãy 2",
-      area: 20,
-      price: 2500000,
-      imageUrl: "lib/assets/images/room1.jpg",
-      isAvailable: true,
-    ),
-    Room(
-      id: "R002",
-      name: "Phòng 102",
-      description: "Phòng thường - dãy 3",
-      area: 18,
-      price: 2200000,
-      imageUrl: "lib/assets/images/room2.jpg",
-      isAvailable: true,
-    ),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: ListView.builder(
-        padding: EdgeInsets.all(12),
-        itemCount: rooms.length,
-        itemBuilder: (context, index) {
-          final room = rooms[index];
-
-          return RoomCard(room: room);
-        },
-      ),
-    );
-  }
-}
-
 class RoomCard extends StatelessWidget {
   final Room room;
   const RoomCard({super.key, required this.room});
@@ -57,7 +19,7 @@ class RoomCard extends StatelessWidget {
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
             child: Image.asset(
               room.imageUrl,
-              height: 160,
+              height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -65,7 +27,7 @@ class RoomCard extends StatelessWidget {
 
           // Nội dung thông tin
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -89,7 +51,7 @@ class RoomCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                // SizedBox(height: ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -103,7 +65,7 @@ class RoomCard extends StatelessWidget {
                 SizedBox(height: 6),
                 Text("Diện tích: ${room.area} m²"),
 
-                SizedBox(height: 8),
+                // SizedBox(height: 8),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -111,29 +73,20 @@ class RoomCard extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => RoomDetailPage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => RoomDetailPage()),
                         );
                       },
-                      child: Text(
-                        "chi tiết",
-                        style: TextStyle(color: Colors.green),
+                      child: Text("chi tiết", style: TextStyle(color: Colors.green),
                       ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => DepositPage(),
-                          ),
+                          MaterialPageRoute(builder: (context) => DepositPage()),
                         );
                       },
-                      child: Text(
-                        "Đặt cọc",
-                        style: TextStyle(color: Colors.blue),
-                      ),
+                      child: Text("Đặt cọc", style: TextStyle(color: Colors.blue)),
                     ),
                   ],
                 ),

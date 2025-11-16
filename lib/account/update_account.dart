@@ -26,9 +26,14 @@ class _UpdateAccountPageState extends State<UpdateAccountPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Cập nhật tài khoản",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title: Text( "Cập nhật tài khoản", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -84,7 +89,7 @@ class _UpdateAccountPageState extends State<UpdateAccountPage> {
                       children: [
                         buildActionBtn(Icons.close, "Hủy", Colors.redAccent, () => Navigator.pop(context)),
                         SizedBox(width: 15),
-                        buildActionBtn(Icons.add, "Thêm tài khoản", Colors.blue, (){}),
+                        buildActionBtn(Icons.add, "Tạo tài khoản", Colors.blue, (){}),
                       ],
                     ),
                   ],

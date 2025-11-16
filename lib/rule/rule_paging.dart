@@ -141,9 +141,9 @@ class _RuleManagementPageState extends State<RuleManagementPage>
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: Colors.deepPurple,
-        icon: Icon(Icons.add),
+        icon: Icon(Icons.add, color: Colors.white),
         label: Text(
-          _tabController.index == 0 ? "Thêm nội quy" : "Thêm vi phạm",
+          _tabController.index == 0 ? "Thêm nội quy" : "Thêm vi phạm", style: TextStyle(color: Colors.white),
         ),
         onPressed: () {
           if (_tabController.index == 0) {

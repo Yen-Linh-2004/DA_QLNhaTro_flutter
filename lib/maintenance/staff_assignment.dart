@@ -21,7 +21,15 @@ class _StaffAssignmentPageState extends State<StaffAssignmentPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Phân công nhân viên", style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text("Phân công nhân viên", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),

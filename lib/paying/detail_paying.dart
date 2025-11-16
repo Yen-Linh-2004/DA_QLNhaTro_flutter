@@ -7,8 +7,15 @@ class PayingDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Chi tiết hóa đơn"),
-        // backgroundColor: Colors.green.shade700,
+        title:  Text("Chi tiết hóa đơn", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
@@ -108,25 +115,7 @@ class PayingDetailPage extends StatelessWidget {
                   ),
                 ],
               ),
-            ),
-
-             SizedBox(height: 30),
-
-            // Nút đóng
-            Center(
-              child: ElevatedButton(
-                onPressed: () => Navigator.pop(context),
-                style: ElevatedButton.styleFrom(
-                  // backgroundColor: Colors.grey.shade200,
-                  // foregroundColor: Colors.black87,
-                  padding:  EdgeInsets.symmetric(horizontal: 40, vertical: 14),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child:  Text("Đóng"),
-              ),
-            ),
+            ),          
           ],
         ),
       ),

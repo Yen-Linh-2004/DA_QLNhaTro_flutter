@@ -18,17 +18,22 @@ class ServiceDetailPage extends StatelessWidget {
     final status = service["status"] ?? "Chưa xác định";
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF6F6F8),
+      backgroundColor:  Color(0xFFF6F6F8),
       appBar: AppBar(
-        title: const Text("Chi tiết dịch vụ"),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        elevation: 1,
+        title:  Text("Chi tiết dịch vụ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding:  EdgeInsets.all(20),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(18),
@@ -36,7 +41,7 @@ class ServiceDetailPage extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.06),
                 blurRadius: 10,
-                offset: const Offset(0, 4),
+                offset:  Offset(0, 4),
               ),
             ],
           ),
@@ -44,21 +49,21 @@ class ServiceDetailPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _valueTag(label: "Tên dịch vụ:", value: name, color: Colors.black54),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               _valueTag(label: "Mô tả:", value: description, color: Colors.black54),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               _smallTagRow(label: "Danh mục", value: category, tagColor: Colors.greenAccent),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               _valueTag(label: "Giá:", value: price, color: Colors.green),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               _valueTag(label: "Số phòng đang sử dụng", value: usage, color: Colors.black54),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               _valueTag(
                 label: "Trạng thái",
                 value: status,
                 color: status == "Hoạt động" ? Colors.green : Colors.red,
               ),
-              const SizedBox(height: 24),
+               SizedBox(height: 24),
               // Nút hành động
               Row(
                 children: [
@@ -68,11 +73,11 @@ class ServiceDetailPage extends StatelessWidget {
                       MaterialPageRoute(builder: (_) => UpdateServicePage()),
                     );
                   }),
-                  const SizedBox(width: 15),
+                   SizedBox(width: 15),
                   buildActionBtn(Icons.pause_circle_filled, "Tạm dừng", Colors.redAccent, () {}),
                 ],
               ),
-              const SizedBox(height: 12),
+               SizedBox(height: 12),
               Row(
                 children: [
                   buildActionBtn(Icons.delete, "Xóa dữ liệu", Colors.black12, () {}),
@@ -92,9 +97,9 @@ class ServiceDetailPage extends StatelessWidget {
   }) {
     return Row(
       children: [
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 15)),
-        const Spacer(),
+         SizedBox(width: 10),
+        Text(label, style:  TextStyle(fontSize: 15)),
+         Spacer(),
         Text(
           value,
           style: TextStyle(
@@ -114,11 +119,11 @@ class ServiceDetailPage extends StatelessWidget {
   }) {
     return Row(
       children: [
-        const SizedBox(width: 10),
-        Text(label, style: const TextStyle(fontSize: 15)),
-        const Spacer(),
+         SizedBox(width: 10),
+        Text(label, style:  TextStyle(fontSize: 15)),
+         Spacer(),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 6),
           decoration: BoxDecoration(
             color: tagColor.withOpacity(0.12),
             borderRadius: BorderRadius.circular(12),

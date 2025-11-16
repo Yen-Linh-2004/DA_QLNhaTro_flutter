@@ -238,10 +238,23 @@ class PaymentManagementPage extends StatelessWidget {
                     icon: Icon(Icons.delete_outline, color: Colors.red),
                     tooltip: 'Xóa',
                     onPressed: () {
-                      //   Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(builder: (context) =>  PayingDetailPage()),
-                      // );
+                     showConfirmDialog(
+                        context: context,
+                        title: "Xác nhận xóa hóa đơn",
+                        message: "Bạn có chắc chắn muốn xóa hóa đơn này không?",
+                        confirmColor: Colors.redAccent,
+                        icon: Icons.delete_forever,
+                        maxHeight: 140,
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text(
+                              "Đã xóa hóa đơn thành công!",
+                            ),
+                            backgroundColor: Colors.red,
+                          ));
+                        },
+                      );
                     },
                   ),
                 ],

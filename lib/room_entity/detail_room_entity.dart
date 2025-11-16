@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/room_entity/deposit_room.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class RoomDetailPage extends StatelessWidget {
   // Dữ liệu mock (tạm thời)
@@ -46,7 +47,17 @@ class RoomDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(roomName), elevation: 0),
+      appBar: AppBar(
+        title: Text(roomName, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: ListView(
         padding: EdgeInsets.only(bottom: 100),
         children: [
@@ -55,8 +66,7 @@ class RoomDetailPage extends StatelessWidget {
             title: "Thông Tin Cơ Bản",
             icon: Icons.info_outline,
             children:
-                basicInfo.entries.map((entry) {
-                  return _buildBasicInfoRow(entry.key, entry.value);
+                basicInfo.entries.map((entry) {return _buildBasicInfoRow(entry.key, entry.value);
                 }).toList()..add(
                   _buildAvailableDate("Vào ngay hôm nay", isAvailable: true),
                 ),
@@ -67,8 +77,8 @@ class RoomDetailPage extends StatelessWidget {
             title: "Chi Phí & Đặt Cọc",
             icon: Icons.monetization_on_outlined,
             children: [
-              _buildPriceRow("Giá thuê", monthlyRent, color: Colors.indigo),
-              _buildPriceRow("Tiền cọc", deposit, color: Colors.orange),
+              _buildPriceRow("Giá thuê", monthlyRent, color: Colors.blue),
+              _buildPriceRow("Tiền cọc", deposit, color: Colors.orangeAccent),
             ],
           ),
 
@@ -81,7 +91,7 @@ class RoomDetailPage extends StatelessWidget {
                 padding: EdgeInsets.all(12.0),
                 child: Text(
                   "Phòng studio rộng rãi, đầy đủ nội thất, view đẹp. Thích hợp cho sinh viên hoặc người đi làm.",
-                  style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+                  style: TextStyle(fontSize: 17, color: Colors.grey[700]),
                 ),
               ),
             ],
@@ -93,10 +103,7 @@ class RoomDetailPage extends StatelessWidget {
             icon: Icons.check_circle_outline,
             children: [
               Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 12.0,
-                  vertical: 4.0,
-                ),
+                padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
                 child: Wrap(
                   spacing: 10.0,
                   runSpacing: 10.0,
@@ -125,68 +132,21 @@ class RoomDetailPage extends StatelessWidget {
               return _buildNearbyFacility(entry.key, entry.value);
             }).toList(),
           ),
-          Row(
-            mainAxisAlignment:
-                MainAxisAlignment.center, // ✅ Sửa 1: căn giữa nút
-            children: [
-              SizedBox(
-                width: 140, // ✅ Sửa 2: thu nhỏ nút Đóng
-                child: OutlinedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: OutlinedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    side: BorderSide(color: Colors.indigo, width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    "Đóng",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.indigo,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(width: 10),
-
-              SizedBox(
-                width: 180,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // print("Đặt cọc ngay");
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>  DepositPage(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.indigo,
-                    padding: EdgeInsets.symmetric(vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 5,
-                  ),
-                  child: Text(
-                    "Đặt cọc ngay",
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          Padding(
+            padding: EdgeInsets.all(12),
+            child: Row(
+              children: [
+                buildActionBtn(Icons.close, "Đóng", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 10),
+                buildActionBtn(Icons.bookmark_added, "Đặt cọc ngay", Colors.blue, (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DepositPage()),
+                  );
+                }),
+              ],
+            )
+          )
         ],
       ),
     );
@@ -210,9 +170,7 @@ class RoomDetailPage extends StatelessWidget {
               children: [
                 Icon(icon, size: 24),
                 SizedBox(width: 8),
-                Text(
-                  title,
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Text(title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -232,11 +190,11 @@ class RoomDetailPage extends StatelessWidget {
         children: <Widget>[
           Text(
             key + ":",
-            style: TextStyle(fontSize: 15, color: Colors.grey[700]),
+            style: TextStyle(fontSize: 17, color: Colors.grey[700]),
           ),
           Text(
             value,
-            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -249,7 +207,7 @@ class RoomDetailPage extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
         decoration: BoxDecoration(
-          color: isAvailable ? Colors.green[100] : Colors.red[100],
+          color: isAvailable ? Colors.blue[100] : Colors.red[100],
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
@@ -258,16 +216,16 @@ class RoomDetailPage extends StatelessWidget {
             Text(
               "Có thể vào:",
               style: TextStyle(
-                fontSize: 15,
-                color: isAvailable ? Colors.green[800] : Colors.red[800],
+                fontSize: 18,
+                color: isAvailable ? Colors.blue[800] : Colors.red[800],
               ),
             ),
             Text(
               date,
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
-                color: isAvailable ? Colors.green[800] : Colors.red[800],
+                color: isAvailable ? Colors.blue[800] : Colors.red[800],
               ),
             ),
           ],
@@ -282,14 +240,11 @@ class RoomDetailPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          Text(
-            key + ":",
-            style: TextStyle(fontSize: 16, color: Colors.grey[700]),
-          ),
+          Text(key + ":", style: TextStyle(fontSize: 17, color: Colors.grey[700])),
           Text(
             value,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 18,
               fontWeight: FontWeight.bold,
               color: color,
             ),
@@ -301,23 +256,22 @@ class RoomDetailPage extends StatelessWidget {
 
   Widget _buildAmenityChip(String amenity) {
     return Chip(
-      // avatar: const Icon(Icons.star, color: Colors.white, size: 16),
-      label: Text(amenity, style: TextStyle(color: Colors.white)),
-      backgroundColor: Colors.indigo[400],
+      label: Text(amenity, style: TextStyle(color: Colors.white, fontSize: 17)),
+      backgroundColor: Colors.blueGrey,
     );
   }
 
   Widget _buildServiceRow(String service, String price) {
     return ListTile(
       dense: true,
-      leading: Icon(Icons.check, color: Colors.green, size: 16),
-      title: Text(service, style: TextStyle(fontSize: 16)),
+      leading: Icon(Icons.check, color: Colors.blue, size: 16),
+      title: Text(service, style: TextStyle(fontSize: 17)),
       trailing: Text(
         price,
         style: TextStyle(
           fontWeight: FontWeight.w600,
           color: Color.fromARGB(221, 51, 50, 50),
-          fontSize: 14,
+          fontSize: 17,
         ),
       ),
     );

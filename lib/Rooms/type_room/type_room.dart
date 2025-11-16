@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/Rooms/type_room/add_typeroom.dart';
 import 'package:flutter_application/Rooms/type_room/update_typeroom.dart';
 import 'package:flutter_application/shared/SummaryCard.dart';
+import 'package:flutter_application/shared/buildCard.dart';
 
 class TypeRoomPage extends StatelessWidget {
   const TypeRoomPage({super.key});
@@ -112,16 +113,37 @@ class RoomCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>  UpdateTypeRoomPage()),
-                      );
-                    }, icon: Icon(Icons.edit_outlined, size: 22, color: Colors.blue)
+                  Transform.translate(
+                    offset: Offset(17, 0),
+                    child: IconButton(
+                      onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) =>  UpdateTypeRoomPage()),
+                        );
+                      }, icon: Icon(Icons.edit_outlined, size: 22, color: Colors.blue)
+                    ),
                   ),
                   IconButton(
-                    onPressed: (){}, icon: Icon(Icons.delete, size: 22, color: Colors.redAccent)
+                    onPressed: (){
+                        showConfirmDialog(
+                        context: context,
+                        title: "Xác nhận xóa loại phòng",
+                        message: "Bạn có chắc chắn muốn xóa loại phòng này không?",
+                        confirmColor: Colors.redAccent,
+                        icon: Icons.delete_forever,
+                        maxHeight: 140,
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text(
+                              "Đã xóa loại phòng thành công!",
+                            ),
+                            backgroundColor: Colors.orange,
+                          ));
+                        },
+                      );
+                    }, icon: Icon(Icons.delete, size: 22, color: Colors.redAccent)
                   ),
                 ],
               ),
@@ -177,7 +199,7 @@ class RoomCard extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: color),
          SizedBox(width: 4),
-        Text("$label: $count", style: TextStyle(color: color)),
+        Text("$label: $count"),
       ],
     );
   }

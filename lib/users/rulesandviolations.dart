@@ -7,9 +7,6 @@ class RulesAndViolationsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      // appBar: AppBar(
-      //   title:  Text("Trang cá nhân"),
-      // ),
       body: SingleChildScrollView(
         padding:  EdgeInsets.all(16),
         child: Column(

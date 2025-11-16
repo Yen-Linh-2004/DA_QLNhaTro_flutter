@@ -6,147 +6,190 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header
-            Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF007BFF), Color(0xFF5AA9FF)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.blue.withOpacity(0.2),
-                    blurRadius: 10,
-                    offset: Offset(0, 5),
-                  ),
-                ],
-              ),
+      child: CustomScrollView(
+        slivers: [
+          // HEADER
+          SliverToBoxAdapter(
+            child: Padding(
               padding: EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 28,
-                    backgroundImage: NetworkImage(
-                        "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Xin chào 👋",
-                            style: TextStyle(color: Colors.white70, fontSize: 14)),
-                        Text(
-                          "Nguyễn Văn Minh",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Stack(
-                    children: [
-                      Icon(Icons.notifications_none, color: Colors.white, size: 30),
-                      Positioned(
-                        right: 0,
-                        top: 0,
-                        child: Container(
-                          width: 16,
-                          height: 16,
-                          decoration: BoxDecoration(color: Colors.redAccent, shape: BoxShape.circle),
-                          child: Center(
-                            child: Text('3', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold)),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              child: _buildHeader(),
             ),
-            SizedBox(height: 24),
-            // Stats Cards
-            GridView.count(
-              physics: NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              childAspectRatio: 1.2,
-              children: [
+          ),
+
+          // SECTION TITLE
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: _buildSectionTitle("Tổng Quan"),
+            ),
+          ),
+
+          // GRID STATS (sliver grid)
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            sliver: SliverGrid(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 14,
+                mainAxisSpacing: 14,
+                childAspectRatio: 1.05,
+              ),
+              delegate: SliverChildListDelegate([
                 StatCard(
-                  icon: Icons.home,
-                  color: Colors.blue,
+                  icon: Icons.apartment_rounded,
+                  color: Color(0xFF3A7AFE),
                   value: "48",
                   title: "Tổng số phòng",
-                  subtitle: "+2 so với tháng trước ",
+                  subtitle: "+2 tháng này",
                 ),
                 StatCard(
-                  icon: Icons.home_work_outlined,
-                  color: Color.fromARGB(255, 94, 228, 103),
+                  icon: Icons.verified_user_outlined,
+                  color: Color(0xFF4CCB5F),
                   value: "42",
-                  title: "Phòng đã thuê",
-                  subtitle: "+5 so với tháng trước",
+                  title: "Đã thuê",
+                  subtitle: "+5 tháng này",
                 ),
                 StatCard(
-                  icon: Icons.room_outlined,
-                  color: Color(0xFFFF9800),
+                  icon: Icons.door_back_door_outlined,
+                  color: Color(0xFFFFB74D),
                   value: "6",
                   title: "Phòng trống",
-                  subtitle: "+3 so với tháng trước",
+                  subtitle: "+3 tháng này",
                 ),
                 StatCard(
-                  icon: Icons.warning_amber_rounded,
-                  color: Colors.purpleAccent,
+                  icon: Icons.leaderboard_rounded,
+                  color: Color(0xFF9B59FF),
                   value: "125.5M",
-                  title: "Doanh thu tháng",
-                  subtitle: "+12 so với tháng trước",
+                  title: "Doanh thu",
+                  subtitle: "+12% tháng này",
                 ),
-              ],
+              ]),
             ),
-            SizedBox(height: 28),
-            Text("Hoạt động gần đây", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-            SizedBox(height: 12),
-            ActivityItem(
-              icon: Icons.check_circle_outline,
-              color: Colors.green,
-              title: "Thanh toán hóa đơn phòng A201",
-              amount: "+3.2M",
-              subtitle: "Trần Thị Lan • 2 phút trước",
+          ),
+
+          // HOẠT ĐỘNG GẦN ĐÂY TITLE
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+              child: _buildSectionTitle("Hoạt động gần đây"),
             ),
-            ActivityItem(
-              icon: Icons.login,
-              color: Colors.blueAccent,
-              title: "Check-in phòng B105",
-              subtitle: "Lê Văn Đức • 15 phút trước",
-            ),
-            ActivityItem(
-              icon: Icons.electrical_services_outlined,
-              color: Colors.orangeAccent,
-              title: "Yêu cầu sửa chữa điện",
-              subtitle: "Phòng C302 • 1 giờ trước",
-            ),
-            ActivityItem(
-              icon: Icons.assignment_outlined,
-              color: Colors.purple,
-              title: "Ký hợp đồng mới",
-              subtitle: "Phạm Minh Tuấn • 2 giờ trước",
-            ),
-          ],
-        ),
+          ),
+
+          // ACTIVITY LIST
+          SliverList(
+            delegate: SliverChildListDelegate([
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    ActivityItem(
+                      icon: Icons.payment_rounded,
+                      color: Colors.green,
+                      title: "Thanh toán phòng A201",
+                      amount: "+3.2M",
+                      subtitle: "Trần Thị Lan • 2 phút trước",
+                    ),
+                    ActivityItem(
+                      icon: Icons.login_rounded,
+                      color: Colors.blueAccent,
+                      title: "Check-in phòng B105",
+                      subtitle: "Lê Văn Đức • 15 phút trước",
+                    ),
+                    ActivityItem(
+                      icon: Icons.build_circle_outlined,
+                      color: Colors.orangeAccent,
+                      title: "Sửa chữa điện C302",
+                      subtitle: "1 giờ trước",
+                    ),
+                    ActivityItem(
+                      icon: Icons.description_outlined,
+                      color: Colors.purple,
+                      title: "Ký hợp đồng mới",
+                      subtitle: "Phạm Minh Tuấn • 2 giờ trước",
+                    ),
+                    SizedBox(height: 50),
+                  ],
+                ),
+              ),
+            ]),
+          ),
+        ],
       ),
     );
   }
+
+  // ================= WIDGETS =================
+
+  Widget _buildHeader() {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xFF3A7AFE), Color(0xFF7A5AF8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(22),
+      ),
+      padding: EdgeInsets.all(20),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(
+              "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+            ),
+          ),
+          SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Xin chào 👋", style: TextStyle(color: Colors.white70)),
+                Text("Nguyễn Văn Minh",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ],
+            ),
+          ),
+          Stack(
+            children: [
+              Icon(Icons.notifications_none, color: Colors.white, size: 30),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: Container(
+                  width: 16,
+                  height: 16,
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Text("3",
+                        style:
+                            TextStyle(color: Colors.white, fontSize: 10)),
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String text) {
+    return Text(
+      text,
+      style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    );
+  }
 }
+
+// ============ COMPONENTS ============
 
 class StatCard extends StatelessWidget {
   final IconData icon;
@@ -169,26 +212,24 @@ class StatCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: color.withOpacity(0.15),
-            blurRadius: 8,
-            offset: Offset(0, 3),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(18),
       ),
-      padding: EdgeInsets.only(top: 10, right: 14, left: 12),
+      padding: EdgeInsets.all(16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(radius: 18, backgroundColor: color.withOpacity(0.1), child: Icon(icon, color: color, size: 22)),
-          SizedBox(height: 10),
-          Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: color.withOpacity(0.12),
+            child: Icon(icon, color: color, size: 26),
+          ),
+          SizedBox(height: 12),
+          Text(value,
+              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+          SizedBox(height: 6),
+          Text(title, style: TextStyle(fontSize: 15, color: Colors.black87)),
           SizedBox(height: 4),
-          Text(title, style: TextStyle(color: Colors.black54)),
-          SizedBox(height: 4),
-          Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 8)),
+          Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
     );
@@ -208,41 +249,48 @@ class ActivityItem extends StatelessWidget {
     required this.color,
     required this.title,
     required this.subtitle,
-    this.amount = '',
+    this.amount = "",
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12.withOpacity(0.05),
-            blurRadius: 6,
-            offset: Offset(0, 3),
-          ),
-        ],
+        borderRadius: BorderRadius.circular(14),
       ),
-      padding: EdgeInsets.all(12),
+      padding: EdgeInsets.all(14),
       child: Row(
         children: [
-          CircleAvatar(radius: 20, backgroundColor: color.withOpacity(0.1), child: Icon(icon, color: color, size: 22)),
-          SizedBox(width: 12),
+          CircleAvatar(
+            radius: 22,
+            backgroundColor: color.withOpacity(0.12),
+            child: Icon(icon, color: color, size: 24),
+          ),
+          SizedBox(width: 14),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                SizedBox(height: 2),
-                Text(subtitle, style: TextStyle(color: Colors.grey, fontSize: 8)),
+                Text(title,
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                SizedBox(height: 4),
+                Text(subtitle,
+                    style: TextStyle(fontSize: 12, color: Colors.grey)),
               ],
             ),
           ),
           if (amount.isNotEmpty)
-            Text(amount, style: TextStyle(color: color, fontWeight: FontWeight.bold, fontSize: 14)),
+            Text(
+              amount,
+              style: TextStyle(
+                fontSize: 14,
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
+            )
         ],
       ),
     );

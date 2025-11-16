@@ -34,7 +34,15 @@ class _CreateInvoicesPageState extends State<CreateInvoicesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text("Tạo hóa đơn hàng loạt"),
+        title:  Text("Tạo hóa đơn hàng loạt", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       backgroundColor: Colors.grey.shade100,
       body: SingleChildScrollView(

@@ -12,8 +12,15 @@ class ContractDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chi tiết hợp đồng HD001"),
-        // centerTitle: true,
+        title: Text("Chi tiết hợp đồng HD001", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16),
@@ -105,23 +112,23 @@ class ContractDetailPage extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () {
-                    showConfirmDialog(
-                      context: context,
-                      title: "Xác nhận xóa hợp đồng",
-                      message: "Bạn có chắc chắn muốn xóa hợp đồng này không?",
-                      confirmColor: Colors.redAccent,
-                      icon: Icons.delete_forever,
-                      maxHeight: 140,
-                      onConfirm: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                          content: Text(
-                            "Đã xóa hợp đồng thành công!",
-                          ),
-                          backgroundColor: Colors.orange,
-                        ));
-                      },
-                    );
+                      showConfirmDialog(
+                        context: context,
+                        title: "Xác nhận xóa hợp đồng",
+                        message: "Bạn có chắc chắn muốn xóa hợp đồng này không?",
+                        confirmColor: Colors.redAccent,
+                        icon: Icons.delete_forever,
+                        maxHeight: 140,
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text(
+                              "Đã xóa hợp đồng thành công!",
+                            ),
+                            backgroundColor: Colors.orange,
+                          ));
+                        },
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.red,

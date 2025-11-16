@@ -38,9 +38,15 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Tạo yêu cầu bảo trì mới",
-          style: TextStyle(fontWeight: FontWeight.bold),
+        title:  Text(
+          "Tạo yêu cầu bảo trì mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        centerTitle: true,
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: SingleChildScrollView(
@@ -54,19 +60,19 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
           child: ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 600),
             child: Card(
-              margin: const EdgeInsets.symmetric(vertical: 20),
+              margin:  EdgeInsets.symmetric(vertical: 20),
               elevation: 5,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding:  EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
                         child: CustomDropdown(
@@ -80,7 +86,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
                         child: CustomDropdown(
@@ -94,10 +100,10 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       buildTextField(
                           "Người báo cáo", "Tên khách hàng", _nameController),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
                         child: CustomDropdown(
@@ -111,7 +117,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
                         child: CustomDropdown(
@@ -125,25 +131,25 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                           },
                         ),
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       buildTextField(
                           "Tiêu đề", "Mô tả ngắn gọn vấn đề", _titleController),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                       buildContendField("Mô tả",
                           "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController, context),
-                      const SizedBox(height: 24),
+                       SizedBox(height: 24),
                       Row(
                         children: [
                           Expanded(
                             child: buildActionBtn(Icons.close, "Hủy", Colors.red, () {}),
                           ),
-                          const SizedBox(width: 16),
+                           SizedBox(width: 16),
                           Expanded(
                             child: buildActionBtn(Icons.add, "Tạo yêu cầu", Colors.blue, () {}),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 16),
+                       SizedBox(height: 16),
                     ],
                   ),
                 ),

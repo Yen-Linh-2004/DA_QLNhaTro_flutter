@@ -3,8 +3,6 @@ import 'package:flutter_application/main_page.dart';
 import 'package:flutter_application/room_entity/room_entity.dart';
 import 'package:flutter_application/users/usemain.dart';
 
-const kPrimary = Color(0xFF4F46E5);
-
 class HomeMobilePage extends StatefulWidget {
   const HomeMobilePage({super.key});
 
@@ -58,36 +56,13 @@ class _HomeMobilePage extends State<HomeMobilePage> {
 
             SizedBox(height: 16),
 
-            // /// Feature section — bọc thêm Container bo góc + màu nền
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 16),
-            //   child: Container(
-            //     padding: EdgeInsets.all(16),
-            //     decoration: BoxDecoration(
-            //       color: Colors.white,
-            //       borderRadius: BorderRadius.circular(18),
-            //       boxShadow: [
-            //         BoxShadow(
-            //           color: Colors.black12,
-            //           blurRadius: 8,
-            //           offset: Offset(0, 3),
-            //         ),
-            //       ],
-            //     ),
-            //     child:,
-            //   ),
-            // ),
-            // SizedBox(height: 20),
             /// Danh sách phòng — thêm title + spacing đẹp hơn
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    "Phòng còn trống",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
+                  Text("Phòng còn trống", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -143,7 +118,7 @@ class _HomeMobilePage extends State<HomeMobilePage> {
             style: TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.bold,
-              color: kPrimary,
+              color: Color(0xFF4F46E5),
             ),
           ),
           SizedBox(height: 14),
@@ -164,7 +139,7 @@ class _HomeMobilePage extends State<HomeMobilePage> {
                   );
                 },
                 style: FilledButton.styleFrom(
-                  backgroundColor: kPrimary,
+                  backgroundColor: Color(0xFF4F46E5),
                   padding: EdgeInsets.symmetric(vertical: 18),
                   minimumSize: Size(double.infinity, 50),
                 ),
@@ -197,9 +172,6 @@ class _HomeMobilePage extends State<HomeMobilePage> {
   // Features Mobile
   Widget _features(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-
-    // Điều chỉnh tỷ lệ item theo độ rộng màn hình
-    // Màn hình nhỏ -> item vuông; màn hình lớn -> item thấp hơn
     final aspectRatio = screenWidth < 360 ? 0.85 : 1.05;
 
     final items = [
@@ -238,19 +210,11 @@ class _HomeMobilePage extends State<HomeMobilePage> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "An tâm sống cùng Hệ thống",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+          Text("An tâm sống cùng Hệ thống", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
           SizedBox(height: 6),
-          Text(
-            "Trải nghiệm dịch vụ phòng trọ chuyên nghiệp, minh bạch và an toàn.",
-            style: TextStyle(color: Colors.black54),
-          ),
-          SizedBox(height: 16),
-
+          Text("Trải nghiệm dịch vụ phòng trọ chuyên nghiệp, \nminh bạch và an toàn.", style: TextStyle(color: Colors.black54), textAlign: TextAlign.center),
+          SizedBox(height: 18),
           /// GRID
           GridView.builder(
             shrinkWrap: true,
@@ -260,7 +224,7 @@ class _HomeMobilePage extends State<HomeMobilePage> {
               crossAxisCount: 2,
               mainAxisSpacing: 12,
               crossAxisSpacing: 12,
-              childAspectRatio: aspectRatio, // 🔥 auto điều chỉnh theo màn hình
+              childAspectRatio: aspectRatio,
             ),
             itemBuilder: (context, index) {
               final e = items[index];
@@ -301,13 +265,13 @@ class _HomeMobilePage extends State<HomeMobilePage> {
               color: Color(0xFFEDEBFF),
               borderRadius: BorderRadius.circular(40),
             ),
-            child: Icon(icon, size: 26, color: kPrimary),
+            child: Icon(icon, size: 26, color: Color(0xFF4F46E5)),
           ),
           SizedBox(height: 8),
           Text(
             title,
             textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
@@ -315,7 +279,7 @@ class _HomeMobilePage extends State<HomeMobilePage> {
           Text(
             desc,
             textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black54, fontSize: 12),
+            style: TextStyle(color: Colors.black54, fontSize: 14),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

@@ -71,28 +71,11 @@ class _CustomerPageState extends State<CustomerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Quản lý khách thuê"),
-      //   actions: [
-      //     IconButton(
-      //       icon: Icon(Icons.add),
-      //       onPressed: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(
-      //             builder: (context) => const AddCustomerPage(),
-      //           ),
-      //         );
-      //       },
-      //       tooltip: "Thêm khách thuê",
-      //     ),
-      //   ],
-      // ),
       body: Padding(
         padding: EdgeInsets.all(12),
         child: Scrollbar(
-          thumbVisibility: true, // hiện thanh kéo luôn, dễ dùng
-          thickness: 6, // độ dày thanh kéo
+          thumbVisibility: true, 
+          thickness: 6, 
           radius: Radius.circular(10),
           child: ListView.builder(
             itemCount: tenants.length,
@@ -103,9 +86,7 @@ class _CustomerPageState extends State<CustomerPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (_) => CustomerDetailPage(
-                        // tenantData: t, // truyền dữ liệu nếu cần
-                      ),
+                      builder: (_) => CustomerDetailPage(),
                     ),
                   );
                 },

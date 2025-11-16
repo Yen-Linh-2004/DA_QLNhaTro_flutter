@@ -36,7 +36,6 @@ class RepairRequestPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      // appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
