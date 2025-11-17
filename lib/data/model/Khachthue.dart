@@ -1,4 +1,4 @@
-import 'package:flutter_application/Server/model/PhongTro.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
 
 class KhachThue {
   final int maKhachThue;

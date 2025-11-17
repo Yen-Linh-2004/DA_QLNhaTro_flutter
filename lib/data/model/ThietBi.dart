@@ -1,6 +1,5 @@
-import 'package:flutter_application/Server/model/DayTro.dart';
-import 'package:flutter_application/Server/model/PhongTro.dart';
-
+import 'package:flutter_application/data/model/DayTro.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
 class ThietBi {
   final int maThietBi;
   final String tenThietBi;

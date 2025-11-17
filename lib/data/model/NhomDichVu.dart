@@ -1,5 +1,5 @@
 
-import 'package:flutter_application/Server/model/LoaiDichVu.dart';
+import 'package:flutter_application/data/model/LoaiDichVu.dart';
 
 class NhomDichVu {
   final int maNhomDV;

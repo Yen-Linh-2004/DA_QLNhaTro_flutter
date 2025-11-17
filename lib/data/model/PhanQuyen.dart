@@ -1,4 +1,4 @@
-import 'package:flutter_application/Server/model/TaiKhoan.dart';
+import 'package:flutter_application/data/model/TaiKhoan.dart';
 
 class PhanQuyen {
   final int maQuyen;

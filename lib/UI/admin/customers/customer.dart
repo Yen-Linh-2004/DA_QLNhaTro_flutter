@@ -161,3 +161,46 @@ class _CustomerPageState extends State<CustomerPage> {
     );
   }
 }
+
+
+// import 'package:flutter/material.dart';
+// import '../../data/services/khach_thue_service.dart';
+
+// class KhachThuePage extends StatefulWidget {
+//   const KhachThuePage({super.key});
+
+//   @override
+//   State<KhachThuePage> createState() => _KhachThuePageState();
+// }
+
+// class _KhachThuePageState extends State<KhachThuePage> {
+//   List khachThues = [];
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadData();
+//   }
+
+//   Future<void> loadData() async {
+//     final data = await KhachThueService.getAll();
+//     setState(() => khachThues = data);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: const Text("Danh sách Khách Thuê")),
+//       body: ListView.builder(
+//         itemCount: khachThues.length,
+//         itemBuilder: (context, i) {
+//           final item = khachThues[i];
+//           return ListTile(
+//             title: Text(item.name),
+//             subtitle: Text(item.phone),
+//           );
+//         },
+//       ),
+//     );
+//   }
+// }

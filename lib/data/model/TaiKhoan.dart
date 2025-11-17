@@ -1,5 +1,5 @@
-import 'package:flutter_application/Server/model/Khachthue.dart';
-import 'package:flutter_application/Server/model/NhanVien.dart';
+import 'package:flutter_application/data/model/Khachthue.dart';
+import 'package:flutter_application/data/model/NhanVien.dart';
 
 enum PhanQuyenEnum { nhanVien, quanLy, khachThue }
 

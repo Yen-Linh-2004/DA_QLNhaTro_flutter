@@ -1,5 +1,5 @@
-import 'package:flutter_application/Server/model/Khachthue.dart';
-import 'package:flutter_application/Server/model/NoiQuy.dart';
+import 'package:flutter_application/data/model/Khachthue.dart';
+import 'package:flutter_application/data/model/NoiQuy.dart';
 
 enum MucDoViPhamEnum { nhe, trungBinh, nang } // Cần map chính xác từ PHP
 enum TrangThaiViPhamEnum { choGiaiQuyet, daGiaiQuyet, huy } // Cần map chính xác từ PHP

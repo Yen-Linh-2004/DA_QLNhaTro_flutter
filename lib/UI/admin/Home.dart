@@ -214,7 +214,7 @@ class StatCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
       ),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -223,13 +223,42 @@ class StatCard extends StatelessWidget {
             backgroundColor: color.withOpacity(0.12),
             child: Icon(icon, color: color, size: 26),
           ),
-          SizedBox(height: 12),
-          Text(value,
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
           SizedBox(height: 6),
-          Text(title, style: TextStyle(fontSize: 15, color: Colors.black87)),
+          // 🔹 GIẢM TEXT LỚN NẾU QUÁ DÀI
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 26,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
+
           SizedBox(height: 4),
-          Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey)),
+          // 🔹 TITLE — CHỐNG TRÀN
+          Flexible(
+            child: Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(fontSize: 15, color: Colors.black87),
+            ),
+          ),
+          SizedBox(height: 4),
+          // 🔹 SUBTITLE — CHỐNG TRÀN
+          Flexible(
+            child: Text(
+              subtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              softWrap: false,
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+          ),
         ],
       ),
     );

@@ -1,7 +1,30 @@
 import 'package:flutter/material.dart';
 
-class InvoiceListPage extends StatelessWidget {
+class InvoiceListPage extends StatefulWidget{
   const InvoiceListPage({super.key});
+
+  @override
+  State<InvoiceListPage> createState() => _InvoiceListPage();
+}
+class _InvoiceListPage extends State<InvoiceListPage> {
+
+  List<Map<String, dynamic>> tenants = [
+    {
+      "icon": Icons.build,
+      "title": "Yêu cầu sửa chữa",
+      "text": "Báo hỏng và đặt lịch kỹ thuật"
+    },
+    {
+      "icon": Icons.payment,
+      "title": "Thanh toán",
+      "text": "Xem và thanh toán hóa đơn"
+    },
+    {
+      "icon": Icons.warning_amber,
+      "title": "Báo cáo vi phạm",
+      "text": "Gửi phản hồi nhanh chống"
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +35,15 @@ class InvoiceListPage extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Các chức năng chính:",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+                ),
+              ),
+              SizedBox(height: 5),
+              _buildfunctionRow(tenants),
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
@@ -22,9 +54,7 @@ class InvoiceListPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Text("Hóa đơn tháng 10/2025"),
                     _title("Hóa đơn tháng 10/2025"),
-                    // Text("Hạn thanh toán: 05/11/2025"),
 
                     _item("Tiền thuê phòng", "1 tháng", "2.600.000đ"),
                     _divider(),
@@ -181,6 +211,70 @@ class InvoiceListPage extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildfunctionRow(List<Map<String, dynamic>> data) {
+    return Column(
+      children: data.map((t) {
+        // Tự sinh màu theo icon
+        Color bgColor;
+        Color iconColor;
+
+        if (t['icon'] == Icons.build) {
+          bgColor = const Color(0xffEEF1FF);   // tím nhạt
+          iconColor = const Color(0xff6366F1); // tím đậm
+        } else if (t['icon'] == Icons.payment) {
+          bgColor = const Color(0xffE8F8F1);   // xanh mint
+          iconColor = const Color(0xff16A34A); // xanh đậm
+        } else {
+          bgColor = const Color(0xffFEECEC);   // đỏ nhạt
+          iconColor = const Color(0xffDC2626); // đỏ đậm
+        }
+
+        return Container(
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(14),
+          ),
+          child: Row(
+            children: [
+              CircleAvatar(
+                radius: 22,
+                backgroundColor: bgColor,
+                child: Icon(t['icon'], size: 22, color: iconColor),
+              ),
+
+              const SizedBox(width: 12),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      t['title'],
+                      style: const TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      t['text'],
+                      style: TextStyle(fontSize: 13, color: Colors.grey.shade700),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Mũi tên
+              Icon(Icons.chevron_right, size: 20, color: Colors.grey.shade500),
+            ],
+          ),
+        );
+      }).toList(),
     );
   }
 }
