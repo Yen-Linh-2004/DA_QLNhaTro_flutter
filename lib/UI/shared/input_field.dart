@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; 
 
-Widget buildTextField(String label, String hint, TextEditingController controller) {
+Widget buildTextField(String label, String hint, TextEditingController controller, String? Function(String?)? validator) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -14,6 +14,13 @@ Widget buildTextField(String label, String hint, TextEditingController controlle
           hintText: hint,
           contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
         ),
+        validator: validator ??
+          (value) {
+            if (value == null || value.isEmpty) {
+              return '$label không được để trống';
+            }
+            return null;
+          },
       ),
     ],
   );

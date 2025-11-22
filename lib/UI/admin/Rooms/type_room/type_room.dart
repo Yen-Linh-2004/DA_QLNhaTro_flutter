@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/Rooms/type_room/add_typeroom.dart';
 import 'package:flutter_application/UI/admin/Rooms/type_room/update_typeroom.dart';
-import 'package:flutter_application/UI/admin/shared/SummaryCard.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/SummaryCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class TypeRoomPage extends StatelessWidget {
   const TypeRoomPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class TerminationContractPage extends StatefulWidget {
  const TerminationContractPage({super.key});
@@ -56,7 +56,7 @@ class _TerminationContractPageState extends State<TerminationContractPage> {
               },
             ),
             SizedBox(height: 12),
-            buildTextField("Số tiền cọc hoàn trả (VND)", "", _priceController),
+            buildTextField("Số tiền cọc hoàn trả (VND)", "", _priceController, null),
             SizedBox(height: 12),
             buildContendField("Ghi chú", "", _noteController, context),
             SizedBox(height: 24),

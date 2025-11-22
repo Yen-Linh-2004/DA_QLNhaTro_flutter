@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class InvoiceListPage extends StatefulWidget{
   const InvoiceListPage({super.key});
@@ -29,9 +30,9 @@ class _InvoiceListPage extends State<InvoiceListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF5F6FA),
+      backgroundColor:  Color(0xffF5F6FA),
       body: Padding(
-        padding: const EdgeInsets.all(16),
+        padding:  EdgeInsets.all(16),
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -45,7 +46,7 @@ class _InvoiceListPage extends State<InvoiceListPage> {
               SizedBox(height: 5),
               _buildfunctionRow(tenants),
               Container(
-                padding: const EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(14),
@@ -68,7 +69,7 @@ class _InvoiceListPage extends State<InvoiceListPage> {
                     _divider(),
                     _item("Gửi xe", "1 phòng", "100.000đ"),
 
-                    const SizedBox(height: 20),
+                     SizedBox(height: 20),
                     _title("Thông tin đọc số"),
 
                     _subInfo("Chỉ số điện", "1250 → 1312 kWh"),
@@ -77,10 +78,10 @@ class _InvoiceListPage extends State<InvoiceListPage> {
                     SizedBox(height: 10),
                     _subInfo("Gói Internet", "Internet 1 (50.000đ/tháng)"),
 
-                    const SizedBox(height: 20),
+                     SizedBox(height: 20),
                     // _title("Tổng hợp"),
 
-                    const Divider(height: 24),
+                     Divider(height: 24),
                     _total("Tạm tính", "3.127.000đ"),
                     _total("Công nợ kỳ trước", "0đ"),
                     _total("Giảm trừ", "0đ"),
@@ -90,37 +91,40 @@ class _InvoiceListPage extends State<InvoiceListPage> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+               SizedBox(height: 20),
 
               // BUTTONS
               Row(
                 children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        backgroundColor: Colors.blue,
-                      ),
-                      onPressed: () {},
-                      child: const Text(
-                        "Thanh toán ngay",
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey.shade300,
-                      foregroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 14,
-                        horizontal: 22,
-                      ),
-                    ),
-                    onPressed: () {},
-                    child: const Text("Tải PDF"),
-                  )
+                buildActionBtn(Icons.payment, "Thanh toán ngay", Colors.blue, (){}),
+                SizedBox(width: 15),
+                buildActionBtn(Icons.picture_as_pdf, "Tải PDF", Colors.green, (){}),
+                  // Expanded(
+                  //   child: ElevatedButton(
+                  //     style: ElevatedButton.styleFrom(
+                  //       padding:  EdgeInsets.symmetric(vertical: 14),
+                  //       backgroundColor: Colors.blue,
+                  //     ),
+                  //     onPressed: () {},
+                  //     child:  Text(
+                  //       "Thanh toán ngay",
+                  //       style: TextStyle(fontSize: 16),
+                  //     ),
+                  //   ),
+                  // ),
+                  //  SizedBox(width: 12),
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     backgroundColor: Colors.grey.shade300,
+                  //     foregroundColor: Colors.black,
+                  //     padding:  EdgeInsets.symmetric(
+                  //       vertical: 14,
+                  //       horizontal: 22,
+                  //     ),
+                  //   ),
+                  //   onPressed: () {},
+                  //   child:  Text("Tải PDF"),
+                  // )
                 ],
               )
             ],
@@ -156,14 +160,14 @@ class _InvoiceListPage extends State<InvoiceListPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 4),
+                style:  TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+             SizedBox(height: 4),
             Text(unit, style: TextStyle(color: Colors.grey.shade600)),
           ],
         ),
         Text(
           price,
-          style: const TextStyle(
+          style:  TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
             color: Colors.blue,
@@ -173,7 +177,7 @@ class _InvoiceListPage extends State<InvoiceListPage> {
     );
   }
 
-  Widget _divider() => const Padding(
+  Widget _divider() =>  Padding(
         padding: EdgeInsets.symmetric(vertical: 12),
         child: Divider(height: 1),
       );
@@ -181,12 +185,12 @@ class _InvoiceListPage extends State<InvoiceListPage> {
   Widget _subInfo(String label, String value) {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 8),
+      margin:  EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-          const SizedBox(height: 2),
+          Text(label, style:  TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+           SizedBox(height: 2),
           Text(value),          
         ],
       ),
@@ -195,7 +199,7 @@ class _InvoiceListPage extends State<InvoiceListPage> {
 
   Widget _total(String label, String amount, {bool isBold = false}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding:  EdgeInsets.symmetric(vertical: 6),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -222,19 +226,19 @@ class _InvoiceListPage extends State<InvoiceListPage> {
         Color iconColor;
 
         if (t['icon'] == Icons.build) {
-          bgColor = const Color(0xffEEF1FF);   // tím nhạt
-          iconColor = const Color(0xff6366F1); // tím đậm
+          bgColor =  Color(0xffEEF1FF);   // tím nhạt
+          iconColor =  Color(0xff6366F1); // tím đậm
         } else if (t['icon'] == Icons.payment) {
-          bgColor = const Color(0xffE8F8F1);   // xanh mint
-          iconColor = const Color(0xff16A34A); // xanh đậm
+          bgColor =  Color(0xffE8F8F1);   // xanh mint
+          iconColor =  Color(0xff16A34A); // xanh đậm
         } else {
-          bgColor = const Color(0xffFEECEC);   // đỏ nhạt
-          iconColor = const Color(0xffDC2626); // đỏ đậm
+          bgColor =  Color(0xffFEECEC);   // đỏ nhạt
+          iconColor =  Color(0xffDC2626); // đỏ đậm
         }
 
         return Container(
-          margin: const EdgeInsets.only(bottom: 12),
-          padding: const EdgeInsets.all(16),
+          margin:  EdgeInsets.only(bottom: 12),
+          padding:  EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(14),
@@ -247,7 +251,7 @@ class _InvoiceListPage extends State<InvoiceListPage> {
                 child: Icon(t['icon'], size: 22, color: iconColor),
               ),
 
-              const SizedBox(width: 12),
+               SizedBox(width: 12),
 
               Expanded(
                 child: Column(
@@ -255,12 +259,12 @@ class _InvoiceListPage extends State<InvoiceListPage> {
                   children: [
                     Text(
                       t['title'],
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 2),
+                     SizedBox(height: 2),
                     Text(
                       t['text'],
                       style: TextStyle(fontSize: 13, color: Colors.grey.shade700),

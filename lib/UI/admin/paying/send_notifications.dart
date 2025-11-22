@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
-class SendNotificationsPage extends StatelessWidget {
+class SendNotificationsPage extends StatefulWidget {
   const SendNotificationsPage({super.key});
+
+  @override
+  State<SendNotificationsPage> createState() => _SendNotificationsPage();
+}
+
+class _SendNotificationsPage extends State<SendNotificationsPage> {
+  
+  final _titleController = TextEditingController();
+  final _contendController = TextEditingController();
+  String? selectSend;
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,73 +90,30 @@ class SendNotificationsPage extends StatelessWidget {
              SizedBox(height: 20),
 
             // Tiêu đề thông báo
-             Text(
-              "Tiêu đề thông báo *",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-             SizedBox(height: 8),
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Nhắc nhở thanh toán - Phòng A102",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-
+            buildTextField("Tiêu đề thông báo", "Nhắc nhở thanh toán - Phòng A102", _titleController, null),
              SizedBox(height: 16),
 
             // Nội dung thông báo
-             Text(
-              "Nội dung thông báo *",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            buildContendField( 
+              "Nội dung tiêu đề", 
+              "Kính gửi Trần Thị B, Bạn có hóa đơn tháng 10, 2025 chưa thanh toán với số tiền 580.000đ.Hạn thanh toán: 5/11/2025", 
+              _contendController,
+              context
             ),
-             SizedBox(height: 8),
-            TextField(
-              maxLines: 6,
-              decoration: InputDecoration(
-                hintText:
-                    "Kính gửi Trần Thị B,\n\nBạn có hóa đơn tháng 10, 2025 chưa thanh toán với số tiền 580.000đ.\n\nHạn thanh toán: 5/11/2025",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-
-             SizedBox(height: 16),
+            SizedBox(height: 16),
 
             // Phương thức gửi
-             Text(
-              "Phương thức gửi",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            CustomDropdown(
+              label: "Phương thức gửi", 
+              value: selectSend, 
+              items: ["Qua ứng dụng", "Quan SMS", "Qua email"], 
+              onChanged: (value) {
+                setState(() {
+                  selectSend = value;
+                });
+              },
             ),
-             SizedBox(height: 8),
-            DropdownButtonFormField<String>(
-              value: "app",
-              items:  [
-                DropdownMenuItem(
-                  value: "app",
-                  child: Text("Qua ứng dụng"),
-                ),
-                DropdownMenuItem(
-                  value: "sms",
-                  child: Text("Qua SMS"),
-                ),
-                DropdownMenuItem(
-                  value: "email",
-                  child: Text("Qua Email"),
-                ),
-              ],
-              onChanged: (value) {},
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-            ),
-
-             SizedBox(height: 24),
-
+            SizedBox(height: 24),
             // Nút hành động
             Row(
               children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 class AddRoomPage extends StatefulWidget {
   const AddRoomPage({super.key});
 
@@ -82,44 +83,19 @@ class _AddRoomPageState extends State<AddRoomPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Text(
-                "Số phòng",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-               SizedBox(height: 6),
-              TextFormField(
-                controller: _roomNumberController,
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Nhập số phòng",
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập số phòng";
-                  }
-                  return null;
-                },
-              ),
-
-              Text(
-                "Phòng",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-               SizedBox(height: 6),
-              TextFormField(
-                controller: _roomNumberController,
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Nhập số phòng",
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập số phòng";
-                  }
-                  return null;
-                },
-              ),
-
+              buildTextField("Số phòng", "Nhập số phòng", _roomNumberController, (value) {
+                if (value == null || value.trim().isEmpty) {
+                  return "Vui lòng nhập số phòng";
+                }
+                // Kiểm tra số hợp lệ (chỉ cho phép số)
+                if (!RegExp(r'^\d+$').hasMatch(value.trim())) {
+                  return "Số phòng phải là số nguyên";
+                }
+                return null;
+              }),
+              SizedBox(height: 16),
+              buildTextField("Phòng", "Nhập tên phòng", _roomNumberController, null),
+             
               SizedBox(height: 16),
               // Dãy phòng
               Text("Dãy phòng", style: TextStyle(fontWeight: FontWeight.bold)),

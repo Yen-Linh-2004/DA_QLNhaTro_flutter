@@ -17,15 +17,15 @@ class ContractPage extends StatelessWidget {
             _buildContractInfo(),
             SizedBox(height: 20),
             _buildImportantNotice(), 
-            SizedBox(height: 100),
+            SizedBox(height: 5),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
-        backgroundColor: Colors.blue,
-        label: Text("Xem hơp đồng đầy đủ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-      ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   onPressed: () {},
+      //   backgroundColor: Colors.blue,
+      //   label: Text("Xem hơp đồng đầy đủ", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      // ),
     );
   }
 

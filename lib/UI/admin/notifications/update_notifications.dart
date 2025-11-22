@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class UpdateNotificationsPage extends StatefulWidget {
   const UpdateNotificationsPage({super.key});
@@ -107,7 +107,7 @@ class _UpdateNotificationsPageState extends State<UpdateNotificationsPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildTextField("Tiêu đề", "Nhập tiêu đề", _titleController),
+                    buildTextField("Tiêu đề", "Nhập tiêu đề", _titleController, null),
                     SizedBox(height: 12),
                     CustomDropdown(
                       label: "Loại thông báo",
@@ -136,7 +136,7 @@ class _UpdateNotificationsPageState extends State<UpdateNotificationsPage> {
                     buildTextField(
                       "Nội dung",
                       "Nhập nội dung",
-                      _contentController,
+                      _contentController, null
                     ),
                     SizedBox(height: 20),
 

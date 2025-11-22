@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class DepositPage extends StatefulWidget{
   const DepositPage({super.key});
@@ -59,11 +59,11 @@ class _DepositPage extends State<DepositPage> {
               // --- THÔNG TIN CÁ NHÂN & NGÀY DỰ KIẾN ---
               _buildSectionTitle("Thông Tin Liên Hệ"),
 
-              buildTextField("Họ và tên:", "Nhập họ và tên", _nameController),
+              buildTextField("Họ và tên:", "Nhập họ và tên", _nameController, null),
               SizedBox(height: 12),
-              buildTextField("Số điện thoại:", "Nhập số điện thoại", _phoneController),
+              buildTextField("Số điện thoại:", "Nhập số điện thoại", _phoneController, null),
               SizedBox(height: 12),
-              buildTextField( "Email:","Nhập email",_emailController),
+              buildTextField( "Email:","Nhập email",_emailController, null),
               SizedBox(height: 12),
               buildDatePickerField(context, "Ngày dự kiến vào ở:", selectDate, (date) {setState(() { selectDate = date;  });}),
               SizedBox(height: 14),
@@ -81,7 +81,6 @@ class _DepositPage extends State<DepositPage> {
   }
 
   // --- WIDGET BUILDING FUNCTIONS ---
-
   Widget _buildSectionTitle(String title) {
     return Padding(
       padding: EdgeInsets.only(bottom: 10.0),

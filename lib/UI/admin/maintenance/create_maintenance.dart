@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class AddMaintenancePage extends StatefulWidget {
   const AddMaintenancePage({super.key});
@@ -102,7 +102,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                       ),
                        SizedBox(height: 16),
                       buildTextField(
-                          "Người báo cáo", "Tên khách hàng", _nameController),
+                          "Người báo cáo", "Tên khách hàng", _nameController, null),
                        SizedBox(height: 16),
                       SizedBox(
                         width: double.infinity,
@@ -133,7 +133,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                       ),
                        SizedBox(height: 16),
                       buildTextField(
-                          "Tiêu đề", "Mô tả ngắn gọn vấn đề", _titleController),
+                          "Tiêu đề", "Mô tả ngắn gọn vấn đề", _titleController, null),
                        SizedBox(height: 16),
                       buildContendField("Mô tả",
                           "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController, context),

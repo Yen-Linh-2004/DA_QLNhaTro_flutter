@@ -6,7 +6,7 @@ import 'package:flutter_application/UI/admin/paying/collectmoney.dart';
 import 'package:flutter_application/UI/admin/paying/create_bill.dart';
 import 'package:flutter_application/UI/admin/paying/detail_paying.dart';
 import 'package:flutter_application/UI/admin/paying/send_notifications.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class PaymentManagementPage extends StatelessWidget {
   const PaymentManagementPage({super.key});
@@ -290,7 +290,7 @@ class PaymentManagementPage extends StatelessWidget {
                     onPressed: () {
                         Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  collectmoneyPage()),
+                        MaterialPageRoute(builder: (context) =>  CollectMoneyPage()),
                       );
                     },
                   ),

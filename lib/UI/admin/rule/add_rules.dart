@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 class AddRulePage extends StatefulWidget {
   const AddRulePage({super.key});
 
@@ -45,7 +45,7 @@ class _AddRulePageState extends State<AddRulePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildTextField("Tiêu đề", "Tiêu đề nội quy", _titleController),
+              buildTextField("Tiêu đề", "Tiêu đề nội quy", _titleController, null),
               SizedBox(height: 16),
               buildContendField("Mô tả", "Nôi tả chi tiết nội quy", _decribeController, context),
               SizedBox(height: 16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/users/add_report.dart';
 
 class RulesAndViolationsPage extends StatelessWidget {
   const RulesAndViolationsPage({super.key});
@@ -16,21 +17,8 @@ class RulesAndViolationsPage extends StatelessWidget {
             // -------------------------------
             // PHẦN: Lịch sử vi phạm
             // -------------------------------
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                 Text(
-                  "Lịch sử vi phạm của bạn",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18
-                  ),
-                ),
-              ],
-            ),
-             SizedBox(height: 12),
-
-            // VI PHẠM 1
+            Text("Lịch sử vi phạm của bạn", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18 ),),
+            SizedBox(height: 5),
             ViolationCard(
               title: "Giờ giấc sinh hoạt",
               time: "Ngày báo cáo: 2024-03-15",
@@ -41,8 +29,6 @@ class RulesAndViolationsPage extends StatelessWidget {
               note:
               "Đã nhắc nhở, khách thuê cam kết không tái phạm.",
             ),
-
-            // VI PHẠM 2
             ViolationCard(
               title: "Vệ sinh chung",
               time: "Ngày báo cáo: 2024-02-10",
@@ -50,28 +36,26 @@ class RulesAndViolationsPage extends StatelessWidget {
               status: "Đã giải quyết",
               description: "Để rác ngoài hành lang 2 ngày.",
             ),
-
-             SizedBox(height: 20),
+            SizedBox(height: 8),
 
             // -------------------------------
             // PHẦN: Nội quy chung
             // -------------------------------
-             Text(
-              "Nội quy chung của khu trọ",
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18
-              ),
-            ),
-             SizedBox(height: 10),
+            Text("Nội quy chung của khu trọ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+            SizedBox(height: 5),
             RulesCard(),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const AddReportPage()),
+          );
+        },
         backgroundColor: Colors.blue,
-        label:  Text("Báo cáo mới", style: TextStyle(color: Colors.white)),
+        label:  Text("Báo cáo mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         icon:  Icon(Icons.add, color: Colors.white),
       ),
     );

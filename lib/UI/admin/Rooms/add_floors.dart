@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 class AddFloorPage extends StatefulWidget {
   const AddFloorPage({super.key});
 
@@ -65,9 +65,22 @@ class _AddFloorPageState extends State<AddFloorPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              buildTextField("Thêm dãy phòng",  "Dãy E", _nameFloorController),
+              buildTextField(
+                "Thêm dãy phòng",
+                "Dãy E",
+                _nameFloorController,
+                (String? value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "Vui lòng nhập tên dãy";
+                  }
+                  if (!RegExp(r'^[A-Za-z\s]+$').hasMatch(value.trim())) {
+                    return "Tên dãy chỉ chứa chữ";
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 12),
-              buildContendField("Địa chỉ", "Nhập đĩa chỉ của dãy", _areaController, context),
+              buildContendField("Địa chỉ", "Nhập địa chỉ của dãy", _areaController, context),
               SizedBox(height: 24),
               // Nút hành động
               Row(

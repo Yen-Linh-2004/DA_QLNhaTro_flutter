@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class AddCustomerPage extends StatefulWidget {
   const AddCustomerPage({super.key});

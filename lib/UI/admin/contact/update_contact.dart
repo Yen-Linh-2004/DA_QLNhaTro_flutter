@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class UpdateContactPage extends StatefulWidget {
  const UpdateContactPage({super.key});
@@ -37,7 +37,7 @@ class _UpdateContactPageState extends State<UpdateContactPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildTextField("Số hợp đồng", "Nhập số hợp đồng", _contactNumberControl),
+            buildTextField("Số hợp đồng", "Nhập số hợp đồng", _contactNumberControl, null),
             SizedBox(height: 12),
             buildDatePickerField(context, "Ngày ký", selectedDate, (date) {setState(() { selectedDate = date;  });}),
             SizedBox(height: 12),
@@ -45,7 +45,7 @@ class _UpdateContactPageState extends State<UpdateContactPage> {
             SizedBox(height: 12),
             buildDatePickerField(context, "Ngày ký", selectedEndDate, (date) {setState(() { selectedEndDate = date;  });}),
             SizedBox(height: 12),
-            buildTextField("Tiền cọc", "", _priceController),
+            buildTextField("Tiền cọc", "", _priceController, null),
             SizedBox(height: 12),
             buildContendField("Ghi chú", "", _noteController, context),
             SizedBox(height: 24),

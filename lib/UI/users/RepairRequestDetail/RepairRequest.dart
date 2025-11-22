@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/UI/users/RepairRequestDetail/RepairRequestDetail.dart';
 import 'package:flutter_application/UI/users/RepairRequestDetail/creater_repair.dart';
 import 'package:flutter_application/UI/users/RepairRequestDetail/update_repair.dart';
@@ -37,58 +38,9 @@ class RepairRequestPage extends StatelessWidget {
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         child: Column(
           children: [
-            // --- Tilte ---
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Yêu cầu sửa chữa",
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const CreateRepairPage(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(Icons.add_circle_outline),
-                      tooltip: "Tạo yêu cầu mới",
-                    ),
-                  ],
-                ),
-                Text(
-                  "Quản lý yêu cầu bảo trì và sửa chữa",
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-            // // Thống kê nhanh
-            // Row(
-            //   children: [
-            //     buildSummaryCard("Chờ xử lý", "1", Colors.orange, Icons.access_time),
-            //     buildSummaryCard("Đang xử lý", "1", Colors.blue, Icons.engineering),
-            //   ],
-            // ),
-            // Row(
-            //   children: [
-            //     buildSummaryCard("Hoàn thành", "1", Colors.green, Icons.check_circle),
-            //     buildSummaryCard("Ưu tiên cao", "1", Colors.red, Icons.warning),
-            //   ],
-            // ),
-            const SizedBox(height: 8),
-
             // Danh sách yêu cầu
             Expanded(
               child: ListView.builder(
@@ -192,8 +144,30 @@ class RepairRequestPage extends StatelessWidget {
                                   
                                   if (r["status"] == "Chờ xử lý") ...[
                                     IconButton(
-                                      onPressed: (){},
-                                      icon: Icon( Icons.cancel, color: Colors.red, size: 22)
+                                      onPressed: (){
+                                        showConfirmDialog(
+                                          context: context,
+                                          title: "Xác nhận hủy yêu cầu",
+                                          message:
+                                              "Bạn có chắc chắn muốn hủy yêu cầu sửa chữa thiết bị này không?",
+                                          confirmColor: Colors.orange,
+                                          icon: Icons.flash_on_outlined,
+                                          maxHeight: 140,
+                                          onConfirm: () {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                                SnackBar(
+                                                content: Text(
+                                                  "Đã hủy yêu cầu thành công!",
+                                                ),
+                                                backgroundColor: Colors.orange,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      icon: Icon( Icons.cancel, color: Colors.orange, size: 22)
                                     )  
                                   ],
                                   IconButton(
@@ -213,12 +187,23 @@ class RepairRequestPage extends StatelessWidget {
                                   SizedBox(width: 10),
                                   IconButton(
                                     onPressed: () {
-                                      // Navigator.push(
-                                      //   context,
-                                      //   MaterialPageRoute(
-                                      //     builder: (context) => const RegisterPage(),
-                                      //   ),
-                                      // );
+                                      showConfirmDialog(
+                                        context: context,
+                                        title: "Xác nhận xóa yêu cầu sửa chữa",
+                                        message: "Bạn có chắc chắn muốn xóa yêu cầu này không?",
+                                        confirmColor: Colors.redAccent,
+                                        icon: Icons.delete_forever,
+                                        maxHeight: 140,
+                                        onConfirm: () {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                            content: Text(
+                                              "Đã xóa yêu cầu thành công!",
+                                            ),
+                                            backgroundColor: Colors.orange,
+                                          ));
+                                        },
+                                      );
                                     },
                                     icon: Icon(
                                       Icons.delete_outline,
@@ -238,6 +223,17 @@ class RepairRequestPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+           Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateRepairPage()),
+          );
+        },
+        backgroundColor: Colors.blue,
+        icon: Icon(Icons.add, color: Colors.white,),
+        label: Text("Tạo yêu cầu", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       ),
     );
   }

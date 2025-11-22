@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class CreateInvoicesPage extends StatefulWidget {
   const CreateInvoicesPage({super.key});
@@ -104,12 +104,12 @@ class _CreateInvoicesPageState extends State<CreateInvoicesPage> {
                     child: Padding(padding: EdgeInsetsGeometry.all(14),
                     child: Column(
                       children: [
-                        buildTextField("Mô tả phí mới", "Ví dụ: Vệ sinh máy lạnh, sơn lại cửa,...", _describeController),
+                        buildTextField("Mô tả phí mới", "Ví dụ: Vệ sinh máy lạnh, sơn lại cửa,...", _describeController, null),
                         SizedBox(height: 8),
                         Row(
                           children: [
                             Expanded(
-                              child: buildTextField("Số tiền (VND)", "0", _costNumberController)
+                              child: buildTextField("Số tiền (VND)", "0", _costNumberController, null)
                             ),
                             SizedBox(width: 8),
                             ElevatedButton(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class ExtensionContractPage extends StatefulWidget {
  const ExtensionContractPage({super.key});
@@ -43,9 +43,9 @@ class _ExtensionContractPageState extends State<ExtensionContractPage> {
             SizedBox(height: 12),
             buildDatePickerField(context, "Ngày chấm dứt", selectedDate, (date) {setState(() { selectedDate = date;  });}),
             SizedBox(height: 12),
-            buildTextField("Tiền thuê mới (VND)", "", _rentalNewController),
+            buildTextField("Tiền thuê mới (VND)", "", _rentalNewController, null),
             SizedBox(height: 12),
-            buildTextField("Tiền cọc mới (VND)", "", _depositNewController),
+            buildTextField("Tiền cọc mới (VND)", "", _depositNewController, null),
             SizedBox(height: 12),
             buildContendField("Ghi chú", "", _noteController, context),
             SizedBox(height: 24),

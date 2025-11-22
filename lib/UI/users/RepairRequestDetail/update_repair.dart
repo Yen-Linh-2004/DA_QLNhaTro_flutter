@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class UpdateRepairPage extends StatefulWidget {
   const UpdateRepairPage({super.key}); 
@@ -104,47 +105,6 @@ class _UpdateRepairPageState extends State<UpdateRepairPage> {
 
             SizedBox(height: 16),
 
-            // Column(
-            //   children: [
-            //     ElevatedButton.icon(
-            //       onPressed: pickFile,
-            //       icon: Icon(Icons.attach_file),
-            //       label: Text("Chọn file"),
-            //       style: ElevatedButton.styleFrom(
-            //         backgroundColor: Colors.indigo,
-            //         foregroundColor: Colors.white,
-            //         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            //         shape: RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.circular(10),
-            //         ),
-            //       ),
-            //     ),
-            //     SizedBox(height: 10),
-            //     if (selectedFile != null)
-            //       Container(
-            //         padding: EdgeInsets.all(10),
-            //         decoration: BoxDecoration(
-            //           border: Border.all(color: Colors.grey.shade300),
-            //           borderRadius: BorderRadius.circular(10),
-            //           color: Colors.grey.shade100,
-            //         ),
-            //         child: Row(
-            //           children: [
-            //             Icon(Icons.insert_drive_file, color: Colors.indigo),
-            //             SizedBox(width: 8),
-            //             Expanded(
-            //               child: Text(
-            //                 selectedFile!.name,
-            //                 overflow: TextOverflow.ellipsis,
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       ),
-            //   ],
-            // ),
-
-            // SizedBox(height: 16),
             Text("Ghi chú thêm", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 6),
 
@@ -158,15 +118,9 @@ class _UpdateRepairPageState extends State<UpdateRepairPage> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                OutlinedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text("Hủy"),
-                ),
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                  child: Text("Gửi yêu cầu", style: TextStyle(color: Colors.white)),
-                ),
+                buildActionBtn(Icons.close, "Hủy", Colors.redAccent, () => Navigator.pop(context)),
+                SizedBox(width: 15),
+                buildActionBtn(Icons.send, "Gửi yêu cầu", Colors.blue, (){}),
               ],
             ),
           ],

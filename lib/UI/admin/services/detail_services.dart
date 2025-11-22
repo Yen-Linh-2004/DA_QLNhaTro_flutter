@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/services/update_service.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class ServiceDetailPage extends StatelessWidget {
   final Map<String, dynamic> service;

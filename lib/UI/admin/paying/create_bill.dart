@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class CreateBillPage extends StatefulWidget {
   const CreateBillPage({super.key});
@@ -108,13 +108,13 @@ class _CreateBillPageState extends State<CreateBillPage> {
                   buildTextField(
                     "Điện (kWh)",
                     "Điện (kWh)",
-                    _electricityController,
+                    _electricityController, null
                   ),
                   SizedBox(width: 10),
                   buildTextField(
                     "Số người",
                     "Nhập số người",
-                    _peopleController,
+                    _peopleController, null
                   ),
                   SizedBox(height: 12),
                   Row(
@@ -133,7 +133,7 @@ class _CreateBillPageState extends State<CreateBillPage> {
                         child: buildTextField(
                           "Rác",
                           "0đ",
-                          _coreGarbageController,
+                          _coreGarbageController, null
                         ),
                       ),
                       SizedBox(width: 10),
@@ -141,7 +141,7 @@ class _CreateBillPageState extends State<CreateBillPage> {
                         child: buildTextField(
                           "Gửi xe",
                           "0đ - xe",
-                          _coreVehicleController,
+                          _coreVehicleController, null
                         ),
                       ),
                     ],
@@ -226,7 +226,7 @@ class _CreateBillPageState extends State<CreateBillPage> {
                     buildTextField(
                       "Mô tả phí mới",
                       "Ví dụ: Vệ sinh máy lạnh, sơn lại cửa,...",
-                      _describeController,
+                      _describeController, null
                     ),
                     SizedBox(height: 8),
                     Row(
@@ -235,7 +235,7 @@ class _CreateBillPageState extends State<CreateBillPage> {
                           child: buildTextField(
                             "Số tiền (VND)",
                             "0",
-                            _costNumberController,
+                            _costNumberController, null
                           ),
                         ),
                         SizedBox(width: 8),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/Rooms/update_room.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class RoomDetailPage extends StatelessWidget {
   const RoomDetailPage({super.key});

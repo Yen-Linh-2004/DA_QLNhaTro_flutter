@@ -7,7 +7,7 @@ import 'package:flutter_application/UI/admin/account/account_page.dart';
 import 'package:flutter_application/UI/admin/contact/contactPage.dart';
 import 'package:flutter_application/UI/admin/customers/customer.dart';
 import 'package:flutter_application/UI/admin/devices/devicesPage.dart';
-import 'package:flutter_application/UI/admin/generalPage/dashbroad.dart';
+import 'package:flutter_application/UI/generalPage/dashbroad.dart';
 import 'package:flutter_application/UI/admin/maintenance/maintenance_page.dart';
 import 'package:flutter_application/UI/admin/notifications/notifications_page.dart';
 import 'package:flutter_application/UI/admin/paying/payment_page.dart';
@@ -15,6 +15,7 @@ import 'package:flutter_application/UI/admin/report/report_page.dart';
 import 'package:flutter_application/UI/admin/rule/rule_paging.dart';
 import 'package:flutter_application/UI/admin/services/servicesPage.dart';
 import 'package:flutter_application/UI/admin/setting.dart';
+import 'package:flutter_application/UI/generalPage/login.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -57,9 +58,15 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFF007BFF),
-        title: Text(_getPageTitle(), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        title: Text(_getPageTitle(), style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         iconTheme: IconThemeData(color: Colors.white),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: AnimatedSwitcher(
         duration: Duration(milliseconds: 300),
@@ -104,7 +111,7 @@ class _MainPageState extends State<MainPage> {
           _buildDrawerItem(Icons.support_agent_outlined, "Bảo trì", 'maintenance'),
           _buildDrawerItem(Icons.electrical_services, "Thiết bị", 'devices'),
           _buildDrawerItem(Icons.bar_chart_outlined, "Báo cáo & Thống kê", 'reports'),   
-          _buildDrawerItem(Icons.running_with_errors_rounded, "Nội quy và vi phạm", 'rule'),
+          _buildDrawerItem(Icons.article, "Nội quy và vi phạm", 'rule'),
           _buildDrawerItem(Icons.notifications, "Thông báo", 'notifications'),
           _buildDrawerItem(Icons.receipt_long_outlined, "Tài khoản", 'account'),
           _buildDrawerItem(Icons.settings_outlined, "Cài đặt", 'settings'),
@@ -115,7 +122,7 @@ class _MainPageState extends State<MainPage> {
             onTap: () {
              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const HomeMobilePage()),
+                MaterialPageRoute(builder: (context) => const LoginPage()),
               );
             },
           ),

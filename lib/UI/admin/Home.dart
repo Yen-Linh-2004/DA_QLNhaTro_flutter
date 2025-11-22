@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/notifications/notifications_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -12,7 +13,7 @@ class HomePage extends StatelessWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.all(16),
-              child: _buildHeader(),
+              child: _buildHeader(context),
             ),
           ),
 
@@ -120,7 +121,7 @@ class HomePage extends StatelessWidget {
 
   // ================= WIDGETS =================
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -135,9 +136,7 @@ class HomePage extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30,
-            backgroundImage: NetworkImage(
-              "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-            ),
+            backgroundImage: NetworkImage("https://cdn-icons-png.flaticon.com/512/3135/3135715.png",),
           ),
           SizedBox(width: 14),
           Expanded(
@@ -156,7 +155,12 @@ class HomePage extends StatelessWidget {
           ),
           Stack(
             children: [
-              Icon(Icons.notifications_none, color: Colors.white, size: 30),
+              IconButton(onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => NotificationManagementPage()),
+                );
+              }, icon: Icon(Icons.notifications_none, color: Colors.white, size: 30)),
               Positioned(
                 right: 0,
                 top: 0,
@@ -168,9 +172,7 @@ class HomePage extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Text("3",
-                        style:
-                            TextStyle(color: Colors.white, fontSize: 10)),
+                    child: Text("3", style: TextStyle(color: Colors.white, fontSize: 10)),
                   ),
                 ),
               )

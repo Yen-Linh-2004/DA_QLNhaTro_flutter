@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class AddAccountPage extends StatefulWidget {
   const AddAccountPage({super.key});
@@ -52,14 +52,14 @@ class _AddAccountPageState extends State<AddAccountPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    buildTextField("Họ tên", "Nhập họ và tên", _nameController),
+                    buildTextField("Họ tên", "Nhập họ và tên", _nameController, null),
                     SizedBox(height: 12),
-                    buildTextField("Email", "Nhập email", _emailController),
+                    buildTextField("Email", "Nhập email", _emailController, null),
                     SizedBox(height: 12),
                     buildTextField(
                       "Số điện thoại",
                       "Nhập số điện thoại",
-                      _phoneController,
+                      _phoneController, null
                     ),
                     SizedBox(height: 12),
                     CustomDropdown(
@@ -84,7 +84,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       },
                     ),
                     SizedBox(height: 12),
-                    buildTextField("Mật khẩu", "******", _passwordController),
+                    buildTextField("Mật khẩu", "******", _passwordController, null),
                     SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

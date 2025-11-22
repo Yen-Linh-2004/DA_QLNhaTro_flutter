@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class CreateBookingPage extends StatefulWidget {
   const CreateBookingPage({super.key});

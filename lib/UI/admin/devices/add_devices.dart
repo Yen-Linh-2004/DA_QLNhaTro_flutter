@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class AddDevicesPage extends StatefulWidget {
   const AddDevicesPage({super.key});
@@ -213,7 +213,7 @@ class _AddDevicesPageState extends State<AddDevicesPage> {
               buildTextField(
                 "Hãng sản xuất",
                 "Nhập hãng sản suất của thiết bị",
-                _manufacturerController,
+                _manufacturerController, null
               ),
               SizedBox(height: 16),
               buildContendField("Ghi chú", "", _noteController, context),

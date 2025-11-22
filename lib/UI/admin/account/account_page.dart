@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/account/add_account.dart';
 import 'package:flutter_application/UI/admin/account/update_account.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class AccountManagementPage extends StatelessWidget {
   const AccountManagementPage({super.key});
@@ -146,13 +146,29 @@ class AccountManagementPage extends StatelessWidget {
                             IconButton(
                               icon:
                                   Icon(Icons.vpn_key, color: Colors.amber),
-                              onPressed: () {},
+                              onPressed: () {
+                                showConfirmDialog(
+                                  context: context,
+                                  title: "Đặt lại mật khẩu",
+                                  message: "Bạn có chắc chắn muốn đặt lại mật khẩu cho tài khoản này không?",
+                                  confirmColor: Colors.orange,
+                                  icon: Icons.warning,
+                                  maxHeight: 140,
+                                  onConfirm: () {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                      content: Text("Đã đặt lại mật khẩu và gửi email cho tài khoản này"),
+                                      backgroundColor: Colors.red,
+                                    ));
+                                  },
+                                );
+                              },
                               tooltip: 'Đổi mật khẩu',
                             ),
                             IconButton(
                               icon: Icon(Icons.delete, color: Colors.red),
                               onPressed: () {
-                                  showConfirmDialog(
+                                showConfirmDialog(
                                   context: context,
                                   title: "Xác nhận xóa tài khoản",
                                   message: "Bạn có chắc chắn muốn xóa tài khoản này không?",
@@ -162,9 +178,7 @@ class AccountManagementPage extends StatelessWidget {
                                   onConfirm: () {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                      content: Text(
-                                        "Đã xóa tài khoản thành công!",
-                                      ),
+                                      content: Text("Đã xóa tài khoản thành công!"),
                                       backgroundColor: Colors.red,
                                     ));
                                   },
@@ -190,8 +204,9 @@ class AccountManagementPage extends StatelessWidget {
             MaterialPageRoute(builder: (context) => AddAccountPage()),
           );
         },
-        icon: Icon(Icons.add),
-        label: Text("Thêm tài khoản"),
+        backgroundColor: Colors.blue,
+        icon: Icon(Icons.add, color: Colors.white,),
+        label: Text("Thêm tài khoản", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
       ),
     );
   }

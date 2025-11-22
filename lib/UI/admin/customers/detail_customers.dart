@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/customers/update_customer.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class CustomerDetailPage extends StatelessWidget {
   // const CustomerDetailPage({super.key, required Map<String, dynamic> tenants});

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class SystemSettingPage extends StatefulWidget {
   const SystemSettingPage({super.key});
@@ -96,15 +96,15 @@ class _SystemSettingPageState extends State<SystemSettingPage> {
           children: [
             Text("Thông tin chung", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
             SizedBox(height: 16),
-            buildTextField("Tên hệ thống", "Nhập tên hệ thống", _nameController),
+            buildTextField("Tên hệ thống", "Nhập tên hệ thống", _nameController, null),
             SizedBox(height: 12),
-            buildTextField("Email", "Nhập email", _emailController),
+            buildTextField("Email", "Nhập email", _emailController, null),
             SizedBox(height: 12),
-            buildTextField("Số điện thoại", "Nhập số điện thoại", _phoneController),
+            buildTextField("Số điện thoại", "Nhập số điện thoại", _phoneController, null),
             SizedBox(height: 12),
-            buildTextField("Mô tả hệ thống", "Nhập mô tả hệ thống", _noteController),
+            buildTextField("Mô tả hệ thống", "Nhập mô tả hệ thống", _noteController, null),
             SizedBox(height: 12),
-            buildTextField("Địa chỉ liên hệ trực tiếp", "Nhập địa chỉ liên hệ", _addressController),
+            buildTextField("Địa chỉ liên hệ trực tiếp", "Nhập địa chỉ liên hệ", _addressController, null),
             SizedBox(height: 24),
             SizedBox(
               width: double.infinity,

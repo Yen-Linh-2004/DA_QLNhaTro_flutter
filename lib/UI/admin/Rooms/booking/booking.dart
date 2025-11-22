@@ -3,8 +3,8 @@ import 'package:flutter_application/UI/admin/Rooms/booking/create_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/create_contact_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/detail_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/refund.dart';
-import 'package:flutter_application/UI/admin/shared/SummaryCard.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/SummaryCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class BookingManagementPage extends StatefulWidget {
   const BookingManagementPage({super.key});

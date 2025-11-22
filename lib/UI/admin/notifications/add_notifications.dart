@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
-import 'package:flutter_application/UI/admin/shared/input_field.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class AddNotificationsPage extends StatefulWidget {
   const AddNotificationsPage({super.key});
@@ -57,7 +57,7 @@ class _AddNotificationsPageState extends State<AddNotificationsPage> {
                     buildTextField(
                       "Tiêu đề",
                       "Nhập tiêu đề",
-                      _tilterController,
+                      _tilterController, null
                     ),
                     SizedBox(height: 12),
                     CustomDropdown(
@@ -107,7 +107,7 @@ class _AddNotificationsPageState extends State<AddNotificationsPage> {
                     buildTextField(
                       "Nội dung",
                       "Nhập nội dung",
-                      _contendController,
+                      _contendController, null
                     ),
                     SizedBox(height: 24),
                     Row(

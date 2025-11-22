@@ -3,7 +3,7 @@ import 'package:flutter_application/UI/admin/contact/extension_contract.dart';
 import 'package:flutter_application/UI/admin/contact/termination_contract.dart';
 import 'package:flutter_application/UI/admin/contact/update_contact.dart';
 import 'package:flutter_application/UI/admin/main_page.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class ContractDetailPage extends StatelessWidget {
   const ContractDetailPage({super.key});

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/room_entity/deposit_room.dart';
-import 'package:flutter_application/UI/admin/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class RoomDetailPage extends StatelessWidget {
   // Dữ liệu mock (tạm thời)

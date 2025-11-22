@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/users/RepairRequestDetail/update_repair.dart';
 
 class RepairRequestDetailPage extends StatelessWidget {
   const RepairRequestDetailPage({super.key});
@@ -76,6 +78,31 @@ class RepairRequestDetailPage extends StatelessWidget {
                     ),
                      SizedBox(height: 10),
                     _infoRow("Ngày tạo", "2024-12-10"),
+                  ],
+                ),
+              ),
+            ),
+
+            SizedBox(height: 12),
+            // --- Thông tin xử lý ---
+            Card(
+              elevation: 2,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Padding(
+                padding:  EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                     Text(
+                      "Chi phí",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                     SizedBox(height: 10),
                     _infoRow(
                       "Chi phí ước tính",
                       "500,000 VNĐ",
@@ -86,7 +113,7 @@ class RepairRequestDetailPage extends StatelessWidget {
               ),
             ),
 
-             SizedBox(height: 12),
+            SizedBox(height: 12),
 
             // --- Mô tả vấn đề ---
             Card(
@@ -178,51 +205,19 @@ class RepairRequestDetailPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
-                padding:  EdgeInsets.all(12),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.close, color: Colors.white),
-                  SizedBox(width: 4),
-                  Text(
-                    "Hủy yêu cầu",
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
+
             SizedBox(height: 8),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding:  EdgeInsets.all(12),
-                  ),
-                  child: Container(width: 140, alignment: Alignment.center, child: Text("Đóng", style: TextStyle(fontSize: 16),))
-                ),
-                SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    padding:  EdgeInsets.all(12),
-                  ),
-                  child: Container(width: 140, alignment: Alignment.center, child: Text("Chỉnh sửa", style: TextStyle(color: Colors.white, fontSize: 16)))
-                ),
+                buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, (){ 
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const UpdateRepairPage()),
+                  );
+                 }),
+                SizedBox(width: 15),
+                buildActionBtn(Icons.close, "Hủy yêu cầu", Colors.red, (){ Navigator.pop(context); })
               ],
             ),
           ],
