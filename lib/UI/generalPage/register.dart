@@ -277,7 +277,7 @@ class _RegisterPageState extends State<RegisterPage> {
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: Colors.grey),
 
-            // ✅ SET NỀN TRẮNG
+            // SET NỀN TRẮNG
             filled: true,
             fillColor: Colors.white,
 

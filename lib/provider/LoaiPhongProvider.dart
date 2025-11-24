@@ -17,7 +17,7 @@ class LoaiPhongProvider extends ChangeNotifier {
     final response = await ApiRoutes.loaiPhong.getAll();
 
     // In ra dữ liệu trả về để debug
-    print("✅ Dữ liệu LoaiPhong trả về: ${response.data}");
+    print("Dữ liệu LoaiPhong trả về: ${response.data}");
 
     // Cập nhật vào list
     loaiPhongList = response.data;
@@ -25,7 +25,7 @@ class LoaiPhongProvider extends ChangeNotifier {
   } catch (e, stacktrace) {
     final fullUrl = ApiRoutes.loaiPhong.dio.options.baseUrl + Endpoints.loaiPhong;
     print("🔥 Gọi API LoaiPhong: $fullUrl");
-    print("❌ Lỗi fetch loại phòng: $e");
+    print("Lỗi fetch loại phòng: $e");
     print(stacktrace);
   } finally {
     isLoading = false;

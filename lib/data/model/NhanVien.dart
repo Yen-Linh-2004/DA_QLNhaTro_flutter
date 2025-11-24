@@ -5,7 +5,7 @@ class NhanVien {
   final String hoTen;
   final String? sdt;
   final String? email;
-  final int? maTaiKhoan;
+  final String? maTaiKhoan;
 
   // Optional: tài khoản liên kết nếu API trả về nested
   final TaiKhoan? taiKhoan;

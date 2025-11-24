@@ -197,9 +197,7 @@ class RepairRequestPage extends StatelessWidget {
                                         onConfirm: () {
                                           ScaffoldMessenger.of(context).showSnackBar(
                                             SnackBar(
-                                            content: Text(
-                                              "Đã xóa yêu cầu thành công!",
-                                            ),
+                                            content: Text("Đã xóa yêu cầu thành công!"),
                                             backgroundColor: Colors.orange,
                                           ));
                                         },

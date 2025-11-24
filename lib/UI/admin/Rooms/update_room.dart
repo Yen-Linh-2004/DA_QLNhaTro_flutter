@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class UpdateRoomPage extends StatefulWidget {
   const UpdateRoomPage({super.key});
@@ -9,40 +10,25 @@ class UpdateRoomPage extends StatefulWidget {
 }
 
 class _UpdateRoomPageState extends State<UpdateRoomPage> {
-  final TextEditingController _roomController = TextEditingController(
-    text: "A101",
-  );
-  final TextEditingController _areaController = TextEditingController(
-    text: "20",
-  );
-  final TextEditingController _priceController = TextEditingController(
-    text: "350000",
-  );
+  final _roomController = TextEditingController(text: "A101");
+  final _areaController = TextEditingController(text: "20");
+  final _priceController = TextEditingController(text: "350000");
 
-  final TextEditingController _nameController = TextEditingController(
-    text: "Nguyễn Văn A",
-  );
-  final TextEditingController _birthDateController = TextEditingController(
-    text: "20/05/1995",
-  );
-  final TextEditingController _placeofbirthController = TextEditingController();
-  final TextEditingController _cccdController = TextEditingController(
-    text: "123456789",
-  );
-  final TextEditingController _dateOfIssueController = TextEditingController();
-  final TextEditingController _placeOfIssueController = TextEditingController();
-  final TextEditingController _phoneOneController = TextEditingController(
-    text: "0901234567",
-  );
-  final TextEditingController _phoneTwoController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController(
+  final _nameController = TextEditingController(text: "Nguyễn Văn A");
+  final _birthDateController = TextEditingController(text: "20/05/1995");
+  final _placeofbirthController = TextEditingController();
+  final _cccdController = TextEditingController(text: "123456789");
+  final _placeOfIssueController = TextEditingController();
+  final _phoneOneController = TextEditingController(text: "0901234567");
+  final _phoneTwoController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _addressController = TextEditingController(
     text: "123 Đường ABC, Quận 1, TP.HCM",
   );
-  final TextEditingController _vehicleNumberController = TextEditingController(
-    text: "29A1-12345",
-  );
-  final TextEditingController _noteController = TextEditingController();
+  final _vehicleNumberController = TextEditingController(text: "29A1-12345");
+  final _noteController = TextEditingController();
+  final _decribeController = TextEditingController();
+  final _amenitiesController = TextEditingController();
 
   final List<String> blocks = ["Dãy A", "Dãy B", "Dãy C"];
   final List<String> floors = ["Tầng 1", "Tầng 2", "Tầng 3"];
@@ -55,6 +41,8 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
   String selectedRoomType = "Phòng đơn";
   String selectedStatus = "Đã thuê";
   String? selectedGender = "Nam";
+  DateTime selectedBirthDay = DateTime(2025, 1, 1);
+  DateTime selectedIssueDate = DateTime(2025, 1, 1);
 
   // Trạng thái các checkbox
   bool dien = true;
@@ -63,6 +51,37 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
   bool giatSay = true;
   bool guiXe = false;
   bool donPhong = false;
+
+  final List<Device> devices = [
+    Device(
+      name: "Máy lạnh Midea Inverter 1HP",
+      code: "MAFA-09CDN8-P1",
+      type: "Thiết bị điện",
+      status: "Tốt",
+      note: "",
+    ),
+    Device(
+      name: "Router Wifi Mercusys",
+      code: "MW302R-P1",
+      type: "Điện tử",
+      status: "Tốt",
+      note: "",
+    ),
+    Device(
+      name: "Tủ quần áo",
+      code: "WD001-P1",
+      type: "Nội thất",
+      status: "Bình thường",
+      note: "",
+    ),
+    Device(
+      name: "Bảng nội quy",
+      code: "NQ001-P1",
+      type: "Khác",
+      status: "Tốt",
+      note: "",
+    ),
+  ];
 
   @override
   void dispose() {
@@ -73,10 +92,13 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 5,
       child: Scaffold(
         appBar: AppBar(
-          title:  Text('Cập nhật thông tin phòng', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+          title: Text(
+            'Cập nhật thông tin phòng',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          ),
           centerTitle: true,
           backgroundColor: Colors.blue,
           leading: IconButton(
@@ -85,17 +107,15 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
               Navigator.pop(context);
             },
           ),
-          bottom:  TabBar(
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
-            indicatorWeight: 2.5,
-            labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+          bottom: TabBar(
+            unselectedLabelColor: Colors.white,
+            labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             tabs: [
               Tab(text: 'Thông tin cơ bản'),
               Tab(text: 'Khách thuê'),
               Tab(text: 'Dịch vụ'),
               Tab(text: 'Thành viên'),
+              Tab(text: 'Thiết bị'),
             ],
           ),
         ),
@@ -111,7 +131,15 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Số phòng",
+                            "Thông tin cơ bản",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          Text(
+                            "Tên phòng",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 6),
@@ -119,11 +147,11 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                             controller: _roomController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Nhập số phòng",
+                              hintText: "Nhập tên phòng trọ",
                             ),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập số phòng";
+                                return "Vui lòng nhập tên phòng trọ";
                               }
                               return null;
                             },
@@ -151,31 +179,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               border: OutlineInputBorder(),
                             ),
                           ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Tầng",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          DropdownButtonFormField<String>(
-                            value: selectedFloor,
-                            items: floors
-                                .map(
-                                  (floor) => DropdownMenuItem(
-                                    value: floor,
-                                    child: Text(floor),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                selectedFloor = value;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
-                          ),
+
                           SizedBox(height: 16),
                           Text(
                             "Loại phòng",
@@ -193,7 +197,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                                 )
                                 .toList(),
                             onChanged: (value) {},
-                            decoration:  InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                             ),
                           ),
@@ -205,10 +209,10 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                           SizedBox(height: 6),
                           TextFormField(
                             controller: _areaController,
-                            keyboardType:  TextInputType.numberWithOptions(
+                            keyboardType: TextInputType.numberWithOptions(
                               decimal: true,
                             ),
-                            decoration:  InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Nhập diện tích",
                             ),
@@ -223,16 +227,16 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
-                           SizedBox(height: 16),
+                          SizedBox(height: 16),
                           Text(
-                            "Giá thuê (VNĐ)",
+                            "Đơn giá cơ bản (VNĐ)",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 6),
                           TextFormField(
                             controller: _priceController,
                             keyboardType: TextInputType.number,
-                            decoration:  InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                               hintText: "Nhập giá thuê",
                             ),
@@ -264,9 +268,31 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                                 )
                                 .toList(),
                             onChanged: (value) {},
-                            decoration:  InputDecoration(
+                            decoration: InputDecoration(
                               border: OutlineInputBorder(),
                             ),
+                          ),
+
+                          Text(
+                            "Thông tin bổ sung",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(height: 12),
+                          buildContendField(
+                            "Mô tả",
+                            "",
+                            _decribeController,
+                            context,
+                          ),
+                          SizedBox(height: 16),
+                          buildContendField(
+                            "Tiện nghi",
+                            "",
+                            _amenitiesController,
+                            context,
                           ),
                         ],
                       ),
@@ -297,44 +323,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Ngày sinh",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _birthDateController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập ngày sinh",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập ngày sinh";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Nơi sinh",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _placeofbirthController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập nơi sinh",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập nơi sinh";
-                              }
-                              return null;
-                            },
-                          ),
+
                           SizedBox(height: 16),
                           Text(
                             "CCCD/CMND",
@@ -354,44 +343,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Ngày cấp",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _dateOfIssueController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập ngày cấp",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập ngày cấp";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Nơi cấp",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _placeOfIssueController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập nơi cấp",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập nơi cấp";
-                              }
-                              return null;
-                            },
-                          ),
+
                           SizedBox(height: 16),
                           Text(
                             "Số điện thoại 1",
@@ -430,6 +382,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
+
                           SizedBox(height: 16),
                           Text(
                             "Email",
@@ -449,28 +402,50 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
+
                           SizedBox(height: 16),
                           Text(
-                            "Địa chỉ thường trú",
+                            "Ngày sinh",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 6),
                           TextFormField(
-                            controller: _addressController,
+                            controller: _birthDateController,
                             decoration: InputDecoration(
                               border: OutlineInputBorder(),
-                              hintText: "Nhập địa chỉ thường trú",
+                              hintText: "Nhập ngày sinh",
                             ),
                             validator: (value) {
                               if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập địa chỉ thường trú";
+                                return "Vui lòng nhập ngày sinh";
                               }
                               return null;
                             },
                           ),
+
                           SizedBox(height: 16),
                           Text(
-                            "Số xe",
+                            "Nơi sinh",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          SizedBox(height: 6),
+                          TextFormField(
+                            controller: _placeofbirthController,
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(),
+                              hintText: "Nhập nơi sinh",
+                            ),
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "Vui lòng nhập nơi sinh";
+                              }
+                              return null;
+                            },
+                          ),
+
+                          SizedBox(height: 16),
+                          Text(
+                            "Biển số xe",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 6),
@@ -487,17 +462,38 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               return null;
                             },
                           ),
+
                           SizedBox(height: 16),
-                          Text(
-                            "Ghi chú khác",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          buildContendField(
+                            "Địa chỉ thường trú",
+                            "Nhập địa chỉ thường trú",
+                            _addressController,
+                            context,
                           ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _noteController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập ghi chú (nếu có)",
+
+                          SizedBox(height: 16),
+                          buildContendField(
+                            "Ghi chú",
+                            "",
+                            _noteController,
+                            context,
+                          ),
+
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: TextButton(
+                              onPressed: () {},
+                              style: TextButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                minimumSize: Size(0, 0),
+                              ),
+                              child: Text(
+                                "Xóa khách thuê chính",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -507,7 +503,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
 
                   Center(
                     child: Padding(
-                      padding:  EdgeInsets.all(14.0),
+                      padding: EdgeInsets.all(14.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -516,7 +512,7 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                               color: Colors.grey.shade100,
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            padding:  EdgeInsets.all(16),
+                            padding: EdgeInsets.all(16),
                             child: Wrap(
                               //   spacing: 20,
                               //   runSpacing: 10,
@@ -565,153 +561,101 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Họ tên",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _nameController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập họ tên",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập họ tên";
-                              }
-                              return null;
-                            },
-                          ),
+                          buildTextField("Họ tên", "", _nameController, null),
+
                           SizedBox(height: 16),
-                          Text(
+                          buildDatePickerField(
+                            context,
                             "Ngày sinh",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _birthDateController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập ngày sinh",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập ngày sinh";
-                              }
-                              return null;
-                            },
-                          ),
-                          SizedBox(height: 16),
-                          Text(
-                            "Giới tính",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          DropdownButtonFormField<String>(
-                            value: selectedGender,
-                            items: gender
-                                .map(
-                                  (gender) => DropdownMenuItem(
-                                    value: gender,
-                                    child: Text(gender),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) {
+                            selectedBirthDay,
+                            (date) {
                               setState(() {
-                                selectedGender = value; // cập nhật giá trị
+                                selectedBirthDay = date;
                               });
                             },
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                            ),
                           ),
 
                           SizedBox(height: 16),
-                          Text(
+                          buildTextField(
+                            "Nơi sinh",
+                            "",
+                            _placeofbirthController,
+                            null,
+                          ),
+
+                          SizedBox(height: 16),
+                          buildTextField(
                             "CCCD/CMND",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            "",
+                            _cccdController,
+                            null,
                           ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _cccdController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập CCCD/CMND",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập CCCD/CMND";
-                              }
-                              return null;
-                            },
-                          ),
+
                           SizedBox(height: 16),
-                          Text(
-                            "Điện thoại",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _phoneOneController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập số điện thoại",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập số điện thoại";
-                              }
-                              return null;
+                          buildDatePickerField(
+                            context,
+                            "Ngày cấp",
+                            selectedIssueDate,
+                            (date) {
+                              setState(() {
+                                selectedIssueDate = date;
+                              });
                             },
                           ),
-                          Text(
-                            "Số xe",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _vehicleNumberController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập số xe",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập số xe";
-                              }
-                              return null;
-                            },
-                          ),
+
                           SizedBox(height: 16),
-                          Text(
-                            "Đia chỉ",
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                          buildTextField(
+                            "Nơi cấp",
+                            "",
+                            _placeOfIssueController,
+                            null,
                           ),
-                          SizedBox(height: 6),
-                          TextFormField(
-                            controller: _noteController,
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Nhập địa chỉ",
-                            ),
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Vui lòng nhập địa chỉ";
-                              }
-                              return null;
-                            },
+
+                          SizedBox(height: 16),
+                          buildTextField(
+                            "Điện thoai 1",
+                            "",
+                            _phoneOneController,
+                            null,
                           ),
+
+                          SizedBox(height: 16),
+                          buildTextField(
+                            "Điện thoại 2",
+                            "",
+                            _phoneTwoController,
+                            null,
+                          ),
+
+                          SizedBox(height: 16),
+                          buildTextField("Email", "", _emailController, null),
+
+                          SizedBox(height: 16),
+                          buildTextField(
+                            "Biến số xe",
+                            "",
+                            _vehicleNumberController,
+                            null,
+                          ),
+
+                          SizedBox(height: 16),
+                          buildContendField(
+                            "Ghi chú",
+                            "",
+                            _noteController,
+                            context,
+                          ),
+
+                          SizedBox(height: 16),
                           Align(
                             alignment: Alignment.topRight,
                             child: TextButton(
                               onPressed: () {},
                               style: TextButton.styleFrom(
                                 padding: EdgeInsets.zero,
-                                minimumSize:  Size(0, 0),
+                                minimumSize: Size(0, 0),
                               ),
-                              child:  Text(
+                              child: Text(
                                 "Xóa thành viên",
                                 style: TextStyle(
                                   color: Colors.red,
@@ -740,17 +684,42 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
                       ),
                     ),
                   ),
+
+                  Center(
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DeviceListWidget(
+                            devices: devices,
+                            onDelete: (index) {
+                              // Xử lý xóa thiết bị devices[index]
+                            },
+                            onAdd: () {
+                              // Xử lý thêm thiết bị
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-             SizedBox(height: 20),
+            SizedBox(height: 20),
             Padding(
-              padding:  EdgeInsets.all(12.0),
+              padding: EdgeInsets.all(12.0),
               child: Row(
                 children: [
-                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                  buildActionBtn(
+                    Icons.close,
+                    "Hủy",
+                    Colors.red,
+                    () => Navigator.pop(context),
+                  ),
                   SizedBox(width: 16),
-                  buildActionBtn(Icons.add, "Lưu thay đổi", Colors.blue, (){}),
+                  buildActionBtn(Icons.add, "Lưu thay đổi", Colors.blue, () {}),
                 ],
               ),
             ),
@@ -775,6 +744,203 @@ class _UpdateRoomPageState extends State<UpdateRoomPage> {
           Text(title),
         ],
       ),
+    );
+  }
+}
+
+class Device {
+  final String name;
+  final String code;
+  final String type;
+  final String status;
+  final String note;
+
+  Device({
+    required this.name,
+    required this.code,
+    required this.type,
+    required this.status,
+    required this.note,
+  });
+}
+
+class DeviceListWidget extends StatelessWidget {
+  final List<Device> devices;
+  final void Function(int index, Device updatedDevice)? onChanged;
+  final void Function(int index)? onDelete;
+  final VoidCallback? onAdd;
+
+  const DeviceListWidget({
+    super.key,
+    required this.devices,
+    this.onChanged,
+    this.onDelete,
+    this.onAdd,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.separated(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.all(16),
+      itemCount: devices.length + 1,
+      separatorBuilder: (_, __) => SizedBox(height: 16),
+      itemBuilder: (context, index) {
+        if (index == devices.length) {
+          return Row(
+            children: [
+              buildActionBtn(Icons.add, "Thêm thiết bị", Colors.blue, () {}),
+            ],
+          );
+        }
+
+        final device = devices[index];
+        return DeviceCardEditable(
+          device: device,
+          onChanged: (updated) {
+            if (onChanged != null) onChanged!(index, updated);
+          },
+          onDelete: () {
+            if (onDelete != null) onDelete!(index);
+          },
+        );
+      },
+    );
+  }
+}
+
+class DeviceCardEditable extends StatefulWidget {
+  final Device device;
+  final void Function(Device updated)? onChanged;
+  final VoidCallback onDelete;
+
+  const DeviceCardEditable({
+    super.key,
+    required this.device,
+    this.onChanged,
+    required this.onDelete,
+  });
+
+  @override
+  State<DeviceCardEditable> createState() => _DeviceCardEditableState();
+}
+
+class _DeviceCardEditableState extends State<DeviceCardEditable> {
+  late TextEditingController nameController;
+  late TextEditingController codeController;
+  late TextEditingController typeController;
+  late TextEditingController statusController;
+  late TextEditingController noteController;
+
+  @override
+  void initState() {
+    super.initState();
+    nameController = TextEditingController(text: widget.device.name);
+    codeController = TextEditingController(text: widget.device.code);
+    typeController = TextEditingController(text: widget.device.type);
+    statusController = TextEditingController(text: widget.device.status);
+    noteController = TextEditingController(text: widget.device.note);
+  }
+
+  void _onFieldChanged() {
+    final updatedDevice = Device(
+      name: nameController.text,
+      code: codeController.text,
+      type: typeController.text,
+      status: statusController.text,
+      note: noteController.text,
+    );
+    if (widget.onChanged != null) widget.onChanged!(updatedDevice);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: Colors.grey.shade300),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: _buildEditableField('Tên thiết bị', nameController),
+              ),
+              SizedBox(width: 8),
+              Expanded(
+                flex: 2,
+                child: _buildEditableField('Mã TB', codeController),
+              ),
+              SizedBox(width: 8),
+              GestureDetector(
+                onTap: widget.onDelete,
+                child: Icon(Icons.delete_outline, color: Colors.red, size: 24),
+              ),
+            ],
+          ),
+          SizedBox(height: 12),
+          // Status and note
+          Row(
+            children: [
+              Expanded(
+                flex: 2,
+                child: _buildEditableField('Loại', typeController),
+              ),
+              SizedBox(width: 12),
+              Expanded(
+                flex: 2,
+                child: _buildEditableField('Tình trạng', statusController),
+              ),
+              SizedBox(width: 12),
+            ],
+          ),
+          SizedBox(height: 12),
+          Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: _buildEditableField('Ghi chú', noteController),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildEditableField(String label, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+        ),
+        SizedBox(height: 6),
+        TextFormField(
+          controller: controller,
+          onChanged: (_) => _onFieldChanged(),
+          maxLines: 1,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+            fillColor: Colors.grey.shade50,
+            filled: true,
+          ),
+        ),
+      ],
     );
   }
 }

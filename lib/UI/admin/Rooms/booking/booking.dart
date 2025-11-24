@@ -74,32 +74,6 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
             _buildSummaryCards(),
             SizedBox(height: 16),
 
-            // // --- Thanh tìm kiếm & lọc ---
-            // Row(
-            //   children: [
-            //     Expanded(
-            //       child: TextField(
-            //         controller: searchController,
-            //         decoration: InputDecoration(
-            //           hintText: "Tìm kiếm theo tên khách hàng...",
-            //           prefixIcon:  Icon(Icons.search),
-            //           border: OutlineInputBorder(
-            //             borderRadius: BorderRadius.circular(10),
-            //           ),
-            //           contentPadding:  EdgeInsets.symmetric(vertical: 0),
-            //         ),
-            //       ),
-            //     ),
-            //      SizedBox(width: 10),
-            //     IconButton(
-            //       icon:  Icon(Icons.filter_list, color: Colors.grey),
-            //       onPressed: () {},
-            //     ),
-            //   ],
-            // ),
-
-            //  SizedBox(height: 20),
-
             // --- Danh sách đặt phòng ---
             ListView.builder(
               shrinkWrap: true,

@@ -59,7 +59,7 @@ class ContractManagementPage extends StatelessWidget {
             ),
             SizedBox(height: 16),
 
-            // ✅ MUST: Expanded để tránh overflow
+            // MUST: Expanded để tránh overflow
             Expanded(
               child: ListView.separated(
                 itemCount: contracts.length,
@@ -169,7 +169,7 @@ class ContractManagementPage extends StatelessWidget {
     );
   }
 
-  // ✅ Thống kê
+  // Thống kê
   Widget _buildStatCards() {
     return Column(
       children: [

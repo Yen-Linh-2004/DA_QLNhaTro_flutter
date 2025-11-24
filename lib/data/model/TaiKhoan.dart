@@ -46,6 +46,8 @@ class TaiKhoan {
     );
   }
 
+  get data => null;
+
   Map<String, dynamic> toJson() {
     return {
       'MaTaiKhoan': maTaiKhoan,

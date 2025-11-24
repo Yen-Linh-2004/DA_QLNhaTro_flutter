@@ -81,7 +81,7 @@ class KhachThue {
       ghiChu: json['GhiChu'],
       tenPhong: json['TenPhong'],
       diaChiDay: json['DiaChiDay'],
-      phongTro: json['phongTro'] != null
+      phongTro: json['phongTro'] != null 
           ? PhongTro.fromJson(json['phongTro'])
           : null,
     );

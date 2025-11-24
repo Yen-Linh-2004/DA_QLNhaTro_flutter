@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/contact/extension_contract.dart';
 import 'package:flutter_application/UI/admin/contact/termination_contract.dart';
 import 'package:flutter_application/UI/admin/contact/update_contact.dart';
-import 'package:flutter_application/UI/admin/main_page.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class ContractDetailPage extends StatelessWidget {
@@ -27,7 +26,7 @@ class ContractDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ THÔNG TIN HỢP ĐỒNG --------------------------------------------
+            // THÔNG TIN HỢP ĐỒNG --------------------------------------------
             _sectionTitle("Thông tin hợp đồng"),
             SizedBox(height: 10),
             _infoCard([
@@ -45,7 +44,7 @@ class ContractDetailPage extends StatelessWidget {
             ]),
             SizedBox(height: 22),
 
-            // ✅ THÔNG TIN KHÁCH THUÊ & PHÒNG ----------------------------------------
+            // THÔNG TIN KHÁCH THUÊ & PHÒNG ----------------------------------------
             _sectionTitle("Thông tin khách thuê & phòng"),
             SizedBox(height: 10),
             _infoCard([

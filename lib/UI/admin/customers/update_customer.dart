@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
 
 class UpdateCustomerPage extends StatefulWidget {
   const UpdateCustomerPage({super.key});
@@ -202,73 +204,36 @@ class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
               },
             ),
             SizedBox(height: 16),
-            Text(
-              "Địa chỉ thường trú",
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 6),
-            TextFormField(
-              controller: addressController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Nhập địa chỉ thường trú",
-              ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return "Vui lòng nhập địa chỉ thường trú";
-                }
-                return null;
-              },
-            ),
+            buildContendField("Địa chỉ thường trú", "", addressController, context),
+
             SizedBox(height: 16),
-            Text("Số xe", style: TextStyle(fontWeight: FontWeight.bold)),
+            Text("Biển số xe", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 6),
             TextFormField(
               controller: vehicleController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: "Nhập số xe",
+                hintText: "Nhập biện số xe",
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
-                  return "Vui lòng nhập số xe";
+                  return "Vui lòng nhập biện số xe";
                 }
                 return null;
               },
             ),
             SizedBox(height: 16),
-            Text("Ghi chú khác", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-            TextFormField(
-              controller: noteController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Nhập ghi chú (nếu có)",
-              ),
-            ),
+            buildContendField("Ghi chú khác", "Nhập ghi chú (nếu cần)", noteController, context),
 
             SizedBox(height: 24),
             Row(
               children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child:  Text("Hủy"),
-                  ),
-                ),
-                 SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // TODO: xử lý lưu dữ liệu
-                      print("Tên khách: ${nameController.text}");
-                    },
-                    child: Text("Lưu thay đổi"),
-                  ),
-                ),
+                buildActionBtn(Icons.close,"Hủy", Colors.red, () => Navigator.pop(context)),
+                SizedBox(width: 16),
+                buildActionBtn(Icons.save, "Lưu thay đổi", Colors.blue, () {}),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 10),
           ],
         ),
       ),

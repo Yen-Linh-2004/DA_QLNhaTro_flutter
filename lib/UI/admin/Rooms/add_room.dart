@@ -93,9 +93,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 }
                 return null;
               }),
-              SizedBox(height: 16),
-              buildTextField("Phòng", "Nhập tên phòng", _roomNumberController, null),
-             
+              
               SizedBox(height: 16),
               // Dãy phòng
               Text("Dãy phòng", style: TextStyle(fontWeight: FontWeight.bold)),
@@ -119,28 +117,6 @@ class _AddRoomPageState extends State<AddRoomPage> {
               ),
 
               SizedBox(height: 16),
-              // Tầng
-              Text("Tầng", style: TextStyle(fontWeight: FontWeight.bold)),
-               SizedBox(height: 6),
-              DropdownButtonFormField<String>(
-                value: selectedFloor,
-                items: floors
-                    .map((floor) => DropdownMenuItem(
-                          value: floor,
-                          child: Text(floor),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedFloor = value;
-                  });
-                },
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
-              ),
-
-               SizedBox(height: 16),
               // Loại phòng
                Text(
                 "Loại phòng",
@@ -164,62 +140,8 @@ class _AddRoomPageState extends State<AddRoomPage> {
                   border: OutlineInputBorder(),
                 ),
               ),
-
-               SizedBox(height: 16),
-              // Diện tích
-               Text(
-                "Diện tích (m²)",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-               SizedBox(height: 6),
-              TextFormField(
-                controller: _areaController,
-                keyboardType:
-                     TextInputType.numberWithOptions(decimal: true),
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Nhập diện tích",
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập diện tích";
-                  }
-                  final number = double.tryParse(value);
-                  if (number == null || number <= 0) {
-                    return "Diện tích không hợp lệ";
-                  }
-                  return null;
-                },
-              ),
-               SizedBox(height: 16),
-              // Giá thuê
-               Text(
-                "Giá thuê (VNĐ)",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-               SizedBox(height: 6),
-              TextFormField(
-                controller: _priceController,
-                keyboardType: TextInputType.number,
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "Nhập giá thuê",
-                ),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập giá thuê";
-                  }
-                  final number = int.tryParse(value);
-                  if (number == null || number <= 0) {
-                    return "Giá thuê không hợp lệ";
-                  }
-                  return null;
-                },
-              ),
-
+              
               SizedBox(height: 24),
-
-              // Nút hành động
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [

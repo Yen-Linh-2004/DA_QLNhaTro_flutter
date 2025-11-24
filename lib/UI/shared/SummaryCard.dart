@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class SummaryCard extends StatelessWidget {
   final SummaryItem item;
-   SummaryCard({super.key, required this.item});
+  const SummaryCard({super.key, required this.item});
 
   @override
   Widget build(BuildContext context) {

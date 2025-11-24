@@ -7,267 +7,161 @@ class RoomDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return DefaultTabController(
-      length: 4,
-      child: Scaffold(
-        backgroundColor: Colors.grey.shade100,
-
-        // ----------------------- APPBAR -----------------------
-        appBar: AppBar(
-          title:  Text("Chi tiết phòng A101", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          backgroundColor: Colors.blue,
-          elevation: 1,
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          bottom:  TabBar(
-            indicatorColor: Colors.blue,
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.white,
-            tabs: [
-              Tab(text: "Thông tin"),
-              Tab(text: "Khách thuê"),
-              Tab(text: "Dịch vụ"),
-              Tab(text: "Thành viên"),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: Colors.grey.shade100,
+      appBar: AppBar(
+        title:  Text("Chi tiết phòng A101", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: Colors.blue,
+        elevation: 1,
+        leading: IconButton(
+          icon:  Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
-
-        // ----------------------- NỘI DUNG -----------------------
-        body: TabBarView(
-          children: [
-            _tabDichVu(context),
-            _tabThanhVien(context),
-          ],
-        ),
-
-        // ----------------------- NÚT DƯỚI -----------------------
-        bottomNavigationBar: _bottomButtons(context),
       ),
-    );
-  }
-
-  // ============================================================================================
-  // TAB 1 – THÔNG TIN PHÒNG
-  // ============================================================================================
-  Widget _tabThongTin(BuildContext context, bool isSmallPhone) {
-    return SingleChildScrollView(
-      padding:  EdgeInsets.all(16),
-      child: Column(
-        children: [
-          _card(
-            title: "Thông tin cơ bản",
-            children:  [
-              _infoRow("Số phòng", "A101"),
-              _infoRow("Dãy", "A"),
-              _infoRow("Tầng", "1"),
-              _infoRow("Loại phòng", "Phòng đơn"),
-              _infoRow("Diện tích", "20 m²"),
-              _infoRow("Giá thuê", "3.500.000đ / tháng", color: Colors.green),
-              _infoRow("Trạng thái", "Đã thuê", color: Colors.blue),
-            ],
-          ),
-           SizedBox(height: 12),
-          _card(
-            title: "Tiện nghi",
-            children:  [
-              _amenity("Điều hòa"),
-              _amenity("Tủ lạnh"),
-              _amenity("Giường"),
-              _amenity("Tủ quần áo"),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================================================
-  // TAB 2 – KHÁCH THUÊ
-  // ============================================================================================
-  Widget _tabKhachThue(BuildContext context, bool isSmallPhone) {
-    return SingleChildScrollView(
-      padding:  EdgeInsets.all(16),
-      child: Column(
-        children: [
-          _card(
-            title: "Thông tin khách thuê",
-            children:  [
-              _infoRow("Họ tên", "Nguyễn Văn A"),
-              _infoRow("Ngày sinh", "20/05/1995"),
-              _infoRow("CMND/CCCD", "0123456789"),
-              _infoRow("Điện thoại", "0901234567"),
-              _infoRow("Email", "nguyenvana@email.com"),
-              _infoRow("Địa chỉ", "123 Nguyễn Trãi, TP.HCM"),
-            ],
-          ),
-           SizedBox(height: 12),
-        ],
-      ),
-    );
-  }
-
-  // ============================================================================================
-  // TAB 3 – DỊCH VỤ
-  // ============================================================================================
-  Widget _tabDichVu(BuildContext context) {
-    return ListView(
-      padding:  EdgeInsets.all(16),
-      children: [
-        _card(
-          title: "Dịch vụ đang sử dụng",
-          children: [
-            _checkbox("Điện"),
-            _checkbox("Nước"),
-            _checkbox("Internet"),
-            _checkbox("Giặt sấy"),
-            _checkbox("Gửi xe"),
-            _checkbox("Dọn phòng"),
-          ],
-        ),
-      ],
-    );
-  }
-
-  // ============================================================================================
-  // TAB 4 – THÀNH VIÊN
-  // ============================================================================================
-  Widget _tabThanhVien(BuildContext context) {
-    final list = [
-      {
-        "Họ tên": "Nguyễn Văn A",
-        "SĐT": "0901234567",
-        "Giới tính": "Nam",
-        "Xe": "29A1-12345"
-      }
-    ];
-
-    return ListView.builder(
-      padding:  EdgeInsets.all(16),
-      itemCount: list.length,
-      itemBuilder: (context, i) {
-        final tv = list[i];
-        return _card(
-          margin:  EdgeInsets.only(bottom: 12),
-          title: tv["Họ tên"],
-          children: [
-            _infoRow("Điện thoại", tv["SĐT"]!),
-            _infoRow("Giới tính", tv["Giới tính"]!),
-            _infoRow("Xe", tv["Xe"]!),
-          ],
-        );
-      },
-    );
-  }
-
-  // ============================================================================================
-  // NÚT DƯỚI CÙNG
-  // ============================================================================================
-  Widget _bottomButtons(BuildContext context) {
-    return Container(
-      padding:  EdgeInsets.all(12),
-      color: Colors.white,
-      child: Row(
-        children: [
-          buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, () {
-            Navigator.push(context,
-              MaterialPageRoute(builder: (_) =>  UpdateRoomPage()));
-          }),
-          SizedBox(width: 10),
-          buildActionBtn(Icons.picture_as_pdf, "Hợp đồng pdf", Colors.green, (){ }),
-        ],
-      ),
-    );
-  }
-
-  Widget _checkbox(String name) {
-    return Row(
-      children: [
-        Checkbox(value: true, onChanged: (_) {}),
-        Text(name),
-      ],
-    );
-  }
-
-  Widget _card({
-    String? title,
-    required List<Widget> children,
-    EdgeInsets? margin,
-  }) {
-    return Card(
-      margin: margin,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 1,
-      child: Padding(
-        padding:  EdgeInsets.all(14),
+      body: SingleChildScrollView(
+        padding:  EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (title != null)
-              Padding(
-                padding:  EdgeInsets.only(bottom: 12),
-                child: Text(
-                  title,
-                  style:  TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ...children
+            // SizedBox(height: 12),
+            _infoCard([
+              Text("Chi tiết phòng A101", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              SizedBox(height: 12),
+              _infoRow("Số phòng", "A101"),
+              _infoRow("Dãy", "Dãy A"),
+              _infoRow("Loại phòng", "Bình thường"),
+              _infoRow("Giá thuê", "2.600.000đ/tháng", color: Colors.green),
+              _infoRow("Trạng thái", "Đã thuê", color: Colors.blue, bold: true),
+              _infoRow("Mô tả", "Phòng A101 - Phòng thường"),
+            ]),
+            SizedBox(height: 16),
+            _amenitiesSection(amenities: ["Gác", "Kệ chén bát", "Điều hòa"]),
+            SizedBox(height: 12),
+            Row(
+              children: [
+                buildActionBtn(Icons.edit_outlined, "Chỉnh sửa", Colors.blue, (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => UpdateRoomPage(),
+                    ),
+                  );
+                }),
+                SizedBox(width: 15),
+                buildActionBtn(Icons.delete, "Xóa phòng", Colors.red, (){
+                 showConfirmDialog(
+                    context: context,
+                    title: "Xác nhận xóa phòng trọ",
+                    message: "Bạn có chắc chắn muốn xóa phòng này không?",
+                    confirmColor: Colors.red,
+                    icon: Icons.delete_forever,
+                    maxHeight: 140,
+                    onConfirm: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                        content: Text("Đã xóa phòng thành công!"),
+                        backgroundColor: Colors.red,
+                      ));
+                    },
+                  );
+                }),
+              ],
+            )
           ],
         ),
       ),
     );
   }
-}
 
-// =======================================================================
-// WIDGET NHỎ
-// =======================================================================
-class _infoRow extends StatelessWidget {
-  final String label;
-  final String value;
-  final Color? color;
+  // ---------------------------------------------
+  // 🔵  CARD INFO
+  // ---------------------------------------------
+  Widget _infoCard(List<Widget> children) {
+    return Container(
+      width: double.infinity,
+      padding:  EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset:  Offset(0, 3),
+          )
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: children,
+      ),
+    );
+  }
 
-   _infoRow(this.label, this.value, {this.color});
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _infoRow(String label, String value, { bool bold = false, Color? color, })
+  {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 4),
+      padding:  EdgeInsets.only(bottom: 12),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(width: 110, child: Text(label)),
+          SizedBox(
+            width: 130,
+            child: Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 14)),
+          ),
           Expanded(
-            child: Text(
-              value,
-              style: TextStyle(
-                  fontWeight: FontWeight.w600, color: color ?? Colors.black),
-            ),
+            child: Text(value, style: TextStyle(fontSize: 15, color: color ?? Colors.black, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
           ),
         ],
       ),
     );
   }
-}
 
-class _amenity extends StatelessWidget {
-  final String name;
-
-   _amenity(this.name);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 3),
-      child: Row(
+  Widget _amenitiesSection({required List<String> amenities,}) 
+  {
+    return Container(
+      width: double.infinity,
+      padding:  EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white, 
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.08),
+            spreadRadius: 1,
+            blurRadius: 10,
+            offset:  Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-           Icon(Icons.check_circle, color: Colors.green, size: 18),
-           SizedBox(width: 6),
-          Text(name),
+          Text("Tiện nghi", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+          SizedBox(height: 12),
+          LayoutBuilder(
+            builder: (context, raints) {
+              final columnWidth = (raints.maxWidth - 40) / 2;
+              return Wrap(
+                spacing: 40,
+                runSpacing: 12,
+                children: amenities.map((item) {
+                  return SizedBox(
+                    width: columnWidth,
+                    child: Row(
+                      children: [
+                        Icon(Icons.check, color: Colors.green, size: 18),
+                        SizedBox(width: 6),
+                        Expanded(
+                          child: Text(item, style: TextStyle(fontSize: 14)),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
         ],
       ),
     );
