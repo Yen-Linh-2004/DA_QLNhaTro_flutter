@@ -1,16 +1,30 @@
 import 'package:flutter_application/data/model/Khachthue.dart';
 import 'package:flutter_application/data/model/NhanVien.dart';
 
-enum PhanQuyenEnum { nhanVien, quanLy, khachThue }
+enum PhanQuyenEnum {
+  chuTro(0),
+  quanLy(1),
+  nhanVien(2),
+  khachThue(3);
+
+  final int id;
+  const PhanQuyenEnum(this.id);
+
+  static PhanQuyenEnum fromInt(int? value) {
+    return PhanQuyenEnum.values.firstWhere(
+      (e) => e.id == value,
+      orElse: () => PhanQuyenEnum.khachThue,
+    );
+  }
+}
 
 class TaiKhoan {
   final int maTaiKhoan;
   final String tenDangNhap;
-  final String? matKhau; // ẩn khi serialize
+  final String? matKhau; 
   final PhanQuyenEnum maQuyen;
   final String trangThaiTaiKhoan;
 
-  // Quan hệ một-một (nullable nếu chưa load)
   final NhanVien? nhanVien;
   final KhachThue? khachThue;
 
@@ -24,7 +38,6 @@ class TaiKhoan {
     this.khachThue,
   });
 
-  /// Computed property tương tự `getProfileAttribute` trong Laravel
   dynamic get profile {
     if (maQuyen == PhanQuyenEnum.nhanVien || maQuyen == PhanQuyenEnum.quanLy) {
       return nhanVien;
@@ -39,10 +52,12 @@ class TaiKhoan {
       maTaiKhoan: json['MaTaiKhoan'] ?? 0,
       tenDangNhap: json['TenDangNhap'] ?? '',
       matKhau: json['MatKhau'],
-      maQuyen: _phanQuyenFromString(json['MaQuyen']),
+      maQuyen: PhanQuyenEnum.fromInt(json['MaQuyen']),
       trangThaiTaiKhoan: json['TrangThaiTaiKhoan'] ?? '',
       nhanVien: json['NhanVien'] != null ? NhanVien.fromJson(json['NhanVien']) : null,
       khachThue: json['KhachThue'] != null ? KhachThue.fromJson(json['KhachThue']) : null,
+     
+      
     );
   }
 
@@ -52,7 +67,7 @@ class TaiKhoan {
     return {
       'MaTaiKhoan': maTaiKhoan,
       'TenDangNhap': tenDangNhap,
-      // 'MatKhau': matKhau, // thường ẩn
+      'MatKhau': matKhau, 
       'MaQuyen': maQuyen.toString().split('.').last,
       'TrangThaiTaiKhoan': trangThaiTaiKhoan,
       'NhanVien': nhanVien?.toJson(),
@@ -62,11 +77,11 @@ class TaiKhoan {
 
   static PhanQuyenEnum _phanQuyenFromString(String? value) {
     switch (value) {
-      case 'NHAN_VIEN':
+      case 1:
         return PhanQuyenEnum.nhanVien;
-      case 'QUAN_LY':
+      case 2:
         return PhanQuyenEnum.quanLy;
-      case 'KHACH_THUE':
+      case 3:
         return PhanQuyenEnum.khachThue;
       default:
         return PhanQuyenEnum.khachThue; // mặc định

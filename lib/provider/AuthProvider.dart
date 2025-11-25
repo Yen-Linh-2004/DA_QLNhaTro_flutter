@@ -8,10 +8,7 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
   TaiKhoan? taiKhoan;
   String? accessToken;
-
   final Dio _dio = ApiRoutes.auth.dio;
-
-  /// Cập nhật token vào header
   void _setAuthToken(String token) {
     _dio.options.headers['Authorization'] = 'Bearer $token';
   }
@@ -23,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final fullUrl = _dio.options.baseUrl + Endpoints.login;
-      print("🔥 Gọi API login: $fullUrl");
+      print("Gọi API login: $fullUrl");
 
       final response = await _dio.post(Endpoints.login, data: {
         'TenDangNhap': tenDangNhap,
@@ -52,10 +49,9 @@ class AuthProvider extends ChangeNotifier {
   Future<void> register(Map<String, dynamic> registerData) async {
     isLoading = true;
     notifyListeners();
-
     try {
       final fullUrl = _dio.options.baseUrl + Endpoints.register;
-      print("🔥 Gọi API register: $fullUrl");
+      print("Gọi API register: $fullUrl");
 
       final response = await _dio.post(Endpoints.register, data: registerData);
 
@@ -88,7 +84,7 @@ class AuthProvider extends ChangeNotifier {
 
     try {
       final fullUrl = _dio.options.baseUrl + Endpoints.logout;
-      print("🔥 Gọi API logout: $fullUrl");
+      print("Gọi API logout: $fullUrl");
 
       await _dio.post(Endpoints.logout);
 

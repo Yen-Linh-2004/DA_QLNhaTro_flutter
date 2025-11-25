@@ -5,7 +5,7 @@ class NhanVien {
   final String hoTen;
   final String? sdt;
   final String? email;
-  final String? maTaiKhoan;
+  final int? maTaiKhoan;
 
   // Optional: tài khoản liên kết nếu API trả về nested
   final TaiKhoan? taiKhoan;
@@ -25,7 +25,7 @@ class NhanVien {
       hoTen: json['HoTen'] ?? '',
       sdt: json['SDT'],
       email: json['Email'],
-      maTaiKhoan: json['MaTaiKhoan'],
+      maTaiKhoan: json['MaTaiKhoan'] ?? 0,
       taiKhoan: json['taiKhoan'] != null
           ? TaiKhoan.fromJson(json['taiKhoan'])
           : null,

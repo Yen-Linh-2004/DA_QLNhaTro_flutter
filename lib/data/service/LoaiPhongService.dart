@@ -6,7 +6,10 @@ class LoaiPhongService {
   final Dio dio = Dio(BaseOptions(baseUrl: AppConfig.apiUrl));
 
   Future<Response> getAll() async {
-    return await dio.get(Endpoints.loaiPhong);
+    return await dio.get(
+      Endpoints.loaiPhong,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
   }
 
   Future<Response> getById(int id) async {

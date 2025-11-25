@@ -6,4 +6,5 @@
 // }
 class AppConfig {
   static const String apiUrl = "http://localhost:8000/api";
+  static String? token;
 }
