@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/main_page.dart';
 import 'package:flutter_application/UI/admin/room_entity/room_entity.dart';
 import 'package:flutter_application/UI/users/usemain.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
+import 'package:flutter_application/data/service/PhongTroService.dart';
 
 class HomeMobilePage extends StatefulWidget {
   const HomeMobilePage({super.key});
@@ -11,27 +13,14 @@ class HomeMobilePage extends StatefulWidget {
 }
 
 class _HomeMobilePage extends State<HomeMobilePage> {
-  final List<Room> rooms = [
-    Room(
-      id: "R001",
-      name: "Phòng 101",
-      description: "Phòng ban công - dãy 2",
-      area: 20,
-      price: 2500000,
-      imageUrl: "lib/assets/images/room1.jpg",
-      isAvailable: true,
-    ),
-    Room(
-      id: "R002",
-      name: "Phòng 102",
-      description: "Phòng thường - dãy 3",
-      area: 18,
-      price: 2200000,
-      imageUrl: "lib/assets/images/room2.jpg",
-      isAvailable: true,
-    ),
-  ];
+late Future<List<PhongTro>> futureRooms;
+final phongTroService = PhongtroService();
 
+  @override
+  void initState() {
+    super.initState();
+    futureRooms = phongTroService.getAllPhongTrong().then((response) => response.data ?? []);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +28,6 @@ class _HomeMobilePage extends State<HomeMobilePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            /// Hero Section — bọc thêm Container nền trắng + bóng
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -56,37 +44,61 @@ class _HomeMobilePage extends State<HomeMobilePage> {
 
             SizedBox(height: 16),
 
-            /// Danh sách phòng — thêm title + spacing đẹp hơn
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("Phòng còn trống", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                ],
+              child: Text(
+                "Phòng còn trống",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
+
             SizedBox(height: 10),
 
-            /// Room Enity List
+            /// 🔥 Load dữ liệu từ API
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: List.generate(
-                  rooms.length,
-                  (index) => Container(
-                    margin: EdgeInsets.only(bottom: 14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
+              child: FutureBuilder<List<PhongTro>>(
+                future: futureRooms,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                        child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: CircularProgressIndicator(),
+                    ));
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                        child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Text("Không có phòng nào trống"),
+                    ));
+                  }
+
+                  final rooms = snapshot.data!;
+
+                  return Column(
+                    children: List.generate(
+                      rooms.length,
+                      (index) => Container(
+                        margin: EdgeInsets.only(bottom: 14),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        // child: RoomCard(room: rooms[index]),
+                      ),
                     ),
-                    child: RoomCard(room: rooms[index]),
-                  ),
-                ),
+                  );
+                },
               ),
             ),
+
             SizedBox(height: 20),
+
             _features(context),
+
             SizedBox(height: 20),
           ],
         ),

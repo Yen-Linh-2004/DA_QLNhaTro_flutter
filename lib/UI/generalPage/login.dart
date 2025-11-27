@@ -1,37 +1,65 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/Rooms/Room.dart';
+import 'package:flutter_application/UI/admin/services/servicesPage.dart';
 import 'package:flutter_application/UI/generalPage/forgot_password.dart';
 import 'package:flutter_application/UI/generalPage/register.dart';
+import 'package:flutter_application/provider/AuthProvider.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPage();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPage extends State<LoginPage> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _tenController = TextEditingController();
+  final _passwordController = TextEditingController();
   bool rememberMe = false;
+
+  void _submitLogin() async {
+    if (_formKey.currentState!.validate()) {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      await authProvider.login(
+        _tenController.text.trim(),
+        _passwordController.text.trim(),
+      );
+
+      if (authProvider.isAuthenticated) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => const ServiceManagementPage()),
+        );
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Đăng nhập thất bại')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Center(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.0, vertical: 32.0),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Container(
-            padding:EdgeInsets.all(24.0),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(16),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.1),
                   blurRadius: 8,
-                  offset: Offset(0, 4),
+                  offset: const Offset(0, 4),
                 ),
               ],
             ),
@@ -41,47 +69,38 @@ class _LoginPage extends State<LoginPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.lock_outline, size: 64, color: Colors.blue),
-                  SizedBox(height: 12),
-                  Text("Quản lý phòng trọ", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  SizedBox(height: 8),
-                  Text("Đăng nhập vào hệ thống"),
-                  SizedBox(height: 32),
+                  const Icon(Icons.lock_outline, size: 64, color: Colors.blue),
+                  const SizedBox(height: 12),
+                  const Text("Quản lý phòng trọ",
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  const Text("Đăng nhập vào hệ thống"),
+                  const SizedBox(height: 32),
+                  // Username
                   buildInput(
-                    title: "Email",
-                    icon: Icons.email,
-                    controller: emailController,
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return "Vui lòng nhập email";
-                      }
-                      final emailRegex = RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$');
-                      if (!emailRegex.hasMatch(value)) {
-                        return "Email không hợp lệ";
-                      }
-                      return null;
-                    },
+                    title: "Tên đăng nhập",
+                    icon: Icons.person,
+                    controller: _tenController,
+                    validator: (value) =>
+                        value == null || value.isEmpty ? "Vui lòng nhập tên đăng nhập" : null,
+                    onFieldSubmitted: (_) => _submitLogin(), // Enter key
                   ),
-
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   // Password
                   buildInput(
                     title: "Mật khẩu",
                     icon: Icons.lock,
+                    controller: _passwordController,
                     obscureText: true,
-                    controller: passwordController,
                     validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Vui lòng nhập mật khẩu";
-                      }
-                      if (value.length < 6) {
-                        return "Mật khẩu phải ít nhất 6 ký tự";
-                      }
+                      if (value == null || value.isEmpty) return "Vui lòng nhập mật khẩu";
+                      if (value.length < 6) return "Mật khẩu ít nhất 6 ký tự";
                       return null;
                     },
+                    onFieldSubmitted: (_) => _submitLogin(),
                   ),
-
-                  // SizedBox(height: 4),
+                  const SizedBox(height: 4),
+                  // Remember + Forgot
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -89,14 +108,12 @@ class _LoginPage extends State<LoginPage> {
                         children: [
                           Checkbox(
                             value: rememberMe,
-                            checkColor: Color.fromARGB(115, 46, 46, 46),
                             onChanged: (value) {
-                              setState(() {
-                                rememberMe = value ?? false;
-                              });
+                              setState(() => rememberMe = value ?? false);
                             },
                           ),
-                          Text("Ghi nhớ đăng nhập", style: TextStyle(fontSize: 11, color: Colors.black45)),
+                          const Text("Ghi nhớ đăng nhập",
+                              style: TextStyle(fontSize: 11, color: Colors.black45)),
                         ],
                       ),
                       TextButton(
@@ -104,54 +121,46 @@ class _LoginPage extends State<LoginPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ForgotPasswordPage(),
+                              builder: (_) => const ForgotPasswordPage(),
                             ),
                           );
                         },
-                        child: Text('Quên mật khẩu?', style: TextStyle(fontSize: 12)),
+                        child: const Text('Quên mật khẩu?', style: TextStyle(fontSize: 12)),
                       ),
                     ],
                   ),
-
-
-                  SizedBox(height: 24),
-                  // Button
+                  const SizedBox(height: 24),
+                  // Login Button
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
-                        padding: EdgeInsets.symmetric(vertical: 14),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          print("Register: ");
-                          print(emailController.text);
-                          print(passwordController.text);
-                        }
-                      },
-                      child: Text("Đăng nhập", style: TextStyle(color: Colors.white, fontSize: 16)),
+                      onPressed: authProvider.isLoading ? null : _submitLogin,
+                      child: authProvider.isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text("Đăng nhập",
+                              style: TextStyle(color: Colors.white, fontSize: 16)),
                     ),
                   ),
-
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Chưa có tài khoản? "),
+                      const Text("Chưa có tài khoản? "),
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => RegisterPage(),
-                            ),
+                            MaterialPageRoute(builder: (_) => const RegisterPage()),
                           );
                         },
-                        child: Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
+                        child: const Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
                       ),
                     ],
                   ),
@@ -170,21 +179,22 @@ class _LoginPage extends State<LoginPage> {
     required TextEditingController controller,
     String? Function(String?)? validator,
     bool obscureText = false,
+    void Function(String)? onFieldSubmitted,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text( title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-        SizedBox(height: 6),
+        Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+        const SizedBox(height: 6),
         TextFormField(
           controller: controller,
           validator: validator,
           obscureText: obscureText,
+          onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
             prefixIcon: Icon(icon, color: Colors.grey),
             filled: true,
             fillColor: Colors.white,
-
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: Colors.grey.shade300),
@@ -195,7 +205,7 @@ class _LoginPage extends State<LoginPage> {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.blue, width: 2),
+              borderSide: const BorderSide(color: Colors.blue, width: 2),
             ),
           ),
         ),

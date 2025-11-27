@@ -21,11 +21,9 @@ class KhachThue {
   final int? maLoaiXe;
   final String? ghiChu;
 
-  // Computed fields
   final String? tenPhong;
   final String? diaChiDay;
 
-  // Relationship
   final PhongTro? phongTro;
 
   KhachThue({
@@ -53,7 +51,6 @@ class KhachThue {
     this.phongTro,
   });
 
-  // Tạo instance từ JSON
   factory KhachThue.fromJson(Map<String, dynamic> json) {
     return KhachThue(
       maKhachThue: json['MaKhachThue'] ?? 0,
@@ -81,13 +78,12 @@ class KhachThue {
       ghiChu: json['GhiChu'],
       tenPhong: json['TenPhong'],
       diaChiDay: json['DiaChiDay'],
-      phongTro: json['phongTro'] != null 
+      phongTro: json['phongTro'] != null
           ? PhongTro.fromJson(json['phongTro'])
           : null,
     );
   }
 
-  // Chuyển model sang JSON
   Map<String, dynamic> toJson() {
     return {
       'MaKhachThue': maKhachThue,
@@ -114,5 +110,17 @@ class KhachThue {
       'phongTro': phongTro?.toJson(),
     };
   }
-}
 
+  /// Parse list an toàn từ API
+  static List<KhachThue> listFromJson(dynamic json) {
+    if (json == null) return [];
+    if (json is List) {
+      return json.map((e) => KhachThue.fromJson(e)).toList();
+    } else if (json is Map) {
+      // Trường hợp API trả object duy nhất
+      return [KhachThue.fromJson(json as Map<String, dynamic>)];
+    } else {
+      return [];
+    }
+  }
+}

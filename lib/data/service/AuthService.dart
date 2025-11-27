@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_application/core/config/app_config.dart';
 import 'package:flutter_application/data/model/TaiKhoan.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Dio dio = Dio(BaseOptions(baseUrl: AppConfig.apiUrl));
@@ -21,11 +22,16 @@ class AuthService {
       'TenDangNhap': tenDangNhap,
       'password': matKhau,
     });
+
     final userJson = response.data['data']['user'];
     final user = TaiKhoan.fromJson(userJson);
     final token = response.data['data']['access_token'];
+
     AppConfig.token = token;
-    return user; 
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', token);
+
+    return user;
   }
 
   // Đăng xuất 

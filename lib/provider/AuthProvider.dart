@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/core/config/app_config.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
+import 'package:flutter_application/core/network/dio_client.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
 import 'package:flutter_application/data/model/TaiKhoan.dart';
 import 'package:dio/dio.dart';
@@ -14,31 +16,59 @@ class AuthProvider extends ChangeNotifier {
   }
 
   /// Đăng nhập
+  // Future<void> login(String tenDangNhap, String matKhau) async {
+  //   isLoading = true;
+  //   notifyListeners();
+
+  //   try {
+  //     final fullUrl = _dio.options.baseUrl + Endpoints.login;
+  //     print("Gọi API login: $fullUrl");
+
+  //     final response = await _dio.post(Endpoints.login, data: {
+  //       'TenDangNhap': tenDangNhap,
+  //       'password': matKhau,
+  //     });
+  //     print("Dữ liệu login trả về: ${response.data}");
+  //     taiKhoan = TaiKhoan.fromJson(response.data['data']['user']);
+  //     accessToken = response.data['data']['access_token'];
+
+  //     if (accessToken != null) {
+  //       _setAuthToken(accessToken!);
+  //     }
+  //   } on DioError catch (e) {
+  //     if (e.response != null) {
+  //       print("Lỗi login: ${e.response?.statusCode} - ${e.response?.data}");
+  //     } else {
+  //       print("Lỗi login: ${e.message}");
+  //     }
+  //   } finally {
+  //     isLoading = false;
+  //     notifyListeners();
+  //   }
+  // }
+
   Future<void> login(String tenDangNhap, String matKhau) async {
     isLoading = true;
     notifyListeners();
 
     try {
-      final fullUrl = _dio.options.baseUrl + Endpoints.login;
-      print("Gọi API login: $fullUrl");
-
       final response = await _dio.post(Endpoints.login, data: {
         'TenDangNhap': tenDangNhap,
         'password': matKhau,
       });
+
       print("Dữ liệu login trả về: ${response.data}");
+
       taiKhoan = TaiKhoan.fromJson(response.data['data']['user']);
       accessToken = response.data['data']['access_token'];
 
       if (accessToken != null) {
-        _setAuthToken(accessToken!);
+        await AppConfig.saveToken(accessToken!);
+        DioClient.init();
       }
+
     } on DioError catch (e) {
-      if (e.response != null) {
-        print("Lỗi login: ${e.response?.statusCode} - ${e.response?.data}");
-      } else {
-        print("Lỗi login: ${e.message}");
-      }
+      print("Lỗi login: ${e.response?.data}");
     } finally {
       isLoading = false;
       notifyListeners();

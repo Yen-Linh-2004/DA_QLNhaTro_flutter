@@ -2,30 +2,68 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/Rooms/type_room/add_typeroom.dart';
 import 'package:flutter_application/UI/admin/Rooms/type_room/update_typeroom.dart';
 import 'package:flutter_application/UI/shared/SummaryCard.dart';
-import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/data/model/LoaiPhong.dart';
+import 'package:flutter_application/provider/LoaiPhongProvider.dart';
+import 'package:provider/provider.dart';
 
-class TypeRoomPage extends StatelessWidget {
+class TypeRoomPage extends StatefulWidget {
   const TypeRoomPage({super.key});
 
   @override
+  State<TypeRoomPage> createState() => _TypeRoomPageState();
+}
+
+class _TypeRoomPageState extends State<TypeRoomPage> {
+  @override
+  void initState() {
+    super.initState();
+    // Load API khi vào màn hình
+    Future.microtask(() =>
+        context.read<LoaiPhongProvider>().fetchLoaiPhong());
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final provider = context.watch<LoaiPhongProvider>();
+
     return Scaffold(
       body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSummaryCards(), 
-             SizedBox(height: 20),
+            _buildSummaryCards(),
+            const SizedBox(height: 20),
 
-             Text(
+            const Text(
               "Danh sách loại phòng",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
-             SizedBox(height: 8),
+            const SizedBox(height: 8),
 
-            ..._roomList.map((room) => RoomCard(room: room)).toList(),
+            // Loading
+            if (provider.isLoading)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+
+            // Nếu rỗng
+            if (!provider.isLoading && provider.loaiPhongList.isEmpty)
+              const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text("Không có loại phòng nào"),
+                ),
+              ),
+
+            // Danh sách thật từ API
+            ...provider.loaiPhongList
+                .map((item) => RoomCard(room: RoomInfo.fromLoaiPhong(item)))
+                .toList(),
           ],
         ),
       ),
@@ -33,12 +71,12 @@ class TypeRoomPage extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  AddTypeRoomPage()),
-          );
+              context,
+              MaterialPageRoute(
+                  builder: (context) => const AddTypeRoomPage()));
         },
-        backgroundColor:  Color(0xFF4A90E2),
-        child:  Icon(Icons.add),
+        backgroundColor: const Color(0xFF4A90E2),
+        child: const Icon(Icons.add),
       ),
     );
   }
@@ -53,13 +91,11 @@ class TypeRoomPage extends StatelessWidget {
 
     return GridView.builder(
       shrinkWrap: true,
-      physics:  NeverScrollableScrollPhysics(),
-      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
-
-        /// FIX: tăng chiều cao để chữ không bị ép
         childAspectRatio: 1.8,
       ),
       itemCount: items.length,
@@ -75,7 +111,7 @@ class RoomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.symmetric(vertical: 8),
+      margin: const EdgeInsets.symmetric(vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
@@ -83,7 +119,7 @@ class RoomCard extends StatelessWidget {
           BoxShadow(
             color: Colors.black12.withOpacity(0.05),
             blurRadius: 10,
-            offset:  Offset(0, 5),
+            offset: const Offset(0, 5),
           ),
         ],
       ),
@@ -91,7 +127,7 @@ class RoomCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         onTap: () {},
         child: Padding(
-          padding:  EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -102,7 +138,8 @@ class RoomCard extends StatelessWidget {
                     backgroundColor: room.color.withOpacity(0.1),
                     child: Icon(Icons.meeting_room, color: room.color),
                   ),
-                   SizedBox(width: 10),
+                  const SizedBox(width: 10),
+
                   Expanded(
                     child: Text(
                       room.name,
@@ -113,78 +150,62 @@ class RoomCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Transform.translate(
-                    offset: Offset(17, 0),
-                    child: IconButton(
-                      onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) =>  UpdateTypeRoomPage()),
-                        );
-                      }, icon: Icon(Icons.edit_outlined, size: 22, color: Colors.blue)
-                    ),
-                  ),
+
                   IconButton(
-                    onPressed: (){
-                        showConfirmDialog(
-                        context: context,
-                        title: "Xác nhận xóa loại phòng",
-                        message: "Bạn có chắc chắn muốn xóa loại phòng này không?",
-                        confirmColor: Colors.redAccent,
-                        icon: Icons.delete_forever,
-                        maxHeight: 140,
-                        onConfirm: () {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                            content: Text(
-                              "Đã xóa loại phòng thành công!",
-                            ),
-                            backgroundColor: Colors.orange,
-                          ));
-                        },
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => UpdateTypeRoomPage()),
                       );
-                    }, icon: Icon(Icons.delete, size: 22, color: Colors.redAccent)
+                    },
+                    icon: const Icon(Icons.edit_outlined,
+                        size: 22, color: Colors.blue),
+                  ),
+
+                  IconButton(
+                    onPressed: () {
+                      _deleteConfirm(context, room.id);
+                    },
+                    icon: const Icon(Icons.delete,
+                        size: 22, color: Colors.redAccent),
                   ),
                 ],
               ),
 
-              SizedBox(height: 8),
-              Text(room.desc, style:  TextStyle(fontSize: 13)),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
+              Text(room.desc, style: const TextStyle(fontSize: 13)),
+              const SizedBox(height: 8),
 
               Row(
                 children: [
-                   Icon(Icons.price_change, size: 18),
-                   SizedBox(width: 4),
-                  Text(room.price),
-                   Spacer(),
-                  Text(room.area, style:  TextStyle(color: Colors.black54)),
+                  const Icon(Icons.price_change, size: 18),
+                  const SizedBox(width: 4),
+                  Text("${room.price}đ"),
+                  const Spacer(),
+                  Text(room.area, style: const TextStyle(color: Colors.black54)),
                 ],
               ),
 
-               SizedBox(height: 8),
+              const SizedBox(height: 8),
 
               Wrap(
                 spacing: 6,
                 children: room.features
-                    .map(
-                      (e) => Chip(
-                        label: Text(e),
-                        backgroundColor: Colors.grey.shade100,
-                        side: BorderSide(color: Colors.grey.shade300),
-                      ),
-                    )
+                    .map((e) => Chip(
+                          label: Text(e),
+                          backgroundColor: Colors.grey.shade100,
+                          side: BorderSide(color: Colors.grey.shade300),
+                        ))
                     .toList(),
               ),
 
-               Divider(),
-
+              Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _statusItem(Icons.check_circle, "Đã thuê", room.rented, Colors.green),
-                  _statusItem(Icons.meeting_room, "Trống", room.available, Colors.orange),
-                  _statusItem(Icons.build, "Bảo trì", room.maintenance, Colors.redAccent),
+                  _statusItem(Icons.check_circle, "Đã thuê", Colors.green),
+                  _statusItem(Icons.meeting_room, "Trống", Colors.orange),
+                  _statusItem(Icons.build, "Bảo trì", Colors.redAccent),
                 ],
               ),
             ],
@@ -194,110 +215,85 @@ class RoomCard extends StatelessWidget {
     );
   }
 
-  Widget _statusItem(IconData icon, String label, int count, Color color) {
+   Widget _statusItem(IconData icon, String label, Color color) {
     return Row(
       children: [
         Icon(icon, size: 18, color: color),
          SizedBox(width: 4),
-        Text("$label: $count"),
+        Text("$label: 0"),
       ],
     );
   }
-}
 
+  void _deleteConfirm(BuildContext context, int id) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Xác nhận xóa"),
+        content: Text("Bạn muốn xóa loại phòng ID $id?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Hủy"),
+          ),
+          TextButton(
+            onPressed: () async {
+              // await context.read<LoaiPhongProvider>().deleteLoaiPhong(id);
+              // Navigator.pop(context);
+            },
+            child: const Text("Xóa", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+}
 class RoomInfo {
+  final int id;
   final String name;
   final String desc;
   final String price;
   final String area;
   final List<String> features;
-  final int rented;
-  final int available;
-  final int maintenance;
   final Color color;
 
   RoomInfo({
+    required this.id,
     required this.name,
     required this.desc,
     required this.price,
     required this.area,
     required this.features,
-    required this.rented,
-    required this.available,
-    required this.maintenance,
     required this.color,
   });
+
+  /// Danh sách màu mẫu
+  static const List<Color> _colors = [
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.red,
+    Colors.purple,
+    Colors.teal,
+    Colors.indigo,
+    Colors.brown,
+    Colors.cyan,
+    Colors.pink,
+  ];
+
+  /// Mapping từ LoaiPhong → RoomInfo, set màu theo tên phòng
+  factory RoomInfo.fromLoaiPhong(LoaiPhong loaiPhong) {
+    // Hash tên phòng → index màu
+    int colorIndex = loaiPhong.tenLoaiPhong.hashCode % _colors.length;
+
+    return RoomInfo(
+      id: loaiPhong.maLoaiPhong,
+      name: loaiPhong.tenLoaiPhong,
+      desc: loaiPhong.moTa ?? "Không mô tả",
+      price: loaiPhong.donGiaCoBan.toStringAsFixed(0),
+      area: loaiPhong.dienTich != null ? "${loaiPhong.dienTich} m²" : "0 m²",
+      features: loaiPhong.tienNghi ?? [],
+      color: _colors[colorIndex],
+    );
+  }
 }
-
-// ------------------------------------------------
-// Dummy Data
-// ------------------------------------------------
-
-final List<RoomInfo> _roomList = [
-  RoomInfo(
-    name: "Phòng thường",
-    desc: "Phòng tiêu chuẩn cho sinh viên hoặc người đi làm, có gác lửng.",
-    price: "2.600.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 30,
-    available: 0,
-    maintenance: 0,
-    color: Colors.blue,
-  ),
-  RoomInfo(
-    name: "Phòng kiot",
-    desc: "Phù hợp cho hộ gia đình nhỏ hoặc kinh doanh tại nhà.",
-    price: "2.700.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 2,
-    available: 0,
-    maintenance: 0,
-    color: Colors.teal,
-  ),
-  RoomInfo(
-    name: "Phòng ban công",
-    desc: "Có ban công rộng rãi, đón ánh sáng tự nhiên.",
-    price: "2.600.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 5,
-    available: 1,
-    maintenance: 0,
-    color: Colors.orange,
-  ),
-  RoomInfo(
-    name: "Phòng gốc",
-    desc: "Phòng ở góc tòa nhà, tạo cảm giác riêng tư, yên tĩnh quanh năm.",
-    price: "2.600.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 8,
-    available: 0,
-    maintenance: 0,
-    color: Colors.green,
-  ),
-  RoomInfo(
-    name: "Phòng trệt",
-    desc: "Tầng trệt, thuận tiện di chuyển, phù hợp cho gia đình có trẻ nhỏ.",
-    price: "2.600.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 6,
-    available: 0,
-    maintenance: 0,
-    color: Colors.purple,
-  ),
-  RoomInfo(
-    name: "Phòng tầng thượng",
-    desc: "Tầng cao, thoáng mát, yên tĩnh, thích hợp nghỉ ngơi buổi tối.",
-    price: "2.500.000đ/tháng",
-    area: "25m²",
-    features: ["Gác", "Kệ chén bát"],
-    rented: 3,
-    available: 0,
-    maintenance: 0,
-    color: Colors.redAccent,
-  ),
-];

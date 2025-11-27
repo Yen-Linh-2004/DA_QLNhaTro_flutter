@@ -14,7 +14,7 @@ class LoaiPhong {
   final int soPhongDaThue;
   final int soPhongBaoTri;
 
-  // Optional: Danh sách phòng (nếu API trả về nested)
+  // Nested list
   final List<PhongTro>? phongTro;
 
   LoaiPhong({
@@ -32,24 +32,44 @@ class LoaiPhong {
   });
 
   factory LoaiPhong.fromJson(Map<String, dynamic> json) {
-    var tienNghiFromJson = json['TienNghi'];
+    // --- 1️⃣ Parse TienNghi an toàn ---
     List<String>? tienNghiList;
-    if (tienNghiFromJson != null && tienNghiFromJson is List) {
-      tienNghiList = List<String>.from(tienNghiFromJson);
+    if (json['TienNghi'] != null && json['TienNghi'] is List) {
+      try {
+        tienNghiList = List<String>.from(json['TienNghi']);
+      } catch (e) {
+        print("⚠️ Lỗi parse TienNghi: $e");
+      }
     }
 
-    var phongTroFromJson = json['phongTro'];
+    // --- 2️⃣ Parse phongTro an toàn ---
     List<PhongTro>? phongTroList;
-    if (phongTroFromJson != null && phongTroFromJson is List) {
-      phongTroList =
-          phongTroFromJson.map((e) => PhongTro.fromJson(e)).toList();
+    if (json['phongTro'] != null && json['phongTro'] is List) {
+      try {
+        phongTroList = (json['phongTro'] as List)
+            .map((e) => PhongTro.fromJson(e as Map<String, dynamic>))
+            .toList();
+      } catch (e) {
+        print("⚠️ Lỗi parse phongTro: $e");
+      }
+    }
+
+    // --- 3️⃣ Parse số/nullable an toàn ---
+    double donGia = 0;
+    if (json['DonGiaCoBan'] != null) {
+      donGia = (json['DonGiaCoBan'] as num).toDouble();
+    }
+
+    double? dienTichVal;
+    if (json['DienTich'] != null) {
+      dienTichVal = (json['DienTich'] as num).toDouble();
     }
 
     return LoaiPhong(
       maLoaiPhong: json['MaLoaiPhong'] ?? 0,
       tenLoaiPhong: json['TenLoaiPhong'] ?? '',
-      donGiaCoBan: (json['DonGiaCoBan'] as num).toDouble(),
-      dienTich: json['DienTich'] != null ? (json['DienTich'] as num).toDouble() : null,
+      donGiaCoBan: donGia,
+      dienTich: dienTichVal,
       tienNghi: tienNghiList,
       moTa: json['MoTa'],
       tongSoPhong: json['TongSoPhong'] ?? 0,
