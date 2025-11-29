@@ -14,11 +14,20 @@ class Endpoints {
   static const String noiquy = "/admin/noi-quy";
   static const String vipham = "/admin/vi-pham";
   static const String baotri = "/admin/yeu-cau-bao-tri";
+  static const String hopdong = "/admin/hop-dong";
+  static const String thongbao = "/admin/thong-bao";
+  static const String thongbaohethong = "/admin/thong-bao-he-thong";
+  static const String taikhoan = "/admin/tai-khoan";
+  static const String phieudatcoc = "/admin/phieu-dat-coc";
+  // static const String vipham = "/admin/vi-pham";
+  // static const String baotri = "/admin/yeu-cau-bao-tri";
+  // static const String hopdong = "/admin/hop-dong";
   
   // CUSTOMER
   static const String invoices = "/customer/invoices";
   static const String invoiceslast = "/customer/invoices/latest";
   static const String room = "/customer/room";
-  
+  static const String contract = "/customer/contract";
+  static const String roomStatus = "/customer/room-status";
 }
   

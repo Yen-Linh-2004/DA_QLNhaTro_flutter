@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/Rooms/booking/create_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/create_contact_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/detail_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/refund.dart';
 import 'package:flutter_application/UI/shared/SummaryCard.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
-
+import 'package:flutter_application/data/model/PhieuDatCoc.dart';
+import 'package:flutter_application/provider/PhieuDatCocProvider.dart';
+import 'package:provider/provider.dart';
 class BookingManagementPage extends StatefulWidget {
   const BookingManagementPage({super.key});
 
@@ -16,139 +17,137 @@ class BookingManagementPage extends StatefulWidget {
 class _BookingManagementPageState extends State<BookingManagementPage> {
   final TextEditingController searchController = TextEditingController();
 
-  final List<Map<String, dynamic>> bookings = [
-    {
-      "name": "Hoàng Văn E",
-      "phone": "0913456789",
-      "room": "P103",
-      "date": "01/04/2024",
-      "duration": "12 tháng",
-      "deposit": "7.000.000đ",
-      "status": "Chờ xác nhận",
-      "statusColor": Colors.amber.shade100,
-      "statusTextColor": Colors.orange.shade700,
-    },
-    {
-      "name": "Nguyễn Thị F",
-      "phone": "0987654321",
-      "room": "P205",
-      "date": "25/03/2024",
-      "duration": "6 tháng",
-      "deposit": "9.000.000đ",
-      "status": "Đã xác nhận",
-      "statusColor": Colors.green.shade100,
-      "statusTextColor": Colors.green.shade800,
-    },
-    {
-      "name": "Trần Văn G",
-      "phone": "0901122334",
-      "room": "P302",
-      "date": "20/03/2024",
-      "duration": "3 tháng",
-      "deposit": "8.000.000đ",
-      "status": "Hoàn thành",
-      "statusColor": Colors.blue.shade100,
-      "statusTextColor": Colors.blue.shade800,
-    },
-    {
-      "name": "Lê Thị H",
-      "phone": "0934567890",
-      "room": "P104",
-      "date": "15/04/2024",
-      "duration": "12 tháng",
-      "deposit": "7.200.000đ",
-      "status": "Đã hủy",
-      "statusColor": Colors.red.shade100,
-      "statusTextColor": Colors.red.shade800,
-    },
-  ];
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() =>
+      Provider.of<PhieuDatCocProvider>(context, listen: false).fetchPhieuDatCoc()
+    );
+  }
+
+  String trangThai(String status) {
+    switch (status) {
+      case "ChoXacNhan":
+        return "Chờ xác nhận";
+      case "DaXacNhan":
+        return "Đã xác nhận";
+      case "HoanTat":
+        return "Hoàn tất";
+      case "DaHuy":
+        return "Đã hủy";
+      default:
+        return "Không xác định";
+    }
+  }
+
+  /// --- Màu nền theo trạng thái ---
+  Color statusColor (String status) {
+    switch (status) {
+      case "Chờ xác nhận":
+        return Colors.amber.shade100;
+      case "Đã xác nhận":
+        return Colors.green.shade100;
+      case "Hoàn thành":
+        return Colors.blue.shade100;
+      case "Đã hủy":
+        return Colors.red.shade100;
+      default:
+        return Colors.grey.shade200;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        padding:  EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildSummaryCards(),
-            SizedBox(height: 16),
+      body: Consumer<PhieuDatCocProvider>(
+        builder: (context, provider, _) {
+          if (provider.isLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
 
-            // --- Danh sách đặt phòng ---
-            ListView.builder(
-              shrinkWrap: true,
-              physics:  NeverScrollableScrollPhysics(),
-              itemCount: bookings.length,
-              itemBuilder: (context, index) {
-                final booking = bookings[index];
-                return Card(
-                  margin:  EdgeInsets.only(bottom: 12),
-                  elevation: 1,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding:  EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Tên + phòng
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          final bookings = provider.PhieuDatCocList;
+
+          if (bookings.isEmpty) {
+            return Center(child: Text('Chưa có phiếu đặt cọc nào'));
+          }
+
+          
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(14),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildSummaryCards(),
+
+                SizedBox(height: 16),
+
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: bookings.length,
+                  itemBuilder: (context, index) {
+                    final booking = bookings[index];
+                    return Card(
+                      margin: EdgeInsets.only(bottom: 12),
+                      elevation: 1,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Padding(
+                        padding: EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            // Tên + phòng
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  booking.hoTenNguoiDat,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "P${booking.maPhong}",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
                             Text(
-                              booking["name"],
-                              style:  TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                              booking.soDienThoaiNguoiDat,
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            SizedBox(height: 8),
+
+                            _buildInfoRow("Ngày nhận phòng:", booking.ngayDuKienVaoO),
+                            _buildInfoRow("Tiền cọc:", "${booking.tienDatCoc}đ", valueColor: Colors.green.shade700),
+
+                            SizedBox(height: 8),
+                            Container(
+                              padding:  EdgeInsets.symmetric(
+                                vertical: 4,
+                                horizontal: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: statusColor(booking.trangThai),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Text(
+                                trangThai(booking.trangThai),
+                                style: TextStyle(fontWeight: FontWeight.w600),
                               ),
                             ),
-                            Text(
-                              booking["room"],
-                              style:  TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-                         SizedBox(height: 4),
-                        Text(
-                          booking["phone"],
-                          style:  TextStyle(color: Colors.grey),
-                        ),
-                         SizedBox(height: 8),
 
-                        _buildInfoRow("Ngày nhận phòng:", booking["date"]),
-                        _buildInfoRow("Thời hạn:", booking["duration"]),
-                        _buildInfoRow(
-                          "Tiền cọc:",
-                          booking["deposit"],
-                          valueColor: Colors.green.shade700,
-                        ),
-
-                         SizedBox(height: 8),
-                        // Trạng thái
-                        Container(
-                          padding:  EdgeInsets.symmetric(
-                            vertical: 4,
-                            horizontal: 10,
-                          ),
-                          decoration: BoxDecoration(
-                            color: booking["statusColor"],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            booking["status"],
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: booking["statusTextColor"],
-                            ),
-                          ),
-                        ),
-
-                         SizedBox(height: 10),
-                        // Hành động
+                            SizedBox(height: 10),
+                            Divider(),
+                            // SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -170,7 +169,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                             ),
 
                             // Nếu trạng thái là "Chờ xác nhận"
-                            if (booking["status"] == "Chờ xác nhận") ...[
+                            if (trangThai(booking.trangThai)== "Chờ xác nhận") ...[
                               IconButton(
                                 onPressed: () {
                                   showConfirmDialog(
@@ -280,7 +279,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                             ],
 
                             // Nếu trạng thái là "Đã xác nhận"
-                            if (booking["status"] == "Đã xác nhận") ...[
+                            if (trangThai(booking.trangThai) == "Đã xác nhận") ...[
                               IconButton(
                                 onPressed: () {
                                    Navigator.push(
@@ -346,65 +345,33 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                             ],
 
                             // Nếu trạng thái là "Đã hủy" hoặc "Hoàn thành"
-                            if (booking["status"] == "Đã hủy" ||
-                                booking["status"] == "Hoàn thành")
+                            if (trangThai(booking.trangThai) == "Đã hủy" ||
+                                trangThai(booking.trangThai) == "Hoàn thành")
                               ...[],
                           ],
+                        )],
                         ),
-                      ],
-                    ),
-                  ),
-                );
-              },
+                      ),
+                    );
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => CreateBookingPage()),
-          );
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => CreateBookingPage()),
+          // );
         },
         backgroundColor: Color(0xFF4A90E2),
-        icon: Icon(Icons.add, color: Colors.white,),
-        label: Text("Tạo đặt phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-      ),
-    );
-  }
-
-  // --- Widget phụ trợ ---
-  Widget _buildStatCard(
-    String label,
-    String count,
-    Color bgColor,
-    Color textColor,
-  ) {
-    return Expanded(
-      child: Container(
-        margin:  EdgeInsets.all(4),
-        padding:  EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          children: [
-            Text(
-              count,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-                color: textColor,
-              ),
-            ),
-             SizedBox(height: 4),
-            Text(
-              label,
-              style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
-            ),
-          ],
+        icon: Icon(Icons.add, color: Colors.white),
+        label: Text(
+          "Tạo đặt phòng",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
     );
@@ -412,12 +379,12 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
 
   Widget _buildInfoRow(String label, String value, {Color? valueColor}) {
     return Padding(
-      padding:  EdgeInsets.only(bottom: 4),
+      padding: EdgeInsets.only(bottom: 4),
       child: Row(
         children: [
           Expanded(
             flex: 4,
-            child: Text(label, style:  TextStyle(color: Colors.black54)),
+            child: Text(label, style: TextStyle(color: Colors.black54)),
           ),
           Expanded(
             flex: 6,
@@ -441,11 +408,11 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
       SummaryItem("Hoàn thành", "1", Icons.done_all, Colors.orange),
       SummaryItem("Đã hủy", "1", Icons.cancel, Colors.redAccent),
     ];
-    
+
     return GridView.builder(
       shrinkWrap: true,
-      physics:  NeverScrollableScrollPhysics(),
-      gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+      physics: NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 12,
         mainAxisSpacing: 12,
@@ -455,4 +422,10 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
       itemBuilder: (context, index) => SummaryCard(item: items[index]),
     );
   }
+   
+   
+}
+
+extension on PhieuDatCoc {
+  void operator [](String other) {}
 }

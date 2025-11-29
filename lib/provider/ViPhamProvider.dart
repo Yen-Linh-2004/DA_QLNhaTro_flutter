@@ -11,8 +11,6 @@ class ViPhamProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.vipham.dio.options.baseUrl + Endpoints.vipham;
       print("Gọi APP: $fullUrl");

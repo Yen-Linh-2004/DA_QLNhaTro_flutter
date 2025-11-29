@@ -1,3 +1,4 @@
+import 'package:flutter_application/UI/shared/parse_utils.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
 
 class HoaDonKhachThue {
@@ -18,7 +19,8 @@ class HoaDonKhachThue {
   final List<ChiTietHoaDonKhachThue>? chiTietHoaDon;
   final List<ThanhToan>? thanhToan;
 
-  HoaDonKhachThue( this.trangThai, {
+  HoaDonKhachThue(
+    this.trangThai, {
     required this.maHoaDon,
     required this.maPhong,
     this.maHopDong,
@@ -38,21 +40,20 @@ class HoaDonKhachThue {
 
   factory HoaDonKhachThue.fromJson(Map<String, dynamic> json) {
     return HoaDonKhachThue(
-      json['TrangThai'],
-      maHoaDon: json['MaHoaDon'],
-      maPhong: json['MaPhong'],
-      maHopDong: json['MaHopDong'],
-      thang: json['Thang'],
-      ngayLap: json['NgayLap'],
-      ngayHetHan: json['NgayHetHan'],
-      tongTien: (json['TongTien'] as num).toDouble(),
-      daThanhToan: (json['DaThanhToan'] as num).toDouble(),
-      conLai: (json['ConLai'] as num).toDouble(),
+      json['TrangThai'] ?? '',
+      maHoaDon: ParseUtils.toInt(json['MaHoaDon']),
+      maPhong: ParseUtils.toInt(json['MaPhong']),
+      maHopDong: json['MaHopDong'] != null ? ParseUtils.toInt(json['MaHopDong']) : null,
+      thang: json['Thang'] ?? '',
+      ngayLap: json['NgayLap'] ?? '',
+      ngayHetHan: json['NgayHetHan'] ?? '',
+      tongTien: ParseUtils.toDouble(json['TongTien']),
+      daThanhToan: ParseUtils.toDouble(json['DaThanhToan']),
+      conLai: ParseUtils.toDouble(json['ConLai']),
       trangThaiText: json['TrangThaiText'],
       trangThaiColor: json['TrangThaiColor'],
       ghiChu: json['GhiChu'],
-      phongTro:
-          json['phongTro'] != null ? PhongTro.fromJson(json['phongTro']) : null,
+      phongTro: json['phongTro'] != null ? PhongTro.fromJson(json['phongTro']) : null,
       chiTietHoaDon: json['chiTietHoaDon'] != null
           ? (json['chiTietHoaDon'] as List)
               .map((e) => ChiTietHoaDonKhachThue.fromJson(e))
@@ -82,8 +83,7 @@ class HoaDonKhachThue {
       'TrangThaiColor': trangThaiColor,
       'GhiChu': ghiChu,
       'phongTro': phongTro?.toJson(),
-      'chiTietHoaDon':
-          chiTietHoaDon?.map((e) => e.toJson()).toList(),
+      'chiTietHoaDon': chiTietHoaDon?.map((e) => e.toJson()).toList(),
       'thanhToan': thanhToan?.map((e) => e.toJson()).toList(),
     };
   }
@@ -108,12 +108,12 @@ class ChiTietHoaDonKhachThue {
 
   factory ChiTietHoaDonKhachThue.fromJson(Map<String, dynamic> json) {
     return ChiTietHoaDonKhachThue(
-      maChiTiet: json['MaChiTiet'],
-      maHoaDon: json['MaHoaDon'],
-      noiDung: json['NoiDung'],
-      soLuong: json['SoLuong'],
-      donGia: (json['DonGia'] as num).toDouble(),
-      thanhTien: (json['ThanhTien'] as num).toDouble(),
+      maChiTiet: ParseUtils.toInt(json['MaChiTiet']),
+      maHoaDon: ParseUtils.toInt(json['MaHoaDon']),
+      noiDung: json['NoiDung'] ?? '',
+      soLuong: ParseUtils.toInt(json['SoLuong']),
+      donGia: ParseUtils.toDouble(json['DonGia']),
+      thanhTien: ParseUtils.toDouble(json['ThanhTien']),
     );
   }
 
@@ -144,10 +144,10 @@ class ThanhToan {
 
   factory ThanhToan.fromJson(Map<String, dynamic> json) {
     return ThanhToan(
-      maThanhToan: json['MaThanhToan'],
-      soTien: (json['SoTien'] as num).toDouble(),
-      ngayThanhToan: json['NgayThanhToan'],
-      phuongThuc: json['PhuongThuc'],
+      maThanhToan: ParseUtils.toInt(json['MaThanhToan']),
+      soTien: ParseUtils.toDouble(json['SoTien']),
+      ngayThanhToan: json['NgayThanhToan'] ?? '',
+      phuongThuc: json['PhuongThuc'] ?? '',
     );
   }
 

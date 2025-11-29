@@ -11,8 +11,6 @@ class ThietBiProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.thietbi.dio.options.baseUrl + Endpoints.thietbi;
       print("Gọi APP: $fullUrl");

@@ -13,8 +13,6 @@ class PhongTroProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.phongtro.dio.options.baseUrl + Endpoints.phongtro;
       print("Gọi APP: $fullUrl");
@@ -51,8 +49,6 @@ class PhongTroProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.phongtro.dio.options.baseUrl + Endpoints.phongtrong;
       print("Gọi APP: $fullUrl");
@@ -84,43 +80,5 @@ class PhongTroProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-Future<void> fetchRoomInfoCustomer() async {
-  try {
-    isLoading = true;
-    notifyListeners();
-
-    final response = await ApiRoutes.phongtro.getRoomInfoForCurrentUser(); 
-
-    // --- Log toàn bộ response để xem chi tiết ---
-    print("📌 Response status code: ${response.statusCode}");
-    print("📌 Response data: ${response.data}");
-
-    final rawData = response.data['data'];
-    print("📌 Dữ liệu  trả về: $rawData");
-
-    if (rawData is Map<String, dynamic>) {
-      PhongTroList = [
-        PhongTro.fromJson(rawData)
-      ];
-      print("✅ Parse PhongTro thành công: ${PhongTroList.length} item(s)");
-    } else if (rawData is List) {
-      PhongTroList = rawData.map((e) => PhongTro.fromJson(e)).toList();
-      print("✅ Parse PhongTro List thành công: ${PhongTroList.length} item(s)");
-    } else {
-      print("⚠️ API không trả về object hoặc list PhongTro hợp lệ");
-      PhongTroList = [];
-    }
-
-  } catch (e, stacktrace) {
-    print("❌ Lỗi fetchRoomInfoCustomer: $e");
-    print("📌 Stacktrace: $stacktrace");
-    PhongTroList = [];
-  } finally {
-    isLoading = false;
-    notifyListeners();
-  }
-}
-
 
 }

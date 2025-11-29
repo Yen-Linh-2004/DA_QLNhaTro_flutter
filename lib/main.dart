@@ -6,11 +6,16 @@ import 'package:flutter_application/core/network/dio_client.dart';
 import 'package:flutter_application/data/service/NoiQuyService.dart';
 import 'package:flutter_application/provider/AuthProvider.dart';
 import 'package:flutter_application/provider/BaoTriProvider.dart';
+import 'package:flutter_application/provider/CustomerProvider.dart';
 import 'package:flutter_application/provider/DichVuProvider.dart';
+import 'package:flutter_application/provider/HopDongProvider.dart';
 import 'package:flutter_application/provider/LoaiPhongProvider.dart';
 import 'package:flutter_application/provider/NoiQuyProvider.dart';
+import 'package:flutter_application/provider/PhieuDatCocProvider.dart';
 import 'package:flutter_application/provider/PhongTroProvider.dart';
+import 'package:flutter_application/provider/TaiKhoanProvider.dart';
 import 'package:flutter_application/provider/ThietBiProvider.dart';
+import 'package:flutter_application/provider/ThongBaoProvider.dart';
 import 'package:flutter_application/provider/ViPhamProvider.dart';
 import 'package:flutter_application/provider/khachthueProvider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -34,6 +39,13 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => NoiQuyProvider()),
         ChangeNotifierProvider(create: (_) => ViPhamProvider()),
         ChangeNotifierProvider(create: (_) => BaoTriProvider()),
+        ChangeNotifierProvider(create: (_) => HopDongProvider()),
+
+        ChangeNotifierProvider(create: (_) => ThongBaoProvider()),
+        ChangeNotifierProvider(create: (_) => TaiKhoanProvider()),
+        ChangeNotifierProvider(create: (_) => PhieuDatCocProvider()),
+        ChangeNotifierProvider(create: (_) => CustomerProvider()),
+        // ChangeNotifierProvider(create: (_) => HopDongProvider()),
       ],
       child: const MyApp(),
     ),

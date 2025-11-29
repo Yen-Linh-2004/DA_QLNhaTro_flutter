@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
             .showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => MainPage()),
+          MaterialPageRoute(builder: (_) => InvoicePage()),
         );
       } else {
         ScaffoldMessenger.of(context)

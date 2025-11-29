@@ -138,16 +138,16 @@ class _RoomPageState extends State<RoomPage> {
   Widget _buildRoomCard(PhongTro room, BuildContext context) {
     Color statusColor;
     switch (room.tenLoaiPhong) {
-      case "Phòng trệt":
+      case "Phòng Ban Công":
         statusColor = Colors.green;
         break;
-      case "Phòng thường":
+      case "Phòng Tiêu Chuẩn":
         statusColor = Colors.cyan;
         break;
-      case "Phòng góc":
+      case "Phòng Góc 2 Cửa Sổ":
         statusColor = Colors.orange;
         break;
-      case "Phòng ban công":
+      case "Phòng Kiot Mặt Tiền":
         statusColor = Colors.lightBlueAccent;
         break;
       default:

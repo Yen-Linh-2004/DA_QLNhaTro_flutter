@@ -21,4 +21,14 @@ class KhachThueService {
     );
   }
 
+   Future<Response> create(Map<String, dynamic> data) async {
+     return await dio.post(
+        Endpoints.khachthue, 
+        data: data,
+        options: Options(
+          headers: {'Authorization': 'Bearer ${AppConfig.token}'},
+        ),
+      );
+   }
+
 }

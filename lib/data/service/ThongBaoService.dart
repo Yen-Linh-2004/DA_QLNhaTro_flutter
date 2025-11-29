@@ -1,21 +1,22 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter_application/core/config/app_config.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
 import 'package:flutter_application/data/service/apiService.dart';
 
-class PhongtroService {
+class ThongBaoSerrvice {
   final Dio dio = ApiService.createDio();
 
-  Future<Response> getAllPhongTro() async {
+  Future<Response> getAllThongBao() async {
     return await dio.get(
-      Endpoints.phongtro,
+      Endpoints.thongbao,
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }
 
-  Future<Response> getAllPhongTrong() async {
-    return await dio.get(Endpoints.phongtrong);
+  Future<Response> getAllThongBaoHeThong() async {
+    return await dio.get(
+      Endpoints.thongbaohethong,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
   }
-
 }

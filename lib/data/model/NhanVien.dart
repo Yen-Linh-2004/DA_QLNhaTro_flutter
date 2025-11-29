@@ -1,14 +1,13 @@
-import 'package:flutter_application/data/model/TaiKhoan.dart';
+import 'TaiKhoan.dart';
 
 class NhanVien {
   final int maNV;
   final String hoTen;
   final String? sdt;
   final String? email;
-  final int? maTaiKhoan;
+  final int? maTaiKhoan; // Nếu API trả về liên kết với tài khoản
 
-  // Optional: tài khoản liên kết nếu API trả về nested
-  final TaiKhoan? taiKhoan;
+  final TaiKhoan? taiKhoan; // Nested tài khoản (nếu có)
 
   NhanVien({
     required this.maNV,
@@ -19,19 +18,21 @@ class NhanVien {
     this.taiKhoan,
   });
 
+  // Tạo object từ JSON
   factory NhanVien.fromJson(Map<String, dynamic> json) {
     return NhanVien(
       maNV: json['MaNV'] ?? 0,
       hoTen: json['HoTen'] ?? '',
       sdt: json['SDT'],
       email: json['Email'],
-      maTaiKhoan: json['MaTaiKhoan'] ?? 0,
+      maTaiKhoan: json['MaTaiKhoan'],
       taiKhoan: json['taiKhoan'] != null
           ? TaiKhoan.fromJson(json['taiKhoan'])
           : null,
     );
   }
 
+  // Chuyển object thành JSON
   Map<String, dynamic> toJson() {
     return {
       'MaNV': maNV,
