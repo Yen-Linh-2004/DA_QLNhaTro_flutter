@@ -98,8 +98,8 @@ class _EquipmentManagementPageState extends State<EquipmentManagementPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text("Phòng: ${item.phongTro?.tenPhong}", style: const TextStyle(fontSize: 14)),
-                            Text("${item.giaMua?.toStringAsFixed(0) ?? '0'} đ",
+                            Text("Mã: ${item.maThietBiCode}", style: const TextStyle(fontSize: 14)),
+                            Text("${(item.giaMua ?? 0).toDouble().toStringAsFixed(0)} đ",
                                 style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
                           ],
                         ),

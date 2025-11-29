@@ -1,34 +1,31 @@
 import 'package:flutter_application/data/model/Khachthue.dart';
 import 'package:flutter_application/data/model/NoiQuy.dart';
 
-enum MucDoViPhamEnum { nhe, trungBinh, nang } // Cần map chính xác từ PHP
-enum TrangThaiViPhamEnum { choGiaiQuyet, daGiaiQuyet, huy } // Cần map chính xác từ PHP
+enum MucDoViPhamEnum { nhe, vua, nghiem_trong, rat_nghiem_trong }
+enum TrangThaiViPhamEnum { dang_xu_ly, da_xu_ly, da_canh_cao, huy }
 
 class ViPham {
   final int maViPham;
-  final int maKhachThue;
   final String moTa;
   final MucDoViPhamEnum mucDo;
   final TrangThaiViPhamEnum trangThai;
   final DateTime ngayBaoCao;
+
   final DateTime? ngayGiaiQuyet;
   final String? ghiChu;
-  final int maNoiQuy;
 
-  final dynamic nguoiBaoCao; // Có thể là NhanVien hoặc KhachThue
+  final dynamic nguoiBaoCao;
   final KhachThue? khachThue;
   final NoiQuy? noiQuy;
 
   ViPham({
     required this.maViPham,
-    required this.maKhachThue,
     required this.moTa,
     required this.mucDo,
     required this.trangThai,
     required this.ngayBaoCao,
     this.ngayGiaiQuyet,
     this.ghiChu,
-    required this.maNoiQuy,
     this.nguoiBaoCao,
     this.khachThue,
     this.noiQuy,
@@ -37,60 +34,57 @@ class ViPham {
   factory ViPham.fromJson(Map<String, dynamic> json) {
     return ViPham(
       maViPham: json['MaViPham'] ?? 0,
-      maKhachThue: json['MaKhachThue'] ?? 0,
       moTa: json['MoTa'] ?? '',
       mucDo: _mucDoFromString(json['MucDo']),
       trangThai: _trangThaiFromString(json['TrangThai']),
-      ngayBaoCao: DateTime.parse(json['NgayBaoCao']),
-      ngayGiaiQuyet: json['NgayGiaiQuyet'] != null ? DateTime.parse(json['NgayGiaiQuyet']) : null,
+      ngayBaoCao: _parseDate(json['NgayBaoCao']),
+      ngayGiaiQuyet: (json['NgayGiaiQuyet'] != null && json['NgayGiaiQuyet'] != "")
+          ? _parseDate(json['NgayGiaiQuyet'])
+          : null,
       ghiChu: json['GhiChu'],
-      maNoiQuy: json['MaNoiQuy'] ?? 0,
-      nguoiBaoCao: json['NguoiBaoCao'], // Tùy chỉnh mapping nếu cần
-      khachThue: json['KhachThue'] != null ? KhachThue.fromJson(json['KhachThue']) : null,
-      noiQuy: json['NoiQuy'] != null ? NoiQuy.fromJson(json['NoiQuy']) : null,
+      nguoiBaoCao: json['nguoiBaoCao'],
+      khachThue: json['khachThue'] != null ? KhachThue.fromJson(json['khachThue']) : null,
+      noiQuy: json['noiQuy'] != null ? NoiQuy.fromJson(json['noiQuy']) : null,
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'MaViPham': maViPham,
-      'MaKhachThue': maKhachThue,
-      'MoTa': moTa,
-      'MucDo': mucDo.name,
-      'TrangThai': trangThai.name,
-      'NgayBaoCao': ngayBaoCao.toIso8601String(),
-      'NgayGiaiQuyet': ngayGiaiQuyet?.toIso8601String(),
-      'GhiChu': ghiChu,
-      'MaNoiQuy': maNoiQuy,
-      'NguoiBaoCao': nguoiBaoCao, // Cần map nếu muốn chi tiết
-      'KhachThue': khachThue?.toJson(),
-      'NoiQuy': noiQuy?.toJson(),
-    };
+  static DateTime _parseDate(String? dateString) {
+    if (dateString == null || dateString.isEmpty) {
+      return DateTime.now(); // hoặc throw nếu muốn báo lỗi
+    }
+    final parts = dateString.split('/');
+    return DateTime(
+      int.parse(parts[2]),
+      int.parse(parts[1]),
+      int.parse(parts[0]),
+    );
   }
 
   static MucDoViPhamEnum _mucDoFromString(String? value) {
     switch (value) {
-      case 'nhe':
-        return MucDoViPhamEnum.nhe;
-      case 'trungBinh':
-        return MucDoViPhamEnum.trungBinh;
-      case 'nang':
-        return MucDoViPhamEnum.nang;
+      case 'vua':
+        return MucDoViPhamEnum.vua;
+      case 'nghiem_trong':
+        return MucDoViPhamEnum.nghiem_trong;
+      case 'rat_nghiem_trong':
+        return MucDoViPhamEnum.rat_nghiem_trong;
       default:
-        return MucDoViPhamEnum.nhe; // default
+        return MucDoViPhamEnum.nhe;
     }
   }
 
   static TrangThaiViPhamEnum _trangThaiFromString(String? value) {
     switch (value) {
-      case 'choGiaiQuyet':
-        return TrangThaiViPhamEnum.choGiaiQuyet;
-      case 'daGiaiQuyet':
-        return TrangThaiViPhamEnum.daGiaiQuyet;
+      case 'dang_xu_ly':
+        return TrangThaiViPhamEnum.dang_xu_ly;
+      case 'da_xu_ly':
+        return TrangThaiViPhamEnum.da_xu_ly;
+      case 'da_canh_cao':
+        return TrangThaiViPhamEnum.da_canh_cao;
       case 'huy':
         return TrangThaiViPhamEnum.huy;
       default:
-        return TrangThaiViPhamEnum.choGiaiQuyet;
+        return TrangThaiViPhamEnum.dang_xu_ly;
     }
   }
 }

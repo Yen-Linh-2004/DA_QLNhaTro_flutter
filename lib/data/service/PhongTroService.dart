@@ -15,9 +15,15 @@ class PhongtroService {
   }
 
   Future<Response> getAllPhongTrong() async {
+    return await dio.get(Endpoints.phongtrong);
+  }
+
+  //========================================
+  Future<Response> getRoomInfoForCurrentUser() async {
     return await dio.get(
-      Endpoints.phongtrong,
+      Endpoints.room, 
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }
+
 }

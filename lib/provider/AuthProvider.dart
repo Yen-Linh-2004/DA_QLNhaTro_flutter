@@ -15,42 +15,9 @@ class AuthProvider extends ChangeNotifier {
     _dio.options.headers['Authorization'] = 'Bearer $token';
   }
 
-  /// Đăng nhập
-  // Future<void> login(String tenDangNhap, String matKhau) async {
-  //   isLoading = true;
-  //   notifyListeners();
-
-  //   try {
-  //     final fullUrl = _dio.options.baseUrl + Endpoints.login;
-  //     print("Gọi API login: $fullUrl");
-
-  //     final response = await _dio.post(Endpoints.login, data: {
-  //       'TenDangNhap': tenDangNhap,
-  //       'password': matKhau,
-  //     });
-  //     print("Dữ liệu login trả về: ${response.data}");
-  //     taiKhoan = TaiKhoan.fromJson(response.data['data']['user']);
-  //     accessToken = response.data['data']['access_token'];
-
-  //     if (accessToken != null) {
-  //       _setAuthToken(accessToken!);
-  //     }
-  //   } on DioError catch (e) {
-  //     if (e.response != null) {
-  //       print("Lỗi login: ${e.response?.statusCode} - ${e.response?.data}");
-  //     } else {
-  //       print("Lỗi login: ${e.message}");
-  //     }
-  //   } finally {
-  //     isLoading = false;
-  //     notifyListeners();
-  //   }
-  // }
-
   Future<void> login(String tenDangNhap, String matKhau) async {
     isLoading = true;
     notifyListeners();
-
     try {
       final response = await _dio.post(Endpoints.login, data: {
         'TenDangNhap': tenDangNhap,

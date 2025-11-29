@@ -49,9 +49,9 @@ class ThietBi {
       maDay: json['MaDay'],
       maPhong: json['MaPhong'],
       ngayMua: json['NgayMua'] != null ? DateTime.parse(json['NgayMua']) : null,
-      giaMua: (json['giaThietBi'] is String)
-        ? double.tryParse(json['giaThietBi'])
-        : (json['giaThietBi'] as num?)?.toDouble(),
+      giaMua: (json['GiaMua'] is String)
+        ? double.tryParse(json['GiaMua'])
+        : (json['GiaMua'] as num?)?.toDouble(),
       tinhTrang: json['TinhTrang'] ?? '',
       baoTriLanCuoi: json['BaoTriLanCuoi'] != null ? DateTime.parse(json['BaoTriLanCuoi']) : null,
       baoTriLanSau: json['BaoTriLanSau'] != null ? DateTime.parse(json['BaoTriLanSau']) : null,

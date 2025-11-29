@@ -1,126 +1,218 @@
-import 'package:flutter_application/data/model/Khachthue.dart';
-import 'package:flutter_application/data/model/NhanVien.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application/data/model/KhachThue.dart';
 
-enum PhanLoaiBaoTriEnum { dien, nuoc, khac } 
-enum MucDoUuTienBaoTriEnum { thap, trungBinh, cao }
-enum TrangThaiBaoTriEnum { choPhanCong, dangXuLy, daHoanThanh }
+/// =================== ENUM ===================
+
+/// Maintenance category
+enum MaintenanceCategory { electrical, plumbing, other }
+
+/// Priority level
+enum MaintenancePriority { low, medium, high }
+
+/// Maintenance status
+enum MaintenanceStatus { pending, processing, completed }
+
+/// =================== MODEL ===================
 
 class YeuCauBaoTri {
-  final int maYeuCau;
-  final int maKhachThue;
-  final String tieuDe;
-  final String moTa;
-  final PhanLoaiBaoTriEnum phanLoai;
-  final MucDoUuTienBaoTriEnum mucDoUuTien;
-  final TrangThaiBaoTriEnum trangThai;
-  final DateTime ngayYeuCau;
-  final int? maNhanVienPhanCong;
-  final DateTime? ngayPhanCong;
-  final DateTime? ngayHoanThanh;
-  final String? ghiChu;
-  final double? chiPhiThucTe;
-  final List<dynamic>? hinhAnhMinhChung; 
-
-  final KhachThue? khachThue;
-  final NhanVien? nhanVienPhanCong;
+  final int id;
+  final String tenantName;
+  final String building;
+  final String room;
+  final String title;
+  final String description;
+  final MaintenanceCategory category;
+  final MaintenancePriority priority;
+  final MaintenanceStatus status;
+  final DateTime? requestDate;
+  final String? assignedTo;
+  final DateTime? scheduledDate;
+  final DateTime? completedDate;
+  final String? notes;
+  final double? actualCost;
+  final List<String>? images;
+  final KhachThue? tenant;
 
   YeuCauBaoTri({
-    required this.maYeuCau,
-    required this.maKhachThue,
-    required this.tieuDe,
-    required this.moTa,
-    required this.phanLoai,
-    required this.mucDoUuTien,
-    required this.trangThai,
-    required this.ngayYeuCau,
-    this.maNhanVienPhanCong,
-    this.ngayPhanCong,
-    this.ngayHoanThanh,
-    this.ghiChu,
-    this.chiPhiThucTe,
-    this.hinhAnhMinhChung,
-    this.khachThue,
-    this.nhanVienPhanCong,
+    required this.id,
+    required this.tenantName,
+    required this.building,
+    required this.room,
+    required this.title,
+    required this.description,
+    required this.category,
+    required this.priority,
+    required this.status,
+    this.requestDate,
+    this.assignedTo,
+    this.scheduledDate,
+    this.completedDate,
+    this.notes,
+    this.actualCost,
+    this.images,
+    this.tenant,
   });
 
   factory YeuCauBaoTri.fromJson(Map<String, dynamic> json) {
+    DateTime? parseDate(String? dateStr) {
+      if (dateStr == null || dateStr.isEmpty) return null;
+      try {
+        return DateTime.parse(dateStr);
+      } catch (_) {
+        return null;
+      }
+    }
+
+    double? parseDouble(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value.toDouble();
+      if (value is double) return value;
+      if (value is String) return double.tryParse(value.replaceAll(',', ''));
+      return null;
+    }
+
     return YeuCauBaoTri(
-      maYeuCau: json['MaYeuCau'] ?? 0,
-      maKhachThue: json['MaKhachThue'] ?? 0,
-      tieuDe: json['TieuDe'] ?? '',
-      moTa: json['MoTa'] ?? '',
-      phanLoai: _phanLoaiFromString(json['PhanLoai']),
-      mucDoUuTien: _mucDoUuTienFromString(json['MucDoUuTien']),
-      trangThai: _trangThaiFromString(json['TrangThai']),
-      ngayYeuCau: DateTime.parse(json['NgayYeuCau']),
-      maNhanVienPhanCong: json['MaNhanVienPhanCong'],
-      ngayPhanCong: json['NgayPhanCong'] != null ? DateTime.parse(json['NgayPhanCong']) : null,
-      ngayHoanThanh: json['NgayHoanThanh'] != null ? DateTime.parse(json['NgayHoanThanh']) : null,
-      ghiChu: json['GhiChu'],
-      chiPhiThucTe: json['ChiPhiThucTe'] != null ? (json['ChiPhiThucTe'] as num).toDouble() : null,
-      hinhAnhMinhChung: json['HinhAnhMinhChung'] != null ? List<dynamic>.from(json['HinhAnhMinhChung']) : null,
-      khachThue: json['KhachThue'] != null ? KhachThue.fromJson(json['KhachThue']) : null,
-      nhanVienPhanCong: json['NhanVienPhanCong'] != null ? NhanVien.fromJson(json['NhanVienPhanCong']) : null,
+      id: json['id'] ?? 0,
+      tenantName: json['tenantName'] ?? '',
+      building: json['building'] ?? '',
+      room: json['room'] ?? '',
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      category: MaintenanceCategoryExtension.fromString(json['category'] as String?),
+      priority: MaintenancePriorityExtension.fromString(json['priority'] as String?),
+      status: MaintenanceStatusExtension.fromString(json['status'] as String?),
+      requestDate: parseDate(json['requestDate'] as String?),
+      assignedTo: json['assignedTo'] as String?,
+      scheduledDate: parseDate(json['scheduledDate'] as String?),
+      completedDate: parseDate(json['completedDate'] as String?),
+      notes: json['notes'] as String?,
+      actualCost: parseDouble(json['actualCost']),
+      images: json['images'] != null ? List<String>.from(json['images']) : null,
+      tenant: json['tenant'] != null ? KhachThue.fromJson(json['hoTen'] as Map<String, dynamic>) : null,
     );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    return {
-      'MaYeuCau': maYeuCau,
-      'MaKhachThue': maKhachThue,
-      'TieuDe': tieuDe,
-      'MoTa': moTa,
-      'PhanLoai': phanLoai.name,
-      'MucDoUuTien': mucDoUuTien.name,
-      'TrangThai': trangThai.name,
-      'NgayYeuCau': ngayYeuCau.toIso8601String(),
-      'MaNhanVienPhanCong': maNhanVienPhanCong,
-      'NgayPhanCong': ngayPhanCong?.toIso8601String(),
-      'NgayHoanThanh': ngayHoanThanh?.toIso8601String(),
-      'GhiChu': ghiChu,
-      'ChiPhiThucTe': chiPhiThucTe,
-      'HinhAnhMinhChung': hinhAnhMinhChung,
-      'KhachThue': khachThue?.toJson(),
-      'NhanVienPhanCong': nhanVienPhanCong?.toJson(),
-    };
-  }
-
-  static PhanLoaiBaoTriEnum _phanLoaiFromString(String? value) {
-    switch (value) {
+/// =================== EXTENSION CATEGORY ===================
+extension MaintenanceCategoryExtension on MaintenanceCategory {
+  static MaintenanceCategory fromString(String? value) {
+    final val = value?.toLowerCase() ?? '';
+    switch (val) {
+      case 'electrical':
       case 'dien':
-        return PhanLoaiBaoTriEnum.dien;
+        return MaintenanceCategory.electrical;
+      case 'plumbing':
       case 'nuoc':
-        return PhanLoaiBaoTriEnum.nuoc;
-      case 'khac':
-        return PhanLoaiBaoTriEnum.khac;
+        return MaintenanceCategory.plumbing;
       default:
-        return PhanLoaiBaoTriEnum.khac;
+        return MaintenanceCategory.other;
     }
   }
 
-  static MucDoUuTienBaoTriEnum _mucDoUuTienFromString(String? value) {
-    switch (value) {
+  String get displayName {
+    switch (this) {
+      case MaintenanceCategory.electrical:
+        return 'Electrical';
+      case MaintenanceCategory.plumbing:
+        return 'Plumbing';
+      case MaintenanceCategory.other:
+        return 'Other';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case MaintenanceCategory.electrical:
+        return Colors.blue;
+      case MaintenanceCategory.plumbing:
+        return Colors.green;
+      case MaintenanceCategory.other:
+        return Colors.grey;
+    }
+  }
+}
+
+/// =================== EXTENSION PRIORITY ===================
+extension MaintenancePriorityExtension on MaintenancePriority {
+  static MaintenancePriority fromString(String? value) {
+    final val = value?.toLowerCase() ?? '';
+    switch (val) {
+      case 'low':
       case 'thap':
-        return MucDoUuTienBaoTriEnum.thap;
-      case 'trungBinh':
-        return MucDoUuTienBaoTriEnum.trungBinh;
+        return MaintenancePriority.low;
+      case 'medium':
+      case 'trungbinh':
+      case 'trung_binh':
+        return MaintenancePriority.medium;
+      case 'high':
       case 'cao':
-        return MucDoUuTienBaoTriEnum.cao;
+        return MaintenancePriority.high;
       default:
-        return MucDoUuTienBaoTriEnum.thap;
+        return MaintenancePriority.low;
     }
   }
 
-  static TrangThaiBaoTriEnum _trangThaiFromString(String? value) {
-    switch (value) {
-      case 'choPhanCong':
-        return TrangThaiBaoTriEnum.choPhanCong;
-      case 'dangXuLy':
-        return TrangThaiBaoTriEnum.dangXuLy;
-      case 'daHoanThanh':
-        return TrangThaiBaoTriEnum.daHoanThanh;
+  String get displayName {
+    switch (this) {
+      case MaintenancePriority.low:
+        return 'Low';
+      case MaintenancePriority.medium:
+        return 'Medium';
+      case MaintenancePriority.high:
+        return 'High';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case MaintenancePriority.low:
+        return Colors.green;
+      case MaintenancePriority.medium:
+        return Colors.orange;
+      case MaintenancePriority.high:
+        return Colors.redAccent;
+    }
+  }
+}
+
+/// =================== EXTENSION STATUS ===================
+extension MaintenanceStatusExtension on MaintenanceStatus {
+  static MaintenanceStatus fromString(String? value) {
+    final val = value?.toLowerCase() ?? '';
+    switch (val) {
+      case 'pending':
+      case 'chophancong':
+        return MaintenanceStatus.pending;
+      case 'processing':
+      case 'dangxuly':
+        return MaintenanceStatus.processing;
+      case 'completed':
+      case 'dahoanthanh':
+        return MaintenanceStatus.completed;
       default:
-        return TrangThaiBaoTriEnum.choPhanCong;
+        return MaintenanceStatus.pending;
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case MaintenanceStatus.pending:
+        return 'Pending';
+      case MaintenanceStatus.processing:
+        return 'Processing';
+      case MaintenanceStatus.completed:
+        return 'Completed';
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case MaintenanceStatus.pending:
+        return Colors.amber;
+      case MaintenanceStatus.processing:
+        return Colors.purple;
+      case MaintenanceStatus.completed:
+        return Colors.green;
     }
   }
 }

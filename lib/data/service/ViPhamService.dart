@@ -4,21 +4,13 @@ import 'package:flutter_application/core/config/app_config.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
 import 'package:flutter_application/data/service/apiService.dart';
 
-class KhachThueService {
+class ViPhamService {
   final Dio dio = ApiService.createDio();
 
-  Future<Response> getAllKhachThue() async {
+  Future<Response> getAllViPham() async {
     return await dio.get(
-      Endpoints.khachthue,
+      Endpoints.vipham,
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }
-
-  Future<Response> getById(int id) async {
-    return await dio.get(
-      Endpoints.khachThueId(id), 
-      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
-    );
-  }
-
 }

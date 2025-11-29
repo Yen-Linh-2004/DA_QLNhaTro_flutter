@@ -19,7 +19,10 @@ class NoiQuy {
       tieuDe: json['TieuDe'] ?? '',
       noiDung: json['NoiDung'] ?? '',
       phanLoai: json['PhanLoai'] ?? '',
-      trangThai: json['TrangThai'] == 1 || json['TrangThai'] == true,
+      // API trả về bool trực tiếp → dùng cast an toàn
+      trangThai: json['TrangThai'] is bool
+          ? json['TrangThai']
+          : json['TrangThai'] == 1,
     );
   }
 
@@ -29,7 +32,7 @@ class NoiQuy {
       'TieuDe': tieuDe,
       'NoiDung': noiDung,
       'PhanLoai': phanLoai,
-      'TrangThai': trangThai ? 1 : 0,
+      'TrangThai': trangThai,
     };
   }
 }
