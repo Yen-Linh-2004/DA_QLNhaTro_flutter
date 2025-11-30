@@ -11,11 +11,11 @@ class UpdateTypeRoomPage extends StatefulWidget {
 class _UpdateTypeRoomPage extends State<UpdateTypeRoomPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController _nameTypeRoomController = TextEditingController();
-  final TextEditingController _priceController = TextEditingController();
-  final TextEditingController _changeRoomController = TextEditingController();
-  final TextEditingController _discribeController = TextEditingController();
-  final TextEditingController _amenitiesController = TextEditingController();
+  final TextEditingController _nameTypeRoomController = TextEditingController(text: "Phòng Ban Công");
+  final TextEditingController _priceController = TextEditingController(text: "28000000");
+  final TextEditingController _changeRoomController = TextEditingController(text: "28.0");
+  final TextEditingController _discribeController = TextEditingController(text: "Phòng cso ban công riêng, nhiều ánh sáng");
+  final TextEditingController _amenitiesController = TextEditingController(text: "Gác, Kệ chén bát, Ban công");
   
   @override
   void dispose() {

@@ -1,6 +1,8 @@
 import 'package:flutter_application/UI/shared/parse_utils.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
-
+import 'package:intl/intl.dart';
+// ===================================================================
+// ============================= HÓA ĐƠN =============================
 class HoaDonKhachThue {
   final int maHoaDon;
   final int maPhong;
@@ -88,13 +90,12 @@ class HoaDonKhachThue {
     };
   }
 }
-
 class ChiTietHoaDonKhachThue {
   final int maChiTiet;
   final int maHoaDon;
   final String noiDung;
   final int soLuong;
-  final double donGia;
+  final double? donGia;
   final double thanhTien;
 
   ChiTietHoaDonKhachThue({
@@ -128,7 +129,6 @@ class ChiTietHoaDonKhachThue {
     };
   }
 }
-
 class ThanhToan {
   final int maThanhToan;
   final double soTien;
@@ -157,6 +157,157 @@ class ThanhToan {
       'SoTien': soTien,
       'NgayThanhToan': ngayThanhToan,
       'PhuongThuc': phuongThuc,
+    };
+  }
+}
+
+// ====================================================================
+// ============================= HOP DONG =============================
+class ThongTinHopDong {
+  final String soHopDong;
+  final String tenPhong;
+  final String tenKhachThue;
+  final String sdt;
+  final String trangThai;
+  final DateTime ngayKy;
+  final DateTime ngayBatDau;
+  final DateTime ngayKetThuc;
+  final double tienThueHangThang;
+  final double tienCoc;
+  final List<DichVu> dichVu;
+
+  ThongTinHopDong({
+    required this.soHopDong,
+    required this.tenPhong,
+    required this.tenKhachThue,
+    required this.sdt,
+    required this.trangThai,
+    required this.ngayKy,
+    required this.ngayBatDau,
+    required this.ngayKetThuc,
+    required this.tienThueHangThang,
+    required this.tienCoc,
+    required this.dichVu,
+  });
+
+  factory ThongTinHopDong.fromJson(Map<String, dynamic> json) {
+    var dichVuList = <DichVu>[];
+    if (json['DichVu'] != null) {
+      dichVuList = List<Map<String, dynamic>>.from(json['DichVu'])
+          .map((e) => DichVu.fromJson(e))
+          .toList();
+    }
+
+    return ThongTinHopDong(
+      soHopDong: json['SoHopDong'] ?? '',
+      tenPhong: json['TenPhong'] ?? '',
+      tenKhachThue: json['TenKhachThue'] ?? '',
+      sdt: json['SDT'] ?? '',
+      trangThai: json['TrangThai'] ?? '',
+      ngayKy: parseDate(json['NgayKy']),
+      ngayBatDau: parseDate(json['NgayBatDau']),
+      ngayKetThuc: parseDate(json['NgayKetThuc']),
+      tienThueHangThang:  ParseUtils.toDouble((json['TienThueHangThang'])),
+      tienCoc:  ParseUtils.toDouble((json['TienCoc'])),
+      dichVu: dichVuList,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'SoHopDong': soHopDong,
+      'TenPhong': tenPhong,
+      'TenKhachThue': tenKhachThue,
+      'SDT': sdt,
+      'TrangThai': trangThai,
+      'NgayKy': ngayKy.toIso8601String(),
+      'NgayBatDau': ngayBatDau.toIso8601String(),
+      'NgayKetThuc': ngayKetThuc.toIso8601String(),
+      'TienThueHangThang': tienThueHangThang,
+      'TienCoc': tienCoc,
+      'DichVu': dichVu.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  static DateTime parseDate(String? dateStr) {
+    if (dateStr == null || dateStr.isEmpty) {
+      return DateTime.now(); // hoặc null nếu muốn nullable
+    }
+    try {
+      return DateFormat('dd/MM/yyyy').parse(dateStr);
+    } catch (e) {
+      return DateTime.now(); // fallback
+    }
+  }
+}
+class DichVu {
+  String? tenDichVu;
+  num? donGiaApDung;
+  num? soLuong;
+  String? donViTinh;
+
+  DichVu({
+    this.tenDichVu,
+    this.donGiaApDung,
+    this.soLuong,
+    this.donViTinh,
+  });
+
+  factory DichVu.fromJson(Map<String, dynamic> json) {
+    return DichVu(
+      tenDichVu: json['TenDichVu'] as String?,
+      donGiaApDung: ParseUtils.toDouble(json['DonGiaApDung']),
+      soLuong: json['SoLuong'] as num?,
+      donViTinh: json['DonViTinh'] as String?,
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'TenDichVu': tenDichVu,
+        'DonGiaApDung': donGiaApDung,
+        'SoLuong': soLuong,
+        'DonViTinh': donViTinh,
+      };
+}
+
+// =================================================================
+// ============================= PHONG =============================
+class ThongTinPhong {
+  final int maKhachThue;
+  final String hoTen;
+  final String? cccd;
+  final String? sdt1;
+  final String? email;
+  final PhongTro phongTro;
+
+  ThongTinPhong({
+    required this.maKhachThue,
+    required this.hoTen,
+    this.cccd,
+    this.sdt1,
+    this.email,
+    required this.phongTro,
+  });
+
+  factory ThongTinPhong.fromJson(Map<String, dynamic> json) {
+    return ThongTinPhong(
+      maKhachThue: json['MaKhachThue'] ?? 0,
+      hoTen: json['HoTen'] ?? '',
+      cccd: json['CCCD'],
+      sdt1: json['SDT1'],
+      email: json['Email'],
+      phongTro: PhongTro.fromJson(json['phongTro'] ?? {}),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'MaKhachThue': maKhachThue,
+      'HoTen': hoTen,
+      'CCCD': cccd,
+      'SDT1': sdt1,
+      'Email': email,
+      'phongTro': phongTro.toJson(),
     };
   }
 }

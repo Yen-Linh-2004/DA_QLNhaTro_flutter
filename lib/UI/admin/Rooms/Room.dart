@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/Rooms/detail_room.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/provider/PhongTroProvider.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
@@ -156,12 +157,12 @@ class _RoomPageState extends State<RoomPage> {
 
     return GestureDetector(
       onTap: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (_) => RoomDetailPage(phongtro: room),
-        //   ),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => RoomDetailPage(),
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 14),

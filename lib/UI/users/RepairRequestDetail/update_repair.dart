@@ -10,12 +10,12 @@ class UpdateRepairPage extends StatefulWidget {
 }
 
 class _UpdateRepairPageState extends State<UpdateRepairPage> {
-  final TextEditingController _tilteController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _tilteController = TextEditingController(text: "Điều hòa không hoạt động");
+  final TextEditingController _descriptionController = TextEditingController(text: "Điều hòa phòng 101A không thể bật, có thể do hỏng nguồn.");
   final TextEditingController _noteController = TextEditingController();
 
-  String? selectedcatalog = "Điện";
-  String? selectedLevel = "Trung bình";
+  String? selectedcatalog = "Điện lạnh";
+  String? selectedLevel = "Cao";
   List<String> catalog = ["Điện", "Hệ thống nước", "Điện lạnh", "Khác"];
   List<String> level = ["Thấp", "Trung bình", "Cao"];
 
@@ -107,10 +107,10 @@ class _UpdateRepairPageState extends State<UpdateRepairPage> {
 
             Text("Ghi chú thêm", style: TextStyle(fontWeight: FontWeight.bold)),
             SizedBox(height: 6),
-
             TextFormField(
               controller: _noteController,
-              decoration: InputDecoration(border: OutlineInputBorder()),
+              decoration: InputDecoration(border: OutlineInputBorder(), hintText: "Nhập ghi chú thêm nếu cần",),
+              
             ),
 
             SizedBox(height: 16),

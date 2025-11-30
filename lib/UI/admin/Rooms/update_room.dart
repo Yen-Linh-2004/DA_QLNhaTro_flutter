@@ -10,7 +10,7 @@ class UpdateRoomPage extends StatefulWidget {
 }
 
 class _UpdateRoomPageState extends State<UpdateRoomPage> {
-  final _roomController = TextEditingController(text: "A101");
+  final _roomController = TextEditingController(text: "P.103");
   final _areaController = TextEditingController(text: "20");
   final _priceController = TextEditingController(text: "350000");
 

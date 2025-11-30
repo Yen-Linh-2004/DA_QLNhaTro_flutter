@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class ParseUtils {
   static double toDouble(dynamic value) {
     if (value == null) return 0;

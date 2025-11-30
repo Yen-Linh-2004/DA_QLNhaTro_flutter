@@ -19,9 +19,9 @@ class _AddNotificationsPageState extends State<AddNotificationsPage> {
   final List<String> listStatus = ["Lưu bản nháp", "Gửi ngay", "Lên lịch gửi"];
   final List<String> listActor = ["Tất cả khách thuê", "Phòng cụ thể"];
 
-  String? selectedTye = "Thông báo trung";
-  String? selectedStatus = "Lưu bản nháp";
-  String? selectAtor = "Tất cả khách thuê";
+  String? selectedTye;
+  String? selectedStatus;
+  String? selectAtor;
 
   @override
   Widget build(BuildContext context) {

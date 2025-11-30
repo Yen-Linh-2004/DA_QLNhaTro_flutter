@@ -9,11 +9,11 @@ class PersonalPage extends StatefulWidget {
 }
 
 class _PersonalPageState extends State<PersonalPage> {
-  final _nameController = TextEditingController(text: "Nguyễn Văn Anh");
-  final _usenameController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _roleController = TextEditingController();
+  final _nameController = TextEditingController(text: "Lô Hồng");
+  final _usenameController = TextEditingController(text: "lôhồng47");
+  final _emailController = TextEditingController(text: "sinh31@example.org");
+  final _phoneController = TextEditingController(text: "0993786571");
+  final _roleController = TextEditingController(text: "Khách thuê");
 
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
@@ -89,7 +89,7 @@ class _PersonalPageState extends State<PersonalPage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "Trần Thị Mai",
+                                    "Lô Hồng",
                                     style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
@@ -120,7 +120,7 @@ class _PersonalPageState extends State<PersonalPage> {
                               // SizedBox(height: 4),
 
                               Text(
-                                "mai.tran@tro.com",
+                                "sinh31@example.org",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.grey[700],
@@ -130,7 +130,7 @@ class _PersonalPageState extends State<PersonalPage> {
                               Row(
                                 children: [
                                   _buildChip(
-                                    "Nhân viên",
+                                    "Khách thuê",
                                     Colors.blue.shade50,
                                     Colors.blue,
                                   ),
@@ -144,7 +144,7 @@ class _PersonalPageState extends State<PersonalPage> {
                               ),
                                 SizedBox(height: 6),
                                 _buildChip(
-                                  "Tài khoản: nhanvien1",
+                                  "Tài khoản: lôhồng47",
                                   Colors.grey.shade200,
                                   Colors.grey[800]!,
                                 ),

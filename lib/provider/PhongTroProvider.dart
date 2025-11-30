@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
@@ -9,41 +11,46 @@ class PhongTroProvider extends ChangeNotifier {
 
   get errorMessage => null;
 
-  Future<void> fetchPhongTro() async {
-    try {
-      isLoading = true;
-      notifyListeners();
+Future<void> fetchPhongTro() async {
+  try {
+    isLoading = true;
+    notifyListeners();
 
-      final fullUrl = ApiRoutes.phongtro.dio.options.baseUrl + Endpoints.phongtro;
-      print("Gọi APP: $fullUrl");
+    final response = await ApiRoutes.phongtro.getAllPhongTro();
 
-      final response = await ApiRoutes.phongtro.getAllPhongTro();
-      final rawData = response.data['data']; 
-
-      print("Dữ liệu PhongTro trả về: $rawData");
-
-      // --- Parse an toàn: list hoặc object ---
-      if (rawData is List) {
-        PhongTroList = rawData
-            .map((e) => PhongTro.fromJson(e as Map<String, dynamic>))
-            .toList();
-      } else if (rawData is Map) {
-        PhongTroList = [PhongTro.fromJson(rawData as Map<String, dynamic>)];
-      } else {
+    dynamic data;
+    if (response.data is String) {
+      // Nếu response là String → parse JSON thủ công
+      try {
+        data = jsonDecode(response.data);
+      } catch (e) {
+        print("⚠️ JSON decode failed: $e");
+        print("RAW response (first 500 chars): ${response.data.substring(0, 500)}");
         PhongTroList = [];
-        print("⚠️ Dữ liệu PhongTro không hợp lệ");
+        return;
       }
-    } catch (e, stacktrace) {
-      final fullUrl = ApiRoutes.phongtro.dio.options.baseUrl + Endpoints.phongtro;
-      print("Gọi API PhongTro: $fullUrl");
-      print("Lỗi fetch PhongTro: $e");
-      print(stacktrace);
-      PhongTroList = [];
-    } finally {
-      isLoading = false;
-      notifyListeners();
+    } else {
+      data = response.data;
     }
+
+    // Kiểm tra key 'data'
+    if (data['data'] != null && data['data'] is List) {
+      PhongTroList = (data['data'] as List)
+          .map((e) => PhongTro.fromJson(e as Map<String, dynamic>))
+          .toList();
+    } else {
+      PhongTroList = [];
+      print("⚠️ Response không có key 'data' hoặc không phải List");
+    }
+  } catch (e, stacktrace) {
+    print("Lỗi fetch PhongTro: $e");
+    print(stacktrace);
+    PhongTroList = [];
+  } finally {
+    isLoading = false;
+    notifyListeners();
   }
+}
 
   Future<void> fetchPhongTrong() async {
     try {

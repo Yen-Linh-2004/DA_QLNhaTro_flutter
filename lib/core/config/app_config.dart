@@ -1,13 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppConfig {
-  static const String apiUrl = "http://192.168.1.8:8000/api";
+  static const String apiUrl = "http://10.0.2.2:8000/api";
   static String? token;
 
   static Future<void> saveToken(String token) async {
     AppConfig.token = token;
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", token);
+    await prefs.setString("token", token);  
   }
 
   static Future<void> loadToken() async {

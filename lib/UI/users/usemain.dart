@@ -5,6 +5,7 @@ import 'package:flutter_application/UI/admin/personal.dart';
 import 'package:flutter_application/UI/users/RepairRequestDetail/RepairRequest.dart';
 import 'package:flutter_application/UI/users/bill.dart';
 import 'package:flutter_application/UI/users/contact.dart';
+import 'package:flutter_application/UI/users/homePage.dart';
 import 'package:flutter_application/UI/users/rulesandviolations.dart';
 import 'package:flutter_application/UI/users/usermyroom.dart';
 
@@ -24,7 +25,7 @@ class _TenantHomePage extends State<TenantHomePage> {
   bool isUserMenuOpen = false;
 
   final Map<String, Widget> _pages = {
-    // 'home': InvoicePage(customrId: ,),
+    'home': InvoicePage(),
     'room': RoomPage(),
     'contact': ContractPage(),
     'bill': BillPage(),

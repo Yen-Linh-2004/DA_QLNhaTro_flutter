@@ -67,7 +67,7 @@ class _CreateRepairPageState extends State<CreateRepairPage> {
             buildContendField("Mô tả chi tiết",  "Mô tả chi tiết vấn đề cần sửa chữa...", _descriptionController, context),
                       
             SizedBox(height: 16),
-            buildContendField("Ghi chú thêm", "nhập ghi chú thêm (nếu cần)", _noteController, context),
+            buildContendField("Ghi chú thêm", "Nhập ghi chú thêm (nếu cần)", _noteController, context),
             
             SizedBox(height: 16),
             Row(

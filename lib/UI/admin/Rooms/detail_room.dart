@@ -10,7 +10,7 @@ class RoomDetailPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title:  Text("Chi tiết phòng A101", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title:  Text("Chi tiết phòng P.103", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: Colors.blue,
         elevation: 1,
         leading: IconButton(
@@ -25,17 +25,17 @@ class RoomDetailPage extends StatelessWidget {
           children: [
             // SizedBox(height: 12),
             _infoCard([
-              Text("Chi tiết phòng A101", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text("Thông tin phòng", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
               SizedBox(height: 12),
-              _infoRow("Số phòng", "A101"),
-              _infoRow("Dãy", "Dãy A"),
-              _infoRow("Loại phòng", "Bình thường"),
+              _infoRow("Số phòng", "P.103"),
+              _infoRow("Dãy", "Dãy trọ Phượng Vĩ"),
+              _infoRow("Loại phòng", "Phòng Tiêu Chuẩn"),
               _infoRow("Giá thuê", "2.600.000đ/tháng", color: Colors.green),
               _infoRow("Trạng thái", "Đã thuê", color: Colors.blue, bold: true),
-              _infoRow("Mô tả", "Phòng A101 - Phòng thường"),
+              // _infoRow("Mô tả", "Phòng A101 - Phòng thường"),
             ]),
             SizedBox(height: 16),
-            _amenitiesSection(amenities: ["Gác", "Kệ chén bát", "Điều hòa"]),
+            _amenitiesSection(amenities: ["Gác", "Kệ chén bát"]),
             SizedBox(height: 12),
             Row(
               children: [

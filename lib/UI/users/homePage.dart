@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/model/Customer.dart';
-import 'package:flutter_application/provider/CustomerProvider.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import '../../provider/CustomerProvider.dart';
 
 class InvoicePage extends StatefulWidget {
   const InvoicePage({super.key});
@@ -21,254 +21,226 @@ class _InvoicePageState extends State<InvoicePage> {
   }
 
   String formatCurrency(double value) {
-    final format = NumberFormat.currency(locale: 'vi_VN', symbol: 'đ', decimalDigits: 0);
-    return format.format(value);
+    return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ', decimalDigits: 0)
+        .format(value);
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
-      appBar: AppBar(
-        title: const Text('Chi tiết hóa đơn'),
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black87,
-        elevation: 1,
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          child: Consumer<CustomerProvider>(
-            builder: (context, provider, _) {
-              if (provider.isLoading) {
-                return const Center(child: CircularProgressIndicator());
-              }
+      backgroundColor: const Color(0xffF5F6FA),
+      body: Consumer<CustomerProvider>(
+        builder: (context, provider, _) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-              if (provider.InvoicesList.isEmpty) {
-                return const Center(child: Text('Chưa có dữ liệu hóa đơn'));
-              }
+          if (provider.InvoicesList.isEmpty) {
+            return const Center(child: Text("Không có dữ liệu hóa đơn"));
+          }
 
-              final invoice = provider.InvoicesList.first;
+          final invoice = provider.InvoicesList.first;
+          String removeDiacritics(String str) {
+            const Map<String, String> accentMap = {
+              'à':'a','á':'a','ả':'a','ã':'a','ạ':'a',
+              'ă':'a','ằ':'a','ắ':'a','ẳ':'a','ẵ':'a','ặ':'a',
+              'â':'a','ầ':'a','ấ':'a','ẩ':'a','ẫ':'a','ậ':'a',
+              'è':'e','é':'e','ẻ':'e','ẽ':'e','ẹ':'e',
+              'ê':'e','ề':'e','ế':'e','ể':'e','ễ':'e','ệ':'e',
+              'ì':'i','í':'i','ỉ':'i','ĩ':'i','ị':'i',
+              'ò':'o','ó':'o','ỏ':'o','õ':'o','ọ':'o',
+              'ô':'o','ồ':'o','ố':'o','ổ':'o','ỗ':'o','ộ':'o',
+              'ơ':'o','ờ':'o','ớ':'o','ở':'o','ỡ':'o','ợ':'o',
+              'ù':'u','ú':'u','ủ':'u','ũ':'u','ụ':'u',
+              'ư':'u','ừ':'u','ứ':'u','ử':'u','ữ':'u','ự':'u',
+              'ỳ':'y','ý':'y','ỷ':'y','ỹ':'y','ỵ':'y',
+              'đ':'d'
+            };
+            return str.split('').map((c) => accentMap[c] ?? c).join('');
+          }
+           final List<ChiTietHoaDonKhachThue> list = invoice.chiTietHoaDon ?? [];
+          double getPrice(String key) {
+            String keyClean = removeDiacritics(key.toLowerCase());
+            return list
+                .where((e) => removeDiacritics(e.noiDung.toLowerCase()).contains(keyClean))
+                .map((e) => e.thanhTien.toDouble())   // chuyển int sang double
+                .fold(0, (a, b) => a + b);
+          }
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+          return Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Column(
                 children: [
-                  // Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          icon: const Icon(Icons.settings, size: 20),
-                          label: const Text('Yêu cầu sửa chữa'),
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          icon: const Icon(Icons.report, size: 20),
-                          label: const Text('Báo cáo vi phạm'),
-                          onPressed: () {},
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: Colors.red,
-                            side: const BorderSide(color: Colors.red),
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                          ),
-                        ),
-                      ),
-                    ],
+                  // =========================
+                  // HÓA ĐƠN
+                  // =========================
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _title("Hóa đơn tháng ${invoice.thang}"),
+                        _subInfo("Hạn thanh toán", invoice.ngayHetHan),
+
+                        const SizedBox(height: 16),
+                        // Hiển thị tất cả các hạng mục
+                        ...invoice.chiTietHoaDon!.map((item) {
+                          return Column(
+                            children: [
+                              _item(item.noiDung,
+                                  item.soLuong % 1 == 0
+                                      ? item.soLuong.toInt().toString()
+                                      : item.soLuong.toString(),
+                                  formatCurrency(item.thanhTien)),
+                              _divider(),
+                            ],
+                          );
+                        }).toList(),
+
+                        // const SizedBox(height: 20),
+                        // _title("Thông tin đọc số"),
+                        // _subInfo("Chỉ số điện", "${invoice.chiTietHoaDon.} → ${invoice.chiSoDienMoi} kWh"),
+                        // const SizedBox(height: 10),
+                        // _subInfo("Số người tính nước", "${invoice.soNguoi} người"),
+                        // const SizedBox(height: 10),
+                        // _subInfo("Gói Internet", invoice.goInternet),
+
+                        const SizedBox(height: 20),
+                        const Divider(height: 24),
+
+                        // Tổng kết
+                        _total("Tạm tính", formatCurrency(invoice.tongTien)),
+                        _total("Công nợ kỳ trước", formatCurrency(invoice.conLai)),
+                        _total("Giảm trừ", formatCurrency(0)),
+                        _total("Phí trễ hạn", formatCurrency(0)),
+                        _total("Cần thanh toán", formatCurrency(invoice.conLai), isBold: true),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 20),
 
-                  // Card chính chứa hóa đơn
-                  Expanded(
-                    child: Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      elevation: 4,
-                      shadowColor: Colors.black.withOpacity(0.1),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // Tiêu đề & hạn thanh toán
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Icon(Icons.receipt_long, color: Colors.blue.shade700),
-                                    const SizedBox(width: 8),
-                                    Text(
-                                      'Hóa đơn ${invoice.thang}',
-                                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 18),
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  'Hạn thanh toán: ${invoice.ngayHetHan}',
-                                  style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
-                                ),
-                              ],
-                            ),
-
-                            const Divider(height: 36, thickness: 1),
-
-                            // Header bảng
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 4),
-                              child: Row(
-                                children: [
-                                  Expanded(flex: 4, child: Text('HẠNG MỤC', style: headerStyle)),
-                                  Expanded(flex: 1, child: Text('SL', style: headerStyle, textAlign: TextAlign.center)),
-                                  Expanded(flex: 1, child: Text('ĐƠN VỊ', style: headerStyle, textAlign: TextAlign.center)),
-                                  Expanded(flex: 2, child: Text('ĐƠN GIÁ', style: headerStyle, textAlign: TextAlign.right)),
-                                  Expanded(flex: 2, child: Text('THÀNH TIỀN', style: headerStyle, textAlign: TextAlign.right)),
-                                ],
-                              ),
-                            ),
-
-                            const SizedBox(height: 8),
-
-                            // Danh sách hạng mục, scroll riêng biệt
-                            Expanded(
-                              child: invoice.chiTietHoaDon == null || invoice.chiTietHoaDon!.isEmpty
-                                  ? const Center(child: Text('Không có hạng mục hóa đơn'))
-                                  : ListView.separated(
-                                      itemCount: invoice.chiTietHoaDon!.length,
-                                      separatorBuilder: (_, __) => const Divider(height: 18, thickness: 0.7),
-                                      itemBuilder: (context, index) {
-                                        final item = invoice.chiTietHoaDon![index];
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 4),
-                                          child: Row(
-                                            children: [
-                                              Expanded(flex: 4, child: Text(item.noiDung, style: TextStyle(fontSize: 14))),
-                                              Expanded(flex: 1, child: Center(child: Text(item.soLuong.toString()))),
-                                              const Expanded(flex: 1, child: Center(child: Text('-'))), // Đơn vị không có
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Text(formatCurrency(item.donGia),
-                                                      textAlign: TextAlign.right,
-                                                      style: TextStyle(color: Colors.grey.shade800))),
-                                              Expanded(
-                                                  flex: 2,
-                                                  child: Text(formatCurrency(item.thanhTien),
-                                                      textAlign: TextAlign.right,
-                                                      style: const TextStyle(fontWeight: FontWeight.w600))),
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                    ),
-                            ),
-
-                            const Divider(height: 30),
-
-                            // Tổng kết
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 6),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  buildSummaryRow('Tạm tính', formatCurrency(invoice.tongTien)),
-                                  buildSummaryRow('Công nợ kỳ trước', '0 đ'),
-                                  buildSummaryRow('Giảm trừ', '0 đ'),
-                                  buildSummaryRow('Phí trễ hạn', '0 đ'),
-
-                                  const Divider(height: 24),
-
-                                  buildSummaryRow(
-                                    'Cần thanh toán',
-                                    formatCurrency(invoice.conLai),
-                                    isBold: true,
-                                    color: Colors.red.shade700,
-                                  ),
-
-                                  const SizedBox(height: 14),
-
-                                  if (invoice.conLai == 0)
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(vertical: 10),
-                                      decoration: BoxDecoration(
-                                        color: Colors.green.shade100,
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          const Icon(Icons.check_circle, color: Colors.green),
-                                          const SizedBox(width: 8),
-                                          Text(
-                                            'Hóa đơn đã được thanh toán',
-                                            style: TextStyle(
-                                              color: Colors.green.shade700,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-
-                                  const SizedBox(height: 16),
-
-                                  ElevatedButton.icon(
-                                    onPressed: () {
-                                      // TODO: Xử lý tải PDF
-                                    },
-                                    icon: const Icon(Icons.picture_as_pdf),
-                                    label: const Text('Tải PDF hóa đơn'),
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.blue.shade700,
-                                      padding: const EdgeInsets.symmetric(vertical: 16),
-                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                                      textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ],
+                  // =========================
+                  // BUTTONS
+                  // =========================
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 14),
+                            backgroundColor: Colors.blue,
+                          ),
+                          onPressed: () {},
+                          child: const Text(
+                            "Thanh toán ngay",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                      const SizedBox(width: 12),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey.shade300,
+                          foregroundColor: Colors.black,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 22,
+                          ),
+                        ),
+                        onPressed: () {},
+                        child: const Text("Tải PDF"),
+                      )
+                    ],
+                  )
                 ],
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  TextStyle get headerStyle => TextStyle(
-        fontWeight: FontWeight.bold,
-        color: Colors.grey.shade700,
-        fontSize: 13,
+  // ------------------------------
+  // WIDGETS
+  // ------------------------------
+
+  Widget _title(String text) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 12),
+      child: Text(text,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _item(String title, String unit, String price) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title,
+                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
+            const SizedBox(height: 4),
+            Text(unit, style: TextStyle(color: Colors.grey.shade600)),
+          ],
+        ),
+        Text(
+          price,
+          style: const TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.bold,
+            color: Colors.blue,
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _divider() => const Padding(
+        padding: EdgeInsets.symmetric(vertical: 12),
+        child: Divider(height: 1),
       );
 
-  Widget buildSummaryRow(String label, String value, {bool isBold = false, Color? color}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+  Widget _subInfo(String label, String value) {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.only(bottom: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: TextStyle(fontWeight: isBold ? FontWeight.bold : FontWeight.normal, fontSize: 14)),
-          Text(value,
+          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+          Text(value),
+        ],
+      ),
+    );
+  }
+
+  Widget _total(String label, String amount, {bool isBold = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label,
               style: TextStyle(
-                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                color: color ?? Colors.black87,
-                fontSize: 14,
-              )),
+                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+          Text(
+            amount,
+            style: TextStyle(
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              fontSize: isBold ? 16 : 14,
+            ),
+          )
         ],
       ),
     );

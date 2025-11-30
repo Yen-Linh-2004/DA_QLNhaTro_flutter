@@ -33,5 +33,18 @@ class CustomerRepository {
     }
   }
 
-  
+  //   Future<List<HoaDonKhachThue>> getInvoiceLast() async {
+  //   final res = await service.getInvoicelast();
+
+  //   final data = res.data['data'];
+  //   if (data is List) {
+  //     return data
+  //         .map((json) => HoaDonKhachThue.fromJson(json as Map<String, dynamic>))
+  //         .toList();
+  //   } else {
+  //     print("Dữ liệu không phải List: $data");
+  //     return [];
+  //   }
+  // }
+
 }

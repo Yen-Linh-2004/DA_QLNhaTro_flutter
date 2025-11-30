@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/Rooms/Room.dart';
 import 'package:flutter_application/UI/admin/main_page.dart';
-import 'package:flutter_application/UI/admin/maintenance/maintenance_page.dart';
-import 'package:flutter_application/UI/admin/rule/rule_paging.dart';
-import 'package:flutter_application/UI/admin/services/servicesPage.dart';
-import 'package:flutter_application/UI/generalPage/dashbroad.dart';
 import 'package:flutter_application/UI/generalPage/forgot_password.dart';
 import 'package:flutter_application/UI/generalPage/register.dart';
-import 'package:flutter_application/UI/users/homePage.dart';
+import 'package:flutter_application/UI/users/usemain.dart';
 import 'package:flutter_application/provider/AuthProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
             .showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => InvoicePage()),
+          MaterialPageRoute(builder: (_) => MainPage()),
         );
       } else {
         ScaffoldMessenger.of(context)

@@ -78,7 +78,7 @@ class _ServiceManagementPageState extends State<ServiceManagementPage> {
                     child: Row(
                       children: [
                         Text(
-                          "${s.donGia?.toStringAsFixed(0) ?? '0'} đ",
+                          "${s.donGiaApDung?.toStringAsFixed(0) ?? '0'} đ",
                           style: const TextStyle(fontSize: 14),
                         ),
                         const SizedBox(width: 10),
@@ -110,7 +110,7 @@ class _ServiceManagementPageState extends State<ServiceManagementPage> {
                             service: {
                               "name": s.tenDichVu,
                               "price":
-                                  "${s.donGia?.toStringAsFixed(0) ?? '0'} đ",
+                                  "${s.donGiaApDung?.toStringAsFixed(0) ?? '0'} đ",
                               "status": s.trangThaiHoatDong,
                             },
                           ),

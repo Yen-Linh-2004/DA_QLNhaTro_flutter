@@ -12,14 +12,14 @@ class AddMaintenancePage extends StatefulWidget {
 class _AddMaintenancePageState extends State<AddMaintenancePage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _nameController = TextEditingController(text: "Nguyễn Văn Anh");
+  final _nameController = TextEditingController();
   final _titleController = TextEditingController();
   final _discribeController = TextEditingController();
 
-  String? selectedBlock = "Dãy A";
-  String? selectRoom = "A101";
-  String? selectedcatalog = "Điện";
-  String? selectedLevel = "Trung bình";
+  String? selectedBlock;
+  String? selectRoom;
+  String? selectedcatalog;
+  String? selectedLevel;
 
   List<String> listblocks = ["Dãy A", "Dãy B", "Dãy C"];
   List<String> listrooms = ["A101", "A102", "A103"];
@@ -133,7 +133,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                       ),
                        SizedBox(height: 16),
                       buildTextField(
-                          "Tiêu đề", "Mô tả ngắn gọn vấn đề", _titleController, null),
+                          "Tiêu đề", "Mô tả ngắn gọn vấn Mô tđề", _titleController, null),
                        SizedBox(height: 16),
                       buildContendField("Mô tả",
                           "Mô tả chi tiết vấn đề cần sửa chữa...", _discribeController, context),

@@ -15,9 +15,9 @@ class _AddRoomPageState extends State<AddRoomPage> {
   final TextEditingController _areaController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
-  String? selectedBlock = "Dãy A";
-  String? selectedFloor = "Tầng 1";
-  String? selectedRoomType = "Phòng đơn";
+  String? selectedBlock;
+  String? selectedFloor;
+  String? selectedRoomType;
 
   final List<String> blocks = ["Dãy A", "Dãy B", "Dãy C"];
   final List<String> floors = ["Tầng 1", "Tầng 2", "Tầng 3"];

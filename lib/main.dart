@@ -40,7 +40,6 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (_) => ViPhamProvider()),
         ChangeNotifierProvider(create: (_) => BaoTriProvider()),
         ChangeNotifierProvider(create: (_) => HopDongProvider()),
-
         ChangeNotifierProvider(create: (_) => ThongBaoProvider()),
         ChangeNotifierProvider(create: (_) => TaiKhoanProvider()),
         ChangeNotifierProvider(create: (_) => PhieuDatCocProvider()),

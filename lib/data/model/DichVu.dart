@@ -2,7 +2,7 @@ class DichVu {
   final int maDichVu;
   final String tenDichVu;
   final String? moTa;
-  final double donGia;
+  final double donGiaApDung;
   final String? donViTinh;
   final String danhMuc;
   final bool trangThaiHoatDong;
@@ -14,7 +14,7 @@ class DichVu {
     required this.maDichVu,
     required this.tenDichVu,
     this.moTa,
-    required this.donGia,
+    required this.donGiaApDung,
     this.donViTinh,
     required this.danhMuc,
     required this.trangThaiHoatDong,
@@ -29,7 +29,7 @@ class DichVu {
       maDichVu: json['MaDichVu'] ?? 0,
       tenDichVu: json['TenDichVu'] ?? '',
       moTa: json['MoTa'],
-      donGia: (json['DonGia'] != null)
+      donGiaApDung: (json['DonGia'] != null)
           ? double.tryParse(json['DonGia'].toString()) ?? 0.0
           : 0.0,
       donViTinh: json['DonViTinh'],
@@ -51,7 +51,7 @@ class DichVu {
       'MaDichVu': maDichVu,
       'TenDichVu': tenDichVu,
       'MoTa': moTa,
-      'DonGia': donGia,
+      'DonGia': donGiaApDung,
       'DonViTinh': donViTinh,
       'DanhMuc': danhMuc,
       'TrangThaiHoatDong': trangThaiHoatDong,
