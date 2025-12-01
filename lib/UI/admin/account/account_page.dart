@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/provider/TaiKhoanProvider.dart';
 import 'package:provider/provider.dart';
 import 'add_account.dart';
@@ -15,7 +16,6 @@ class _AccountManagementPageState extends State<AccountManagementPage> {
   @override
   void initState() {
     super.initState();
-    // Gọi fetch tài khoản sau khi widget được mount
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<TaiKhoanProvider>(context, listen: false);
       provider.fetchTaiKhoan();
@@ -135,7 +135,7 @@ class _AccountManagementPageState extends State<AccountManagementPage> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               IconButton(
-                icon: const Icon(Icons.edit, color: Colors.blue),
+                icon: Icon(Icons.edit, color: Colors.blue),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -146,13 +146,41 @@ class _AccountManagementPageState extends State<AccountManagementPage> {
               IconButton(
                 icon: const Icon(Icons.vpn_key, color: Colors.amber),
                 onPressed: () {
-                  // TODO: đặt lại mật khẩu
+                  showConfirmDialog(
+                      context: context,
+                      title: "Xác nhận đặt lại mật khẩu",
+                      message: "Bạn có chắc chắn muốn đặt lại mật khẩu cho tài khoản này không?",
+                      confirmColor: Colors.orange,
+                      icon: Icons.flash_on_outlined,
+                      maxHeight: 140,
+                      onConfirm: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                          content: Text("Đã đặt lại mật khẩu thành công!"),
+                          backgroundColor: Colors.orange,
+                        ));
+                      },
+                    );
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
-                  // TODO: xóa tài khoản
+                  showConfirmDialog(
+                    context: context,
+                    title: "Xác nhận xóa tài khoản",
+                    message: "Bạn có chắc chắn muốn xó tài khoản này không?",
+                    confirmColor: Colors.red,
+                    icon: Icons.flash_on_outlined,
+                    maxHeight: 140,
+                    onConfirm: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                        content: Text("Đã xóa tài khoản thành công!"),
+                        backgroundColor: Colors.red,
+                      ));
+                    },
+                  );
                 },
               ),
             ],

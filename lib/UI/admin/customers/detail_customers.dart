@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/customers/update_customer.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/provider/khachthueProvider.dart';
 import 'package:flutter_application/data/model/KhachThue.dart';
@@ -124,11 +125,13 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
 
                 const SizedBox(height: 24),
 
-                // ---------- CÁC NÚT HÀNH ĐỘNG ----------
                 Row(
                   children: [
                     buildActionBtn(Icons.update, "Chỉnh sửa", Colors.blue, () {
-                      // TODO: Thêm navigator tới trang chỉnh sửa
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => UpdateCustomerPage()),
+                        );
                     }),
                     const SizedBox(width: 10),
                     buildActionBtn(Icons.close, "Xóa", Colors.redAccent, () {

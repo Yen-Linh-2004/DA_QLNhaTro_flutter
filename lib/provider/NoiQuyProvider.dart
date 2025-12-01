@@ -14,13 +14,10 @@ class NoiQuyProvider extends ChangeNotifier {
     try {
       final fullUrl = ApiRoutes.noiquy.dio.options.baseUrl + Endpoints.noiquy;
       print("Gọi API: $fullUrl");
-
       final response = await ApiRoutes.noiquy.getAllNoiQuy();
       final rawData = response.data['data'];
-
       print("Dữ liệu NoiQuy trả về: $rawData");
 
-      // Parse an toàn
       if (rawData is List) {
         NoiQuyList = rawData
             .map((e) => NoiQuy.fromJson(e as Map<String, dynamic>))
@@ -49,7 +46,6 @@ class NoiQuyProvider extends ChangeNotifier {
       final response = await ApiRoutes.noiquy.create(data);
       final newNoiQuy = NoiQuy.fromJson(response.data['data']);
       NoiQuyList.add(newNoiQuy);
-
       print("Thêm nội quy thành công: ${newNoiQuy.tieuDe}");
       notifyListeners();
     } catch (e, stacktrace) {

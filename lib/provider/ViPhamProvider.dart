@@ -14,12 +14,9 @@ class ViPhamProvider extends ChangeNotifier {
 
       final fullUrl = ApiRoutes.vipham.dio.options.baseUrl + Endpoints.vipham;
       print("Gọi APP: $fullUrl");
-
       final response = await ApiRoutes.vipham.getAllViPham();
       final rawData = response.data['data']; 
-
       print("Dữ liệu ViPham trả về: $rawData");
-      
       if (rawData is List) {
         ViPhamList = rawData
             .map((e) => ViPham.fromJson(e as Map<String, dynamic>))

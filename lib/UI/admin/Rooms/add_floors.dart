@@ -86,7 +86,7 @@ class _AddFloorPageState extends State<AddFloorPage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildActionBtn(Icons.close, "Hủy", Colors.red, (){}),
+                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
                   SizedBox(width: 20),
                   buildActionBtn(Icons.add, "Thêm dãy phòng", Colors.blue, (){}),
                 ],

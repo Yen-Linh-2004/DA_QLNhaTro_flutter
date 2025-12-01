@@ -19,7 +19,6 @@ class DichVuDangKy {
     this.updatedAt,
   });
 
-  // Tạo instance từ JSON
   factory DichVuDangKy.fromJson(Map<String, dynamic> json) {
     return DichVuDangKy(
       maDVDangKy: json['MaDVDangKy'] ?? 0,
@@ -38,8 +37,7 @@ class DichVuDangKy {
           : null,
     );
   }
-
-  // Chuyển model sang JSON (dùng cho POST/PUT)
+  
   Map<String, dynamic> toJson() {
     return {
       'MaDVDangKy': maDVDangKy,

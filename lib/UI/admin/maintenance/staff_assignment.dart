@@ -62,9 +62,19 @@ class _StaffAssignmentPageState extends State<StaffAssignmentPage> {
                     SizedBox(height: 24),
                     Row(
                       children: [
-                        buildActionBtn(Icons.close, "Hủy", Colors.red, (){}),
+                        buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context),),
                         SizedBox(width: 10),
-                        buildActionBtn(Icons.person_add, "Phân công", Colors.blue, (){}),
+                        buildActionBtn(Icons.person_add, "Phân công", Colors.blue, () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Đã hoàn tất phân công!"),
+                              backgroundColor: Colors.blue,
+                            ),
+                          );
+                          Future.delayed(const Duration(milliseconds: 500), () {
+                            Navigator.pop(context);
+                          });
+                        },)
                       ],
                     ),
                   ],

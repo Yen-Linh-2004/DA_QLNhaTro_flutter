@@ -5,10 +5,8 @@ import 'package:flutter_application/data/service/ViPhamService.dart';
 class ViPhamRepository {
  final service = ViPhamService();
 
-  /// Lấy toàn bộ danh sách phòng trọ
   Future<List<ViPham>> getAllViPham() async {
     final res = await service.getAllViPham();
-
     final data = res.data['data'];
     if (data is List) {
       return data
@@ -33,9 +31,7 @@ class ViPhamRepository {
 
   Future<ViPham> updateViPham(int id, Map<String, dynamic> data) async {
     final res = await service.update(id, data);
-
     final raw = res.data['data'];
-
     if (raw is Map<String, dynamic>) {
       return ViPham.fromJson(raw);
     } else {

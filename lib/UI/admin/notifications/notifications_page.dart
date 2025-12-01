@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/data/model/ThongBao.dart';
 import 'package:flutter_application/provider/ThongBaoProvider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application/data/model/ThongBao.dart';
 import 'package:flutter_application/UI/admin/notifications/add_notifications.dart';
 import 'package:flutter_application/UI/admin/notifications/update_notifications.dart';
 import 'package:intl/intl.dart';
@@ -76,7 +76,6 @@ class _NotificationManagementPageState
                       return Center(child: CircularProgressIndicator());
                     }
 
-                    // Lọc thông báo theo tab
                     List<ThongBao> filteredNotifications;
                     if (selectedTabIndex == 0) {
                       filteredNotifications = provider.ThongBaoList;
@@ -171,7 +170,6 @@ class _NotificationManagementPageState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Tiêu đề + loại
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -196,7 +194,6 @@ class _NotificationManagementPageState
           Text(n.noiDung,
               style: TextStyle(fontSize: 14, color: Colors.black87)),
           SizedBox(height: 10),
-          // Thời gian + nút
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -223,7 +220,23 @@ class _NotificationManagementPageState
                       },
                       icon: Icon(Icons.edit, color: Colors.blue)),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        showConfirmDialog(
+                          context: context,
+                          title: "Xác nhận xóa thông báo",
+                          message: "Bạn có chắc chắn muốn xóa thông báo này không?",
+                          confirmColor: Colors.red,
+                          icon: Icons.flash_on_outlined,
+                          maxHeight: 140,
+                          onConfirm: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                              content: Text("Đã xóa thông báo thành công!"),
+                              backgroundColor: Colors.red,
+                            ));
+                          },
+                        );
+                      },
                       icon: Icon(Icons.delete, color: Colors.red)),
                 ],
               ),

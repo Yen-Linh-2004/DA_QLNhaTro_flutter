@@ -10,14 +10,14 @@ class UserRepository {
   /// Đăng ký người dùng
   Future<TaiKhoan> register(Map<String, dynamic> registerData) async {
     final taiKhoan = await userService.register(registerData);
-    _token = userService.getAccessToken(); // Lưu token
+    _token = userService.getAccessToken();
     return taiKhoan;
   }
 
   /// Đăng nhập người dùng
   Future<TaiKhoan> login(String tenDangNhap, String matKhau) async {
     final taiKhoan = await userService.login(tenDangNhap, matKhau);
-    _token = userService.getAccessToken(); // Lưu token
+    _token = userService.getAccessToken(); 
     return taiKhoan;
   }
 

@@ -44,9 +44,6 @@ class LoaiPhongProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = true;
-      notifyListeners();
-
       final response = await ApiRoutes.loaiPhong.create(data);
       final newLoaiPhong = LoaiPhong.fromJson(response.data['data']);
       loaiPhongList.add(newLoaiPhong);

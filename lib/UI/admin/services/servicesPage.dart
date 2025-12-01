@@ -106,14 +106,7 @@ class _ServiceManagementPageState extends State<ServiceManagementPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => ServiceDetailPage(
-                            service: {
-                              "name": s.tenDichVu,
-                              "price":
-                                  "${s.donGiaApDung.toStringAsFixed(0)} đ",
-                              "status": s.trangThaiHoatDong,
-                            },
-                          ),
+                          builder: (_) => ServiceDetailPage(maDichVu: s.maDichVu),
                         ),
                       );
                     },

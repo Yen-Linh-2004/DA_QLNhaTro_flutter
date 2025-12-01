@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/devices/detail_devices.dart';
 import 'package:flutter_application/data/model/ThietBi.dart';
 import 'package:flutter_application/provider/ThietBiProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/UI/admin/devices/add_devices.dart';
-import 'package:flutter_application/UI/admin/devices/detail_devices.dart';
 
 class EquipmentManagementPage extends StatefulWidget {
   const EquipmentManagementPage({super.key});
@@ -16,7 +16,6 @@ class _EquipmentManagementPageState extends State<EquipmentManagementPage> {
   @override
   void initState() {
     super.initState();
-    // Gọi API load dữ liệu
     Future.microtask(() {
       Provider.of<ThietBiProvider>(context, listen: false).fetchThietBi();
     });
@@ -46,23 +45,12 @@ class _EquipmentManagementPageState extends State<EquipmentManagementPage> {
                 final statusColor = item.loaiThietBi == true ? Colors.green : Colors.red;
                 return GestureDetector(
                   onTap: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (_) => DeviceDetailPage(
-                    //       deviceName: item.tenThietBi ?? "",
-                    //       deviceId: ${item.maThietBi?.toStringAsFixed(0) ?? '0'},
-                    //       catalog: item.loaiThietBi ?? "",
-                    //       room: item.phongTro ?? "",
-                    //       status: statusText,
-                    //       dateBuy: item.ngayMua ?? "",
-                    //       price: "${item.giaMua?.toStringAsFixed(0) ?? '0'} đ",
-                    //       lastMaintenance: item.baoTriLanCuoi ?? "",
-                    //       nextMaintenance: item.baoTriLanSau ?? "",
-                    //       note: item.ghiChu ?? "",
-                    //     ),
-                    //   ),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => DeviceDetailPage(deviceId: item.maThietBi),
+                      ),
+                    );
                   },
                   child: Container(
                     margin: const EdgeInsets.only(bottom: 12),
@@ -91,7 +79,7 @@ class _EquipmentManagementPageState extends State<EquipmentManagementPage> {
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            _tag(item.loaiThietBi ?? "", Colors.blue),
+                            _tag("khác", Colors.blue),
                           ],
                         ),
                         const SizedBox(height: 8),

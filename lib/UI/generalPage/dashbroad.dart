@@ -41,64 +41,8 @@ final phongTroService = PhongtroService();
               ),
               child: _hero(context),
             ),
-
-            SizedBox(height: 16),
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                "Phòng còn trống",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-            ),
-
-            SizedBox(height: 10),
-
-            /// 🔥 Load dữ liệu từ API
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: FutureBuilder<List<PhongTro>>(
-                future: futureRooms,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: CircularProgressIndicator(),
-                    ));
-                  }
-
-                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                        child: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Text("Không có phòng nào trống"),
-                    ));
-                  }
-
-                  final rooms = snapshot.data!;
-
-                  return Column(
-                    children: List.generate(
-                      rooms.length,
-                      (index) => Container(
-                        margin: EdgeInsets.only(bottom: 14),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        // child: RoomCard(room: rooms[index]),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
             SizedBox(height: 20),
-
             _features(context),
-
             SizedBox(height: 20),
           ],
         ),

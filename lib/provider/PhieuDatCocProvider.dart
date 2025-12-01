@@ -14,15 +14,11 @@ class PhieuDatCocProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.phieudatcoc.dio.options.baseUrl + Endpoints.phieudatcoc;
       print("Gọi APP: $fullUrl");
-
       final response = await ApiRoutes.phieudatcoc.getAllPhieuDatCoc();
       final rawData = response.data['data']; 
-
       print("Dữ liệu PhieuDatCoc trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
@@ -74,7 +70,7 @@ class PhieuDatCocProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       
-      print(" Bắt đầu fetch PhieuDatCoc với ID: $id");
+      print("Bắt đầu fetch PhieuDatCoc với ID: $id");
       final response = await ApiRoutes.phieudatcoc.getPhieuDatCocId(id);
       print("Response status code: ${response.statusCode}");
       print("Response data: ${response.data}");

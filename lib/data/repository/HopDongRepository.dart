@@ -7,7 +7,6 @@ class HopDongRepository {
 
   Future<List<HopDong>> getAllHopDong() async {
     final res = await service.getAllHopDong();
-
     final data = res.data['data'];
     if (data is List) {
       return data
@@ -19,12 +18,10 @@ class HopDongRepository {
     }
   }
 
-    Future<HopDong?> getHopDongById(int id) async {
+  Future<HopDong?> getHopDongById(int id) async {
     try {
       final res = await service.getHopDongId(id);
-
       final data = res.data['data'];
-
       if (data != null && data is Map<String, dynamic>) {
         return HopDong.fromJson(data);
       } else {
@@ -40,9 +37,7 @@ class HopDongRepository {
 
   Future<HopDong> createHopDong(Map<String, dynamic> data) async {
     final res = await service.create(data);
-
     final raw = res.data['data'];
-
     if (raw is Map<String, dynamic>) {
       return HopDong.fromJson(raw);
     } else {
@@ -53,9 +48,7 @@ class HopDongRepository {
 
   Future<HopDong> updateHopDong(int id, Map<String, dynamic> data) async {
     final res = await service.update(id, data);
-
     final raw = res.data['data'];
-
     if (raw is Map<String, dynamic>) {
       return HopDong.fromJson(raw);
     } else {

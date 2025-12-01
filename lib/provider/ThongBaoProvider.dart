@@ -21,7 +21,6 @@ class ThongBaoProvider extends ChangeNotifier {
       print("Dữ liệu ThongBao trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- Parse an toàn: list hoặc object ---
       if (rawData is List) {
         ThongBaoList = rawData
             .map((e) => ThongBao.fromJson(e as Map<String, dynamic>))
@@ -58,7 +57,6 @@ class ThongBaoProvider extends ChangeNotifier {
       print("Dữ liệu ThongBao trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- Parse an toàn: list hoặc object ---
       if (rawData is List) {
         ThongBaoList = rawData
             .map((e) => ThongBao.fromJson(e as Map<String, dynamic>))

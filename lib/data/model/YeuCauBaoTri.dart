@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/model/KhachThue.dart';
 
-/// =================== ENUM ===================
-
-/// Maintenance category
 enum MaintenanceCategory { electrical, plumbing, other }
-
-/// Priority level
 enum MaintenancePriority { low, medium, high }
-
-/// Maintenance status
 enum MaintenanceStatus { pending, processing, completed }
-
-/// =================== MODEL ===================
 
 class YeuCauBaoTri {
   final int id;
@@ -93,7 +84,6 @@ class YeuCauBaoTri {
   }
 }
 
-/// =================== EXTENSION CATEGORY ===================
 extension MaintenanceCategoryExtension on MaintenanceCategory {
   static MaintenanceCategory fromString(String? value) {
     final val = value?.toLowerCase() ?? '';
@@ -132,7 +122,6 @@ extension MaintenanceCategoryExtension on MaintenanceCategory {
   }
 }
 
-/// =================== EXTENSION PRIORITY ===================
 extension MaintenancePriorityExtension on MaintenancePriority {
   static MaintenancePriority fromString(String? value) {
     final val = value?.toLowerCase() ?? '';
@@ -175,7 +164,6 @@ extension MaintenancePriorityExtension on MaintenancePriority {
   }
 }
 
-/// =================== EXTENSION STATUS ===================
 extension MaintenanceStatusExtension on MaintenanceStatus {
   static MaintenanceStatus fromString(String? value) {
     final val = value?.toLowerCase() ?? '';

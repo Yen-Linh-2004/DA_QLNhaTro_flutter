@@ -141,7 +141,7 @@ class _AddMaintenancePageState extends State<AddMaintenancePage> {
                       Row(
                         children: [
                           Expanded(
-                            child: buildActionBtn(Icons.close, "Hủy", Colors.red, () {}),
+                            child: buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context),),
                           ),
                            SizedBox(width: 16),
                           Expanded(

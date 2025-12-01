@@ -51,7 +51,7 @@ class _ExtensionContractPageState extends State<ExtensionContractPage> {
             SizedBox(height: 24),
             Row(
               children: [
-                buildActionBtn(Icons.close, "Hủy", Colors.red, (){}),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
                 SizedBox(width: 15),
                 buildActionBtn(Icons.update, "Gia hạn", Colors.blue, (){})
               ],

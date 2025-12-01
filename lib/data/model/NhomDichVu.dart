@@ -7,7 +7,6 @@ class NhomDichVu {
   final String loaiPhatSinh;
   final String? phuThuocVao;
 
-  // Danh sách loại dịch vụ thuộc nhóm này
   final List<LoaiDichVu>? loaiDichVu;
 
   NhomDichVu({

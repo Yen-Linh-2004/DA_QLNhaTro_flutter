@@ -4,7 +4,6 @@ import 'package:flutter_application/data/service/khachThueService.dart';
 class KhachThueRepository {
  final service = KhachThueService();
 
-  /// Lấy toàn bộ danh sách khách thuê
   Future<List<KhachThue>> getAllKhachThue() async {
     final res = await service.getAllKhachThue();
 
@@ -19,7 +18,6 @@ class KhachThueRepository {
     }
   }
 
-  /// Lấy khách thuê theo ID
   Future<KhachThue?> getKhachThueById(int id) async {
     try {
       final res = await service.getById(id);

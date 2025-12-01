@@ -12,7 +12,7 @@ class AddAccountPage extends StatefulWidget {
 class _AddAccountPageState extends State<AddAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _nameController = TextEditingController(text: "Nguyễn Văn Anh");
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -20,8 +20,8 @@ class _AddAccountPageState extends State<AddAccountPage> {
   final List<String> listRole = ["Admin", "Quản lý", "Nhân viên", "Khách hàng"];
   final List<String> listStatus = ["Hoạt động", "Tạm khóa"];
 
-  String? selectedRole = "Khách hàng";
-  String? selectedStatus = "Hoạt động";
+  String? selectedRole;
+  String? selectedStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       },
                     ),
                     SizedBox(height: 12),
-                    buildTextField("Mật khẩu", "******", _passwordController, null),
+                    buildTextField("Mật khẩu", "", _passwordController, null),
                     SizedBox(height: 24),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -5,7 +5,6 @@ import 'package:flutter_application/data/service/PhongTroService.dart';
 class PhongtroRepository {
  final service = PhongtroService();
 
-  /// Lấy toàn bộ danh sách phòng trọ
   Future<List<PhongTro>> getAllPhongTro() async {
     final res = await service.getAllPhongTro();
 

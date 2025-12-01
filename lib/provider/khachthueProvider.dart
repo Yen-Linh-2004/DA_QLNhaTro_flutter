@@ -13,20 +13,16 @@ class KhachThueProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      // gọi API lấy danh sách
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.khachthue.dio.options.baseUrl + Endpoints.khachthue;
       print("Gọi API KhachThue: $fullUrl");
 
       final response = await ApiRoutes.khachthue.getAllKhachThue();
-      final rawData = response.data['data']; // Lấy đúng key 'data'
+      final rawData = response.data['data']; 
 
       print("Dữ liệu KhachThue trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- Parse an toàn: list hoặc object ---
       if (rawData is List) {
         khachThueList = rawData
             .map((e) => KhachThue.fromJson(e as Map<String, dynamic>))

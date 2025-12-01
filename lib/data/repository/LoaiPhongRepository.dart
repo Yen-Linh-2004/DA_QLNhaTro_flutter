@@ -16,13 +16,11 @@ class LoaiPhongRepository {
     return LoaiPhong.fromJson(res.data['data']);
   }
 
-  // Cập nhật LoaiPhong
   Future<LoaiPhong> update(int id, Map<String, dynamic> data) async {
     final res = await service.update(id, data);
     return LoaiPhong.fromJson(res.data['data']);
   }
 
-  // Xóa LoaiPhong
   Future<bool> delete(int id) async {
     await service.delete(id);
     return true;

@@ -13,13 +13,13 @@ class _UpdateAccountPageState extends State<UpdateAccountPage> {
   final _formKey = GlobalKey<FormState>();
 
   final _nameController = TextEditingController(text: "Nguyễn Văn Anh");
-  final _emailController = TextEditingController();
-  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController(text: "nguyenvana@gmail.com");
+  final _phoneController = TextEditingController(text: "0908775776");
 
   final List<String> listRole = ["Admin", "Quản lý", "Nhân viên", "Khách hàng"];
   final List<String> listStatus = ["Hoạt động", "Tạm khóa"];
 
-  String? selectedRole = "Khách hàng";
+  String? selectedRole = "Quản lý";
   String? selectedStatus = "Hoạt động";
 
   @override

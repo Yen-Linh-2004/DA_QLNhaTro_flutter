@@ -7,14 +7,10 @@ class LoaiPhong {
   final double? dienTich;
   final List<String>? tienNghi;
   final String? moTa;
-
-  // Computed attributes
   final int tongSoPhong;
   final int soPhongTrong;
   final int soPhongDaThue;
   final int soPhongBaoTri;
-
-  // Nested list
   final List<PhongTro>? phongTro;
 
   LoaiPhong({
@@ -32,7 +28,6 @@ class LoaiPhong {
   });
 
   factory LoaiPhong.fromJson(Map<String, dynamic> json) {
-    // --- 1️⃣ Parse TienNghi an toàn ---
     List<String>? tienNghiList;
     if (json['TienNghi'] != null && json['TienNghi'] is List) {
       try {
@@ -42,7 +37,6 @@ class LoaiPhong {
       }
     }
 
-    // --- 2️⃣ Parse phongTro an toàn ---
     List<PhongTro>? phongTroList;
     if (json['phongTro'] != null && json['phongTro'] is List) {
       try {
@@ -54,12 +48,10 @@ class LoaiPhong {
       }
     }
 
-    // --- 3️⃣ Parse số/nullable an toàn ---
     double donGia = 0;
     if (json['DonGiaCoBan'] != null) {
       donGia = (json['DonGiaCoBan'] as num).toDouble();
     }
-
     double? dienTichVal;
     if (json['DienTich'] != null) {
       dienTichVal = (json['DienTich'] as num).toDouble();

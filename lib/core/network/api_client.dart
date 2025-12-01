@@ -13,7 +13,7 @@ class ApiClient {
     ),
   );
 
-  static Dio get instance => _dio;
+  // static Dio get instance => _dio;
   static Future<dynamic> get(String url) async {
     final response = await http.get(Uri.parse(url));
     return _handleResponse(response);

@@ -1,8 +1,7 @@
 import 'package:flutter_application/UI/shared/parse_utils.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
 import 'package:intl/intl.dart';
-// ===================================================================
-// ============================= HÓA ĐƠN =============================
+//  HÓA ĐƠN KHÁCH THuê 
 class HoaDonKhachThue {
   final int maHoaDon;
   final int maPhong;
@@ -90,6 +89,8 @@ class HoaDonKhachThue {
     };
   }
 }
+
+// CHI TIẾT HÓA ĐƠN KHÁCH THUÊ
 class ChiTietHoaDonKhachThue {
   final int maChiTiet;
   final int maHoaDon;
@@ -129,6 +130,7 @@ class ChiTietHoaDonKhachThue {
     };
   }
 }
+// THANH TOÁN
 class ThanhToan {
   final int maThanhToan;
   final double soTien;
@@ -161,8 +163,7 @@ class ThanhToan {
   }
 }
 
-// ====================================================================
-// ============================= HOP DONG =============================
+// HOP DONG 
 class ThongTinHopDong {
   final String soHopDong;
   final String tenPhong;
@@ -240,6 +241,8 @@ class ThongTinHopDong {
     }
   }
 }
+
+// DICH VU CUSTOMER
 class DichVu {
   String? tenDichVu;
   num? donGiaApDung;
@@ -270,8 +273,8 @@ class DichVu {
       };
 }
 
-// =================================================================
-// ============================= PHONG =============================
+
+// THÔNG TIN PHONG 
 class ThongTinPhong {
   final int maKhachThue;
   final String hoTen;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/Rooms/booking/create_contact_booking.dart';
 import 'package:flutter_application/data/model/PhieuDatCoc.dart';
 import 'package:flutter_application/provider/PhieuDatCocProvider.dart';
 import 'package:provider/provider.dart';
@@ -94,7 +95,12 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (_) => CreateContractPage(bookingId: booking.maPhieuDatCoc)),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
                           shape: RoundedRectangleBorder(
@@ -108,7 +114,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                     SizedBox(width: 12),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () => Navigator.pop(context),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           shape: RoundedRectangleBorder(

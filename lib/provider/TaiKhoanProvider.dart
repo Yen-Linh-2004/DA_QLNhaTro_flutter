@@ -23,7 +23,6 @@ class TaiKhoanProvider extends ChangeNotifier {
       print("Dữ liệu TaiKhoan trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- Parse an toàn: list hoặc object ---
       if (rawData is List) {
         TaiKhoanList = rawData
             .map((e) => TaiKhoan.fromJson(e as Map<String, dynamic>))

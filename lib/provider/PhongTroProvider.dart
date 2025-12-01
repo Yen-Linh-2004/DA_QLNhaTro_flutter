@@ -13,7 +13,6 @@ class PhongTroProvider extends ChangeNotifier {
   List<PhongTro> PhongTroList = [];
   PhongTro? PhongTroDetail;
 
-  // ------------------- FETCH DANH SÁCH -------------------
   Future<void> fetchPhongTro() async {
     isLoadingList = true;
     notifyListeners();
@@ -46,35 +45,6 @@ class PhongTroProvider extends ChangeNotifier {
     }
   }
 
-  // ------------------- FETCH PHÒNG TRỐNG -------------------
-  Future<void> fetchPhongTrong() async {
-    isLoadingList = true;
-    notifyListeners();
-
-    try {
-      final response = await ApiRoutes.phongtro.getAllPhongTrong();
-      final rawData = response.data['data'];
-
-      if (rawData is List) {
-        PhongTroList =
-            rawData.map((e) => PhongTro.fromJson(e as Map<String, dynamic>)).toList();
-      } else if (rawData is Map) {
-        PhongTroList = [PhongTro.fromJson(rawData as Map<String, dynamic>)];
-      } else {
-        PhongTroList = [];
-        print("Dữ liệu PhongTrong không hợp lệ");
-      }
-    } catch (e, stacktrace) {
-      print("Lỗi fetch PhongTrong: $e");
-      print(stacktrace);
-      PhongTroList = [];
-    } finally {
-      isLoadingList = false;
-      notifyListeners();
-    }
-  }
-
-  // ------------------- FETCH CHI TIẾT -------------------
   Future<void> fetchPhongTroById(int id) async {
     isLoadingDetail = true;
     notifyListeners();

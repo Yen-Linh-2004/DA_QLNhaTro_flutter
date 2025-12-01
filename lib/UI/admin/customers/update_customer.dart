@@ -11,7 +11,7 @@ class UpdateCustomerPage extends StatefulWidget {
 
 class _UpdateCustomerPageState extends State<UpdateCustomerPage> {
   // Controllers
-  final nameController = TextEditingController(text: "Nguyễn Văn A");
+  final nameController = TextEditingController(text: "Nguyễn Văn Anh");
   final birthDateController = TextEditingController(text: "01/01/1990");
   final birthPlaceController = TextEditingController(text: "Hồ Chí Minh");
   final idController = TextEditingController(text: "123456789");

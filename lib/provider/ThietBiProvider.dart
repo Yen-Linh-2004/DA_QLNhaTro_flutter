@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
@@ -5,7 +6,9 @@ import 'package:flutter_application/data/model/ThietBi.dart';
 
 class ThietBiProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool isLoadingDetail = false;
   List<ThietBi> ThietBiList = [];
+  ThietBi? ThietBiDetail;
 
   Future<void> fetchThietBi() async {
     try {
@@ -21,7 +24,6 @@ class ThietBiProvider extends ChangeNotifier {
       print("Dữ liệu ThietBi trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- Parse an toàn: list hoặc object ---
       if (rawData is List) {
         ThietBiList = rawData
             .map((e) => ThietBi.fromJson(e as Map<String, dynamic>))
@@ -38,6 +40,52 @@ class ThietBiProvider extends ChangeNotifier {
       print("Lỗi fetch ThietBi: $e");
       print(stacktrace);
       ThietBiList = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchThietBiById(int id) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      
+      print(" Bắt đầu fetch ThietBi với ID: $id");
+      final response = await ApiRoutes.thietbi.getThietBiById(id);
+      print("Response status code: ${response.statusCode}");
+      print("Response data: ${response.data}");
+
+      if (response.statusCode != 200) {
+        print("API trả về lỗi: ${response.statusCode}");
+        ThietBiDetail = null;
+        return;
+      }
+
+      final rawData = response.data['data'];
+      print("Dữ liệu ThietBi: $rawData");
+      // if (rawData is Map) {
+      //   ThietBiDetail = ThietBi.fromJson(rawData as Map<String, dynamic>);
+      //   print("Chuyển sang model: ${ThietBiDetail?.toJson()}");
+      // } else if (rawData is List && rawData.isNotEmpty) {
+      //   ThietBiDetail = ThietBi.fromJson(rawData.first as Map<String, dynamic>);
+      //   print("Chuyển sang model từ List: ${ThietBiDetail?.toJson()}");
+      // } else {
+      //   ThietBiDetail = null;
+      //   print("Dữ liệu ThietBi theo ID không hợp lệ");
+      // }
+
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        print(" Lỗi server (500): ${e.response?.data}");
+      } else {
+        print(" Lỗi Dio khác: $e");
+      }
+      ThietBiDetail = null;
+    } catch (e, stacktrace) {
+      print(" Lỗi fetchThietBiById: $e");
+      print(stacktrace);
+      ThietBiDetail = null;
     } finally {
       isLoading = false;
       notifyListeners();

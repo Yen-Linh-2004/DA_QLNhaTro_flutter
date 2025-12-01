@@ -19,7 +19,6 @@ class NoiQuy {
       tieuDe: json['TieuDe'] ?? '',
       noiDung: json['NoiDung'] ?? '',
       phanLoai: json['PhanLoai'] ?? '',
-      // API trả về bool trực tiếp → dùng cast an toàn
       trangThai: json['TrangThai'] is bool
           ? json['TrangThai']
           : json['TrangThai'] == 1,

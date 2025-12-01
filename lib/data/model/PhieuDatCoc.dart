@@ -22,7 +22,6 @@ class PhieuDatCoc {
     this.ghiChu,
   });
 
-  /// --- Parse JSON an toàn, fix lỗi String -> double ---
   factory PhieuDatCoc.fromJson(Map<String, dynamic> json) {
     return PhieuDatCoc(
       maPhieuDatCoc: _parseInt(json['MaPhieuDatCoc']),
@@ -37,7 +36,6 @@ class PhieuDatCoc {
     );
   }
 
-  /// --- Convert object về JSON ---
   Map<String, dynamic> toJson() {
     return {
       'MaPhieuDatCoc': maPhieuDatCoc,
@@ -52,7 +50,6 @@ class PhieuDatCoc {
     };
   }
 
-  /// --- Helper convert dynamic -> int an toàn ---
   static int _parseInt(dynamic value) {
     if (value is int) return value;
     if (value is double) return value.toInt();
@@ -60,7 +57,6 @@ class PhieuDatCoc {
     return 0;
   }
 
-  /// --- Helper convert dynamic -> double an toàn ---
   static double _parseDouble(dynamic value) {
     if (value is double) return value;
     if (value is int) return value.toDouble();

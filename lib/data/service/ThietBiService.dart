@@ -14,7 +14,14 @@ class ThietBiService {
     );
   }
 
-   Future<Response> create(Map<String, dynamic> data) async {
+  Future<Response> getThietBiById(int id) async {
+    return await dio.get(
+      Endpoints.thietbiId(id),
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> create(Map<String, dynamic> data) async {
     return await dio.post(
       Endpoints.thietbi,
       data: data,

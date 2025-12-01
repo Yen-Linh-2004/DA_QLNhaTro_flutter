@@ -169,7 +169,7 @@ class InputElectricityPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton.icon(
-                    onPressed: () { },
+                    onPressed: () => Navigator.pop(context),
                     label:  Text("Đóng"),
                     style: ElevatedButton.styleFrom(
                       textStyle:

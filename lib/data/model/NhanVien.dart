@@ -5,9 +5,9 @@ class NhanVien {
   final String hoTen;
   final String? sdt;
   final String? email;
-  final int? maTaiKhoan; // Nếu API trả về liên kết với tài khoản
+  final int? maTaiKhoan;
 
-  final TaiKhoan? taiKhoan; // Nested tài khoản (nếu có)
+  final TaiKhoan? taiKhoan;
 
   NhanVien({
     required this.maNV,
@@ -18,7 +18,6 @@ class NhanVien {
     this.taiKhoan,
   });
 
-  // Tạo object từ JSON
   factory NhanVien.fromJson(Map<String, dynamic> json) {
     return NhanVien(
       maNV: json['MaNV'] ?? 0,
@@ -32,7 +31,6 @@ class NhanVien {
     );
   }
 
-  // Chuyển object thành JSON
   Map<String, dynamic> toJson() {
     return {
       'MaNV': maNV,

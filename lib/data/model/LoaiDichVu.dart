@@ -7,9 +7,7 @@ class LoaiDichVu {
   final String? donViTinh;
   final double? donGiaMacDinh;
 
-  // Relationship (optional)
   final NhomDichVu? nhomDichVu;
-
   LoaiDichVu({
     required this.maLoaiDV,
     required this.maNhomDV,

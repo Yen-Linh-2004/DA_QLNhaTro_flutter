@@ -8,7 +8,6 @@ class DayTro {
   final DateTime? createdAt;
   final DateTime? updatedAt;
 
-  // Nếu muốn map quan hệ phongTro (hasMany)
   final List<PhongTro>? phongTro;
 
   DayTro({
@@ -20,7 +19,6 @@ class DayTro {
     this.phongTro,
   });
 
-  // Tạo instance từ JSON
   factory DayTro.fromJson(Map<String, dynamic> json) {
     return DayTro(
       maDay: json['MaDay'] ?? 0,
@@ -40,7 +38,6 @@ class DayTro {
     );
   }
 
-  // Chuyển model sang JSON (dùng cho POST/PUT)
   Map<String, dynamic> toJson() {
     return {
       'MaDay': maDay,

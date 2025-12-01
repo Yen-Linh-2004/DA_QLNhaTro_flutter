@@ -10,23 +10,16 @@ class HopDong {
   final DateTime ngayKy;
   final DateTime ngayBatDau;
   final DateTime ngayKetThuc;
-
   final double tienCoc;
   final double tienThueHangThang;
-
   final String trangThai;
   final String? ghiChu;
   final int soLanGiaHan;
-
-  // Extra fields
   final String? tenKhachThue;
   final String? tenPhong;
   final String? tenDay;
-
-  // Objects
   final PhongTro? phongTro;
   final KhachThue? khachThue;
-
   final List<dynamic> hopDongDichVus;
 
   HopDong({
@@ -67,15 +60,12 @@ class HopDong {
       trangThai: json["TrangThai"],
       ghiChu: json["GhiChu"],
       soLanGiaHan: json["SoLanGiaHan"],
-
       tenKhachThue: json["TenKhachThue"],
       tenPhong: json["TenPhong"],
       tenDay: json["TenDay"],
-
       phongTro: json["phongTro"] != null
           ? PhongTro.fromJson(json["phongTro"])
           : null,
-
       khachThue:
           json["khachThue"] != null ? KhachThue.fromJson(json["khachThue"]) : null,
 
@@ -90,6 +80,6 @@ class HopDong {
     }
     return DateTime.parse(raw);
   }
-
+  
   toJson() {}
 }

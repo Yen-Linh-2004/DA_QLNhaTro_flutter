@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
@@ -5,7 +6,9 @@ import 'package:flutter_application/data/model/DichVu.dart';
 
 class DichVuProvider extends ChangeNotifier {
   bool isLoading = false;
+  bool isLoadingdetail = false;
   List<DichVu> DichVuList = [];
+  DichVu? DichVuDetail;
 
   Future<void> fetchDichVu() async {
     try {
@@ -39,6 +42,53 @@ class DichVuProvider extends ChangeNotifier {
       print("Lỗi fetch DichVu: $e");
       print(stacktrace);
       DichVuList = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchDichVuById(int id) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+      
+      print(" Bắt đầu fetch DichVu với ID: $id");
+      final response = await ApiRoutes.dichvu.getDichVuById(id);
+      print("Response status code: ${response.statusCode}");
+      print("Response data: ${response.data}");
+
+      if (response.statusCode != 200) {
+        print("API trả về lỗi: ${response.statusCode}");
+        DichVuDetail = null;
+        return;
+      }
+
+      final rawData = response.data['data'];
+      print("Dữ liệu DichVu thô: $rawData");
+
+      if (rawData is Map) {
+        DichVuDetail = DichVu.fromJson(rawData as Map<String, dynamic>);
+        print("Chuyển sang model: ${DichVuDetail?.toJson()}");
+      } else if (rawData is List && rawData.isNotEmpty) {
+        DichVuDetail = DichVu.fromJson(rawData.first as Map<String, dynamic>);
+        print("Chuyển sang model từ List: ${DichVuDetail?.toJson()}");
+      } else {
+        DichVuDetail = null;
+        print("Dữ liệu DichVu theo ID không hợp lệ");
+      }
+
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        print(" Lỗi server (500): ${e.response?.data}");
+      } else {
+        print(" Lỗi Dio khác: $e");
+      }
+      DichVuDetail = null;
+    } catch (e, stacktrace) {
+      print(" Lỗi fetchDichVuById: $e");
+      print(stacktrace);
+      DichVuDetail = null;
     } finally {
       isLoading = false;
       notifyListeners();

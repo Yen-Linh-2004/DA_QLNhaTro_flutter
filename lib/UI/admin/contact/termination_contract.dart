@@ -62,7 +62,7 @@ class _TerminationContractPageState extends State<TerminationContractPage> {
             SizedBox(height: 24),
             Row(
               children: [
-                buildActionBtn(Icons.close, "Hủy", Colors.red, (){}),
+                buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
                 SizedBox(width: 15),
                 buildActionBtn(Icons.assignment_turned_in, "Chấm dứt", Colors.orange, (){})
               ],

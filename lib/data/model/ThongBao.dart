@@ -13,8 +13,7 @@ class ThongBao {
   final DateTime? thoiGianTao;
   final int soNguoiDoc;
   final int tongSoNguoiNhan;
-  final List<ChiTietThongBao>? chiTiet; // danh sách chi tiết thông báo
-
+  final List<ChiTietThongBao>? chiTiet;
   ThongBao({
     required this.maThongBao,
     required this.tieuDe,

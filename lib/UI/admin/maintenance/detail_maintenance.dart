@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/maintenance/update_status.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
 
 class MaintenanceDetailPage extends StatelessWidget {
@@ -55,15 +56,42 @@ class MaintenanceDetailPage extends StatelessWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  buildActionBtn(Icons.check, "Hoàn thành", Colors.green, () {}),
+                  buildActionBtn(Icons.check, "Hoàn thành", Colors.green, () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                      content: Text("Đã xác nhận bảo trì!"),
+                      backgroundColor: Colors.green,
+                    ));
+                  }),
                   SizedBox(width: 10),
-                  buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, () {}),
+                  buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => UpdateStatusPage()),
+                    );
+                  }),
                 ],
               ),
               SizedBox(height: 10),
               Row(
                 children: [
-                  buildActionBtn(Icons.delete, "Xóa yêu cầu", Colors.red, () {}),
+                  buildActionBtn(Icons.delete, "Xóa yêu cầu", Colors.red, () {
+                    showConfirmDialog(
+                      context: context,
+                      title: "Xác nhận xóa yêu cầu",
+                      message: "Bạn có chắc chắn muốn xó yêu cầu bảo trì này không?",
+                      confirmColor: Colors.red,
+                      icon: Icons.flash_on_outlined,
+                      maxHeight: 140,
+                      onConfirm: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                          content: Text("Đã xóa yêu cầu thành công!"),
+                          backgroundColor: Colors.red,
+                        ));
+                      },
+                    );
+                  }),
                 ],
               ),
             ],
@@ -73,7 +101,6 @@ class MaintenanceDetailPage extends StatelessWidget {
     );
   }
 
-  /// --- Widgets hỗ trợ --- ///
   Widget _buildInfoRow(String label, String value) {
     return Padding(
       padding:  EdgeInsets.symmetric(vertical: 6),

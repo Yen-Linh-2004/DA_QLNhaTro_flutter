@@ -17,7 +17,6 @@ class PhongTro {
   final String? hinhAnh;
   final List<dynamic>? tienNghi;
 
-  // Quan hệ (có thể null nếu chưa load)
   final String? tenDay;
   final String? tenLoaiPhong;
 

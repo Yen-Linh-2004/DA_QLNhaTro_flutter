@@ -62,9 +62,15 @@ class _UpdateStatusPageState extends State<UpdateStatusPage> {
                     SizedBox(height: 24),
                     Row(
                       children: [
-                        buildActionBtn(Icons.close, "Hủy", Colors.red, (){}),
+                        buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context),),
                         SizedBox(width: 10),
-                        buildActionBtn(Icons.update, "Cập nhật", Colors.green, (){}),
+                        buildActionBtn(Icons.update, "Cập nhật", Colors.green, (){
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                            content: Text("Đã cập nhât thành công!"),
+                            backgroundColor: Colors.green,
+                          ));
+                        }),
                       ],
                     ),
                   ],

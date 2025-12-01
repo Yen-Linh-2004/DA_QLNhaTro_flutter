@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/data/model/YeuCauBaoTri.dart';
 import 'package:flutter_application/UI/admin/maintenance/create_maintenance.dart';
 import 'package:flutter_application/UI/admin/maintenance/detail_maintenance.dart';
@@ -197,15 +198,29 @@ class _MaintenancePageState extends State<MaintenancePage> {
                   icon: Icon(Icons.visibility_outlined, size: 22, color: Colors.grey.shade600)),
               IconButton(
                   onPressed: () {
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => UpdatestatusPage()),
-                    // );
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => UpdateStatusPage()),
+                    );
                   },
                   icon: const Icon(Icons.edit_outlined, size: 22, color: Colors.blue)),
               IconButton(
                   onPressed: () {
-                    // Xử lý xóa
+                    showConfirmDialog(
+                      context: context,
+                      title: "Xác nhận xóa yêu cầu",
+                      message: "Bạn có chắc chắn muốn xó yêu cầu bảo trì này không?",
+                      confirmColor: Colors.red,
+                      icon: Icons.flash_on_outlined,
+                      maxHeight: 140,
+                      onConfirm: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                          content: Text("Đã xóa yêu cầu thành công!"),
+                          backgroundColor: Colors.red,
+                        ));
+                      },
+                    );
                   },
                   icon: const Icon(Icons.delete_outline, size: 22, color: Colors.red)),
               IconButton(

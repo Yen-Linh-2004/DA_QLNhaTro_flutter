@@ -20,10 +20,8 @@ class KhachThue {
   final String? bienSoXe;
   final int? maLoaiXe;
   final String? ghiChu;
-
   final String? tenPhong;
   final String? diaChiDay;
-
   final PhongTro? phongTro;
 
   KhachThue({
@@ -107,7 +105,6 @@ class KhachThue {
     };
   }
 
-  /// Parse list an toàn từ API
   static List<KhachThue> listFromJson(dynamic json) {
     if (json == null) return [];
     if (json is List) {

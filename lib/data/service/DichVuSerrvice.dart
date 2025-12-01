@@ -13,6 +13,13 @@ class DichvuSerrvice {
     );
   }
 
+  Future<Response> getDichVuById(int id) async {
+    return await dio.get(
+      Endpoints.dichvuId(id),
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
    Future<Response> create(Map<String, dynamic> data) async {
     return await dio.post(
       Endpoints.dichvu,

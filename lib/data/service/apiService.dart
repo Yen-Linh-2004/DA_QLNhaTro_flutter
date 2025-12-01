@@ -12,8 +12,6 @@ class ApiService {
     );
 
     Dio dio = Dio(options);
-
-    // Add Token Interceptor
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
