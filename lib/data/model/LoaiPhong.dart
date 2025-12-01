@@ -38,7 +38,7 @@ class LoaiPhong {
       try {
         tienNghiList = List<String>.from(json['TienNghi']);
       } catch (e) {
-        print("⚠️ Lỗi parse TienNghi: $e");
+        print("Lỗi parse TienNghi: $e");
       }
     }
 
@@ -50,7 +50,7 @@ class LoaiPhong {
             .map((e) => PhongTro.fromJson(e as Map<String, dynamic>))
             .toList();
       } catch (e) {
-        print("⚠️ Lỗi parse phongTro: $e");
+        print("Lỗi parse phongTro: $e");
       }
     }
 

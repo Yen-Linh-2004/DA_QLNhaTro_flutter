@@ -53,7 +53,7 @@ class _RoomPageState extends State<RoomPage> {
             Expanded(
               child: Consumer<PhongTroProvider>(
                 builder: (context, provider, child) {
-                  if (provider.isLoading) {
+                  if (provider.isLoadingList) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
@@ -92,8 +92,8 @@ class _RoomPageState extends State<RoomPage> {
             },
             backgroundColor: const Color(0xFF4A90E2),
             icon: const Icon(Icons.add, color: Colors.white),
-            label: const Text("Thêm phòng",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            label: const Text("Thêm phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            heroTag: "fab_add_room",
           ),
           const SizedBox(height: 12),
           FloatingActionButton.extended(
@@ -157,12 +157,17 @@ class _RoomPageState extends State<RoomPage> {
 
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => RoomDetailPage(),
-          ),
-        );
+       Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return ChangeNotifierProvider.value(
+                  value: Provider.of<PhongTroProvider>(context, listen: false),
+                  child: RoomDetailPage(roomId: room.maPhong),
+                );
+              },
+            ),
+          );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 14),

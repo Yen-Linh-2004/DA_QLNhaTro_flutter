@@ -31,4 +31,20 @@ class KhachThueService {
       );
    }
 
+
+  Future<Response> update(int id, Map<String, dynamic> data) async {
+    return await dio.put(
+      "${Endpoints.khachthue}/$id",
+      data: data,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> delete(int id) async {
+    return await dio.delete(
+      "${Endpoints.khachthue}/$id",
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
 }

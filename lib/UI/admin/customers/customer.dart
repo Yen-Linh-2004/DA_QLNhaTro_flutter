@@ -3,6 +3,7 @@ import 'package:flutter_application/UI/admin/customers/detail_customers.dart';
 import 'package:flutter_application/provider/khachthueProvider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_application/data/model/KhachThue.dart';
+
 class CustomerPage extends StatefulWidget {
   const CustomerPage({super.key});
 
@@ -14,14 +15,13 @@ class _CustomerPageState extends State<CustomerPage> {
   @override
   void initState() {
     super.initState();
-
     // Gọi API khi vào màn hình
     Future.microtask(() {
       Provider.of<KhachThueProvider>(context, listen: false).fetchKhachThue();
     });
   }
 
-  Color getStatusColor(String status) {
+  Color getStatusColor(String? status) {
     switch (status) {
       case "KHÁCH_CHÍNH":
         return Colors.green.shade100;
@@ -32,7 +32,7 @@ class _CustomerPageState extends State<CustomerPage> {
     }
   }
 
-  Color getStatusTextColor(String status) {
+  Color getStatusTextColor(String? status) {
     switch (status) {
       case "KHÁCH_CHÍNH":
         return Colors.green.shade700;
@@ -64,6 +64,10 @@ class _CustomerPageState extends State<CustomerPage> {
             itemBuilder: (context, index) {
               final KhachThue khachThue = provider.khachThueList[index];
 
+              // Fallback null/empty values
+              final String displayName = khachThue.hoTen.isNotEmpty ? khachThue.hoTen : "Không có tên";
+              final String status = khachThue.vaiTro ?? "";
+
               return InkWell(
                 onTap: () {
                   Navigator.push(
@@ -90,9 +94,7 @@ class _CustomerPageState extends State<CustomerPage> {
                           radius: 24,
                           backgroundColor: Colors.blue.shade600,
                           child: Text(
-                            khachThue.hoTen.isNotEmpty
-                                ? khachThue.hoTen[0].toUpperCase()
-                                : "?",
+                            displayName[0].toUpperCase(),
                             style: const TextStyle(color: Colors.white),
                           ),
                         ),
@@ -102,30 +104,29 @@ class _CustomerPageState extends State<CustomerPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                khachThue.hoTen,
+                                displayName,
                                 style: const TextStyle(
-                                    fontSize: 17,
-                                    fontWeight: FontWeight.bold),
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                              if (khachThue.cccd != null &&
-                                  khachThue.cccd!.isNotEmpty)
+                              if (khachThue.cccd != null && khachThue.cccd!.isNotEmpty)
                                 Text("CCCD: ${khachThue.cccd}"),
                             ],
                           ),
                         ),
                         Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
                           decoration: BoxDecoration(
-                            color: getStatusColor(khachThue.vaiTro),
+                            color: getStatusColor(status),
                             borderRadius: BorderRadius.circular(20),
                           ),
                           child: Text(
-                            khachThue.vaiTro,
+                            status.isNotEmpty ? status : "Chưa xác định",
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: getStatusTextColor(khachThue.vaiTro),
+                              color: getStatusTextColor(status),
                             ),
                           ),
                         ),

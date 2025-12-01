@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+
 enum TrangThaiPhongEnum { trong, daThue, baoTri }
 
 class PhongTro {
@@ -48,7 +52,7 @@ class PhongTro {
       dienTich: json['DienTich'] != null
           ? double.tryParse(json['DienTich'].toString())
           : null,
-      trangThai: _trangThaiFromString(json['TrangThai']),
+      trangThai: TrangThaiPhongEnumExt.fromString(json['TrangThai']),
       moTa: json['MoTa'],
       hinhAnh: json['HinhAnh'],
       tienNghi: json['TienNghi'] != null ? List.from(json['TienNghi']) : null,
@@ -74,8 +78,32 @@ class PhongTro {
       'TenLoaiPhong': tenLoaiPhong,
     };
   }
+}
 
-  static TrangThaiPhongEnum _trangThaiFromString(String? status) {
+extension TrangThaiPhongEnumExt on TrangThaiPhongEnum {
+  String get label {
+    switch (this) {
+      case TrangThaiPhongEnum.trong:
+        return "Trống";
+      case TrangThaiPhongEnum.daThue:
+        return "Đã thuê";
+      case TrangThaiPhongEnum.baoTri:
+        return "Bảo trì";
+    }
+  }
+
+  Color get color {
+    switch (this) {
+      case TrangThaiPhongEnum.trong:
+        return Colors.green;
+      case TrangThaiPhongEnum.daThue:
+        return Colors.blue;
+      case TrangThaiPhongEnum.baoTri:
+        return Colors.orange;
+    }
+  }
+  
+ static TrangThaiPhongEnum fromString(String? status) {
     switch (status) {
       case 'trong':
         return TrangThaiPhongEnum.trong;

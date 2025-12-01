@@ -105,7 +105,7 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => ContractDetailPage()),
+          MaterialPageRoute(builder: (_) => ContractDetailPage(contractId: item.maHopDong,)),
         );
       },
       child: Container(

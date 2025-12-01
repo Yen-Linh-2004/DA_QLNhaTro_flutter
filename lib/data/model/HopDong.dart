@@ -90,4 +90,6 @@ class HopDong {
     }
     return DateTime.parse(raw);
   }
+
+  toJson() {}
 }

@@ -30,7 +30,6 @@ class AuthService {
     AppConfig.token = token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
-
     return user;
   }
 

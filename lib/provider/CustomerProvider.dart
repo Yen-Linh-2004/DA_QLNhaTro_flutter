@@ -33,7 +33,7 @@ class CustomerProvider extends ChangeNotifier {
         InvoicesList = [HoaDonKhachThue.fromJson(rawData as Map<String, dynamic>)];
       } else {
         InvoicesList = [];
-        print("⚠️ Dữ liệu hóa đơn không hợp lệ");
+        print("Dữ liệu hóa đơn không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.invoices;
@@ -69,7 +69,7 @@ class CustomerProvider extends ChangeNotifier {
         InvoicesList = [HoaDonKhachThue.fromJson(rawData as Map<String, dynamic>)];
       } else {
         InvoicesList = [];
-        print("⚠️ Dữ liệu hóa đơn không hợp lệ");
+        print("Dữ liệu hóa đơn không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.invoiceslast;
@@ -105,7 +105,7 @@ class CustomerProvider extends ChangeNotifier {
         ContactList = [ThongTinHopDong.fromJson(rawData as Map<String, dynamic>)];
       } else {
         ContactList = [];
-        print("⚠️ Dữ liệu hợp đồng không hợp lệ");
+        print("Dữ liệu hợp đồng không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.contract;
@@ -141,7 +141,7 @@ class CustomerProvider extends ChangeNotifier {
         RoomList = [ThongTinPhong.fromJson(rawData as Map<String, dynamic>)];
       } else {
         RoomList = [];
-        print("⚠️ Dữ liệu phòng không hợp lệ");
+        print("Dữ liệu phòng không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.room;

@@ -17,4 +17,40 @@ class BaoTriRepository {
       return [];
     }
   }
+
+  Future<YeuCauBaoTri> createBaoTri(Map<String, dynamic> data) async {
+    final res = await service.create(data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return YeuCauBaoTri.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về create không hợp lệ: $raw");
+      throw Exception("Create Error");
+    }
+  }
+
+  Future<YeuCauBaoTri> updateBaoTri(int id, Map<String, dynamic> data) async {
+    final res = await service.update(id, data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return YeuCauBaoTri.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về update không hợp lệ: $raw");
+      throw Exception("Update Error");
+    }
+  }
+
+  Future<bool> deleteBaoTri(int id) async {
+    try {
+      await service.delete(id);
+      return true;
+    } catch (e) {
+      print("Lỗi khi xóa: $e");
+      return false;
+    }
+  }
 }

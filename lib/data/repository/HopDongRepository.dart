@@ -18,4 +18,59 @@ class HopDongRepository {
       return [];
     }
   }
+
+    Future<HopDong?> getHopDongById(int id) async {
+    try {
+      final res = await service.getHopDongId(id);
+
+      final data = res.data['data'];
+
+      if (data != null && data is Map<String, dynamic>) {
+        return HopDong.fromJson(data);
+      } else {
+        print("Dữ liệu hợp đồng theo ID null hoặc không hợp lệ: $data");
+        return null; 
+      }
+    } catch (e, stacktrace) {
+      print("Lỗi khi lấy hợp đồng theo ID: $e");
+      print(stacktrace);
+      return null;
+    }
+  }
+
+  Future<HopDong> createHopDong(Map<String, dynamic> data) async {
+    final res = await service.create(data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return HopDong.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về create không hợp lệ: $raw");
+      throw Exception("Create Error");
+    }
+  }
+
+  Future<HopDong> updateHopDong(int id, Map<String, dynamic> data) async {
+    final res = await service.update(id, data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return HopDong.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về update không hợp lệ: $raw");
+      throw Exception("Update Error");
+    }
+  }
+
+  Future<bool> deleteHopDong(int id) async {
+    try {
+      await service.delete(id);
+      return true;
+    } catch (e) {
+      print("Lỗi khi xóa: $e");
+      return false;
+    }
+  }
 }

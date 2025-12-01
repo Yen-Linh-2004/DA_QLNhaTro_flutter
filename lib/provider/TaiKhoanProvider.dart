@@ -32,7 +32,7 @@ class TaiKhoanProvider extends ChangeNotifier {
         TaiKhoanList = [TaiKhoan.fromJson(rawData as Map<String, dynamic>)];
       } else {
         TaiKhoanList = [];
-        print("⚠️ Dữ liệu TaiKhoan không hợp lệ");
+        print("Dữ liệu TaiKhoan không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.taikhoan.dio.options.baseUrl + Endpoints.taikhoan;

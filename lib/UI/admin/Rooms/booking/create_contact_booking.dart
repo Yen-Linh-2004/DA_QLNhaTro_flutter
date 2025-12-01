@@ -1,141 +1,140 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/data/model/PhieuDatCoc.dart';
+import 'package:flutter_application/provider/PhieuDatCocProvider.dart';
+import 'package:provider/provider.dart';
 
-class CreateContractPage extends StatelessWidget {
- const CreateContractPage({super.key});
+class CreateContractPage extends StatefulWidget {
+  final int bookingId;
+
+  const CreateContractPage({super.key, required this.bookingId});
+
+  @override
+  State<CreateContractPage> createState() => _CreateContractPageState();
+}
+
+class _CreateContractPageState extends State<CreateContractPage> {
+  PhieuDatCoc? booking;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadBooking();
+  }
+
+  Future<void> _loadBooking() async {
+    final provider = Provider.of<PhieuDatCocProvider>(context, listen: false);
+    await provider.fetchPhieuDatCocById(widget.bookingId);
+    setState(() {
+      booking = provider.PhieuDatCocDetail;
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tạo hợp đồng từ đặt phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+          "Tạo hợp đồng từ đặt phòng",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blue,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _sectionTitle("Thông tin đặt phòng"),
-            _infoBox(children: [
-              _infoRow("Khách hàng:", "Nguyễn Thị Thanh Hải"),
-              _infoRow("Phòng:", "A207"),
-              _infoRow("Ngày nhận phòng:", "23/4/2024"),
-              _infoRow("Thời hạn:", "6 tháng"),
-            ]),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : booking == null
+              ? Center(child: Text("Không tìm thấy dữ liệu đặt phòng"))
+              : SingleChildScrollView(
+                  padding: EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _sectionTitle("Thông tin đặt phòng"),
+                      _infoBox(children: [
+                        _infoRow("Khách hàng:", booking!.hoTenNguoiDat),
+                        _infoRow("Phòng:", booking!.maPhong.toString()),
+                        _infoRow("Ngày nhận phòng:", booking!.ngayDuKienVaoO),
+                      ]),
 
-            SizedBox(height: 16),
-            _sectionTitle("Thông tin khách thuê & phòng"),
-            TextField(
-              decoration: _inputStyle("Khách thuê"),
-            ),
-            SizedBox(height: 12),
-            DropdownButtonFormField(
-              decoration: _inputStyle("Phòng"),
-              items: [
-                DropdownMenuItem(value: "A207", child: Text("A207 - Phòng gốc")),
-                DropdownMenuItem(value: "A208", child: Text("A208")),
-              ],
-              onChanged: (value) {},
-            ),
+                      SizedBox(height: 16),
+                      _sectionTitle("Thông tin khách thuê & phòng"),
+                      TextField(
+                        decoration: _inputStyle("Khách thuê"),
+                        controller: TextEditingController(text: booking!.hoTenNguoiDat),
+                      ),
+                      SizedBox(height: 12),
+                      DropdownButtonFormField(
+                        decoration: _inputStyle("Phòng"),
+                        value: booking!.maPhong,
+                        items: [
+                          DropdownMenuItem(value: booking!.maPhong, child: Text(booking!.maPhong.toString())),
+                          // Thêm các phòng khác nếu cần
+                        ],
+                        onChanged: (value) {},
+                      ),
 
-            SizedBox(height: 16),
-            _sectionTitle("Chi tiết hợp đồng"),
-            TextField(decoration: _inputStyle("Số hợp đồng")),
-            SizedBox(height: 12),
-            _datePickerField("Ngày ký hợp đồng"),
-            SizedBox(height: 12),
-            _datePickerField("Ngày bắt đầu"),
-            SizedBox(height: 12),
-            _datePickerField("Ngày kết thúc"),
-            SizedBox(height: 12),
-            TextField(
-              decoration: _inputStyle("Tiền cọc (VNĐ)"),
-              keyboardType: TextInputType.number,
-            ),
+                      SizedBox(height: 16),
+                      _sectionTitle("Chi tiết hợp đồng"),
+                      TextField(
+                        decoration: _inputStyle("Số hợp đồng"),
+                      ),
+                      SizedBox(height: 12),
+                      _datePickerField("Ngày ký hợp đồng"),
+                      SizedBox(height: 12),
+                      _datePickerField("Ngày bắt đầu"),
+                      SizedBox(height: 12),
+                      _datePickerField("Ngày kết thúc"),
+                      SizedBox(height: 12),
+                      TextField(
+                        decoration: _inputStyle("Tiền cọc (VNĐ)"),
+                        keyboardType: TextInputType.number,
+                        controller: TextEditingController(text: booking!.tienDatCoc.toString()),
+                      ),
 
-            SizedBox(height: 20),
-            _sectionTitle("Thông tin phòng"),
-            _infoBox(children: [
-              _infoRow("Tiền thuê:", "2.600.000đ/Tháng"),
-              _infoRow("Tiền cọc:", "2.600.000đ"),
-              _infoRow("Điện:", "3.500đ/kWh"),
-              _infoRow("Nước:", "60.000đ/Người/Tháng"),
-              _infoRow("Wifi:", "50.000đ/Phòng/Tháng"),
-              _infoRow("Rác:", "40.000đ/Phòng/Tháng"),
-              _infoRow("Giữ xe:", "100.000đ/Phòng/Tháng"),
-            ]),
+                      SizedBox(height: 20),
+                      _sectionTitle("Thông tin phòng"),
+                      _infoBox(children: [
+                        _infoRow("Tiền thuê:", "${booking!.tienDatCoc ?? 'Chưa xác định'}"),
+                        _infoRow("Tiền cọc:", "${booking!.tienDatCoc}"),
+                        // Thêm các thông tin khác nếu API cung cấp
+                      ]),
 
-            SizedBox(height: 20),
-            _sectionTitle("Dịch vụ bổ sung"),
-            CheckboxListTile(
-              value: true,
-              title: Text("Điện - 3.800đ/kWh"),
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: true,
-              title: Text("Nước - 15.000đ/m³"),
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: false,
-              title: Text("Internet - 50.000đ/Tháng"),
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: false,
-              title: Text("Internet - 100.000đ/Tháng"),
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: false,
-              title: Text("Rác - 40.000đ/Tháng"),
-              onChanged: (_) {},
-            ),
-            CheckboxListTile(
-              value: false,
-              title: Text("Giữ xe - 100.000đ/Tháng"),
-              onChanged: (_) {},
-            ),
-
-            SizedBox(height: 16),
-            TextField(
-              maxLines: 3,
-              decoration: _inputStyle("Ghi chú"),
-            ),
-
-            SizedBox(height: 24),
-            Row(
-              children: [
-                Expanded(
-                  child: OutlinedButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text("Hủy"),
+                      SizedBox(height: 24),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text("Hủy"),
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.purple,
+                                padding: EdgeInsets.symmetric(vertical: 14),
+                              ),
+                              onPressed: () {
+                                // Gửi dữ liệu tạo hợp đồng lên API
+                              },
+                              child: Text(
+                                "Tạo hợp đồng",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.purple,
-                      padding: EdgeInsets.symmetric(vertical: 14),
-                    ),
-                    onPressed: () {},
-                    child: Text("Tạo hợp đồng", style:  TextStyle(color: Colors.white),),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 
@@ -143,8 +142,7 @@ class CreateContractPage extends StatelessWidget {
 
   static Widget _sectionTitle(String text) => Padding(
         padding: EdgeInsets.only(bottom: 8),
-        child: Text(text,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        child: Text(text, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
       );
 
   static InputDecoration _inputStyle(String label) => InputDecoration(

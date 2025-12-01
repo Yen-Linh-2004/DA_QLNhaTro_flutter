@@ -9,17 +9,19 @@ class Endpoints {
   static const String khachthue = "/admin/khach-thue";
   static String khachThueId(int id) => "/admin/khach-thue/$id";
   static const String phongtro = "/admin/phong-tro";
+  static String phongtroId(int id) => "/admin/phong-tro/$id";
   static const String dichvu = "/admin/dich-vu";
   static const String thietbi = "/admin/thiet-bi";
   static const String noiquy = "/admin/noi-quy";
   static const String vipham = "/admin/vi-pham";
   static const String baotri = "/admin/yeu-cau-bao-tri";
   static const String hopdong = "/admin/hop-dong";
+  static String hopdongId(int id) => "/admin/hop-dong/$id";
   static const String thongbao = "/admin/thong-bao";
   static const String thongbaohethong = "/admin/thong-bao-he-thong";
   static const String taikhoan = "/admin/tai-khoan";
   static const String phieudatcoc = "/admin/phieu-dat-coc";
-  // static const String vipham = "/admin/vi-pham";
+  static String phieudatcocId(int id) => "/admin/phieu-dat-coc/$id";
   // static const String baotri = "/admin/yeu-cau-bao-tri";
   // static const String hopdong = "/admin/hop-dong";
   

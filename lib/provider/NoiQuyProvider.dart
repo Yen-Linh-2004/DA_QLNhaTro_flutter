@@ -29,12 +29,70 @@ class NoiQuyProvider extends ChangeNotifier {
         NoiQuyList = [NoiQuy.fromJson(rawData as Map<String, dynamic>)];
       } else {
         NoiQuyList = [];
-        print("⚠️ Dữ liệu NoiQuy không hợp lệ");
+        print("Dữ liệu NoiQuy không hợp lệ");
       }
     } catch (e, stacktrace) {
       print("Lỗi fetch NoiQuy: $e");
       print(stacktrace);
       NoiQuyList = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> createNoiQuy(Map<String, dynamic> data) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final response = await ApiRoutes.noiquy.create(data);
+      final newNoiQuy = NoiQuy.fromJson(response.data['data']);
+      NoiQuyList.add(newNoiQuy);
+
+      print("Thêm nội quy thành công: ${newNoiQuy.tieuDe}");
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi khi tạo nội quy: $e");
+      print("Stacktrace: $stacktrace");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateNoiQuy(int id, Map<String, dynamic> data) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final response = await ApiRoutes.noiquy.update(id, data);
+      final updatedNoiQuy = NoiQuy.fromJson(response.data['data']);
+      final index = NoiQuyList.indexWhere((lp) => lp.maNoiQuy == id);
+      if (index != -1) {
+        NoiQuyList[index] = updatedNoiQuy;
+      }
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi update nội quy: $e");
+      print(stacktrace);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteNoiQuy(int id) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await ApiRoutes.noiquy.delete(id);
+      NoiQuyList.removeWhere((lp) => lp.maNoiQuy == id);
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi delete nội quy: $e");
+      print(stacktrace);
     } finally {
       isLoading = false;
       notifyListeners();

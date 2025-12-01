@@ -20,7 +20,6 @@ class ThongBaoRepository {
     }
   }
 
-  
   Future<List<ThongBao>> getThongBaoHeThong() async {
     final res = await service.getAllThongBaoHeThong();
 
@@ -32,6 +31,42 @@ class ThongBaoRepository {
     } else {
       print("Dữ liệu không phải List: $data");
       return [];
+    }
+  }
+
+  Future<ThongBao> createThongBao(Map<String, dynamic> data) async {
+    final res = await service.create(data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return ThongBao.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về create không hợp lệ: $raw");
+      throw Exception("Create Error");
+    }
+  }
+
+  Future<ThongBao> updateThongBao(int id, Map<String, dynamic> data) async {
+    final res = await service.update(id, data);
+
+    final raw = res.data['data'];
+
+    if (raw is Map<String, dynamic>) {
+      return ThongBao.fromJson(raw);
+    } else {
+      print("Dữ liệu trả về update không hợp lệ: $raw");
+      throw Exception("Update Error");
+    }
+  }
+
+  Future<bool> deleteThongBao(int id) async {
+    try {
+      await service.delete(id);
+      return true;
+    } catch (e) {
+      print("Lỗi khi xóa: $e");
+      return false;
     }
   }
 }

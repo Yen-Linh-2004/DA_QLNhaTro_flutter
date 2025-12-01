@@ -1,169 +1,186 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/admin/Rooms/update_room.dart';
+import 'package:flutter_application/provider/PhongTroProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/admin/Rooms/update_room.dart';
 
-class RoomDetailPage extends StatelessWidget {
-  const RoomDetailPage({super.key});
+class RoomDetailPage extends StatefulWidget {
+  final int roomId;
+
+  const RoomDetailPage({required this.roomId, Key? key}) : super(key: key);
+
+  @override
+  State<RoomDetailPage> createState() => _RoomDetailPageState();
+}
+
+class _RoomDetailPageState extends State<RoomDetailPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      final provider = Provider.of<PhongTroProvider>(context, listen: false);
+      provider.fetchPhongTroById(widget.roomId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
-        title:  Text("Chi tiết phòng P.103", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Chi tiết phòng",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.blue,
-        elevation: 1,
         leading: IconButton(
-          icon:  Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // SizedBox(height: 12),
-            _infoCard([
-              Text("Thông tin phòng", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              SizedBox(height: 12),
-              _infoRow("Số phòng", "P.103"),
-              _infoRow("Dãy", "Dãy trọ Phượng Vĩ"),
-              _infoRow("Loại phòng", "Phòng Tiêu Chuẩn"),
-              _infoRow("Giá thuê", "2.600.000đ/tháng", color: Colors.green),
-              _infoRow("Trạng thái", "Đã thuê", color: Colors.blue, bold: true),
-              // _infoRow("Mô tả", "Phòng A101 - Phòng thường"),
-            ]),
-            SizedBox(height: 16),
-            _amenitiesSection(amenities: ["Gác", "Kệ chén bát"]),
-            SizedBox(height: 12),
-            Row(
+      body: Consumer<PhongTroProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoadingDetail) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final PhongTro? room = provider.PhongTroDetail;
+
+          if (room == null) {
+            return const Center(child: Text("Không tìm thấy dữ liệu phòng"));
+          }
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildActionBtn(Icons.edit_outlined, "Chỉnh sửa", Colors.blue, (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => UpdateRoomPage(),
-                    ),
-                  );
-                }),
-                SizedBox(width: 15),
-                buildActionBtn(Icons.delete, "Xóa phòng", Colors.red, (){
-                 showConfirmDialog(
-                    context: context,
-                    title: "Xác nhận xóa phòng trọ",
-                    message: "Bạn có chắc chắn muốn xóa phòng này không?",
-                    confirmColor: Colors.red,
-                    icon: Icons.delete_forever,
-                    maxHeight: 140,
-                    onConfirm: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                        content: Text("Đã xóa phòng thành công!"),
-                        backgroundColor: Colors.red,
-                      ));
-                    },
-                  );
-                }),
+                // ---------- THÔNG TIN PHÒNG ----------
+                const Text("Thông tin phòng",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEFF4FF),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: _buildInfoSection({
+                    "Số phòng": room.tenPhong,
+                    "Dãy": room.tenDay ?? '--',
+                    "Loại phòng": room.tenLoaiPhong ?? '--',
+                    "Diện tích": room.dienTich != null ? room.dienTich.toString() : "--",
+                    "Giá thuê": "${room.donGiaCoBan ?? 0} đ/tháng",
+                    "Trạng thái": room.trangThai.label,
+                  }),
+                ),
+                const SizedBox(height: 16),
+
+                // ---------- TIỆN NGHI ----------
+                const Text("Tiện nghi",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                const SizedBox(height: 8),
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE9F9EE),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
+                    children: (room.tienNghi as List<dynamic>? ?? [])
+                        .map((e) => Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.check, color: Colors.green, size: 18),
+                                const SizedBox(width: 6),
+                                Text(e.toString(), style: const TextStyle(fontSize: 14)),
+                              ],
+                            ))
+                        .toList(),
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+
+                // ---------- NÚT HÀNH ĐỘNG ----------
+                Row(
+                  children: [
+                    buildActionBtn(Icons.edit_outlined, "Chỉnh sửa", Colors.blue, () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const UpdateRoomPage()),
+                      );
+                    }),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  children: [
+                    buildActionBtn(Icons.shuffle, "Đổi phòng", Colors.orange, () { }),
+                    const SizedBox(width: 10),
+                    buildActionBtn(Icons.delete, "Xóa phòng", Colors.redAccent, () {
+                      showConfirmDialog(
+                        context: context,
+                        title: "Xác nhận xóa phòng",
+                        message: "Bạn có chắc chắn muốn xóa phòng này không?",
+                        confirmColor: Colors.redAccent,
+                        icon: Icons.delete_forever,
+                        maxHeight: 140,
+                        onConfirm: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Đã xóa phòng thành công!"),
+                              backgroundColor: Colors.red,
+                            ),
+                          );
+                        },
+                      );
+                    }),
+                  ],
+                ),
+                const SizedBox(height: 40),
               ],
-            )
-          ],
-        ),
+            ),
+          );
+        },
       ),
     );
   }
 
-  // ---------------------------------------------
-  // 🔵  CARD INFO
-  // ---------------------------------------------
-  Widget _infoCard(List<Widget> children) {
-    return Container(
-      width: double.infinity,
-      padding:  EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset:  Offset(0, 3),
-          )
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
-      ),
-    );
-  }
-
-  Widget _infoRow(String label, String value, { bool bold = false, Color? color, })
-  {
-    return Padding(
-      padding:  EdgeInsets.only(bottom: 12),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            width: 130,
-            child: Text(label, style: TextStyle(color: Colors.grey.shade700, fontSize: 14)),
-          ),
-          Expanded(
-            child: Text(value, style: TextStyle(fontSize: 15, color: color ?? Colors.black, fontWeight: bold ? FontWeight.bold : FontWeight.normal)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _amenitiesSection({required List<String> amenities,}) 
-  {
-    return Container(
-      width: double.infinity,
-      padding:  EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white, 
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            spreadRadius: 1,
-            blurRadius: 10,
-            offset:  Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Tiện nghi", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-          SizedBox(height: 12),
-          LayoutBuilder(
-            builder: (context, raints) {
-              final columnWidth = (raints.maxWidth - 40) / 2;
-              return Wrap(
-                spacing: 40,
-                runSpacing: 12,
-                children: amenities.map((item) {
-                  return SizedBox(
-                    width: columnWidth,
-                    child: Row(
-                      children: [
-                        Icon(Icons.check, color: Colors.green, size: 18),
-                        SizedBox(width: 6),
-                        Expanded(
-                          child: Text(item, style: TextStyle(fontSize: 14)),
-                        ),
-                      ],
+  // ---------------------- WIDGET PHỤ ----------------------
+  Widget _buildInfoSection(Map<String, String?> data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: data.entries
+          .map(
+            (e) => Padding(
+              padding: const EdgeInsets.only(bottom: 6),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 4,
+                    child: Text("${e.key}:",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.w500, color: Colors.black54)),
+                  ),
+                  Expanded(
+                    flex: 6,
+                    child: Text(
+                      e.value ?? '--',
+                      style: const TextStyle(fontWeight: FontWeight.w600),
                     ),
-                  );
-                }).toList(),
-              );
-            },
-          ),
-        ],
-      ),
+                  ),
+                ],
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }

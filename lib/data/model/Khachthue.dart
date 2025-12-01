@@ -6,7 +6,7 @@ class KhachThue {
   final String? cccd;
   final DateTime? ngayCapCCCD;
   final String? noiCapCCCD;
-  final String sdt1;
+  final String? sdt1;
   final String? sdt2;
   final String? email;
   final String? diaChiThuongTru;
@@ -15,8 +15,8 @@ class KhachThue {
   final String? hinhAnh;
   final int? maTaiKhoan;
   final int? maPhong;
-  final String vaiTro;
-  final int soXe;
+  final String? vaiTro;
+  final int? soXe;
   final String? bienSoXe;
   final int? maLoaiXe;
   final String? ghiChu;
@@ -32,7 +32,7 @@ class KhachThue {
     this.cccd,
     this.ngayCapCCCD,
     this.noiCapCCCD,
-    required this.sdt1,
+    this.sdt1,
     this.sdt2,
     this.email,
     this.diaChiThuongTru,
@@ -41,8 +41,8 @@ class KhachThue {
     this.hinhAnh,
     this.maTaiKhoan,
     this.maPhong,
-    required this.vaiTro,
-    required this.soXe,
+    this.vaiTro,
+    this.soXe,
     this.bienSoXe,
     this.maLoaiXe,
     this.ghiChu,
@@ -54,30 +54,26 @@ class KhachThue {
   factory KhachThue.fromJson(Map<String, dynamic> json) {
     return KhachThue(
       maKhachThue: json['MaKhachThue'] ?? 0,
-      hoTen: json['HoTen'] ?? '',
-      cccd: json['CCCD'],
-      ngayCapCCCD: json['NgayCapCCCD'] != null
-          ? DateTime.tryParse(json['NgayCapCCCD'])
-          : null,
-      noiCapCCCD: json['NoiCapCCCD'],
-      sdt1: json['SDT1'] ?? '',
-      sdt2: json['SDT2'],
-      email: json['Email'],
-      diaChiThuongTru: json['DiaChiThuongTru'],
-      ngaySinh: json['NgaySinh'] != null
-          ? DateTime.tryParse(json['NgaySinh'])
-          : null,
-      noiSinh: json['NoiSinh'],
-      hinhAnh: json['HinhAnh'],
-      maTaiKhoan: json['MaTaiKhoan'],
-      maPhong: json['MaPhong'],
-      vaiTro: json['VaiTro'] ?? '',
-      soXe: json['SoXe'] ?? 0,
-      bienSoXe: json['BienSoXe'],
-      maLoaiXe: json['MaLoaiXe'],
-      ghiChu: json['GhiChu'],
-      tenPhong: json['TenPhong'],
-      diaChiDay: json['DiaChiDay'],
+      hoTen: json['HoTen'] ?? '',               
+      cccd: json['CCCD'] as String?,
+      ngayCapCCCD: _tryParseDate(json['NgayCapCCCD']), 
+      noiCapCCCD: json['NoiCapCCCD'] as String?,
+      sdt1: json['SDT1'] as String?,            
+      sdt2: json['SDT2'] as String?,
+      email: json['Email'] as String?,
+      diaChiThuongTru: json['DiaChiThuongTru'] as String?,
+      ngaySinh: _tryParseDate(json['NgaySinh']), 
+      noiSinh: json['NoiSinh'] as String?,
+      hinhAnh: json['HinhAnh'] as String?,
+      maTaiKhoan: json['MaTaiKhoan'] != null ? int.tryParse(json['MaTaiKhoan'].toString()) : null,
+      maPhong: json['MaPhong'] != null ? int.tryParse(json['MaPhong'].toString()) : null,
+      vaiTro: json['VaiTro'] as String?,
+      soXe: json['SoXe'] != null ? int.tryParse(json['SoXe'].toString()) : null,
+      bienSoXe: json['BienSoXe'] as String?,
+      maLoaiXe: json['MaLoaiXe'] != null ? int.tryParse(json['MaLoaiXe'].toString()) : null,
+      ghiChu: json['GhiChu'] as String?,
+      tenPhong: json['TenPhong'] as String?,
+      diaChiDay: json['DiaChiDay'] as String?,
       phongTro: json['phongTro'] != null
           ? PhongTro.fromJson(json['phongTro'])
           : null,
@@ -117,10 +113,24 @@ class KhachThue {
     if (json is List) {
       return json.map((e) => KhachThue.fromJson(e)).toList();
     } else if (json is Map) {
-      // Trường hợp API trả object duy nhất
       return [KhachThue.fromJson(json as Map<String, dynamic>)];
     } else {
       return [];
+    }
+  }
+
+  /// Parse DateTime null-safe
+  static DateTime? _tryParseDate(dynamic raw) {
+    if (raw == null) return null;
+    try {
+      final s = raw.toString();
+      if (s.contains("/")) {
+        final p = s.split("/");
+        return DateTime(int.parse(p[2]), int.parse(p[1]), int.parse(p[0]));
+      }
+      return DateTime.parse(s);
+    } catch (_) {
+      return null;
     }
   }
 }

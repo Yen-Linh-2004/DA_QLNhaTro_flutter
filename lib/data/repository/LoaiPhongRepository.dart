@@ -1,5 +1,4 @@
 
-
 import 'package:flutter_application/data/model/LoaiPhong.dart';
 import 'package:flutter_application/data/service/LoaiPhongService.dart';
 
@@ -11,22 +10,19 @@ class LoaiPhongRepository {
     List data = res.data['data']; 
     return data.map((json) => LoaiPhong.fromJson(json)).toList();
   }
-
-  Future<LoaiPhong> getById(int id) async {
-    final res = await service.getById(id);
+  
+  Future<LoaiPhong> create(Map<String, dynamic> data) async {
+    final res = await service.create(data);
     return LoaiPhong.fromJson(res.data['data']);
   }
 
-  Future<LoaiPhong> create(LoaiPhong item) async {
-    final res = await service.create(item.toJson());
+  // Cập nhật LoaiPhong
+  Future<LoaiPhong> update(int id, Map<String, dynamic> data) async {
+    final res = await service.update(id, data);
     return LoaiPhong.fromJson(res.data['data']);
   }
 
-  Future<LoaiPhong> update(int id, LoaiPhong item) async {
-    final res = await service.update(id, item.toJson());
-    return LoaiPhong.fromJson(res.data['data']);
-  }
-
+  // Xóa LoaiPhong
   Future<bool> delete(int id) async {
     await service.delete(id);
     return true;

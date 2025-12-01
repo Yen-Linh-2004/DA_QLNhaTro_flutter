@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/UI/shared/input_field.dart';
+import 'package:flutter_application/provider/PhongTroProvider.dart';
+import 'package:provider/provider.dart';
+
 class AddRoomPage extends StatefulWidget {
   const AddRoomPage({super.key});
 
@@ -31,7 +34,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
     super.dispose();
   }
 
-  void _onAddRoom() {
+  void _onAddRoom() async {
     if (_formKey.currentState!.validate()) {
       final roomNumber = _roomNumberController.text.trim();
       final block = selectedBlock!;
@@ -40,44 +43,57 @@ class _AddRoomPageState extends State<AddRoomPage> {
       final area = double.parse(_areaController.text.trim());
       final price = int.parse(_priceController.text.trim());
 
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title:  Text("Thêm phòng thành công"),
-          content: Text(
-              "Phòng $roomNumber đã được thêm vào $block, $floor, loại $roomType, diện tích $area m², giá thuê $price VNĐ."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context)
-                    .pop();
-                Navigator.of(context)
-                    .pop();
-              },
-              child:  Text("OK"),
-            ),
-          ],
-        ),
-      );
+      final provider = Provider.of<PhongTroProvider>(context, listen: false);
+
+      final success = await provider.createPhongTro({
+        "tenPhong": roomNumber,
+        "tenDay": block,
+        "tang": floor,
+        "loaiPhong": roomType,
+        "dienTich": area,
+        "donGiaCoBan": price,
+      });
+
+      if (success) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Thêm phòng thành công!"),
+            backgroundColor: Colors.green,
+          ),
+        );
+        Navigator.pop(context); // Đóng page
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Thêm phòng thất bại!"),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<PhongTroProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Thêm phòng mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text(
+          "Thêm phòng mới",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
+          icon: const Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
       ),
       body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
@@ -87,69 +103,72 @@ class _AddRoomPageState extends State<AddRoomPage> {
                 if (value == null || value.trim().isEmpty) {
                   return "Vui lòng nhập số phòng";
                 }
-                // Kiểm tra số hợp lệ (chỉ cho phép số)
                 if (!RegExp(r'^\d+$').hasMatch(value.trim())) {
                   return "Số phòng phải là số nguyên";
                 }
                 return null;
               }),
-              
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
+
               // Dãy phòng
-              Text("Dãy phòng", style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 6),
+              const Text("Dãy phòng", style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedBlock,
-                items: blocks
-                    .map((block) => DropdownMenuItem(
-                          value: block,
-                          child: Text(block),
-                        ))
-                    .toList(),
+                items: blocks.map((block) => DropdownMenuItem(value: block, child: Text(block))).toList(),
                 onChanged: (value) {
                   setState(() {
                     selectedBlock = value;
                   });
                 },
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                validator: (value) => value == null ? "Chọn dãy phòng" : null,
               ),
+              const SizedBox(height: 16),
 
-              SizedBox(height: 16),
               // Loại phòng
-               Text(
-                "Loại phòng",
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-               SizedBox(height: 6),
+              const Text("Loại phòng", style: TextStyle(fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
               DropdownButtonFormField<String>(
                 value: selectedRoomType,
-                items: roomTypes
-                    .map((type) => DropdownMenuItem(
-                          value: type,
-                          child: Text(type),
-                        ))
-                    .toList(),
+                items: roomTypes.map((type) => DropdownMenuItem(value: type, child: Text(type))).toList(),
                 onChanged: (value) {
                   setState(() {
                     selectedRoomType = value;
                   });
                 },
-                decoration:  InputDecoration(
-                  border: OutlineInputBorder(),
-                ),
+                decoration: const InputDecoration(border: OutlineInputBorder()),
+                validator: (value) => value == null ? "Chọn loại phòng" : null,
               ),
-              
-              SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
-                  SizedBox(width: 16),
-                  buildActionBtn(Icons.add, "Thêm phòng", Colors.blue, _onAddRoom),
-                ],
-              ),
+              const SizedBox(height: 16),
+
+              // Diện tích
+              buildTextField("Diện tích", "Nhập diện tích m²", _areaController, (value) {
+                if (value == null || value.trim().isEmpty) return "Vui lòng nhập diện tích";
+                if (double.tryParse(value.trim()) == null) return "Diện tích không hợp lệ";
+                return null;
+              }),
+              const SizedBox(height: 16),
+
+              // Giá thuê
+              buildTextField("Giá thuê", "Nhập giá thuê", _priceController, (value) {
+                if (value == null || value.trim().isEmpty) return "Vui lòng nhập giá thuê";
+                if (int.tryParse(value.trim()) == null) return "Giá thuê không hợp lệ";
+                return null;
+              }),
+              const SizedBox(height: 24),
+
+              // Nút hành động
+              provider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildActionBtn(Icons.close, "Hủy", Colors.red, () => Navigator.pop(context)),
+                        const SizedBox(width: 16),
+                        buildActionBtn(Icons.add, "Thêm phòng", Colors.blue, _onAddRoom),
+                      ],
+                    ),
             ],
           ),
         ),

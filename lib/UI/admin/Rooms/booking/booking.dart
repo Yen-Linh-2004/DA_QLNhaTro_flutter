@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/UI/admin/Rooms/booking/create_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/create_contact_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/detail_booking.dart';
 import 'package:flutter_application/UI/admin/Rooms/booking/refund.dart';
@@ -157,7 +158,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => BookingDetailPage(),
+                                    builder: (context) => BookingDetailPage(bookingId: booking.maPhieuDatCoc,),
                                   ),
                                 );
                               },
@@ -266,7 +267,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) =>
-                                           RefundFullPage(),
+                                           RefundFullPage(bookingId: booking.maPhieuDatCoc),
                                     ),
                                   );
                                 },
@@ -285,8 +286,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                    Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                           CreateContractPage(),
+                                      builder: (context) => CreateContractPage(bookingId: booking.maPhieuDatCoc),
                                     ),
                                   );
                                 },
@@ -331,8 +331,7 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                    Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                           RefundFullPage(),
+                                      builder: (context) => RefundFullPage(bookingId: booking.maPhieuDatCoc),
                                     ),
                                   );
                                 },
@@ -362,10 +361,10 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => CreateBookingPage()),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CreateBookingPage()),
+          );
         },
         backgroundColor: Color(0xFF4A90E2),
         icon: Icon(Icons.add, color: Colors.white),

@@ -69,12 +69,7 @@ class _TypeRoomPageState extends State<TypeRoomPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => const AddTypeRoomPage()));
-        },
+        onPressed: () { MaterialPageRoute(builder: (_) => AddTypeRoomPage()); },
         backgroundColor: const Color(0xFF4A90E2),
         child: const Icon(Icons.add),
       ),

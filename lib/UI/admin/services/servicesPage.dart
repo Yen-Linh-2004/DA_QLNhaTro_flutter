@@ -110,7 +110,7 @@ class _ServiceManagementPageState extends State<ServiceManagementPage> {
                             service: {
                               "name": s.tenDichVu,
                               "price":
-                                  "${s.donGiaApDung?.toStringAsFixed(0) ?? '0'} đ",
+                                  "${s.donGiaApDung.toStringAsFixed(0)} đ",
                               "status": s.trangThaiHoatDong,
                             },
                           ),

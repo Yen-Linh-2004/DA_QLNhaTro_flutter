@@ -30,7 +30,7 @@ class ThongBaoProvider extends ChangeNotifier {
         ThongBaoList = [ThongBao.fromJson(rawData as Map<String, dynamic>)];
       } else {
         ThongBaoList = [];
-        print("⚠️ Dữ liệu ThongBao không hợp lệ");
+        print("Dữ liệu ThongBao không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.thongbao.dio.options.baseUrl + Endpoints.thongbao;
@@ -67,7 +67,7 @@ class ThongBaoProvider extends ChangeNotifier {
         ThongBaoList = [ThongBao.fromJson(rawData as Map<String, dynamic>)];
       } else {
         ThongBaoList = [];
-        print("⚠️ Dữ liệu ThongBao không hợp lệ");
+        print("Dữ liệu ThongBao không hợp lệ");
       }
     } catch (e, stacktrace) {
       final fullUrl = ApiRoutes.thongbao.dio.options.baseUrl + Endpoints.thongbaohethong;
@@ -75,6 +75,64 @@ class ThongBaoProvider extends ChangeNotifier {
       print("Lỗi fetch ThongBao: $e");
       print(stacktrace);
       ThongBaoList = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> createThongBao(Map<String, dynamic> data) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final response = await ApiRoutes.thongbao.create(data);
+      final newThongBao = ThongBao.fromJson(response.data['data']);
+      ThongBaoList.add(newThongBao);
+
+      print("Thêm thông báo thành công: ${newThongBao.tieuDe}");
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi khi tạo thông báo: $e");
+      print("Stacktrace: $stacktrace");
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> updateThongBao(int id, Map<String, dynamic> data) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final response = await ApiRoutes.thongbao.update(id, data);
+      final updatedThongBao = ThongBao.fromJson(response.data['data']);
+      final index = ThongBaoList.indexWhere((lp) => lp.maThongBao == id);
+      if (index != -1) {
+        ThongBaoList[index] = updatedThongBao;
+      }
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi update thông báo: $e");
+      print(stacktrace);
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteThongBao(int id) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      await ApiRoutes.thongbao.delete(id);
+      ThongBaoList.removeWhere((lp) => lp.maThongBao == id);
+      notifyListeners();
+    } catch (e, stacktrace) {
+      print("Lỗi delete thông báo: $e");
+      print(stacktrace);
     } finally {
       isLoading = false;
       notifyListeners();

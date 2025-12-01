@@ -34,7 +34,7 @@ class _CustomerDetailPageState extends State<CustomerDetailPage> {
       try {
         dt = DateTime.parse(date);
       } catch (e) {
-        print("⚠️ Lỗi parse String -> DateTime: $e");
+        print("Lỗi parse String -> DateTime: $e");
         return date;
       }
     } else if (date is DateTime) {
