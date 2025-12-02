@@ -14,29 +14,51 @@ class KhachThueProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
-      final fullUrl = ApiRoutes.khachthue.dio.options.baseUrl + Endpoints.khachthue;
+      final fullUrl =
+          ApiRoutes.khachthue.dio.options.baseUrl + Endpoints.khachthue;
       print("Gọi API KhachThue: $fullUrl");
 
       final response = await ApiRoutes.khachthue.getAllKhachThue();
-      final rawData = response.data['data']; 
+
+      // ==== LOG CHI TIẾT RESPONSE ====
+      print("Status code: ${response.statusCode}");
+      print("Raw response: ${response.data}");
+
+      if (response.data == null || response.data['data'] == null) {
+        print("API trả về NULL");
+        khachThueList = [];
+        return;
+      }
+
+      final rawData = response.data['data'];
 
       print("Dữ liệu KhachThue trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
       if (rawData is List) {
-        khachThueList = rawData
-            .map((e) => KhachThue.fromJson(e as Map<String, dynamic>))
-            .toList();
+        khachThueList =
+            rawData.map((e) => KhachThue.fromJson(e)).toList();
+        print("Parse List KhachThue: ${khachThueList.length} items");
       } else if (rawData is Map) {
         khachThueList = [KhachThue.fromJson(rawData as Map<String, dynamic>)];
+        print("Parse Single KhachThue");
       } else {
+        print("⚠ Dữ liệu không hợp lệ, không phải Map/List");
         khachThueList = [];
-        print("Dữ liệu KhachThue không hợp lệ");
       }
+    } on DioException catch (e) {
+      final fullUrl =
+          ApiRoutes.khachthue.dio.options.baseUrl + Endpoints.khachthue;
+
+      print("LỖI DIO FETCH KHACHTHUE");
+      print("URL: $fullUrl");
+      print("Status code: ${e.response?.statusCode}");
+      print("Response data: ${e.response?.data}");
+      print("Headers: ${e.response?.headers}");
+
+      khachThueList = [];
     } catch (e, stacktrace) {
-      final fullUrl = ApiRoutes.khachthue.dio.options.baseUrl + Endpoints.khachthue;
-      print("Gọi API KhachThue: $fullUrl");
-      print("Lỗi fetch KhachThue: $e");
+      print("Lỗi không xác định: $e");
       print(stacktrace);
       khachThueList = [];
     } finally {

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
@@ -15,7 +17,7 @@ class HopDongProvider extends ChangeNotifier {
       notifyListeners();
 
       final fullUrl = ApiRoutes.hopdong.dio.options.baseUrl + Endpoints.hopdong;
-      print("Gọi APP: $fullUrl");
+      print("Gọi API HopDong: $fullUrl");
 
       final response = await ApiRoutes.hopdong.getAllHopDong();
       final rawData = response.data['data']; 
@@ -23,27 +25,32 @@ class HopDongProvider extends ChangeNotifier {
       print("Dữ liệu HopDong trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
+      // --- BƯỚC 2: CHUYỂN HÓA DANH SÁCH ---
       if (rawData is List) {
         HopDongList = rawData
-            .map((e) => HopDong.fromJson(e as Map<String, dynamic>))
+            .whereType<Map<String, dynamic>>() // Chống phần tử lỗi
+            .map((e) => HopDong.fromJson(e))
             .toList();
-      } else if (rawData is Map) {
-        HopDongList = [HopDong.fromJson(rawData as Map<String, dynamic>)];
-      } else {
-        HopDongList = [];
+      } 
+      else if (rawData is Map<String, dynamic>) {
+        HopDongList = [HopDong.fromJson(rawData)];
+      } 
+      else {
         print("Dữ liệu HopDong không hợp lệ");
+        HopDongList = [];
       }
+
     } catch (e, stacktrace) {
-      final fullUrl = ApiRoutes.hopdong.dio.options.baseUrl + Endpoints.hopdong;
-      print("Gọi API HopDong: $fullUrl");
       print("Lỗi fetch HopDong: $e");
       print(stacktrace);
       HopDongList = [];
+
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
+
 
     Future<void> fetchHopDongById(int id) async {
     try {

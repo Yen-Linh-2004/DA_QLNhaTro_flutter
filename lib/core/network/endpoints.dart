@@ -1,5 +1,4 @@
 class Endpoints {
-  int kthueId = 1;
   static const String loaiPhong = "/admin/loai-phong";
   static const String login = "/auth/login";
   static const String register = "/auth/register";

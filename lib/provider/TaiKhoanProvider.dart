@@ -11,8 +11,6 @@ class TaiKhoanProvider extends ChangeNotifier {
     try {
       isLoading = true;
       notifyListeners();
-      isLoading = false;
-      notifyListeners();
 
       final fullUrl = ApiRoutes.taikhoan.dio.options.baseUrl + Endpoints.taikhoan;
       print("Gọi APP: $fullUrl");
