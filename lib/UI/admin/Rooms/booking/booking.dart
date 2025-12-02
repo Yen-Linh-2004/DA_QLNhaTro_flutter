@@ -41,6 +41,23 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
     }
   }
 
+    /// --- Màu chữ theo trạng thái ---
+  Color statusTextColor (String status) {
+    switch (status) {
+      case "Chờ xác nhận":
+        return Colors.amber;
+      case "Đã xác nhận":
+        return Colors.green;
+      case "Hoàn thành":
+        return Colors.blue;
+      case "Đã hủy":
+        return Colors.red;
+      default:
+        return Colors.grey;
+    }
+  }
+
+
   /// --- Màu nền theo trạng thái ---
   Color statusColor (String status) {
     switch (status) {
@@ -65,24 +82,17 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
           if (provider.isLoading) {
             return Center(child: CircularProgressIndicator());
           }
-
           final bookings = provider.PhieuDatCocList;
-
           if (bookings.isEmpty) {
             return Center(child: Text('Chưa có phiếu đặt cọc nào'));
           }
-
-          
-
           return SingleChildScrollView(
             padding: EdgeInsets.all(14),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildSummaryCards(),
-
                 SizedBox(height: 16),
-
                 ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -126,10 +136,8 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             SizedBox(height: 8),
-
                             _buildInfoRow("Ngày nhận phòng:", booking.ngayDuKienVaoO),
                             _buildInfoRow("Tiền cọc:", "${booking.tienDatCoc}đ", valueColor: Colors.green.shade700),
-
                             SizedBox(height: 8),
                             Container(
                               padding:  EdgeInsets.symmetric(
@@ -137,22 +145,19 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                 horizontal: 10,
                               ),
                               decoration: BoxDecoration(
-                                color: statusColor(booking.trangThai),
+                                color: statusColor(trangThai(booking.trangThai)),
                                 borderRadius: BorderRadius.circular(20),
                               ),
                               child: Text(
                                 trangThai(booking.trangThai),
-                                style: TextStyle(fontWeight: FontWeight.w600),
+                                style: TextStyle(fontWeight: FontWeight.w600, color: statusTextColor(trangThai(booking.trangThai))),
                               ),
                             ),
-
                             SizedBox(height: 10),
                             Divider(),
-                            // SizedBox(height: 8),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            // Xem chi tiết (luôn hiển thị)
                             IconButton(
                               onPressed: () {
                                 Navigator.push(

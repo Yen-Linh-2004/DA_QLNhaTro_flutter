@@ -16,14 +16,46 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
   @override
   void initState() {
     super.initState();
-
     Future.microtask(() {
       Provider.of<HopDongProvider>(context, listen: false).fetchHopDong();
     });
   }
 
+  String trangThai(String status) {
+    switch (status) {
+      case "HetHan":
+        return "Hết hạn";
+      case "DangHieuLuc":
+        return "Đang hiệu lực";
+      default:
+        return status;
+    }
+  }
+
+  Color statusColor(String status) {
+    switch (status) {
+      case "Hết hạn":
+        return Colors.red.shade100;
+      case "Đang hiệu lực":
+        return Colors.green.shade100;
+      default:
+        return Colors.grey.shade200;
+    }
+  }
+
+  Color statusTextColor(String status) {
+    switch (status) {
+      case "Hết hạn":
+        return Colors.red;
+      case "Đang hiệu lực":
+        return Colors.green;
+      default:
+        return Colors.grey;
+    }
+  }
+
   @override
-    Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
@@ -44,15 +76,13 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _buildStatCards(),
-            const SizedBox(height: 16),
+            SizedBox(height: 10),
             _buildSearchBox(),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             Expanded(
               child: Consumer<HopDongProvider>(
                 builder: (context, provider, child) {
-                  
                   if (provider.isLoading) {
                     return Center(child: CircularProgressIndicator());
                   }
@@ -72,14 +102,14 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
                 },
               ),
             ),
-           ],
+          ],
         ),
       ),
     );
   }
 
   Widget _buildSearchBox() {
-    return Container(
+    return SizedBox(
       height: 50,
       child: TextField(
         decoration: InputDecoration(
@@ -93,19 +123,15 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
     );
   }
 
-  // ---------- UI card hiển thị hợp đồng ----------
   Widget _buildContractCard(HopDong item) {
-    Color statusColor = Colors.green;
-    String statusLabel = item.trangThai;
-
-    // if (item.isExpiring) statusColor = Colors.orange;
-    // if (item.isExpired) statusColor = Colors.red;
+    String statusLabel = trangThai(item.trangThai);
 
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => ContractDetailPage(contractId: item.maHopDong,)),
+          MaterialPageRoute(
+              builder: (_) => ContractDetailPage(contractId: item.maHopDong)),
         );
       },
       child: Container(
@@ -121,7 +147,6 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
             ),
           ],
         ),
-
         child: Row(
           children: [
             Container(
@@ -138,12 +163,16 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(item.soHopDong,
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  Text(
+                    item.soHopDong,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
                   SizedBox(height: 4),
-                  Text(item.khachThue!.hoTen ?? "Không có tên"),
-                  Text("Phòng: ${item.tenPhong ?? '---'}",
-                      style: TextStyle(color: Colors.grey[600])),
+                  Text(item.khachThue?.hoTen ?? "Không có tên"),
+                  Text(
+                    "Phòng: ${item.tenPhong ?? '---'}",
+                    style: TextStyle(color: Colors.grey[600]),
+                  ),
                 ],
               ),
             ),
@@ -163,13 +192,13 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.15),
+                    color: statusColor(statusLabel),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
                     statusLabel,
                     style: TextStyle(
-                      color: statusColor,
+                      color: statusTextColor(statusLabel),
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -177,53 +206,6 @@ class _ContractManagementPageState extends State<ContractManagementPage> {
                 ),
               ],
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // Thống kê (chưa có API thì để cứng)
-  Widget _buildStatCards() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _statCard(Icons.check_circle, Colors.green, "Đang hiệu lực", "2"),
-            SizedBox(width: 15),
-            _statCard(Icons.timelapse, Colors.orange, "Sắp hết hạn", "2"),
-          ],
-        ),
-        SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _statCard(Icons.error, Colors.redAccent, "Hết hạn", "1"),
-            SizedBox(width: 15),
-            _statCard(Icons.refresh, Colors.blueAccent, "Đã gia hạn", "1"),
-          ],
-        ),
-      ],
-    );
-  }
-
-  Widget _statCard(IconData icon, Color color, String label, String count) {
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(18),
-        margin: EdgeInsets.symmetric(horizontal: 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5)],
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: color, size: 26),
-            SizedBox(height: 6),
-            Text(label, style: TextStyle(fontWeight: FontWeight.w600)),
-            Text(count, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
           ],
         ),
       ),

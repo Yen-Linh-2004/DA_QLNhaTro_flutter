@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/model/Customer.dart';
+import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../provider/CustomerProvider.dart';
@@ -12,11 +13,14 @@ class InvoicePage extends StatefulWidget {
 }
 
 class _InvoicePageState extends State<InvoicePage> {
-  @override
+ @override
   void initState() {
     super.initState();
+
+    // Gọi API đúng chuẩn trong initState
     Future.microtask(() {
-      Provider.of<CustomerProvider>(context, listen: false).fetchInvoiceLast();
+      final provider = Provider.of<CustomerProvider>(context, listen: false);
+      provider.fetchInvoice(); // load dữ liệu
     });
   }
 
@@ -25,10 +29,19 @@ class _InvoicePageState extends State<InvoicePage> {
         .format(value);
   }
 
+  String formatDate(DateTime date) {
+    final formatter = DateFormat('dd/MM/yyyy'); 
+    return formatter.format(date);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xffF5F6FA),
+      backgroundColor: const Color(0xfff1f4f9),
+
+      // Consumer lắng nghe provider
       body: Consumer<CustomerProvider>(
         builder: (context, provider, _) {
           if (provider.isLoading) {
@@ -36,130 +49,61 @@ class _InvoicePageState extends State<InvoicePage> {
           }
 
           if (provider.InvoicesList.isEmpty) {
-            return const Center(child: Text("Không có dữ liệu hóa đơn"));
+            return const Center(child: Text("Không có hóa đơn"));
           }
 
           final invoice = provider.InvoicesList.first;
-          String removeDiacritics(String str) {
-            const Map<String, String> accentMap = {
-              'à':'a','á':'a','ả':'a','ã':'a','ạ':'a',
-              'ă':'a','ằ':'a','ắ':'a','ẳ':'a','ẵ':'a','ặ':'a',
-              'â':'a','ầ':'a','ấ':'a','ẩ':'a','ẫ':'a','ậ':'a',
-              'è':'e','é':'e','ẻ':'e','ẽ':'e','ẹ':'e',
-              'ê':'e','ề':'e','ế':'e','ể':'e','ễ':'e','ệ':'e',
-              'ì':'i','í':'i','ỉ':'i','ĩ':'i','ị':'i',
-              'ò':'o','ó':'o','ỏ':'o','õ':'o','ọ':'o',
-              'ô':'o','ồ':'o','ố':'o','ổ':'o','ỗ':'o','ộ':'o',
-              'ơ':'o','ờ':'o','ớ':'o','ở':'o','ỡ':'o','ợ':'o',
-              'ù':'u','ú':'u','ủ':'u','ũ':'u','ụ':'u',
-              'ư':'u','ừ':'u','ứ':'u','ử':'u','ữ':'u','ự':'u',
-              'ỳ':'y','ý':'y','ỷ':'y','ỹ':'y','ỵ':'y',
-              'đ':'d'
-            };
-            return str.split('').map((c) => accentMap[c] ?? c).join('');
-          }
-           final List<ChiTietHoaDonKhachThue> list = invoice.chiTietHoaDon ?? [];
-          double getPrice(String key) {
-            String keyClean = removeDiacritics(key.toLowerCase());
-            return list
-                .where((e) => removeDiacritics(e.noiDung.toLowerCase()).contains(keyClean))
-                .map((e) => e.thanhTien.toDouble())   // chuyển int sang double
-                .fold(0, (a, b) => a + b);
-          }
 
-          return Padding(
+          return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  // =========================
-                  // HÓA ĐƠN
-                  // =========================
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _title("Hóa đơn tháng ${invoice.thang}"),
-                        _subInfo("Hạn thanh toán", invoice.ngayHetHan),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // ---------------- HEADER ----------------
+                Text(
+                  'Hóa Đơn ${invoice.thang ?? ""}',
+                  style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 6),
+                Text('Ngày lập: ${invoice.ngayLap != null ? formatDate(DateTime.parse(invoice.ngayLap)) : "Chưa cập nhật"}',),
 
-                        const SizedBox(height: 16),
-                        // Hiển thị tất cả các hạng mục
-                        ...invoice.chiTietHoaDon!.map((item) {
-                          return Column(
-                            children: [
-                              _item(item.noiDung,
-                                  item.soLuong % 1 == 0
-                                      ? item.soLuong.toInt().toString()
-                                      : item.soLuong.toString(),
-                                  formatCurrency(item.thanhTien)),
-                              _divider(),
-                            ],
-                          );
-                        }).toList(),
+                const SizedBox(height: 4),
+               Text('Ngày hết hạn: ${invoice.ngayHetHan != null ? formatDate(DateTime.parse(invoice.ngayHetHan)) : "Chưa cập nhật"}',),
 
-                        // const SizedBox(height: 20),
-                        // _title("Thông tin đọc số"),
-                        // _subInfo("Chỉ số điện", "${invoice.chiTietHoaDon.} → ${invoice.chiSoDienMoi} kWh"),
-                        // const SizedBox(height: 10),
-                        // _subInfo("Số người tính nước", "${invoice.soNguoi} người"),
-                        // const SizedBox(height: 10),
-                        // _subInfo("Gói Internet", invoice.goInternet),
+                const SizedBox(height: 25),
 
-                        const SizedBox(height: 20),
-                        const Divider(height: 24),
+                // ---------------- ITEMS ----------------
+                ..._buildBillItems(invoice),
 
-                        // Tổng kết
-                        _total("Tạm tính", formatCurrency(invoice.tongTien)),
-                        _total("Công nợ kỳ trước", formatCurrency(invoice.conLai)),
-                        _total("Giảm trừ", formatCurrency(0)),
-                        _total("Phí trễ hạn", formatCurrency(0)),
-                        _total("Cần thanh toán", formatCurrency(invoice.conLai), isBold: true),
-                      ],
-                    ),
-                  ),
+                const SizedBox(height: 25),
+                const Divider(),
+                const SizedBox(height: 12),
 
-                  const SizedBox(height: 20),
+                _buildRow("Tạm tính", formatCurrency(invoice.tongTien ?? 0), isBold: true),
+                const SizedBox(height: 10),
+                _buildRow("Đã thanh toán", formatCurrency(invoice.tongTien ?? 0)),
+                const SizedBox(height: 10),
+                _buildRow("Giảm trừ", formatCurrency(0)),
+                const SizedBox(height: 10),
+                _buildRow("Phí trễ hạn", formatCurrency(0)),
 
-                  // =========================
-                  // BUTTONS
-                  // =========================
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            backgroundColor: Colors.blue,
-                          ),
-                          onPressed: () {},
-                          child: const Text(
-                            "Thanh toán ngay",
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.shade300,
-                          foregroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 14,
-                            horizontal: 22,
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: const Text("Tải PDF"),
-                      )
-                    ],
-                  )
-                ],
-              ),
+                const SizedBox(height: 20),
+                const Divider(),
+                const SizedBox(height: 10),
+
+                _buildRow("Cần thanh toán", formatCurrency(invoice.conLai ?? 0), isBold: true),
+
+                const SizedBox(height: 30),
+
+                // ---------------- BUTTONS ----------------
+                Row(
+                  children: [
+                    buildActionBtn(Icons.payment, "Thanh toán ngay", Colors.blue, () {}),
+                    SizedBox(width: 10),
+                    buildActionBtn(Icons.picture_as_pdf, "Tải PDF", Colors.green, () {}),
+                  ],
+                ),
+              ],
             ),
           );
         },
@@ -167,82 +111,105 @@ class _InvoicePageState extends State<InvoicePage> {
     );
   }
 
-  // ------------------------------
-  // WIDGETS
-  // ------------------------------
+  // ===================== BILL ITEMS LIST ======================
+  List<Widget> _buildBillItems(invoice) {
+  final List<ChiTietHoaDonKhachThue> list = invoice.chiTietHoaDon ?? [];
 
-  Widget _title(String text) {
+  // ===== REMOVE DIACRITICS AN TOÀN =====
+  String removeDiacritics(String str) {
+    const Map<String, String> accentMap = {
+      'à':'a','á':'a','ả':'a','ã':'a','ạ':'a',
+      'ă':'a','ằ':'a','ắ':'a','ẳ':'a','ẵ':'a','ặ':'a',
+      'â':'a','ầ':'a','ấ':'a','ẩ':'a','ẫ':'a','ậ':'a',
+      'è':'e','é':'e','ẻ':'e','ẽ':'e','ẹ':'e',
+      'ê':'e','ề':'e','ế':'e','ể':'e','ễ':'e','ệ':'e',
+      'ì':'i','í':'i','ỉ':'i','ĩ':'i','ị':'i',
+      'ò':'o','ó':'o','ỏ':'o','õ':'o','ọ':'o',
+      'ô':'o','ồ':'o','ố':'o','ổ':'o','ỗ':'o','ộ':'o',
+      'ơ':'o','ờ':'o','ớ':'o','ở':'o','ỡ':'o','ợ':'o',
+      'ù':'u','ú':'u','ủ':'u','ũ':'u','ụ':'u',
+      'ư':'u','ừ':'u','ứ':'u','ử':'u','ữ':'u','ự':'u',
+      'ỳ':'y','ý':'y','ỷ':'y','ỹ':'y','ỵ':'y',
+      'đ':'d'
+    };
+
+    return str.split('').map((c) => accentMap[c] ?? c).join('');
+  }
+
+  // ===== GET PRICE AN TOÀN =====
+double getPrice(String key) {
+  String keyClean = removeDiacritics(key.toLowerCase());
+
+  return list
+      .where((e) => removeDiacritics(e.noiDung.toLowerCase()).contains(keyClean))
+      .map((e) => e.thanhTien.toDouble())   // chuyển int sang double
+      .fold(0, (a, b) => a + b);
+}
+
+  // ===== LIST OF BILL ITEMS =====
+  final items = [
+    {"title": "Tiền thuê phòng", "unit": "1 tháng", "price": getPrice("Tiền thuê phòng")},
+    {"title": "Điện", "unit":"kWh", "price": getPrice("Điện")},
+    {"title": "Nước", "unit": "Người", "price": getPrice("Nước")},
+    {"title": "Internet", "unit": "Phòng", "price": getPrice("Internet")},
+    {"title": "Rác", "unit": "Phòng", "price": getPrice("Rác")},
+    {"title": "Gửi xe", "unit": "Phòng", "price": getPrice("Gửi xe")},
+  ];
+
+  return items.map((e) {
+    return _billItem(
+      icon: Icons.receipt_long,
+      title: e["title"].toString(),
+      unit: e["unit"].toString(),
+      price: (e["price"] as num).toDouble(),
+    );
+  }).toList();
+}
+
+  // ===================== BILL ITEM CARD ======================
+  Widget _billItem({
+    required IconData icon,
+    required String title,
+    required String unit,
+    required double price,
+  }) {
     return Container(
-      width: double.infinity,
       margin: const EdgeInsets.only(bottom: 12),
-      child: Text(text,
-          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: const [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+        ],
+      ),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.blue, size: 26),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+                Text(unit, style: const TextStyle(color: Colors.grey)),
+              ],
+            ),
+          ),
+          Text(formatCurrency(price), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        ],
+      ),
     );
   }
 
-  Widget _item(String title, String unit, String price) {
+  // ===================== ROW TEXT ======================
+  Widget _buildRow(String left, String right, {bool isBold = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 4),
-            Text(unit, style: TextStyle(color: Colors.grey.shade600)),
-          ],
-        ),
-        Text(
-          price,
-          style: const TextStyle(
-            fontSize: 15,
-            fontWeight: FontWeight.bold,
-            color: Colors.blue,
-          ),
-        )
+        Text(left, style: TextStyle(fontSize: 16, fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+        Text(right, style: TextStyle(fontSize: 16, fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
       ],
-    );
-  }
-
-  Widget _divider() => const Padding(
-        padding: EdgeInsets.symmetric(vertical: 12),
-        child: Divider(height: 1),
-      );
-
-  Widget _subInfo(String label, String value) {
-    return Container(
-      width: double.infinity,
-      margin: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-          Text(value),
-        ],
-      ),
-    );
-  }
-
-  Widget _total(String label, String amount, {bool isBold = false}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label,
-              style: TextStyle(
-                  fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
-          Text(
-            amount,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: isBold ? 16 : 14,
-            ),
-          )
-        ],
-      ),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/main_page.dart';
 import 'package:flutter_application/UI/generalPage/forgot_password.dart';
-import 'package:flutter_application/UI/generalPage/register.dart';
+import 'package:flutter_application/UI/users/usemain.dart';
 import 'package:flutter_application/provider/AuthProvider.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
             .showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => MainPage()),
+          // MaterialPageRoute(builder: (_) => MainPage()),
+          MaterialPageRoute(builder: (_) => TenantHomePage()),
         );
       } else {
         ScaffoldMessenger.of(context)
@@ -149,18 +150,18 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   const SizedBox(height: 8),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       const Text("Chưa có tài khoản? "),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (_) => const RegisterPage()),
-                          );
-                        },
-                        child: const Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(builder: (_) => const RegisterPage()),
+                      //     );
+                      //   },
+                      //   child: const Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
+                      // ),
                     ],
                   ),
                 ],

@@ -1,5 +1,8 @@
 import 'package:flutter_application/UI/shared/parse_utils.dart';
+import 'package:flutter_application/data/model/DangKyDichVu.dart';
+import 'package:flutter_application/data/model/Khachthue.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
+import 'package:flutter_application/data/model/ThietBi.dart';
 import 'package:intl/intl.dart';
 //  HÓA ĐƠN KHÁCH THuê 
 class HoaDonKhachThue {
@@ -311,6 +314,70 @@ class ThongTinPhong {
       'SDT1': sdt1,
       'Email': email,
       'phongTro': phongTro.toJson(),
+    };
+  }
+}
+
+
+class RoomStatusResponse {
+  final bool success;
+  final RoomData data;
+
+  RoomStatusResponse({required this.success, required this.data});
+
+  factory RoomStatusResponse.fromJson(Map<String, dynamic> json) {
+    return RoomStatusResponse(
+      success: json['success'],
+      data: RoomData.fromJson(json['data']),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'success': success,
+      'data': data.toJson(),
+    };
+  }
+}
+
+class RoomData {
+  final ThongTinPhong thongTinPhong;
+  final ThongTinHopDong? thongTinHopDong;
+  final List<KhachThue> danhSachNguoiThue;
+  final List<ThietBi> thietBi;
+  final List<DichVuDangKy> dichVuDangKy;
+
+  RoomData({
+    required this.thongTinPhong,
+    this.thongTinHopDong,
+    required this.danhSachNguoiThue,
+    required this.thietBi,
+    required this.dichVuDangKy,
+  });
+
+  factory RoomData.fromJson(Map<String, dynamic> json) {
+    return RoomData(
+      thongTinPhong: ThongTinPhong.fromJson(json['ThongTinPhong']),
+      thongTinHopDong: json['ThongTinHopDong'] != null
+          ? ThongTinHopDong.fromJson(json['ThongTinHopDong'])
+          : null,
+      danhSachNguoiThue: (json['DanhSachNguoiThue'] as List)
+          .map((e) => KhachThue.fromJson(e))
+          .toList(),
+      thietBi: (json['ThietBi'] as List).map((e) => ThietBi.fromJson(e)).toList(),
+      dichVuDangKy: (json['DichVuDangKy'] as List)
+          .map((e) => DichVuDangKy.fromJson(e))
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'ThongTinPhong': thongTinPhong.toJson(),
+      'ThongTinHopDong': thongTinHopDong?.toJson(),
+      'DanhSachNguoiThue': danhSachNguoiThue.map((e) => e.toJson()).toList(),
+      'ThietBi': thietBi.map((e) => e.toJson()).toList(),
+      'DichVuDangKy': dichVuDangKy.map((e) => e.toJson()).toList(),
     };
   }
 }

@@ -7,9 +7,9 @@ class ApiClient {
   static final Dio _dio = Dio(
     BaseOptions(
       baseUrl: AppConfig.apiUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      connectTimeout: Duration(seconds: 10),
+      receiveTimeout: Duration(seconds: 10),
+      headers: { 'Content-Type': 'application/json' },
     ),
   );
 

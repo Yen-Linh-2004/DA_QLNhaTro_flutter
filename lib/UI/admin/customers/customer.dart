@@ -21,27 +21,51 @@ class _CustomerPageState extends State<CustomerPage> {
     });
   }
 
-  Color getStatusColor(String? status) {
+  String trangThai(String status) {
     switch (status) {
       case "KHÁCH_CHÍNH":
-        return Colors.green.shade100;
+        return "Khách chính";
       case "ĐÃ_DỌN_ĐI":
-        return Colors.red.shade100;
+        return "Đã dọn đi";
+      case "TIỀM_NĂNG":
+        return "Tiềm năng";
+      case "THÀNH_VIÊN":
+        return "Thành viên";
       default:
-        return Colors.grey.shade200;
+        return status;
     }
   }
 
-  Color getStatusTextColor(String? status) {
+
+  Color getStatusColor(String? status) {
     switch (status) {
-      case "KHÁCH_CHÍNH":
-        return Colors.green.shade700;
-      case "ĐÃ_DỌN_ĐI":
-        return Colors.red.shade700;
+      case "Khách chính":
+        return Colors.green;
+      case "Đã dọn đi":
+        return Colors.red;
+      case "Tiềm năng":
+        return Colors.orange;
+      case "Thành viên":
+        return Colors.yellow;
       default:
-        return Colors.black;
+        return Colors.grey;
     }
   }
+
+  // Color getStatusTextColor(String? status) {
+  //   switch (status) {
+  //     case "Khách chính":
+  //       return Colors.green.shade700;
+  //     case "Đã dọn đi":
+  //       return Colors.red.shade700;
+  //     case "Tiềm năng":
+  //       return Colors.orange.shade700;
+  //     case "Thành viên":
+  //       return Colors.yellow.shade700;
+  //     default:
+  //       return Colors.black;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +90,7 @@ class _CustomerPageState extends State<CustomerPage> {
 
               // Fallback null/empty values
               final String displayName = khachThue.hoTen.isNotEmpty ? khachThue.hoTen : "Không có tên";
-              final String status = khachThue.vaiTro ?? "";
+              final String status = trangThai(khachThue.vaiTro ?? "");
 
               return InkWell(
                 onTap: () {
@@ -126,7 +150,7 @@ class _CustomerPageState extends State<CustomerPage> {
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.bold,
-                              color: getStatusTextColor(status),
+                              color: Colors.white,
                             ),
                           ),
                         ),

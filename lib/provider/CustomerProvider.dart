@@ -2,18 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application/core/constants/api_routes.dart';
 import 'package:flutter_application/core/network/endpoints.dart';
 import 'package:flutter_application/data/model/Customer.dart';
+import 'package:flutter_application/data/model/DangKyDichVu.dart';
+import 'package:flutter_application/data/model/KhachThue.dart';
+import 'package:flutter_application/data/model/ThietBi.dart';
 
 class CustomerProvider extends ChangeNotifier {
   bool isLoading = false;
   List<HoaDonKhachThue> InvoicesList = [];
   List<ThongTinHopDong> ContactList = [];
   List<ThongTinPhong> RoomList = [];
-
+  List<ThietBi> ThietBiList = [];
+  List<KhachThue> DSKhachThue = [];
+  List<DichVuDangKy> DichVuList = [];
+  ThongTinHopDong? HopDongList;
+  List<RoomData> roomList = [];
+  
   Future<void> fetchInvoice() async {
     try {
       isLoading = true;
-      notifyListeners();
-      isLoading = false;
       notifyListeners();
 
       final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.invoices;
@@ -154,4 +160,43 @@ class CustomerProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> fetchRoomStatus() async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.roomStatus;
+      print("Gọi APP: $fullUrl");
+
+      // Gọi API
+      final response = await ApiRoutes.customer.getRoomStatus();
+      final rawData = response.data;
+
+      print("Dữ liệu phòng trả về: $rawData");
+      print("Type of rawData: ${rawData.runtimeType}");
+
+      if (rawData is Map<String, dynamic>) {
+        final roomStatus = RoomStatusResponse.fromJson(rawData);
+        RoomList = [roomStatus.data.thongTinPhong];
+        DSKhachThue = roomStatus.data.danhSachNguoiThue.cast<KhachThue>();
+        ThietBiList = roomStatus.data.thietBi;
+        DichVuList = roomStatus.data.dichVuDangKy;
+        HopDongList = roomStatus.data.thongTinHopDong;
+      } else {
+        RoomList = [];
+        print("Dữ liệu phòng không hợp lệ");
+      }
+    } catch (e, stacktrace) {
+      final fullUrl = ApiRoutes.customer.dio.options.baseUrl + Endpoints.roomStatus;
+      print("Gọi API phòng: $fullUrl");
+      print("Lỗi fetch phòng: $e");
+      print(stacktrace);
+      RoomList = [];
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
 }
