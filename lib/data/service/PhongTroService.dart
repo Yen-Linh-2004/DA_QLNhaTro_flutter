@@ -20,11 +20,6 @@ class PhongtroService {
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }
-
-  Future<Response> getAllPhongTrong() async {
-    return await dio.get(Endpoints.phongtrong);
-  }
-
   
  Future<Response> create(Map<String, dynamic> data) async {
     return await dio.post(
@@ -38,7 +33,7 @@ class PhongtroService {
 
   Future<Response> update(int id, Map<String, dynamic> data) async {
     return await dio.put(
-      "${Endpoints.phongtro}/$id",
+      "${Endpoints.phongtroId(id)}",
       data: data,
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
@@ -46,8 +41,20 @@ class PhongtroService {
 
   Future<Response> delete(int id) async {
     return await dio.delete(
-      "${Endpoints.phongtro}/$id",
+      "${Endpoints.phongtroId(id)}",
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }
+  
+  Future<Response> getAllPhongTrong() async {
+    return await dio.get(
+      Endpoints.phongtrong,
+      options: Options(headers: {}),
+    );
+  }
+    
+  Future<Response> getPhongTrongById(int id) async {
+    return await dio.get(Endpoints.phongtrongId(id));
+  }
+
 }

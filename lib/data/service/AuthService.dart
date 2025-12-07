@@ -30,8 +30,13 @@ class AuthService {
     AppConfig.token = token;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('token', token);
-    return user;
-  }
+
+    // Lấy MaQuyen và lưu vào AppConfig + SharedPreferences
+    final maQuyen = userJson['MaQuyen'];
+    AppConfig.maquyen = maQuyen;
+    await prefs.setInt('maQuyen', maQuyen);
+      return user;
+    }
 
   // Đăng xuất 
   Future<void> logout(String s) async {

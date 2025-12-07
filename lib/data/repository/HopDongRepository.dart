@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:flutter_application/data/model/HopDong.dart';
 import 'package:flutter_application/data/service/HopDongService.dart';
 
@@ -35,17 +36,15 @@ class HopDongRepository {
     }
   }
 
-  Future<HopDong> createHopDong(Map<String, dynamic> data) async {
-    final res = await service.create(data);
-    final raw = res.data['data'];
-    if (raw is Map<String, dynamic>) {
-      return HopDong.fromJson(raw);
-    } else {
-      print("Dữ liệu trả về create không hợp lệ: $raw");
-      throw Exception("Create Error");
+  Future<HopDong> create(Map<String, dynamic> data) async {
+    try {
+      final res = await service.create(data);
+      return HopDong.fromJson(res.data['data']);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data);
     }
   }
-
+  
   Future<HopDong> updateHopDong(int id, Map<String, dynamic> data) async {
     final res = await service.update(id, data);
     final raw = res.data['data'];

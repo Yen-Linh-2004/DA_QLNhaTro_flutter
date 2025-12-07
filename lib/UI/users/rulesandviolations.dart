@@ -1,52 +1,89 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/users/add_report.dart';
+import 'package:provider/provider.dart';
+import '../../provider/CustomerProvider.dart';
 
-class RulesAndViolationsPage extends StatelessWidget {
+class RulesAndViolationsPage extends StatefulWidget {
   const RulesAndViolationsPage({super.key});
+
+  @override
+  State<RulesAndViolationsPage> createState() => _RulesAndViolationsPageState();
+}
+
+class _RulesAndViolationsPageState extends State<RulesAndViolationsPage> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<CustomerProvider>(context, listen: false)
+          .fetchCustomerViolations();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-      body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      body: Consumer<CustomerProvider>(
+        builder: (context, provider, _) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            // -------------------------------
-            // PHẦN: Lịch sử vi phạm
-            // -------------------------------
-            Text("Lịch sử vi phạm của bạn", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18 ),),
-            SizedBox(height: 5),
-            ViolationCard(
-              title: "Giờ giấc sinh hoạt",
-              time: "Ngày báo cáo: 2024-03-15",
-              level: "Vừa",
-              status: "Đã cảnh báo",
-              description:
-              "Mở nhạc to sau 23:00, ảnh hưởng đến phòng bên cạnh.",
-              note:
-              "Đã nhắc nhở, khách thuê cam kết không tái phạm.",
-            ),
-            ViolationCard(
-              title: "Vệ sinh chung",
-              time: "Ngày báo cáo: 2024-02-10",
-              level: "Nhẹ",
-              status: "Đã giải quyết",
-              description: "Để rác ngoài hành lang 2 ngày.",
-            ),
-            SizedBox(height: 8),
+          final violations = provider.vipham;
 
-            // -------------------------------
-            // PHẦN: Nội quy chung
-            // -------------------------------
-            Text("Nội quy chung của khu trọ", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-            SizedBox(height: 5),
-            RulesCard(),
-          ],
-        ),
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Lịch sử vi phạm của bạn",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(height: 10),
+
+                // Nếu không có vi phạm
+                if (violations.isEmpty)
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text(
+                      "Bạn không có lịch sử vi phạm.",
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                  ),
+
+                // Danh sách vi phạm
+                ...violations.map((v) {
+                  return ViolationCard(
+                    title: v.noiQuy?.tieuDe ?? "Không rõ nội quy",
+                    time: "Ngày báo cáo: ${v.ngayBaoCao}",
+                    level: _convertLevel(v.mucDo),
+                    status: _convertStatus(v.trangThai),
+                    description: v.moTa,
+                    note: v.ghiChu,
+                  );
+                }),
+
+                const SizedBox(height: 20),
+
+                const Text(
+                  "Nội quy chung của khu trọ",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
+                const SizedBox(height: 10),
+
+                const RulesCard(),
+              ],
+            ),
+          );
+        },
       ),
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
           Navigator.push(
@@ -55,18 +92,53 @@ class RulesAndViolationsPage extends StatelessWidget {
           );
         },
         backgroundColor: Colors.blue,
-        label:  Text("Báo cáo mới", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        icon:  Icon(Icons.add, color: Colors.white),
+        icon: const Icon(Icons.add),
+        label: const Text(
+          "Báo cáo mới",
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
     );
+  }
+
+  String _convertLevel(String lv) {
+    switch (lv) {
+      case "nhe":
+        return "Nhẹ";
+      case "vua":
+        return "Vừa";
+      case "nghiem_trong":
+        return "Nghiêm trọng";
+      case "rat_nghiem_trong":
+        return "Rất nghiêm trọng";
+      default:
+        return "Không xác định";
+    }
+  }
+
+  String _convertStatus(String s) {
+    switch (s) {
+      case "da_bao_cao":
+        return "Đã báo cáo";
+      case "da_canh_cao":
+        return "Đã cảnh báo";
+      case "da_giai_quyet":
+        return "Đã giải quyết";
+      default:
+        return "Không xác định";
+    }
   }
 }
 
 class ViolationCard extends StatelessWidget {
-  final String title, time, level, status, description;
+  final String title;
+  final String time;
+  final String level;
+  final String status;
+  final String description;
   final String? note;
 
-   ViolationCard({
+  const ViolationCard({
     super.key,
     required this.title,
     required this.time,
@@ -78,70 +150,71 @@ class ViolationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isWarning = status == "Đã cảnh báo";
+
     return Container(
-      margin:  EdgeInsets.only(bottom: 16),
-      padding:  EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-              offset: Offset(0, 3)
-          )
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: const Offset(0, 2),
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Title + Status Badge
+          // Header title + status
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(title,
-                style:  TextStyle(
+              Expanded(
+                child: Text(
+                  title,
+                  style: const TextStyle(
                     fontSize: 16,
-                    fontWeight: FontWeight.bold
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+
               Container(
-                padding:  EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: status.contains("cảnh báo")
-                      ? Colors.blue.shade50
-                      : Colors.green.shade50,
+                  color: isWarning ? Colors.orange.shade50 : Colors.green.shade50,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
                   status,
                   style: TextStyle(
-                    color: status.contains("cảnh báo")
-                        ? Colors.blue
-                        : Colors.green,
+                    color: isWarning ? Colors.orange.shade700 : Colors.green.shade700,
                     fontSize: 12,
                   ),
                 ),
-              )
+              ),
             ],
           ),
 
-           SizedBox(height: 8),
+          const SizedBox(height: 8),
 
           Text(description),
-           SizedBox(height: 6),
+          const SizedBox(height: 6),
 
           Text("Mức độ: $level",
-              style: TextStyle(color: Colors.orange.shade700)),
+              style: const TextStyle(color: Color(0xFFBA5E02))),
+          const SizedBox(height: 6),
 
-           SizedBox(height: 6),
-
-          Text(time, style:  TextStyle(color: Colors.grey)),
+          Text(time, style: const TextStyle(color: Colors.grey)),
 
           if (note != null) ...[
-             Divider(height: 20),
+            const Divider(height: 20),
             Text("Ghi chú từ BQL: $note"),
-          ]
+          ],
         ],
       ),
     );
@@ -149,7 +222,7 @@ class ViolationCard extends StatelessWidget {
 }
 
 class RulesCard extends StatelessWidget {
-   RulesCard({super.key});
+  const RulesCard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -158,31 +231,31 @@ class RulesCard extends StatelessWidget {
       "Vệ sinh chung: Giữ gìn vệ sinh khu vực chung, không vứt rác bừa bãi.",
       "Khách thăm: Khách thăm phải đăng ký và không được ở qua đêm.",
       "An toàn cháy nổ: Không nấu ăn trong phòng, không sử dụng thiết bị dễ cháy nổ.",
-      "Khác: Các vấn đề khác không thuộc danh mục trên."
+      "Thanh toán tiền thuê: Thanh toán tiền thuê đúng hạn vào đầu tháng."
     ];
 
     return Container(
-      padding:  EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-              color: Colors.black12,
-              blurRadius: 6,
-              offset: Offset(0, 3)
-          )
+            color: Colors.black12,
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          for (int i = 0; i < rules.length; i++)
-            Padding(
-              padding:  EdgeInsets.only(bottom: 10),
-              child: Text("${i + 1}. ${rules[i]}"),
-            )
-        ],
+        children: List.generate(
+          rules.length,
+          (i) => Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text("${i + 1}. ${rules[i]}"),
+          ),
+        ),
       ),
     );
   }

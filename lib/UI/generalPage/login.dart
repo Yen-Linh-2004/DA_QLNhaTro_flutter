@@ -18,28 +18,45 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
   bool rememberMe = false;
 
-  void _submitLogin() async {
-    if (_formKey.currentState!.validate()) {
-      final authProvider = Provider.of<AuthProvider>(context, listen: false);
-      await authProvider.login(
-        _tenController.text.trim(),
-        _passwordController.text.trim(),
+void _submitLogin() async {
+  if (_formKey.currentState!.validate()) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    await authProvider.login(
+      _tenController.text.trim(),
+      _passwordController.text.trim(),
+    );
+
+    if (authProvider.isAuthenticated) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Đăng nhập thành công')),
       );
 
-      if (authProvider.isAuthenticated) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Đăng nhập thành công')));
-        Navigator.pushReplacement(
-          context,
-          // MaterialPageRoute(builder: (_) => MainPage()),
-          MaterialPageRoute(builder: (_) => TenantHomePage()),
-        );
-      } else {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(const SnackBar(content: Text('Đăng nhập thất bại')));
+      // Lấy maQuyen từ taiKhoan vừa login
+      final maQuyen = authProvider.taiKhoan?.MaQuyen ?? 3;
+      Widget nextPage;
+      switch (maQuyen) {
+        case 1:
+          nextPage = MainPage();  // dashboard admin
+          break;
+        case 2:
+          nextPage = MainPage(); // dashboard admin
+          break;
+        default:
+          nextPage = TenantHomePage();   // dashboard khách thuê
       }
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => nextPage),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Đăng nhập thất bại')),
+      );
     }
   }
+}
+
 
   @override
   Widget build(BuildContext context) {

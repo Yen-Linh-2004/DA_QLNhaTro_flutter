@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
 import 'package:flutter_application/UI/shared/input_field.dart';
+import 'package:flutter_application/provider/CustomerProvider.dart';
+import 'package:provider/provider.dart';
 
 class AddReportPage extends StatefulWidget {
- const AddReportPage({super.key});
+  const AddReportPage({super.key});
 
   @override
   State<AddReportPage> createState() => _AddReportPageState();
@@ -18,7 +20,6 @@ class _AddReportPageState extends State<AddReportPage> {
   final _roomReportController = TextEditingController();
   final _noteController = TextEditingController();
 
-  // default -> đặt bằng mục đầu tiên trong list (Chọn nội quy)
   String? selectedReport;
   DateTime selectDate = DateTime.now();
 
@@ -47,100 +48,53 @@ class _AddReportPageState extends State<AddReportPage> {
     super.dispose();
   }
 
-  void _onAddReport() {
+  // ---------------- GỬI DỮ LIỆU LÊN PROVIDER ----------------
+  Future<void> _submitToAPI() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final customer = _customerController.text.trim();
-    final room = _roomController.text.trim();
-    final floor = _floorController.text.trim();
-    final roomReport = _roomReportController.text.trim();
-    final note = _noteController.text.trim();
-    final violation = selectedReport ?? "";
-    final timeOccur = selectDate;
+    final payload = {
+      "MaKhachThue": int.tryParse(_customerController.text.trim()) ?? 0,
+      "MaNoiQuy": Report.indexOf(selectedReport!), // bạn đổi lại nếu backend khác
+      "MoTa": _noteController.text.trim(),
+      "MucDo": "vua", // default hoặc bạn thêm dropdown
+      "NgayBaoCao": selectDate.toIso8601String(),
+    };
 
-    // Bạn có thể gửi dữ liệu này lên API ở đây.
-    // Hiện tại chỉ show dialog xác nhận
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text("Xác nhận gửi báo cáo"),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Khách thuê: $customer"),
-            Text("Phòng: $room"),
-            if (floor.isNotEmpty) Text("Dãy: $floor"),
-            if (roomReport.isNotEmpty) Text("Phòng bị báo cáo: $roomReport"),
-            Text("Nội quy: $violation"),
-            Text("Thời gian: ${_formatDate(timeOccur)}"),
-            if (note.isNotEmpty) ...[
-              SizedBox(height: 8),
-              Text("Ghi chú:"),
-              Text(note)
-            ],
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: Text("Hủy"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              _submitReport({
-                "khachThue": customer,
-                "phong": room,
-                "day": floor,
-                "phongBiBaoCao": roomReport,
-                "noiQuy": violation,
-                "thoiGian": timeOccur.toIso8601String(),
-                "ghiChu": note,
-              });
-            },
-            child: Text("Gửi"),
-          ),
-        ],
-      ),
-    );
-  }
+    print("📤 Gửi dữ liệu tạo violation: $payload");
 
-  // Hàm thực hiện gửi report (hiện giả lập)
-  Future<void> _submitReport(Map<String, dynamic> payload) async {
+    final provider = Provider.of<CustomerProvider>(context, listen: false);
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("Đang gửi báo cáo...")),
     );
 
-    await Future.delayed(Duration(milliseconds: 800));
+    await provider.createViolations(payload);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Gửi báo cáo thành công")),
-    );
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Gửi báo cáo thành công!")),
+      );
+    }
 
-    // Xóa form (tuỳ ý)
-    _formKey.currentState!.reset();
-    setState(() {
-      selectedReport = Report.first;
-      selectDate = DateTime.now();
-    });
-    _customerController.clear();
-    _roomController.clear();
-    _floorController.clear();
-    _roomReportController.clear();
-    _noteController.clear();
+    Navigator.pop(context);
   }
 
+  // ------------------------------------------------------------
+
   String _formatDate(DateTime dt) {
-    return "${dt.day}/${dt.month}/${dt.year} ${dt.hour.toString().padLeft(2,'0')}:${dt.minute.toString().padLeft(2,'0')}";
+    return "${dt.day}/${dt.month}/${dt.year}  ${dt.hour}:${dt.minute}";
   }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CustomerProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Báo cáo vi phạm",
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: Text(
+          "Báo cáo vi phạm",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         centerTitle: true,
         backgroundColor: Colors.blue,
         leading: IconButton(
@@ -148,131 +102,78 @@ class _AddReportPageState extends State<AddReportPage> {
           onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTextField(
-                "Khách thuê",
-                "Nhập khách thuê",
-                _customerController,
-                (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập tên khách thuê";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
-              // Số phòng
-              buildTextField(
-                "Phòng",
-                "Nhập số phòng",
-                _roomController,
-                (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return "Vui lòng nhập số phòng";
-                  }
-                  if (!RegExp(r'^\d+$').hasMatch(value.trim())) {
-                    return "Số phòng phải là số nguyên";
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
 
-              // Dãy trọ
-              buildTextField(
-                "Dãy trọ",
-                "VD: Dãy E",
-                _floorController,
-                (value) {
-                  // optional
-                  return null;
-                },
-              ),
+      body: provider.isLoading
+          ? Center(child: CircularProgressIndicator())
+          : SingleChildScrollView(
+              padding: EdgeInsets.all(16),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    buildTextField(
+                      "Mã khách thuê",
+                      "Nhập ID khách thuê",
+                      _customerController,
+                      (v) {
+                        if (v == null || v.isEmpty) return "Không được để trống";
+                        if (!RegExp(r'^\d+$').hasMatch(v)) {
+                          return "Phải là số ID";
+                        }
+                        return null;
+                      },
+                    ),
 
-              SizedBox(height: 16),
+                    SizedBox(height: 16),
 
-              // Phòng bị báo cáo
-              buildTextField(
-                "Phòng bị báo cáo",
-                "Nhập số phòng bị báo cáo (nếu có)",
-                _roomReportController,
-                (value) {
-                  // optional
-                  return null;
-                },
-              ),
+                    // Dropdown Nội quy
+                    Text("Nội quy vi phạm:", style: TextStyle(fontWeight: FontWeight.bold)),
+                    DropdownButtonFormField<String>(
+                      value: selectedReport,
+                      items: Report
+                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                          .toList(),
+                      onChanged: (v) => setState(() => selectedReport = v),
+                      validator: (v) {
+                        if (v == null || v == Report.first)
+                          return "Vui lòng chọn nội quy";
+                        return null;
+                      },
+                    ),
 
-              SizedBox(height: 16),
+                    SizedBox(height: 16),
 
-              // Dropdown Nội quy
-              Text("Nội quy bị vi phạm:", style: TextStyle(fontWeight: FontWeight.bold)),
-              SizedBox(height: 6),
-              DropdownButtonFormField<String>(
-                value: selectedReport,
-                items: Report
-                    .map((report) => DropdownMenuItem(
-                          value: report,
-                          child: Text(report),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedReport = value;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value == Report.first) {
-                    return "Vui lòng chọn loại vi phạm";
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    buildDatePickerField(
+                      context,
+                      "Ngày báo cáo",
+                      selectDate,
+                      (d) => setState(() => selectDate = d),
+                    ),
+
+                    SizedBox(height: 16),
+
+                    buildContendField(
+                      "Mô tả báo cáo",
+                      "Nhập mô tả chi tiết...",
+                      _noteController,
+                      context,
+                    ),
+
+                    SizedBox(height: 24),
+
+                    Row(
+                      children: [
+                        buildActionBtn(Icons.close, "Hủy", Colors.red, () {
+                          Navigator.pop(context);
+                        }),
+                        SizedBox(width: 12),
+                        buildActionBtn(Icons.send, "Gửi", Colors.blue, _submitToAPI),
+                      ],
+                    )
+                  ],
                 ),
               ),
-
-              SizedBox(height: 16),
-
-              // Date picker
-              buildDatePickerField(context, "Thời gian xảy ra (nếu có)", selectDate,
-                  (date) {
-                setState(() {
-                  selectDate = date;
-                });
-              }),
-
-              SizedBox(height: 16),
-
-              // Mô tả nội dung
-              buildContendField("Nội dung chi tiết", "Mô tả...", _noteController, context),
-
-              SizedBox(height: 24),
-
-              // Buttons
-              Row(
-                children: [
-                  Expanded(
-                    child: buildActionBtn(Icons.close, "Hủy", Colors.red, () {
-                      Navigator.pop(context);
-                    }),
-                  ),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: buildActionBtn(Icons.add, "Gửi báo cáo", Colors.blue, _onAddReport),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

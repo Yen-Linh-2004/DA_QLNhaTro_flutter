@@ -1,96 +1,107 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/shared/buildCard.dart';
-import 'package:flutter_application/UI/shared/input_field.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application/provider/PhongTroProvider.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
 
-class DepositPage extends StatefulWidget{
-  const DepositPage({super.key});
+class DepositPage extends StatefulWidget {
+  final int idPhong;
+
+  const DepositPage({super.key, required this.idPhong});
 
   @override
-  State<DepositPage> createState() => _DepositPage();
+  State<DepositPage> createState() => _DepositPageState();
 }
-class _DepositPage extends State<DepositPage> {
 
+class _DepositPageState extends State<DepositPage> {
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _noteController = TextEditingController();
 
-  DateTime selectDate = DateTime(2025, 1, 1); 
+  DateTime selectDate = DateTime.now();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Load dữ liệu phòng khi widget được build
+    Future.microtask(() {
+      Provider.of<PhongTroProvider>(context, listen: false)
+          .getPhongTrongById(widget.idPhong);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<PhongTroProvider>(context);
+
+    final PhongTro? phong =
+        provider.phongTrongList.isNotEmpty ? provider.phongTrongList.first : null;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Đặt cọc phòng B205",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 24,
-            color: Colors.white,
-          ),
+          phong != null ? "Đặt cọc phòng ${phong.tenPhong}" : "Đặt cọc phòng",
+          style: const TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white),
         ),
-        centerTitle: true,
         backgroundColor: Colors.blue,
-        elevation: 1,
+        centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 100), // Khoảng trống cho nút cố định
-        child: Padding(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // --- THÔNG TIN PHÒNG ---
-              _buildSectionTitle("Thông Tin Phòng"),
-              _buildRoomInfoCard(
-                room: "B205",
-                area: "25m²",
-                rent: "2.600.000 VNĐ",
-                deposit: "2.600.000 VNĐ",
-              ),
-              SizedBox(height: 25),
-
-              // --- THÔNG TIN CÁ NHÂN & NGÀY DỰ KIẾN ---
-              _buildSectionTitle("Thông Tin Liên Hệ"),
-
-              buildTextField("Họ và tên:", "Nhập họ và tên", _nameController, null),
-              SizedBox(height: 12),
-              buildTextField("Số điện thoại:", "Nhập số điện thoại", _phoneController, null),
-              SizedBox(height: 12),
-              buildTextField( "Email:","Nhập email",_emailController, null),
-              SizedBox(height: 12),
-              buildDatePickerField(context, "Ngày dự kiến vào ở:", selectDate, (date) {setState(() { selectDate = date;  });}),
-              SizedBox(height: 14),
-              buildContendField("Ghi Chú:", "Ghi chú thêm (không bắt buộc)", _noteController, context),
-              SizedBox(height: 14),
-              // --- 4. LƯU Ý QUAN TRỌNG ---
-              _buildImportantNote(),
-            ],
-          ),
-        ),
-      ),
-      // --- NÚT HÀNH ĐỘNG CỐ ĐỊNH ---
-      bottomSheet: _buildBottomActionButtons(context),
+      body: provider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : phong == null
+              ? const Center(child: Text("Không tìm thấy thông tin phòng"))
+              : _buildContent(context, phong),
+      bottomSheet: phong == null ? null : _buildBottomActionButtons(context),
     );
   }
 
-  // --- WIDGET BUILDING FUNCTIONS ---
+  Widget _buildContent(BuildContext context, PhongTro phong) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(bottom: 100),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildSectionTitle("Thông Tin Phòng"),
+            _buildRoomInfoCard(
+              room: phong.tenPhong ?? "",
+              area: "${phong.dienTich} m²",
+              rent: "${phong.donGiaCoBan} VNĐ",
+              deposit: "${phong.tienCoc} VNĐ",
+            ),
+            const SizedBox(height: 25),
+            _buildSectionTitle("Thông Tin Liên Hệ"),
+            _buildTextField("Họ và tên:", "Nhập họ và tên", _nameController),
+            const SizedBox(height: 12),
+            _buildTextField("Số điện thoại:", "Nhập số điện thoại", _phoneController),
+            const SizedBox(height: 12),
+            _buildTextField("Email:", "Nhập email", _emailController),
+            const SizedBox(height: 12),
+            _buildDatePickerField("Ngày dự kiến vào ở:", selectDate),
+            const SizedBox(height: 14),
+            _buildTextField("Ghi chú:", "Ghi chú thêm (không bắt buộc)", _noteController),
+            const SizedBox(height: 14),
+            _buildImportantNote(),
+          ],
+        ),
+      ),
+    );
+  }
+
   Widget _buildSectionTitle(String title) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 10.0),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-          color: Colors.blue[800],
-        ),
+            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue[800]),
       ),
     );
   }
@@ -102,128 +113,144 @@ class _DepositPage extends State<DepositPage> {
     required String deposit,
   }) {
     return Container(
-      width: double.maxFinite,
-      padding: EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.deepPurple[50], // Nền nhẹ
+        color: Colors.deepPurple[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.blue.withOpacity(0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildInfoRow("Phòng:  ", room), SizedBox(height: 8),
-          _buildInfoRow("Diện tích:  ", area), SizedBox(height: 8),
-          _buildInfoRow("Giá thuê:  ", rent), SizedBox(height: 8),
-          _buildInfoRow("Tiền cọc:  ", deposit, isPrice: true),
+          _buildInfoRow("Phòng:", room),
+          const SizedBox(height: 8),
+          _buildInfoRow("Diện tích:", area),
+          const SizedBox(height: 8),
+          _buildInfoRow("Giá thuê:", rent),
+          const SizedBox(height: 8),
+          _buildInfoRow("Tiền cọc:", deposit, isPrice: true),
         ],
       ),
     );
   }
 
-  Widget _buildInfoRow(String label1, String value1, { bool isPrice = false }) {
-    TextStyle valueStyle = TextStyle(
-      fontWeight: FontWeight.bold, fontSize: 18,
-      color: isPrice ? Colors.redAccent : Colors.black87,
-    );
-    return Row( 
+  Widget _buildInfoRow(String label, String value, {bool isPrice = false}) {
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label1, style: TextStyle(color: Colors.black, fontSize: 18)),
-        Text(value1, style: valueStyle),
-      ]
+        Text(label, style: const TextStyle(fontSize: 18)),
+        Text(
+          value,
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: isPrice ? Colors.redAccent : Colors.black87,
+          ),
+        ),
+      ],
     );
   }
 
   Widget _buildImportantNote() {
     return Container(
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.amber[50], // Nền vàng nhạt
+        color: Colors.amber[50],
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.amber, width: 1.5),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.warning_amber_outlined,
-                color: Colors.amber[800],
-                size: 24,
-              ),
-              SizedBox(width: 8),
-              Text(
-                "Lưu ý quan trọng",
+          Row(children: [
+            Icon(Icons.warning_amber_outlined, color: Colors.orangeAccent),
+            SizedBox(width: 8),
+            Text("Lưu ý quan trọng",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.orangeAccent,
-                ),
-              ),
-            ],
-          ),
-          Divider(color: Colors.amber, height: 15),
-          _buildNotePoint(
-            "Tiền cọc sẽ được hoàn trả khi kết thúc hợp đồng (trừ các khoản phát sinh)",
-          ),
-          _buildNotePoint(
-            "Sau khi đặt cọc, bạn có 3 ngày để hoàn tất thủ tục ký hợp đồng",
-          ),
-          _buildNotePoint(
-            "Nếu không ký hợp đồng trong thời hạn, tiền cọc sẽ không được hoàn trả",
-          ),
-          _buildNotePoint("Vui lòng kiểm tra kỹ thông tin trước khi xác nhận"),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                    color: Colors.orangeAccent)),
+          ]),
+          Divider(color: Colors.amber),
+          Text("• Tiền cọc hoàn trả khi kết thúc hợp đồng (trừ chi phí phát sinh)"),
+          Text("• Có 3 ngày để ký hợp đồng sau khi đặt cọc"),
+          Text("• Quá hạn sẽ không hoàn tiền"),
+          Text("• Kiểm tra kỹ thông tin trước khi xác nhận"),
         ],
       ),
     );
   }
 
-  Widget _buildNotePoint(String text) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 4.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("• ", style: TextStyle(fontSize: 15, color: Colors.black87)),
-          Expanded(
-            child: Text(
-              text,
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.4,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-        ],
+  Widget _buildTextField(String label, String hint, TextEditingController controller) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        labelText: label,
+        hintText: hint,
+        border: const OutlineInputBorder(),
+      ),
+    );
+  }
+
+  Widget _buildDatePickerField(String label, DateTime selectedDate) {
+    return InkWell(
+      onTap: () async {
+        DateTime? picked = await showDatePicker(
+          context: context,
+          initialDate: selectedDate,
+          firstDate: DateTime.now(),
+          lastDate: DateTime.now().add(const Duration(days: 365)),
+        );
+        if (picked != null && picked != selectedDate) {
+          setState(() {
+            selectDate = picked;
+          });
+        }
+      },
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        child: Text("${selectedDate.day}/${selectedDate.month}/${selectedDate.year}"),
       ),
     );
   }
 
   Widget _buildBottomActionButtons(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(0, -3),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+                color: Colors.grey.withOpacity(0.3),
+                blurRadius: 5,
+                offset: const Offset(0, -3))
+          ]),
       child: SafeArea(
         child: Row(
           children: [
-            buildActionBtn(Icons.cancel, "Hủy", Colors.blueGrey, () => Navigator.pop(context)),
-            SizedBox(width: 10),
-            buildActionBtn(Icons.check_box, "Xác nhận đặt cọc", Colors.blue, (){
-              print("Xác nhận đặt cọc");
-            }),
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.cancel),
+                label: const Text("Hủy"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  // Gửi yêu cầu đặt cọc
+                  print("📌 Gửi yêu cầu đặt cọc lên server...");
+                },
+                icon: const Icon(Icons.check_box),
+                label: const Text("Xác nhận đặt cọc"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              ),
+            ),
           ],
         ),
       ),

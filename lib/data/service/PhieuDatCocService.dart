@@ -20,7 +20,7 @@ class PhieuDatCocSerrvice {
     );
   }
 
-   Future<Response> create(Map<String, dynamic> data) async {
+  Future<Response> create(Map<String, dynamic> data) async {
     return await dio.post(
       Endpoints.phieudatcoc,
       data: data,

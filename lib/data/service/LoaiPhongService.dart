@@ -24,7 +24,7 @@ class LoaiPhongService {
 
   Future<Response> update(int id, Map<String, dynamic> data) async {
     return await dio.put(
-      "${Endpoints.loaiPhong}/$id",
+      "${Endpoints.loaiphongId(id)}",
       data: data,
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );

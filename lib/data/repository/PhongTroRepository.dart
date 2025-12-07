@@ -1,4 +1,4 @@
-
+import 'package:dio/dio.dart';
 import 'package:flutter_application/data/model/PhongTro.dart';
 import 'package:flutter_application/data/service/PhongTroService.dart';
 
@@ -19,21 +19,7 @@ class PhongtroRepository {
     }
   }
 
-  Future<List<PhongTro>> getAllPhongTrong() async {
-    final res = await service.getAllPhongTrong();
-
-    final data = res.data['data'];
-    if (data is List) {
-      return data
-          .map((json) => PhongTro.fromJson(json as Map<String, dynamic>))
-          .toList();
-    } else {
-      print("Dữ liệu không phải List: $data");
-      return [];
-    }
-  }
-
-  Future<PhongTro?> getKhachThueById(int id) async {
+  Future<PhongTro?> getPhongTroById(int id) async {
     try {
       final res = await service.getPhongTroById(id);
 
@@ -52,39 +38,48 @@ class PhongtroRepository {
     }
   }
 
-  Future<PhongTro> createPhongTro(Map<String, dynamic> data) async {
-    final res = await service.create(data);
-
-    final raw = res.data['data'];
-
-    if (raw is Map<String, dynamic>) {
-      return PhongTro.fromJson(raw);
-    } else {
-      print("Dữ liệu trả về create không hợp lệ: $raw");
-      throw Exception("Create Error");
-    }
-  }
-
-  Future<PhongTro> updatePhongTro(int id, Map<String, dynamic> data) async {
-    final res = await service.update(id, data);
-
-    final raw = res.data['data'];
-
-    if (raw is Map<String, dynamic>) {
-      return PhongTro.fromJson(raw);
-    } else {
-      print("Dữ liệu trả về update không hợp lệ: $raw");
-      throw Exception("Update Error");
-    }
-  }
-
-  Future<bool> deletePhongTro(int id) async {
+  Future<PhongTro> create(Map<String, dynamic> data) async {
     try {
-      await service.delete(id);
-      return true;
+      final res = await service.create(data);
+      return PhongTro.fromJson(res.data['data']);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data);
+    }
+  }
+
+  Future<PhongTro> update(int id, Map<String, dynamic> data) async {
+    final res = await service.update(id, data);
+    return PhongTro.fromJson(res.data['data']);
+  }
+
+  Future<bool> delete(int id) async {
+    await service.delete(id);
+    return true;
+  }
+
+  Future<PhongTro?> getPhongTrongById(int id) async {
+    try {
+      final response = await service.getPhongTrongById(id);
+
+      if (response.statusCode != 200) {
+        return null;
+      }
+
+      final rawData = response.data['data'];
+
+      if (rawData is Map<String, dynamic>) {
+        return PhongTro.fromJson(rawData);
+      }
+
+      if (rawData is List && rawData.isNotEmpty) {
+        return PhongTro.fromJson(
+            rawData.first as Map<String, dynamic>);
+      }
+
+      return null;
     } catch (e) {
-      print("Lỗi khi xóa: $e");
-      return false;
+      print("Repository Error (getPhongTrongById): $e");
+      return null;
     }
   }
 }

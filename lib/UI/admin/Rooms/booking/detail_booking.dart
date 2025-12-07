@@ -77,7 +77,7 @@ class _BookingDetailPageState extends State<BookingDetailPage> {
                   children: [
                     TextField(
                       maxLines: 2,
-                      controller: TextEditingController(text: booking.ghiChu),
+                      controller: TextEditingController(text: booking.ghiChu ?? "") ,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.white,

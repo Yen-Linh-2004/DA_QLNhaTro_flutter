@@ -15,6 +15,9 @@ import 'package:flutter_application/UI/admin/rule/rule_paging.dart';
 import 'package:flutter_application/UI/admin/services/servicesPage.dart';
 import 'package:flutter_application/UI/admin/setting.dart';
 import 'package:flutter_application/UI/generalPage/login.dart';
+import 'package:flutter_application/core/config/app_config.dart';
+import 'package:flutter_application/provider/AuthProvider.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -119,6 +122,13 @@ class _MainPageState extends State<MainPage> {
             leading: Icon(Icons.logout, color: Colors.redAccent),
             title: Text("Đăng xuất", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold)),
             onTap: () {
+              // Xóa token trong AppConfig hoặc SharedPreferences
+              AppConfig.clearToken(); 
+              // Nếu bạn đang dùng Provider, reset thông tin user
+              final authProvider = Provider.of<AuthProvider>(context, listen: false);
+              authProvider.taiKhoan = null;
+              authProvider.accessToken = null;
+              authProvider.notifyListeners();
              Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => const LoginPage()),

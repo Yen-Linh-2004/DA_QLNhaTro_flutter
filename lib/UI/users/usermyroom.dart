@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/data/model/Khachthue.dart';
 import 'package:provider/provider.dart';
 import '../../provider/CustomerProvider.dart';
 import '../../data/model/Customer.dart';
@@ -16,6 +17,7 @@ class _RoomPageState extends State<RoomPage> {
     super.initState();
     Future.microtask(() {
       Provider.of<CustomerProvider>(context, listen: false).fetchRoomInfo();
+      Provider.of<CustomerProvider>(context, listen: false).fetchRoomStatus();
     });
   }
 
@@ -33,31 +35,46 @@ class _RoomPageState extends State<RoomPage> {
             return const Center(child: Text("Không có dữ liệu phòng"));
           }
 
-          final room = provider.RoomList.first;
+          if (provider.roomStatusList.isEmpty) {
+            return const Center(child: Text("Không có dữ liệu phòng tổng hợp"));
+          }
 
+          final room = provider.RoomList.first;
+          final khachchinh = provider.roomStatusList.expand((e) => e.danhSachNguoiThue).where((tv) => tv.vaiTro == "KHÁCH_CHÍNH").toList();
+          final thanhVien = provider.roomStatusList.expand((e) => e.danhSachNguoiThue).where((tv) => tv.vaiTro == "THÀNH_VIÊN").toList();
+          
           return SingleChildScrollView(
             padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                
-                // ==== THÔNG TIN PHÒNG ====
-                _sectionTitle("Thông tin phòng", Icons.home_outlined),
-                _roomInfoCard(room),
+            child: Scrollbar(
+              thumbVisibility: true,
+              thickness: 6,
+              radius: const Radius.circular(12),
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    
+                    // ==== THÔNG TIN PHÒNG ====
+                    _sectionTitle("Thông tin phòng", Icons.home_outlined),
+                    _roomInfoCard(room),
 
-                const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                // ==== NGƯỜI THUÊ CHÍNH ====
-                _sectionTitle("Người thuê chính", Icons.person_pin_outlined),
-                _mainTenantCard(room),
+                    // ==== NGƯỜI THUÊ CHÍNH ====
+                    _sectionTitle("Người thuê chính", Icons.person_pin_outlined),
+                    _mainTenantCard(khachchinh),
 
-                const SizedBox(height: 20),
+                    const SizedBox(height: 20),
 
-                // ==== DANH SÁCH THÀNH VIÊN ====
-                _sectionTitle("Thành viên trong phòng", Icons.group_outlined),
-                // _membersCard(room),
-              ],
-            ),
+                    // ==== DANH SÁCH THÀNH VIÊN ====
+                    _sectionTitle("Thành viên trong phòng", Icons.group_outlined),
+                    SizedBox(height: 10),
+                    _membersCard(thanhVien),
+                  ],
+                ),
+              )
+            )
           );
         },
       ),
@@ -128,7 +145,7 @@ class _RoomPageState extends State<RoomPage> {
   }
 
   // ======= CARD: NGƯỜI THUÊ CHÍNH =======
-  Widget _mainTenantCard(ThongTinPhong room) {
+  Widget _mainTenantCard(KhachThue kh) {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: _box(color: Colors.blue.shade50),
@@ -138,7 +155,7 @@ class _RoomPageState extends State<RoomPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(room.hoTen,
+              Text(kh.hoTen,
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const Chip(
                 label: Text("Chủ hợp đồng", style: TextStyle(color: Colors.white)),
@@ -148,53 +165,60 @@ class _RoomPageState extends State<RoomPage> {
           ),
 
           const Divider(),
-          _detail(Icons.phone, room.sdt1 ?? "Không có số điện thoại"),
-          _detail(Icons.email_outlined, room.email ?? "Không có email"),
+          _detail(Icons.phone, kh.sdt1 ?? "Không có số điện thoại"),
+          _detail(Icons.email_outlined, kh.email ?? "Không có email"),
         ],
       ),
     );
   }
 
   // ======= CARD: DANH SÁCH THÀNH VIÊN PHÒNG =======
-  // Widget _membersCard(ThongTinPhong room) {
-  //   final members = room.maKhachThue ?? [];
+ Widget _membersCard(List<KhachThue> members) {
+    if (members.isEmpty) {
+      return Container(
+        padding: const EdgeInsets.all(18),
+        decoration: _box(),
+        child: const Text("Không có thành viên trong phòng"),
+      );
+    }
 
-  //   if (members.isEmpty) {
-  //     return Container(
-  //       padding: const EdgeInsets.all(18),
-  //       decoration: _box(),
-  //       child: const Text("Không có thành viên trong phòng"),
-  //     );
-  //   }
-
-  //   return Container(
-  //     padding: const EdgeInsets.all(12),
-  //     decoration: _box(),
-  //     child: Column(
-  //       children: members.map((tv) {
-  //         return Column(
-  //           children: [
-  //             ListTile(
-  //               leading: CircleAvatar(
-  //                 radius: 22,
-  //                 backgroundColor: Colors.orange.shade100,
-  //                 child: Text(tv.ten[0].toUpperCase(),
-  //                     style: TextStyle(color: Colors.orange.shade800, fontWeight: FontWeight.bold)),
-  //               ),
-  //               title: Text(tv.ten, style: const TextStyle(fontWeight: FontWeight.w600)),
-  //               subtitle: Text(
-  //                 "${tv.phone} • Vào ở: ${tv.ngayVao}",
-  //                 style: const TextStyle(fontSize: 13, color: Colors.black54),
-  //               ),
-  //               trailing: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
-  //             ),
-  //             const Divider(),
-  //           ],
-  //         );
-  //       }).toList(),
-  //     ),
-  //   );
-  // }
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: _box(),
+      child: Column(
+        children: members.map((tv) {
+          return Column(
+            children: [
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 22,
+                  backgroundColor: Colors.orange.shade100,
+                  child: Text(
+                    tv.hoTen[0].toUpperCase(),
+                    style: TextStyle(
+                        color: Colors.orange.shade800,
+                        fontWeight: FontWeight.bold),
+                  ),
+                ),
+                title: Text(tv.hoTen,
+                    style: const TextStyle(fontWeight: FontWeight.w600)),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Số điện thoại: ${tv.sdt1}", style: const TextStyle(fontSize: 13, color: Colors.black54)),
+                    Text("Email: ${tv.email}", style: const TextStyle(fontSize: 13, color: Colors.black54)),
+                  ],
+                ),
+                trailing:
+                    const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+              ),
+              const Divider(),
+            ],
+          );
+        }).toList(),
+      ),
+    );
+  }
 
   // ====================================
   //             SUPPORT UI

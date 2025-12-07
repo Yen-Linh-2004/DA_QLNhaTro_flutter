@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/admin/room_entity/deposit_room.dart';
 import 'package:flutter_application/UI/admin/room_entity/detail_room_entity.dart';
+import 'package:flutter_application/data/model/PhongTro.dart';
 
 class RoomCard extends StatelessWidget {
-  final Room room;
+  final PhongTro room;
   const RoomCard({super.key, required this.room});
 
   @override
@@ -14,76 +15,60 @@ class RoomCard extends StatelessWidget {
       margin: EdgeInsets.only(bottom: 16),
       child: Column(
         children: [
-          // Ảnh phòng
+          // Ảnh phòng (nếu API trả URL)
           ClipRRect(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-            child: Image.asset(
-              room.imageUrl,
+            child: Image.network(
+              room.hinhAnh ?? "https://via.placeholder.com/300",
               height: 250,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
           ),
 
-          // Nội dung thông tin
           Padding(
-            padding: EdgeInsets.all(12.0),
+            padding: EdgeInsets.all(12),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Tên + Giá
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      room.name,
+                    Text(room.tenPhong, 
                       style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    Text(
-                      "${room.price.toStringAsFixed(0)} VNĐ",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    ),
+                          fontSize: 20, fontWeight: FontWeight.bold)),
+                    Text("${room.giaThueHienTai} VNĐ",
+                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      room.description!,
-                      style: TextStyle(color: Colors.grey[700]),
-                    ),
-                    Text('/tháng', style: TextStyle(color: Colors.grey[700])),
-                  ],
-                ),
-                SizedBox(height: 6),
-                Text("Diện tích: ${room.area} m²"),
+                SizedBox(height: 5),
+                Text("Diện tích: ${room.dienTich} m²"),
 
-                // SizedBox(height: 8),
+                SizedBox(height: 10),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
+                       Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => RoomDetailPage()),
+                          MaterialPageRoute(
+                            builder: (context) => RoomEntityDetailPage(id: room.maPhong),
+                          ),
                         );
                       },
-                      child: Text("chi tiết", style: TextStyle(color: Colors.green),
-                      ),
+                      child: Text("Chi tiết", style: TextStyle(color: Colors.green)),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => DepositPage()),
+                          MaterialPageRoute(
+                              builder: (_) => DepositPage(idPhong: room.maPhong)),
                         );
                       },
                       child: Text("Đặt cọc", style: TextStyle(color: Colors.blue)),

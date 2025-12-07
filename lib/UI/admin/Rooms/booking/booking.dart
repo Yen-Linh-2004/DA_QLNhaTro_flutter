@@ -178,93 +178,18 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                             if (trangThai(booking.trangThai)== "Chờ xác nhận") ...[
                               IconButton(
                                 onPressed: () {
-                                  showConfirmDialog(
-                                    context: context,
-                                    title: "Xác nhận đặt phòng",
-                                    message:
-                                        "Bạn có chắc chắn muốn xác nhận đặt phòng cho khách thuê này không?",
-                                    confirmColor: Colors.orange,
-                                    icon: Icons.flash_on_outlined,
-                                    maxHeight: 140,
-                                    onConfirm: () {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                         SnackBar(
-                                          content: Text(
-                                            "Đã xác nhận đặt phòng thành công!",
-                                          ),
-                                          backgroundColor: Colors.orange,
-                                        ),
-                                      );
-                                    },
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>  CreateContractPage(bookingId: booking.maPhieuDatCoc),
+                                    ),
                                   );
                                 },
                                 icon:  Icon(
-                                  Icons.check,
-                                  color: Colors.green,
+                                  Icons.edit_document,
+                                  color: Colors.blue,
                                 ),
-                                tooltip: "Xác nhận",
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showConfirmDialog(
-                                    context: context,
-                                    title: "Hủy đặt phòng",
-                                    message:
-                                        "Bạn có chắc chắn muốn hủy đặt phòng cho khách thuê này không không? Hành động này không thể hoàn tác.",
-                                    confirmColor: Colors.red,
-                                    icon: Icons.flash_on_outlined,
-                                    // maxHeight: 140,
-                                    onConfirm: () {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                         SnackBar(
-                                          content: Text(
-                                            "Đã hủy đặt phòng thành công!",
-                                          ),
-                                          backgroundColor: Colors.red,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                icon:  Icon(
-                                  Icons.close,
-                                  color: Colors.red,
-                                ),
-                                tooltip: "Hủy",
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  showConfirmDialog(
-                                    context: context,
-                                    title: "Xác nhận hoàn cọc nhanh",
-                                    message:
-                                        "Bạn có chắc chắn muốn hoàn cọc nhanh cho đơn đặt này không?",
-                                    confirmColor: Colors.orange,
-                                    icon: Icons.flash_on_outlined,
-                                    maxHeight: 140,
-                                    onConfirm: () {
-                                      ScaffoldMessenger.of(
-                                        context,
-                                      ).showSnackBar(
-                                         SnackBar(
-                                          content: Text(
-                                            "Đã hoàn cọc nhanh thành công!",
-                                          ),
-                                          backgroundColor: Colors.orange,
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                                icon:  Icon(
-                                  Icons.flash_on_outlined,
-                                  color: Colors.orange,
-                                ),
-                                tooltip: "Hoàn cọc nhanh",
+                                tooltip: "Tạo hợp đồng",
                               ),
                               IconButton(
                                 onPressed: () {
@@ -281,6 +206,16 @@ class _BookingManagementPageState extends State<BookingManagementPage> {
                                   color: Colors.teal,
                                 ),
                                 tooltip: "Hoàn tiền đầy đủ",
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                 
+                                },
+                                icon:  Icon(
+                                  Icons.delete,
+                                  color: Colors.red,
+                                ),
+                                tooltip: "Xóa",
                               ),
                             ],
 

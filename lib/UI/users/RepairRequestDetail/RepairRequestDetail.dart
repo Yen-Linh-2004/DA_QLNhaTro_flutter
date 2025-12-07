@@ -1,225 +1,167 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/data/model/Customer.dart';
+import 'package:flutter_application/provider/CustomerProvider.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
-import 'package:flutter_application/UI/users/RepairRequestDetail/update_repair.dart';
 
-class RepairRequestDetailPage extends StatelessWidget {
-  const RepairRequestDetailPage({super.key});
+class RepairRequestDetailPage extends StatefulWidget {
+  final int id; 
+
+  const RepairRequestDetailPage({super.key, required this.id});
+
+  @override
+  State<RepairRequestDetailPage> createState() =>
+      _RepairRequestDetailPageState();
+}
+
+class _RepairRequestDetailPageState extends State<RepairRequestDetailPage> {
+
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      Provider.of<CustomerProvider>(context, listen: false)
+          .fetchMaintainerRequestById(widget.id);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<CustomerProvider>(context);
+    final detail = provider.maintenancedetail;
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      appBar: AppBar(title: Text("Chi tiết yêu cầu bảo trì", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        centerTitle: true,
+      appBar: AppBar(
+        title: const Text(
+          "Chi tiết yêu cầu bảo trì",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Colors.blue,
+        centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding:  EdgeInsets.all(16),
+
+      body: provider.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : detail == null
+              ? _buildError(context)
+              : _buildContent(detail),
+    );
+  }
+
+  // ❌ UI khi lỗi hoặc không có dữ liệu
+  Widget _buildError(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Text("Không thể tải dữ liệu", style: TextStyle(fontSize: 16)),
+          const SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () {
+              Provider.of<CustomerProvider>(context, listen: false)
+                  .fetchMaintainerRequestById(widget.id);
+            },
+            child: const Text("Thử lại"),
+          )
+        ],
+      ),
+    );
+  }
+
+  // ✅ UI hiển thị nội dung thật từ API
+  Widget _buildContent(YeuCauSuaChuaKhachThue detail) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          _infoCard("Thông tin cơ bản", [
+            _infoRow("Tiêu đề", detail.tieuDe ?? "—"),
+            _infoRow("Danh mục", detail.phanLoai ?? "—"),
+            _infoRow("Ưu tiên", detail.mucDoUuTien ?? "—",
+                valueColor: Colors.redAccent),
+            _infoRow("Trạng thái", detail.trangThai ?? "—",
+                valueColor: Colors.orange),
+          ]),
+
+          const SizedBox(height: 12),
+
+          _infoCard("Thông tin xử lý", [
+            _infoRow("Ngày tạo", detail.ngayYeuCau ?? "—"),
+            _infoRow("Ngày cập nhật", detail.ngayHoanThanh ?? "—"),
+          ]),
+
+          const SizedBox(height: 12),
+
+          _infoCard("Chi phí", [
+            _infoRow("Chi phí ước tính",
+                "${detail.chiPhiThucTe?.toString() ?? '--'} VNĐ",
+                valueColor: Colors.teal),
+          ]),
+
+          const SizedBox(height: 12),
+
+          _infoCard("Mô tả vấn đề", [
+            Text(
+              detail.moTa ?? "Không có mô tả",
+              style: const TextStyle(fontSize: 15),
+            )
+          ]),
+
+          const SizedBox(height: 12),
+
+          _infoCard("Ghi chú", [
+            Text(
+              detail.ghiChu ?? "Không có ghi chú",
+              style: const TextStyle(fontSize: 15),
+            )
+          ]),
+
+          const SizedBox(height: 20),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (_) =>
+                //         UpdateRepairPage(id: detail.id ?? 0),
+                //   ),
+                // );
+              }),
+
+              buildActionBtn(Icons.close, "Hủy yêu cầu", Colors.red, () {
+                Navigator.pop(context);
+              }),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ----------- Widget hỗ trợ -----------
+
+  Widget _infoCard(String title, List<Widget> children) {
+    return Card(
+      elevation: 2,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // --- Thông tin cơ bản ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      "Thông tin cơ bản",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                     SizedBox(height: 10),
-                    _infoRow("Tiêu đề", "Điều hòa không hoạt động"),
-                    _infoRow("Danh mục", "Điện lạnh"),
-                    _infoRow("Ưu tiên", "Cao", valueColor: Colors.red),
-                    _infoRow(
-                      "Trạng thái",
-                      "Chờ xử lý",
-                      valueColor: Colors.orange[700],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-             SizedBox(height: 12),
-
-            // --- Thông tin xử lý ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      "Thông tin xử lý",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                     SizedBox(height: 10),
-                    _infoRow("Ngày tạo", "2024-12-10"),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 12),
-            // --- Thông tin xử lý ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      "Chi phí",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                     SizedBox(height: 10),
-                    _infoRow(
-                      "Chi phí ước tính",
-                      "500,000 VNĐ",
-                      valueColor: Colors.teal[700],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 12),
-
-            // --- Mô tả vấn đề ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
-                    Text(
-                      "Mô tả vấn đề",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Điều hòa phòng 101A không thể bật, có thể do hỏng remote hoặc máy.",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-             SizedBox(height: 12),
-
-            // --- Ghi chú ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children:  [
-                    Text(
-                      "Ghi chú",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Text(
-                      "Cần xử lý gấp vì trời nóng.",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-             SizedBox(height: 20),
-
-            // --- Hình ảnh minh họa ---
-            Card(
-              elevation: 2,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Padding(
-                padding:  EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      "Hình ảnh minh họa",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        _imagePlaceholder(),
-                         SizedBox(width: 10),
-                        _imagePlaceholder(),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 8),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                buildActionBtn(Icons.edit, "Chỉnh sửa", Colors.blue, (){ 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const UpdateRepairPage()),
-                  );
-                 }),
-                SizedBox(width: 15),
-                buildActionBtn(Icons.close, "Hủy yêu cầu", Colors.red, (){ Navigator.pop(context); })
-              ],
-            ),
+            Text(title,
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            ...children
           ],
         ),
       ),
@@ -228,32 +170,19 @@ class RepairRequestDetailPage extends StatelessWidget {
 
   Widget _infoRow(String label, String value, {Color? valueColor}) {
     return Padding(
-      padding:  EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style:  TextStyle(fontWeight: FontWeight.w500)),
+          Text(label, style: const TextStyle(fontWeight: FontWeight.w500)),
           Text(
             value,
             style: TextStyle(
-              color: valueColor ?? Colors.black87,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+                fontWeight: FontWeight.bold,
+                color: valueColor ?? Colors.black87),
+          )
         ],
       ),
-    );
-  }
-
-  Widget _imagePlaceholder() {
-    return Container(
-      width: 100,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child:  Icon(Icons.image, color: Colors.grey),
     );
   }
 }

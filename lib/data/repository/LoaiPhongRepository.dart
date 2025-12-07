@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:flutter_application/data/model/LoaiPhong.dart';
 import 'package:flutter_application/data/service/LoaiPhongService.dart';
 
@@ -12,10 +13,14 @@ class LoaiPhongRepository {
   }
   
   Future<LoaiPhong> create(Map<String, dynamic> data) async {
-    final res = await service.create(data);
-    return LoaiPhong.fromJson(res.data['data']);
+    try {
+      final res = await service.create(data);
+      return LoaiPhong.fromJson(res.data['data']);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data);
+    }
   }
-
+  
   Future<LoaiPhong> update(int id, Map<String, dynamic> data) async {
     final res = await service.update(id, data);
     return LoaiPhong.fromJson(res.data['data']);

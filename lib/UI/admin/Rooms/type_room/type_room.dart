@@ -18,8 +18,7 @@ class _TypeRoomPageState extends State<TypeRoomPage> {
   void initState() {
     super.initState();
     // Load API khi vào màn hình
-    Future.microtask(() =>
-        context.read<LoaiPhongProvider>().fetchLoaiPhong());
+    Future.microtask(() => context.read<LoaiPhongProvider>().fetchLoaiPhong());
   }
 
   @override
@@ -69,7 +68,12 @@ class _TypeRoomPageState extends State<TypeRoomPage> {
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: () { MaterialPageRoute(builder: (_) => AddTypeRoomPage()); },
+        onPressed: () {  
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const AddTypeRoomPage()),
+          );
+        },
         backgroundColor: const Color(0xFF4A90E2),
         child: const Icon(Icons.add),
       ),
@@ -150,7 +154,14 @@ class RoomCard extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => UpdateTypeRoomPage()),
+                        MaterialPageRoute(builder: (_) => UpdateTypeRoomPage(
+                          maLoaiPhong: room.id,
+                          tenLoaiPhong: room.name,
+                          dienTich: room.area,
+                          donGiaCoBan: room.price,
+                          moTa: room.desc,
+                          tienNghi: room.features,
+                        )),
                       );
                     },
                     icon: const Icon(Icons.edit_outlined,
@@ -233,8 +244,21 @@ class RoomCard extends StatelessWidget {
           ),
           TextButton(
             onPressed: () async {
-              // await context.read<LoaiPhongProvider>().deleteLoaiPhong(id);
-              // Navigator.pop(context);
+              final provider = context.read<LoaiPhongProvider>();
+
+              bool result = await provider.deleteLoaiPhong(id);
+
+              Navigator.pop(context); 
+
+              if (result) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Xóa thành công")),
+                );
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Xóa thất bại!")),
+                );
+              }
             },
             child: const Text("Xóa", style: TextStyle(color: Colors.red)),
           ),
@@ -242,6 +266,7 @@ class RoomCard extends StatelessWidget {
       ),
     );
   }
+
 }
 class RoomInfo {
   final int id;
@@ -276,9 +301,7 @@ class RoomInfo {
     Colors.pink,
   ];
 
-  /// Mapping từ LoaiPhong → RoomInfo, set màu theo tên phòng
   factory RoomInfo.fromLoaiPhong(LoaiPhong loaiPhong) {
-    // Hash tên phòng → index màu
     int colorIndex = loaiPhong.tenLoaiPhong.hashCode % _colors.length;
 
     return RoomInfo(

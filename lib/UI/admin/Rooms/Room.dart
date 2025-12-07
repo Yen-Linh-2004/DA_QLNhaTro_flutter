@@ -14,13 +14,10 @@ class RoomPage extends StatefulWidget {
 }
 
 class _RoomPageState extends State<RoomPage> {
-  String selectedFilter = "Tất cả";
-  
 
   @override
   void initState() {
     super.initState();
-    // Lấy dữ liệu phòng từ API
     Future.microtask(() {
       Provider.of<PhongTroProvider>(context, listen: false).fetchPhongTro();
     });
@@ -34,22 +31,6 @@ class _RoomPageState extends State<RoomPage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            // Bộ lọc trạng thái
-            SizedBox(
-              height: 42,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _buildFilterChip("Tất cả"),
-                  _buildFilterChip("Đã thuê"),
-                  _buildFilterChip("Trống"),
-                  _buildFilterChip("Đang sửa"),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-
-            // Danh sách phòng
             Expanded(
               child: Consumer<PhongTroProvider>(
                 builder: (context, provider, child) {
@@ -63,14 +44,10 @@ class _RoomPageState extends State<RoomPage> {
                     return const Center(child: Text("Không có phòng nào!"));
                   }
 
-                  final filteredRooms = selectedFilter == "Tất cả"
-                      ? rooms
-                      : rooms.where((r) => r.trangThai == selectedFilter).toList();
-
                   return ListView.builder(
-                    itemCount: filteredRooms.length,
+                    itemCount: rooms.length,
                     itemBuilder: (context, index) {
-                      final room = filteredRooms[index];
+                      final room = rooms[index];
                       return _buildRoomCard(room, context);
                     },
                   );
@@ -92,7 +69,10 @@ class _RoomPageState extends State<RoomPage> {
             },
             backgroundColor: const Color(0xFF4A90E2),
             icon: const Icon(Icons.add, color: Colors.white),
-            label: const Text("Thêm phòng", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            label: const Text(
+              "Thêm phòng",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
             heroTag: "fab_add_room",
           ),
           const SizedBox(height: 12),
@@ -104,38 +84,16 @@ class _RoomPageState extends State<RoomPage> {
               );
             },
             backgroundColor: Colors.green,
-            label: const Text("Thêm dãy phòng",
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            label: const Text(
+              "Thêm dãy phòng",
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ],
       ),
     );
   }
 
-  // Widget: chip lọc trạng thái
-  Widget _buildFilterChip(String label) {
-    final bool isSelected = selectedFilter == label;
-    return Padding(
-      padding: const EdgeInsets.only(right: 8),
-      child: ChoiceChip(
-        label: Text(label),
-        selected: isSelected,
-        selectedColor: const Color(0xFF4A90E2),
-        backgroundColor: Colors.white,
-        labelStyle: TextStyle(
-          color: isSelected ? Colors.white : Colors.black87,
-          fontWeight: FontWeight.w600,
-        ),
-        elevation: isSelected ? 3 : 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onSelected: (_) {
-          setState(() => selectedFilter = label);
-        },
-      ),
-    );
-  }
-
-  // Widget: card hiển thị thông tin phòng
   Widget _buildRoomCard(PhongTro room, BuildContext context) {
     Color statusColor;
     switch (room.tenLoaiPhong) {
@@ -157,17 +115,17 @@ class _RoomPageState extends State<RoomPage> {
 
     return GestureDetector(
       onTap: () {
-       Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) {
-                return ChangeNotifierProvider.value(
-                  value: Provider.of<PhongTroProvider>(context, listen: false),
-                  child: RoomDetailPage(roomId: room.maPhong),
-                );
-              },
-            ),
-          );
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return ChangeNotifierProvider.value(
+                value: Provider.of<PhongTroProvider>(context, listen: false),
+                child: RoomDetailPage(roomId: room.maPhong),
+              );
+            },
+          ),
+        );
       },
       child: Container(
         margin: const EdgeInsets.only(bottom: 14),
@@ -204,9 +162,12 @@ class _RoomPageState extends State<RoomPage> {
           ),
           subtitle: Padding(
             padding: const EdgeInsets.only(top: 4),
-           child: Text(
+            child: Text(
               room.tenLoaiPhong ?? "",
-              style: TextStyle(color: statusColor, fontWeight: FontWeight.w500),
+              style: TextStyle(
+                color: statusColor,
+                fontWeight: FontWeight.w500,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),

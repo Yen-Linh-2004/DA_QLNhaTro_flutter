@@ -10,6 +10,8 @@ class AuthProvider extends ChangeNotifier {
   bool isLoading = false;
   TaiKhoan? taiKhoan;
   String? accessToken;
+  bool get isAuthenticated => accessToken != null && taiKhoan != null;
+  int? maQuyen;
   final Dio _dio = ApiRoutes.auth.dio;
   void _setAuthToken(String token) {
     _dio.options.headers['Authorization'] = 'Bearer $token';
@@ -19,16 +21,11 @@ class AuthProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      final response = await _dio.post(Endpoints.login, data: {
-        'TenDangNhap': tenDangNhap,
-        'password': matKhau,
-      });
-
+      final response = await _dio.post(Endpoints.login, data: {'TenDangNhap': tenDangNhap, 'password': matKhau });
       print("Dữ liệu login trả về: ${response.data}");
-
       taiKhoan = TaiKhoan.fromJson(response.data['data']['user']);
       accessToken = response.data['data']['access_token'];
-
+      maQuyen = taiKhoan?.MaQuyen;
       if (accessToken != null) {
         await AppConfig.saveToken(accessToken!);
         DioClient.init();
@@ -103,5 +100,4 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
-  bool get isAuthenticated => taiKhoan != null && accessToken != null;
 }

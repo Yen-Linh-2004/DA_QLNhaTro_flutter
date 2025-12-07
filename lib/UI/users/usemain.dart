@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/generalPage/dashbroad.dart';
 import 'package:flutter_application/UI/generalPage/login.dart';
 import 'package:flutter_application/UI/admin/personal.dart';
 import 'package:flutter_application/UI/users/RepairRequestDetail/RepairRequest.dart';
@@ -9,9 +8,9 @@ import 'package:flutter_application/UI/users/homePage.dart';
 import 'package:flutter_application/UI/users/rulesandviolations.dart';
 import 'package:flutter_application/UI/users/usermyroom.dart';
 
-Color kPrimaryColor = Color(0xFF00ADB5);
-Color kAccentColor = Color(0xFFFF5722);
-Color kBackgroundColor = Color(0xFFEEEEEE);
+Color kPrimaryColor = const Color(0xFF00ADB5);
+Color kAccentColor = const Color(0xFFFF5722);
+Color kBackgroundColor = const Color(0xFFEEEEEE);
 
 class TenantHomePage extends StatefulWidget {
   const TenantHomePage({super.key});
@@ -24,20 +23,23 @@ class _TenantHomePage extends State<TenantHomePage> {
   bool isNotificationOpen = false;
   bool isUserMenuOpen = false;
 
-  final Map<String, Widget> _pages = {
-    'home': InvoicePage(),
-    'room': RoomPage(),
-    'contact': ContractPage(),
-    'bill': BillPage(),
-    'maintenance': RepairRequestPage(),
-    'rule': RulesAndViolationsPage()
-  };
+  OverlayEntry? _notificationOverlay;
+  OverlayEntry? _userMenuOverlay;
 
   final List<Map<String, String>> notifications = [
     {"title": "Phòng 101 cần thanh toán tiền điện", "time": "2 giờ trước"},
     {"title": "Yêu cầu bảo trì từ phòng 205", "time": "5 giờ trước"},
     {"title": "Hợp đồng phòng 303 sắp hết hạn", "time": "1 ngày trước"},
   ];
+
+  final Map<String, Widget Function()> _pagesBuilders = {
+    'home': () => InvoicePage(),
+    'room': () => RoomPage(),
+    'contact': () => ContractPage(),
+    'bill': () => BillPage(),
+    'maintenance': () => RepairRequestPage(),
+    'rule': () => RulesAndViolationsPage(),
+  };
 
   void _selectPage(String pageKey) {
     setState(() {
@@ -51,11 +53,11 @@ class _TenantHomePage extends State<TenantHomePage> {
       case 'home':
         return "Trang chủ";
       case 'room':
-        return "Phòng Của Tôi";
+        return "Phòng của tôi";
       case 'contact':
-        return "Thông Tin Hợp Đồng";
+        return "Thông tin hợp đồng";
       case 'maintenance':
-        return "Yêu Cầu Sửa Chữa";
+        return "Yêu cầu sửa chữa";
       case 'bill':
         return "Hóa đơn";
       case 'rule':
@@ -65,82 +67,81 @@ class _TenantHomePage extends State<TenantHomePage> {
     }
   }
 
-  late OverlayEntry _notificationOverlay;
-  late OverlayEntry _userMenuOverlay;
-
-  _toggleNotification() {
+  void _toggleNotification() {
     if (isNotificationOpen) {
-      _notificationOverlay.remove();
+      _removeNotificationOverlay();
     } else {
-      _notificationOverlay = _createNotificationOverlay();
-      Overlay.of(context).insert(_notificationOverlay);
+      _showNotificationOverlay();
     }
+    setState(() => isNotificationOpen = !isNotificationOpen);
+  }
 
-    setState(() {
-      isNotificationOpen = !isNotificationOpen;
-    });
+  void _showNotificationOverlay() {
+    _notificationOverlay = _createNotificationOverlay();
+    Overlay.of(context)?.insert(_notificationOverlay!);
+  }
+
+  void _removeNotificationOverlay() {
+    try {
+      _notificationOverlay?.remove();
+    } catch (_) {}
+    _notificationOverlay = null;
   }
 
   OverlayEntry _createNotificationOverlay() {
+    final top = kToolbarHeight + MediaQuery.of(context).padding.top + 8;
     return OverlayEntry(
       builder: (context) => Positioned(
-        top: kToolbarHeight + 10,
-        right: 20,
+        top: top,
+        right: 12,
         child: Material(
           color: Colors.transparent,
           child: Container(
-            width: 280,
-            padding: EdgeInsets.all(12),
+            width: 300,
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 12,
-                  // ignore: deprecated_member_use
-                  color: Colors.black.withOpacity(.15),
-                  offset: Offset(0, 4),
-                ),
+                    color: Colors.black.withOpacity(.15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6)),
               ],
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Thông báo",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 12),
-
-                // --- Danh sách thông báo có thể bấm ---
+                const Text("Thông báo",
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const SizedBox(height: 8),
                 ...notifications.map((item) {
                   return InkWell(
                     borderRadius: BorderRadius.circular(8),
-                    onTap: () {},
+                    onTap: () {
+                      // xử lý khi click vào thông báo
+                      _removeNotificationOverlay();
+                      setState(() => isNotificationOpen = false);
+                    },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 6,
-                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 4),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            item["title"]!,
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w500),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            item["time"]!,
-                            style: TextStyle(
-                                fontSize: 12, color: Colors.grey.shade600),
-                          ),
+                          Text(item["title"]!,
+                              style: const TextStyle(
+                                  fontSize: 14, fontWeight: FontWeight.w500)),
+                          const SizedBox(height: 4),
+                          Text(item["time"]!,
+                              style: TextStyle(
+                                  fontSize: 12, color: Colors.grey.shade600)),
                         ],
                       ),
                     ),
                   );
-                }),
+                }).toList(),
               ],
             ),
           ),
@@ -149,64 +150,72 @@ class _TenantHomePage extends State<TenantHomePage> {
     );
   }
 
-  _toggleUserMenu() {
+  void _toggleUserMenu() {
     if (isUserMenuOpen) {
-      _userMenuOverlay.remove();
+      _removeUserMenuOverlay();
     } else {
-      _userMenuOverlay = _createUserMenuOverlay();
-      Overlay.of(context).insert(_userMenuOverlay);
+      _showUserMenuOverlay();
     }
+    setState(() => isUserMenuOpen = !isUserMenuOpen);
+  }
 
-    setState(() {
-      isUserMenuOpen = !isUserMenuOpen;
-    });
+  void _showUserMenuOverlay() {
+    _userMenuOverlay = _createUserMenuOverlay();
+    Overlay.of(context)?.insert(_userMenuOverlay!);
+  }
+
+  void _removeUserMenuOverlay() {
+    try {
+      _userMenuOverlay?.remove();
+    } catch (_) {}
+    _userMenuOverlay = null;
   }
 
   OverlayEntry _createUserMenuOverlay() {
+    final top = kToolbarHeight + MediaQuery.of(context).padding.top + 8;
     return OverlayEntry(
       builder: (context) => Positioned(
-        top: kToolbarHeight + 10,
-        right: 10,
+        top: top,
+        right: 12,
         child: Material(
           color: Colors.transparent,
           child: Container(
-            width: 200,
-            padding: EdgeInsets.symmetric(vertical: 10),
+            width: 220,
+            padding: const EdgeInsets.symmetric(vertical: 8),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
-                  blurRadius: 12,
-                  // ignore: deprecated_member_use
-                  color: Colors.black.withOpacity(.15),
-                  offset: Offset(0, 4),
-                ),
+                    color: Colors.black.withOpacity(.15),
+                    blurRadius: 12,
+                    offset: const Offset(0, 6)),
               ],
             ),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                _buildMenuItem(null, "Trần Thị Mai\n @Nhanvien1", () {}),
-                Divider(height: 1),
-                _buildMenuItem(Icons.person, "Thông tin cá nhân", () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => PersonalPage()),
-                  );
-                  _toggleUserMenu();
+                _buildMenuItem(null, "Người dùng demo\n @user.demo", () {
+                  _removeUserMenuOverlay();
+                  setState(() => isUserMenuOpen = false);
                 }),
-                Divider(height: 1),
-                _buildMenuItem(Icons.logout, "Đăng xuất", () {
+                const Divider(height: 1),
+                _buildMenuItem(Icons.person, "Thông tin cá nhân", () {
+                  _removeUserMenuOverlay();
+                  setState(() => isUserMenuOpen = false);
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (_) => LoginPage()),
-                  );
-                  _toggleUserMenu();
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const PersonalPage()));
+                }),
+                const Divider(height: 1),
+                _buildMenuItem(Icons.logout, "Đăng xuất", () {
+                  _removeUserMenuOverlay();
+                  setState(() => isUserMenuOpen = false);
                   Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomeMobilePage()),
-                    (route) => false,
-                  );
+                      context,
+                      MaterialPageRoute(builder: (_) => const LoginPage()),
+                      (route) => false);
                 }),
               ],
             ),
@@ -217,39 +226,53 @@ class _TenantHomePage extends State<TenantHomePage> {
   }
 
   @override
+  void dispose() {
+    _removeNotificationOverlay();
+    _removeUserMenuOverlay();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final pageBuilder = _pagesBuilders[_selectedPage] ?? _pagesBuilders['home']!;
+    final pageWidget = pageBuilder();
+
     return Scaffold(
       backgroundColor: kBackgroundColor,
       appBar: AppBar(
         title: Text(
           _getPageTitle(),
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
         backgroundColor: kPrimaryColor,
         elevation: 2,
         actions: [
           IconButton(
-            icon: Icon(Icons.notifications_none, color: Colors.white),
+            icon: const Icon(Icons.notifications_none, color: Colors.white),
             onPressed: _toggleNotification,
           ),
           IconButton(
-            icon: Icon(Icons.person_outline, color: Colors.white),
+            icon: const Icon(Icons.person_outline, color: Colors.white),
             onPressed: _toggleUserMenu,
           )
         ],
       ),
-
       body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300),
-        child: _pages[_selectedPage],
+        duration: const Duration(milliseconds: 300),
+        child: KeyedSubtree(
+          key: ValueKey(_selectedPage),
+          child: pageWidget,
+        ),
       ),
-
       drawer: _buildDrawer(),
     );
   }
 
-  // Drawer Menu Builder
   Widget _buildDrawer() {
+    // Nếu bạn có sẵn KhachThue từ provider, thay phần static này bằng dữ liệu thật.
+    const demoName = "Người dùng demo";
+    const demoEmail = "demo@example.com";
+
     return Drawer(
       child: Container(
         color: Colors.white,
@@ -257,10 +280,10 @@ class _TenantHomePage extends State<TenantHomePage> {
           padding: EdgeInsets.zero,
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Yến Linh",
+              accountName: const Text(demoName,
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-              accountEmail:
-                  Text("yenlinh@gmail.com", style: TextStyle(color: Colors.white70)),
+              accountEmail: const Text(demoEmail,
+                  style: TextStyle(color: Colors.white70)),
               currentAccountPicture: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: ClipRRect(
@@ -275,9 +298,9 @@ class _TenantHomePage extends State<TenantHomePage> {
             _buildDrawerItem(Icons.meeting_room_outlined, "Phòng của tôi", 'room'),
             _buildDrawerItem(Icons.receipt_long, "Hóa đơn", 'bill'),
             _buildDrawerItem(Icons.description_outlined, "Hợp đồng", 'contact'),
-            _buildDrawerItem(Icons.article, "Nội quy và vi phạm", 'rule'),
+            _buildDrawerItem(Icons.article, "Nội quy & vi phạm", 'rule'),
             _buildDrawerItem(Icons.build_circle_outlined, "Yêu cầu bảo trì", 'maintenance'),
-            Divider(),
+            const Divider(),
             ListTile(
               leading: Icon(Icons.logout, color: kAccentColor),
               title: Text("Đăng xuất",
@@ -285,7 +308,7 @@ class _TenantHomePage extends State<TenantHomePage> {
               onTap: () {
                 Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => HomeMobilePage()),
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
                   (Route<dynamic> route) => false,
                 );
               },
@@ -296,37 +319,35 @@ class _TenantHomePage extends State<TenantHomePage> {
     );
   }
 
-  // Drawer item
   Widget _buildDrawerItem(IconData icon, String title, String pageKey) {
     final bool isSelected = _selectedPage == pageKey;
 
     return ListTile(
-      leading: Icon(icon, color: isSelected ? Color(0xFF007BFF) : Colors.grey[700]),
+      leading: Icon(icon, color: isSelected ? const Color(0xFF007BFF) : Colors.grey[700]),
       title: Text(
         title,
         style: TextStyle(
-          color: isSelected ? Color(0xFF007BFF) : Colors.black87,
+          color: isSelected ? const Color(0xFF007BFF) : Colors.black87,
           fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
         ),
       ),
       selected: isSelected,
-      selectedTileColor: Color(0xFFE8F1FF),
+      selectedTileColor: const Color(0xFFE8F1FF),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       onTap: () => _selectPage(pageKey),
     );
   }
 
-  // Build menu item for user dropdown
   Widget _buildMenuItem(IconData? icon, String text, VoidCallback onTap) {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         child: Row(
           children: [
-            Icon(icon, size: 20),
-            SizedBox(width: 10),
-            Text(text, style: TextStyle(fontSize: 14)),
+            if (icon != null) Icon(icon, size: 20),
+            if (icon != null) const SizedBox(width: 10),
+            Expanded(child: Text(text, style: const TextStyle(fontSize: 14))),
           ],
         ),
       ),

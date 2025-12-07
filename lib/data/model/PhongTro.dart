@@ -16,6 +16,7 @@ class PhongTro {
   final String? moTa;
   final String? hinhAnh;
   final List<dynamic>? tienNghi;
+  final double? tienCoc;
 
   final String? tenDay;
   final String? tenLoaiPhong;
@@ -34,6 +35,7 @@ class PhongTro {
     this.tienNghi,
     this.tenDay,
     this.tenLoaiPhong,
+    this.tienCoc
   });
 
   factory PhongTro.fromJson(Map<String, dynamic> json) {
@@ -57,6 +59,9 @@ class PhongTro {
       tienNghi: json['TienNghi'] != null ? List.from(json['TienNghi']) : null,
       tenDay: json['TenDay'],
       tenLoaiPhong: json['TenLoaiPhong'],
+      tienCoc: json['TienCoc'] != null
+          ? double.tryParse(json['TienCoc'].toString())
+          : null,
     );
   }
 
@@ -75,6 +80,7 @@ class PhongTro {
       'TienNghi': tienNghi,
       'TenDay': tenDay,
       'TenLoaiPhong': tenLoaiPhong,
+      'TienCoc': tienCoc
     };
   }
 }

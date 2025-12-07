@@ -5,7 +5,7 @@ class HopDong {
   final int maHopDong;
   final String soHopDong;
   final int maPhong;
-  final int maKhachThue;
+  final int? maKhachThue;
 
   final DateTime ngayKy;
   final DateTime ngayBatDau;
@@ -14,7 +14,7 @@ class HopDong {
   final double tienThueHangThang;
   final String trangThai;
   final String? ghiChu;
-  final int soLanGiaHan;
+  final int? soLanGiaHan;
   final String? tenKhachThue;
   final String? tenPhong;
   final String? tenDay;
@@ -26,7 +26,7 @@ class HopDong {
     required this.maHopDong,
     required this.soHopDong,
     required this.maPhong,
-    required this.maKhachThue,
+    this.maKhachThue,
     required this.ngayKy,
     required this.ngayBatDau,
     required this.ngayKetThuc,
@@ -34,7 +34,7 @@ class HopDong {
     required this.tienThueHangThang,
     required this.trangThai,
     this.ghiChu,
-    required this.soLanGiaHan,
+    this.soLanGiaHan,
     this.tenKhachThue,
     this.tenPhong,
     this.tenDay,
@@ -48,7 +48,7 @@ class HopDong {
       maHopDong: json["MaHopDong"],
       soHopDong: json["SoHopDong"],
       maPhong: json["MaPhong"],
-      maKhachThue: json["MaKhachThue"],
+      maKhachThue: json["MaKhachThue"] ?? 0,
 
       ngayKy: _parseDate(json["NgayKy"]),
       ngayBatDau: _parseDate(json["NgayBatDau"]),
@@ -59,16 +59,16 @@ class HopDong {
 
       trangThai: json["TrangThai"],
       ghiChu: json["GhiChu"],
-      soLanGiaHan: json["SoLanGiaHan"],
+      soLanGiaHan: json["SoLanGiaHan"] ?? 0,
       tenKhachThue: json["TenKhachThue"],
       tenPhong: json["TenPhong"],
       tenDay: json["TenDay"],
-      phongTro: json["phongTro"] != null
-          ? PhongTro.fromJson(json["phongTro"])
+      phongTro: (json["phongTro"] is Map<String, dynamic>)
+        ? PhongTro.fromJson(json["phongTro"])
+        : null,
+      khachThue: (json["khachThue"] is Map<String, dynamic>)
+          ? KhachThue.fromJson(json["khachThue"])
           : null,
-      khachThue:
-          json["khachThue"] != null ? KhachThue.fromJson(json["khachThue"]) : null,
-
       hopDongDichVus: json["hopDongDichVus"] ?? [],
     );
   }

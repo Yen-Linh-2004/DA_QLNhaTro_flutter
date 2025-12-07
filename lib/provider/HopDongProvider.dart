@@ -25,10 +25,9 @@ class HopDongProvider extends ChangeNotifier {
       print("Dữ liệu HopDong trả về: $rawData");
       print("Type of rawData: ${rawData.runtimeType}");
 
-      // --- BƯỚC 2: CHUYỂN HÓA DANH SÁCH ---
       if (rawData is List) {
         HopDongList = rawData
-            .whereType<Map<String, dynamic>>() // Chống phần tử lỗi
+            .whereType<Map<String, dynamic>>() 
             .map((e) => HopDong.fromJson(e))
             .toList();
       } 
@@ -100,25 +99,45 @@ class HopDongProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> createHopDong(Map<String, dynamic> data) async {
-    try {
-      isLoading = true;
-      notifyListeners();
+Future<void> createHopDong(Map<String, dynamic> data) async {
+  try {
+    isLoading = true;
+    notifyListeners();
 
-      final response = await ApiRoutes.hopdong.create(data);
-      final newHopDong = HopDong.fromJson(response.data['data']);
-      HopDongList.add(newHopDong);
+    final response = await ApiRoutes.hopdong.create(data);
 
-      print("Thêm data thành công: ${newHopDong.maHopDong}");
-      notifyListeners();
-    } catch (e, stacktrace) {
-      print("Lỗi khi tạo data: $e");
-      print("Stacktrace: $stacktrace");
-    } finally {
-      isLoading = false;
-      notifyListeners();
+    print("RESPONSE TYPE: ${response.data.runtimeType}");
+    print("RESPONSE RAW: ${response.data}");
+
+    // Check response.data validity
+    if (response.data == null || response.data is! Map<String, dynamic>) {
+      print("⚠ response.data không phải Map<String, dynamic>");
+      return;
     }
+
+    final body = response.data as Map<String, dynamic>;
+
+    if (body['data'] == null || body['data'] is! Map<String, dynamic>) {
+      print("⚠ Backend không trả về 'data' hoặc sai kiểu");
+      return;
+    }
+
+    final newHopDong = HopDong.fromJson(body['data']);
+    HopDongList.add(newHopDong);
+
+    print("Thêm hợp đồng thành công: ${newHopDong.soHopDong}");
+    notifyListeners();
+  } on DioException catch (e) {
+    print("Lỗi Dio (thêm hợp đồng): ${e.response?.data}");
+  } catch (e, stacktrace) {
+    print("Lỗi không xác định: $e");
+    print("Stacktrace: $stacktrace");
+  } finally {
+    isLoading = false;
+    notifyListeners();
   }
+}
+
 
   Future<void> updateHopDong(int id, Map<String, dynamic> data) async {
     try {

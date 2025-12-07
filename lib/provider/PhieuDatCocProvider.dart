@@ -113,6 +113,51 @@ class PhieuDatCocProvider extends ChangeNotifier {
     }
   }
 
+Future<void> createPhieuDatPhong(Map<String, dynamic> data) async {
+  try {
+    isLoading = true;
+    notifyListeners();
+
+    // Validate input
+    if (data['HoTenNguoiDat'] == null || data['HoTenNguoiDat'].toString().isEmpty ||
+        data['SoDienThoaiNguoiDat'] == null || data['SoDienThoaiNguoiDat'].toString().isEmpty ||
+        data['MaPhong'] == null ||
+        data['NgayDuKienVaoO'] == null ||
+        data['TienDatCoc'] == null) {
+      throw Exception("Thiếu dữ liệu bắt buộc");
+    }
+
+    final response = await ApiRoutes.phieudatcoc.create(data);
+
+    // Kiểm tra API trả về
+    final raw = response.data;
+    if (raw == null || raw is! Map || raw['data'] == null) {
+      print("⚠ Backend không trả về data hợp lệ: $raw");
+      throw Exception("Dữ liệu trả về không hợp lệ");
+    }
+
+    // Không bị lỗi null nữa!
+    final newBooking = PhieuDatCoc.fromJson(raw['data']);
+
+    PhieuDatCocList.add(newBooking);
+
+    print("✔ Tạo phiếu đặt phòng thành công: ${newBooking.hoTenNguoiDat}");
+
+    notifyListeners();
+  } on DioException catch (e) {
+    print("❌ Lỗi Dio: ${e.response?.data}");
+    rethrow;
+  } catch (e, st) {
+    print("❌ Lỗi: $e");
+    print("📌 Stacktrace: $st");
+    rethrow;
+  } finally {
+    isLoading = false;
+    notifyListeners();
+  }
+}
+
+
   Future<void> updatePhieuDatCoc(int id, Map<String, dynamic> data) async {
     try {
       isLoading = true;

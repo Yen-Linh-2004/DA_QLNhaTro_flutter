@@ -45,7 +45,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
 
       final provider = Provider.of<PhongTroProvider>(context, listen: false);
 
-      final success = await provider.createPhongTro({
+      await provider.createPhongTro({
         "tenPhong": roomNumber,
         "tenDay": block,
         "tang": floor,
@@ -54,7 +54,7 @@ class _AddRoomPageState extends State<AddRoomPage> {
         "donGiaCoBan": price,
       });
 
-      if (success) {
+      if (true) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text("Thêm phòng thành công!"),
@@ -62,13 +62,6 @@ class _AddRoomPageState extends State<AddRoomPage> {
           ),
         );
         Navigator.pop(context); // Đóng page
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("Thêm phòng thất bại!"),
-            backgroundColor: Colors.red,
-          ),
-        );
       }
     }
   }
