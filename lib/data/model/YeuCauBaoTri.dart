@@ -82,6 +82,7 @@ class YeuCauBaoTri {
       tenant: json['tenant'] != null ? KhachThue.fromJson(json['hoTen'] as Map<String, dynamic>) : null,
     );
   }
+
 }
 
 extension MaintenanceCategoryExtension on MaintenanceCategory {

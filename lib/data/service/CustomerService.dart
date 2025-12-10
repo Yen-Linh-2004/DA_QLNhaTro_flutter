@@ -60,6 +60,20 @@ class CustomerSerrvice {
     );
   }
 
+  Future<Response> getRoomBuilding() async {
+    return await dio.get(
+      Endpoints.roombuilding,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> getRoomTeam(int id) async {
+    return await dio.get(
+      Endpoints.team(id),
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
   // YÊU CẦU BẢO TRÌ
   Future<Response> getMaintenanceRequest() async {
     return await dio.get(
@@ -71,6 +85,37 @@ class CustomerSerrvice {
   Future<Response> getMaintenanceRequestById(int id) async {
     return await dio.get(
       Endpoints.maintenanceId(id),
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> createReport(Map<String, dynamic> data) async {
+    return await dio.post(
+      Endpoints.maintenance,
+      data: data,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> updateReport(int id, Map<String, dynamic> data) async {
+    return await dio.put(
+      "${Endpoints.maintenanceId(id)}",
+      data: data,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> updateStatusReport(int id, Map<String, dynamic> data) async {
+    return await dio.put(
+      "${Endpoints.maintenanceStatus(id)}",
+      data: data,
+      options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
+    );
+  }
+
+  Future<Response> getProfile() async {
+    return await dio.get(
+      Endpoints.profile,
       options: Options(headers: {'Authorization': 'Bearer ${AppConfig.token}'}),
     );
   }

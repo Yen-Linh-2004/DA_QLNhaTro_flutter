@@ -1,130 +1,216 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application/UI/shared/buildCard.dart';
+import 'package:flutter_application/UI/shared/input_field.dart';
+import 'package:flutter_application/provider/CustomerProvider.dart';
+import 'package:provider/provider.dart';
 
 class UpdateRepairPage extends StatefulWidget {
-  const UpdateRepairPage({super.key}); 
+  final int reportId;
+
+  const UpdateRepairPage({super.key, required this.reportId});
 
   @override
   State<UpdateRepairPage> createState() => _UpdateRepairPageState();
 }
 
 class _UpdateRepairPageState extends State<UpdateRepairPage> {
-  final TextEditingController _tilteController = TextEditingController(text: "Điều hòa không hoạt động");
-  final TextEditingController _descriptionController = TextEditingController(text: "Điều hòa phòng 101A không thể bật, có thể do hỏng nguồn.");
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  String? selectedcatalog = "Điện lạnh";
-  String? selectedLevel = "Cao";
-  List<String> catalog = ["Điện", "Hệ thống nước", "Điện lạnh", "Khác"];
-  List<String> level = ["Thấp", "Trung bình", "Cao"];
+  String? selectedCatalog;
+  String? selectedLevel;
+  List<String> catalog = ["Chọn danh mục", "electrical", "plumbing", "appliance", "furniture", "other" ];
+  final List<String> level = [ "Chọn mức độ", "low", "medium", "high", "urgent" ];
 
-  PlatformFile? selectedFile;
+  String fomatLevel(String key) {
+    switch (key) {
+      case 'low':
+        return 'Thấp';
+      case 'medium':
+        return 'Trung bình';
+      case 'high':
+        return 'Cao';
+      case 'urgent':
+        return 'Khẩn cấp';
+      default:
+        return key;
+    }
+  }
 
-  Future<void> pickFile() async {
-    final result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ["jpg", "png", "jpeg", "pdf", "doc", "docx"],
-    );
+  String fomatCatalog(String key) {
+    switch (key) {
+      case 'electrical':
+        return 'Điện';
+      case 'plumbing':
+        return 'Hệ thống nước';
+      case 'appliance':
+        return 'Điện lạnh';
+      case 'furniture':
+        return 'Nội thất';
+      case 'other':
+        return 'Khác';
+      default:
+        return key;
+    }
+  }
 
-    if (result != null) {
-      setState(() {
-        selectedFile = result.files.first;
-      });
+  @override
+  void initState() {
+    super.initState();
+    _loadDetail();
+  }
+
+  void _loadDetail() {
+    Future.microtask(() async {
+      final provider = Provider.of<CustomerProvider>(context, listen: false);
+      await provider.fetchMaintainerRequestById(widget.reportId);
+      final detail = provider.maintenancedetail;
+      if (detail != null) {
+        _titleController.text = detail.tieuDe ?? "";
+        _descriptionController.text = detail.moTa ?? "";
+        _noteController.text = detail.ghiChu ?? "";
+
+        selectedCatalog = catalog.contains(detail.phanLoai) ? detail.phanLoai : catalog.first;
+        selectedLevel = level.contains(detail.mucDoUuTien) ? detail.mucDoUuTien : level.first;
+
+        setState(() {});
+      }
+    });
+  }
+
+  Future<void> _submitUpdate() async {
+    final payload = {
+      "TieuDe": _titleController.text,
+      "MoTa": _descriptionController.text,
+      "GhiChu": _noteController.text,
+      "PhanLoai": selectedCatalog,
+      "MucDoUuTien": selectedLevel,
+    };
+
+    final provider = Provider.of<CustomerProvider>(context, listen: false);
+
+    try {
+      await provider.updateReport(widget.reportId, payload);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text("Cập nhật thành công")));
+      Navigator.pop(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("Lỗi: $e")));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chỉnh sửa yêu cầu", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+      appBar: AppBar(
+        title: const Text("Chỉnh sửa yêu cầu"),
         centerTitle: true,
         backgroundColor: Colors.blue,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios_new, size: 22, color: Colors.white),
-          onPressed: () {
-            Navigator.pop(context);
-          },
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Navigator.pop(context),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 10),
-            Text("Tiêu đề yêu cầu", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
+      body: Consumer<CustomerProvider>(
+        builder: (context, provider, child) {
+          if (provider.isLoadingdetail) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            TextFormField(
-              controller: _tilteController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Nhập tiêu đề yêu cầu",
+          final detail = provider.maintenancedetail;
+          if (detail == null) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Không thể tải dữ liệu"),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: _loadDetail,
+                    child: const Text("Thử lại"),
+                  ),
+                ],
               ),
-            ),
+            );
+          }
 
-            SizedBox(height: 16),
-            Text("Danh mục", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-
-            DropdownButtonFormField(
-              value: selectedcatalog,
-              items: catalog
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              onChanged: (value) => setState(() => selectedcatalog = value),
-              decoration: InputDecoration(border: OutlineInputBorder()),
-            ),
-
-            SizedBox(height: 16),
-            Text("Mô tả chi tiết", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-
-            TextFormField(
-              controller: _descriptionController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Nhập mô tả chi tiết",
-              ),
-            ),
-
-            SizedBox(height: 16),
-            Text("Mức độ ưu tiên", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-
-            DropdownButtonFormField(
-              value: selectedLevel,
-              items: level
-                  .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                  .toList(),
-              onChanged: (value) => setState(() => selectedLevel = value),
-              decoration: InputDecoration(border: OutlineInputBorder()),
-            ),
-
-            SizedBox(height: 16),
-
-            Text("Ghi chú thêm", style: TextStyle(fontWeight: FontWeight.bold)),
-            SizedBox(height: 6),
-            TextFormField(
-              controller: _noteController,
-              decoration: InputDecoration(border: OutlineInputBorder(), hintText: "Nhập ghi chú thêm nếu cần",),
-              
-            ),
-
-            SizedBox(height: 16),
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildActionBtn(Icons.close, "Hủy", Colors.redAccent, () => Navigator.pop(context)),
-                SizedBox(width: 15),
-                buildActionBtn(Icons.send, "Gửi yêu cầu", Colors.blue, (){}),
+                _buildTextField("Tiêu đề yêu cầu", _titleController, "Nhập tiêu đề"),
+                const SizedBox(height: 16),
+
+                Dropdown(
+                  label: "Danh mục",
+                  value: selectedCatalog,
+                  items: catalog,
+                  displayTextMapper: (value) => fomatCatalog(value),
+                  onChanged: (value) => setState(() => selectedCatalog = value),
+                ),
+
+                const SizedBox(height: 16),
+
+                Dropdown(
+                  label: "Mức độ ưu tiên",
+                  value: selectedLevel,
+                  items: level,
+                  displayTextMapper: (value) => fomatLevel(value),
+                  onChanged: (value) => setState(() => selectedLevel = value),
+                ),
+                const SizedBox(height: 16),
+
+                _buildTextField("Ghi chú thêm", _noteController, "Nhập ghi chú", maxLines: 2),
+                const SizedBox(height: 16),
+
+                Row(
+                  children: [
+                    Expanded(
+                        child: _buildActionButton(Icons.close, "Hủy", Colors.redAccent,
+                            () => Navigator.pop(context))),
+                    const SizedBox(width: 12),
+                    Expanded(
+                        child: _buildActionButton(Icons.send, "Cập nhật", Colors.blue,
+                            _submitUpdate)),
+                  ],
+                ),
               ],
             ),
-          ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller, String hint,
+      {int maxLines = 1}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 6),
+        TextFormField(
+          controller: controller,
+          maxLines: maxLines,
+          decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: hint,
+          ),
         ),
+      ],
+    );
+  }
+
+  Widget _buildActionButton(IconData icon, String label, Color color, VoidCallback onPressed) {
+    return ElevatedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, color: Colors.white),
+      label: Text(label, style: const TextStyle(color: Colors.white)),
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size(double.infinity, 48),
+        backgroundColor: color,
       ),
     );
   }

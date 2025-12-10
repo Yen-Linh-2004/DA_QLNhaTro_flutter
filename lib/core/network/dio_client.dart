@@ -8,22 +8,6 @@ class DioClient {
     contentType: "application/json",
   ));
 
-  // static void init() {
-  //   dio.interceptors.clear();
-
-  //   dio.interceptors.add(
-  //     InterceptorsWrapper(
-  //       onRequest: (options, handler) {
-  //         if (AppConfig.token != null) {
-  //           options.headers["Authorization"] = "Bearer ${AppConfig.token}";
-  //           print("Gửi token lên server: ${AppConfig.token}");
-  //         }
-  //         return handler.next(options);
-  //       },
-  //     ),
-  //   );
-  // }
-
   static void init() {
     dio.interceptors.clear();
     dio.interceptors.add(

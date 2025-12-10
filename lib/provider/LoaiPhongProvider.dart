@@ -6,6 +6,7 @@ import 'package:flutter_application/data/model/LoaiPhong.dart';
 class LoaiPhongProvider extends ChangeNotifier {
   bool isLoading = false;
   List<dynamic> loaiPhongList = [];
+  
   Future<void> fetchLoaiPhong() async {
     try {
       isLoading = true;
@@ -65,61 +66,61 @@ class LoaiPhongProvider extends ChangeNotifier {
     }
   }
 
-Future<void> updateLoaiPhong(int maLoaiPhong, Map<String, dynamic> payload) async {
-  try {
+  Future<void> updateLoaiPhong(int maLoaiPhong, Map<String, dynamic> payload) async {
+    try {
+      isLoading = true;
+      notifyListeners();
+
+      print('[UPDATE] payload: $payload');
+
+      final response = await ApiRoutes.loaiPhong.update(maLoaiPhong, payload);
+
+      final updated = LoaiPhong.fromJson(response.data['data']); // <- đây là điểm fix
+
+      final idx = loaiPhongList.indexWhere((e) => e.maLoaiPhong == maLoaiPhong);
+
+      if (idx != -1) {
+        loaiPhongList[idx] = updated;
+      } else {
+        // chỉ add nếu thật sự mới
+        loaiPhongList.add(updated);
+      }
+
+      print('[UPDATE] success');
+      notifyListeners();
+
+    } on DioError catch (e) {
+      print('[UPDATE] DioError status: ${e.response?.statusCode}');
+      print('[UPDATE] DioError data: ${e.response?.data}');
+      throw e.response?.data ?? {'message': 'Lỗi không xác định'};
+    } catch (e, st) {
+      print('[UPDATE] error: $e');
+      print(st);
+      rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> deleteLoaiPhong(int maLoaiPhong) async {
     isLoading = true;
     notifyListeners();
 
-    print('[UPDATE] payload: $payload');
+    try {
+      await ApiRoutes.loaiPhong.delete(maLoaiPhong);
 
-    final response = await ApiRoutes.loaiPhong.update(maLoaiPhong, payload);
+      loaiPhongList.removeWhere((lp) => lp.maLoaiPhong == maLoaiPhong);
 
-    final updated = LoaiPhong.fromJson(response.data['data']); // <- đây là điểm fix
-
-    final idx = loaiPhongList.indexWhere((e) => e.maLoaiPhong == maLoaiPhong);
-
-    if (idx != -1) {
-      loaiPhongList[idx] = updated;
-    } else {
-      // chỉ add nếu thật sự mới
-      loaiPhongList.add(updated);
+      return true;   // Thành công
+    } catch (e, s) {
+      print("Lỗi delete loại phòng: $e");
+      print(s);
+      return false;  // Thất bại
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
-
-    print('[UPDATE] success');
-    notifyListeners();
-
-  } on DioError catch (e) {
-    print('[UPDATE] DioError status: ${e.response?.statusCode}');
-    print('[UPDATE] DioError data: ${e.response?.data}');
-    throw e.response?.data ?? {'message': 'Lỗi không xác định'};
-  } catch (e, st) {
-    print('[UPDATE] error: $e');
-    print(st);
-    rethrow;
-  } finally {
-    isLoading = false;
-    notifyListeners();
   }
-}
-
-Future<bool> deleteLoaiPhong(int maLoaiPhong) async {
-  isLoading = true;
-  notifyListeners();
-
-  try {
-    await ApiRoutes.loaiPhong.delete(maLoaiPhong);
-
-    loaiPhongList.removeWhere((lp) => lp.maLoaiPhong == maLoaiPhong);
-
-    return true;   // Thành công
-  } catch (e, s) {
-    print("Lỗi delete loại phòng: $e");
-    print(s);
-    return false;  // Thất bại
-  } finally {
-    isLoading = false;
-    notifyListeners();
-  }
-}
 
 }

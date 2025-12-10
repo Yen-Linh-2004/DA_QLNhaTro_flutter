@@ -532,15 +532,63 @@ class CreateViPhamRequest {
   }
 }
 
+class RoomInBuilding {
+  final int maPhong;
+  final String tenPhong;
+
+  RoomInBuilding({
+    required this.maPhong,
+    required this.tenPhong,
+  });
+
+  factory RoomInBuilding.fromJson(Map<String, dynamic> json) {
+    return RoomInBuilding(
+      maPhong: json['MaPhong'] ?? 0,
+      tenPhong: json['TenPhong'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'MaPhong': maPhong,
+      'TenPhong': tenPhong,
+    };
+  }
+}
+
+class TenantByRoom {
+  final int maKhachThue;
+  final String hoTen;
+
+  TenantByRoom({
+    required this.maKhachThue,
+    required this.hoTen,
+  });
+
+  factory TenantByRoom.fromJson(Map<String, dynamic> json) {
+    return TenantByRoom(
+      maKhachThue: json['MaKhachThue'] ?? 0,
+      hoTen: json['HoTen'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'MaKhachThue': maKhachThue,
+      'HoTen': hoTen,
+    };
+  }
+}
+
 // YÊU CẦU SỬA CHỮA
 class YeuCauSuaChuaKhachThue {
   int maYeuCau;
   int maKhachThue;
   String tieuDe;
   String moTa;
-  String phanLoai; 
-  String mucDoUuTien; 
-  String trangThai; 
+  String phanLoai;
+  String mucDoUuTien;
+  String trangThai;
   String ngayYeuCau;
   String? ngayPhanCong;
   String? ngayHoanThanh;
@@ -569,23 +617,25 @@ class YeuCauSuaChuaKhachThue {
     this.nhanVienPhanCong,
   });
 
-  factory YeuCauSuaChuaKhachThue.fromJson(Map<String, dynamic> json) {
+  factory YeuCauSuaChuaKhachThue.fromJson(Map<String, dynamic>? json) {
+    if (json == null) throw Exception("JSON null");
+
     return YeuCauSuaChuaKhachThue(
-      maYeuCau: json['MaYeuCau'],
-      maKhachThue: json['MaKhachThue'],
-      tieuDe: json['TieuDe'],
-      moTa: json['MoTa'],
-      phanLoai: json['PhanLoai'],
-      mucDoUuTien: json['MucDoUuTien'],
-      trangThai: json['TrangThai'],
-      ngayYeuCau: json['NgayYeuCau'],
+      maYeuCau: json['MaYeuCau'] ?? 0,
+      maKhachThue: json['MaKhachThue'] ?? 0,
+      tieuDe: json['TieuDe'] ?? '',
+      moTa: json['MoTa'] ?? '',
+      phanLoai: json['PhanLoai'] ?? '',
+      mucDoUuTien: json['MucDoUuTien'] ?? '',
+      trangThai: json['TrangThai'] ?? '',
+      ngayYeuCau: json['NgayYeuCau'] ?? '',
       ngayPhanCong: json['NgayPhanCong'],
       ngayHoanThanh: json['NgayHoanThanh'],
       ghiChu: json['GhiChu'],
       chiPhiThucTe: json['ChiPhiThucTe'] != null
-          ? (json['ChiPhiThucTe'] as num).toDouble()
+          ? double.tryParse(json['ChiPhiThucTe'].toString())
           : null,
-      hinhAnhMinhChung: json['HinhAnhMinhChung'] != null
+      hinhAnhMinhChung: (json['HinhAnhMinhChung'] is List)
           ? List<String>.from(json['HinhAnhMinhChung'])
           : null,
       khachThue: json['khachThue'] != null
@@ -597,88 +647,83 @@ class YeuCauSuaChuaKhachThue {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'MaYeuCau': maYeuCau,
-      'MaKhachThue': maKhachThue,
-      'TieuDe': tieuDe,
-      'MoTa': moTa,
-      'PhanLoai': phanLoai,
-      'MucDoUuTien': mucDoUuTien,
-      'TrangThai': trangThai,
-      'NgayYeuCau': ngayYeuCau,
-      'NgayPhanCong': ngayPhanCong,
-      'NgayHoanThanh': ngayHoanThanh,
-      'GhiChu': ghiChu,
-      'ChiPhiThucTe': chiPhiThucTe,
-      'HinhAnhMinhChung': hinhAnhMinhChung,
-      'khachThue': khachThue?.toJson(),
-      'nhanVienPhanCong': nhanVienPhanCong?.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'MaYeuCau': maYeuCau,
+        'MaKhachThue': maKhachThue,
+        'TieuDe': tieuDe,
+        'MoTa': moTa,
+        'PhanLoai': phanLoai,
+        'MucDoUuTien': mucDoUuTien,
+        'TrangThai': trangThai,
+        'NgayYeuCau': ngayYeuCau,
+        'NgayPhanCong': ngayPhanCong,
+        'NgayHoanThanh': ngayHoanThanh,
+        'GhiChu': ghiChu,
+        'ChiPhiThucTe': chiPhiThucTe,
+        'HinhAnhMinhChung': hinhAnhMinhChung,
+        'khachThue': khachThue?.toJson(),
+        'nhanVienPhanCong': nhanVienPhanCong?.toJson(),
+      };
 }
 
 class KhachThueInfo {
   int maKhachThue;
   String hoTen;
-  PhongTro phongTro;
+  String? tenPhong;
 
   KhachThueInfo({
     required this.maKhachThue,
     required this.hoTen,
-    required this.phongTro,
+    this.tenPhong,
   });
 
-  factory KhachThueInfo.fromJson(Map<String, dynamic> json) {
+  factory KhachThueInfo.fromJson(Map<String, dynamic>? json) {
+    if (json == null) throw Exception("khachThue JSON null");
+
     return KhachThueInfo(
-      maKhachThue: json['MaKhachThue'],
-      hoTen: json['HoTen'],
-      phongTro: PhongTro.fromJson(json['phongTro']),
+      maKhachThue: json['MaKhachThue'] ?? 0,
+      hoTen: json['HoTen'] ?? '',
+      tenPhong: json['TenPhong'],
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'MaKhachThue': maKhachThue,
-      'HoTen': hoTen,
-      'phongTro': phongTro.toJson(),
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'MaKhachThue': maKhachThue,
+        'HoTen': hoTen,
+        'TenPhong': tenPhong,
+      };
 }
 
 class NhanVienPhanCong {
-  int maNV;
+  int maNhanVien;
   String hoTen;
 
   NhanVienPhanCong({
-    required this.maNV,
+    required this.maNhanVien,
     required this.hoTen,
   });
 
-  factory NhanVienPhanCong.fromJson(Map<String, dynamic> json) {
+  factory NhanVienPhanCong.fromJson(Map<String, dynamic>? json) {
+    if (json == null) throw Exception("nhanVienPhanCong JSON null");
+
     return NhanVienPhanCong(
-      maNV: json['MaNV'],
-      hoTen: json['HoTen'],
+      maNhanVien: json['MaNhanVien'] ?? 0,
+      hoTen: json['HoTen'] ?? '',
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      'MaNV': maNV,
-      'HoTen': hoTen,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        'MaNhanVien': maNhanVien,
+        'HoTen': hoTen,
+      };
 }
-
-
 class CreateYeuCauSuaChuaRequest {
-  int? maKhachThue; // optional
+  int? maKhachThue; 
   String tieuDe;
   String moTa;
   String phanLoai; // electrical | plumbing | appliance | furniture | other
   String mucDoUuTien; // low | medium | high | urgent
   String? ghiChu;
-  List<String>? hinhAnhMinhChung;
 
   CreateYeuCauSuaChuaRequest({
     this.maKhachThue,
@@ -687,7 +732,6 @@ class CreateYeuCauSuaChuaRequest {
     required this.phanLoai,
     required this.mucDoUuTien,
     this.ghiChu,
-    this.hinhAnhMinhChung,
   });
 
   factory CreateYeuCauSuaChuaRequest.fromJson(Map<String, dynamic> json) {
@@ -698,9 +742,6 @@ class CreateYeuCauSuaChuaRequest {
       phanLoai: json['PhanLoai'],
       mucDoUuTien: json['MucDoUuTien'],
       ghiChu: json['GhiChu'],
-      hinhAnhMinhChung: json['HinhAnhMinhChung'] != null
-          ? List<String>.from(json['HinhAnhMinhChung'])
-          : null,
     );
   }
 
@@ -712,7 +753,6 @@ class CreateYeuCauSuaChuaRequest {
       'PhanLoai': phanLoai,
       'MucDoUuTien': mucDoUuTien,
       'GhiChu': ghiChu,
-      'HinhAnhMinhChung': hinhAnhMinhChung,
     };
   }
 }

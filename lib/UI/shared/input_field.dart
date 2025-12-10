@@ -137,3 +137,67 @@ class CustomDropdown extends StatelessWidget {
     );
   }
 }
+
+
+class Dropdown extends StatelessWidget {
+  final String label;
+  final String? value;
+  final List<String> items;
+  final void Function(String?) onChanged;
+  final String Function(String value)? displayTextMapper;
+
+  const Dropdown({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.items,
+    required this.onChanged,
+    this.displayTextMapper,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Colors.grey[800],
+          ),
+        ),
+        SizedBox(height: 6),
+
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 14),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade400),
+          ),
+          child: DropdownButton<String>(
+            isExpanded: true,
+            value: value,
+            underline: SizedBox(),
+            icon: Icon(Icons.arrow_drop_down),
+
+            items: items.map((item) {
+              return DropdownMenuItem<String>(
+                value: item,
+                child: Text(
+                  displayTextMapper != null
+                      ? displayTextMapper!(item)
+                      : item,
+                  style: TextStyle(fontSize: 15),
+                ),
+              );
+            }).toList(),
+
+            onChanged: onChanged,
+          ),
+        ),
+      ],
+    );
+  }
+}

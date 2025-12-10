@@ -14,13 +14,12 @@ class AddReportPage extends StatefulWidget {
 class _AddReportPageState extends State<AddReportPage> {
   final _formKey = GlobalKey<FormState>();
 
-  final _customerController = TextEditingController();
-  final _roomController = TextEditingController();
-  final _floorController = TextEditingController();
-  final _roomReportController = TextEditingController();
   final _noteController = TextEditingController();
 
+  String? selectedRoom;     // MaPhong
+  String? selectedTenant;   // MaKhachThue
   String? selectedReport;
+  String? selectedLevel;
   DateTime selectDate = DateTime.now();
 
   final List<String> Report = [
@@ -32,18 +31,38 @@ class _AddReportPageState extends State<AddReportPage> {
     "Khác"
   ];
 
+  final List<String> listLevel = [
+    "nhe",
+    "vua",
+    "nghiem_trong",
+    "rat_nghiem_trong"
+  ];
+
+  String convertSeverityToVietnamese(String key) {
+    switch (key) {
+      case 'nhe':
+        return 'Nhẹ';
+      case 'vua':
+        return 'Vừa';
+      case 'nghiem_trong':
+        return 'Nghiêm trọng';
+      case 'rat_nghiem_trong':
+        return 'Rất nghiêm trọng';
+      default:
+        return key;
+    }
+  }
+
   @override
-  void initState() {
+  void initState() async {
     super.initState();
     selectedReport = Report.first;
+    final provider = Provider.of<CustomerProvider>(context, listen: false);
+    await provider.fetchRoomBuilding();
   }
 
   @override
   void dispose() {
-    _customerController.dispose();
-    _roomController.dispose();
-    _floorController.dispose();
-    _roomReportController.dispose();
     _noteController.dispose();
     super.dispose();
   }
@@ -52,12 +71,19 @@ class _AddReportPageState extends State<AddReportPage> {
   Future<void> _submitToAPI() async {
     if (!_formKey.currentState!.validate()) return;
 
+    if (selectedRoom == null || selectedTenant == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Vui lòng chọn phòng và khách thuê!")),
+      );
+      return;
+    }
+
     final payload = {
-      "MaKhachThue": int.tryParse(_customerController.text.trim()) ?? 0,
-      "MaNoiQuy": Report.indexOf(selectedReport!), // bạn đổi lại nếu backend khác
+      "MaKhachThue": int.tryParse(selectedTenant!) ?? 0,
+      "MaNoiQuy": Report.indexOf(selectedReport!),
       "MoTa": _noteController.text.trim(),
-      "MucDo": "vua", // default hoặc bạn thêm dropdown
-      "NgayBaoCao": selectDate.toIso8601String(),
+      "MucDo": selectedLevel ?? "",
+      "NgayBaoCao": selectDate.toIso8601String(),   
     };
 
     print("📤 Gửi dữ liệu tạo violation: $payload");
@@ -77,12 +103,6 @@ class _AddReportPageState extends State<AddReportPage> {
     }
 
     Navigator.pop(context);
-  }
-
-  // ------------------------------------------------------------
-
-  String _formatDate(DateTime dt) {
-    return "${dt.day}/${dt.month}/${dt.year}  ${dt.hour}:${dt.minute}";
   }
 
   @override
@@ -111,47 +131,80 @@ class _AddReportPageState extends State<AddReportPage> {
                 key: _formKey,
                 child: Column(
                   children: [
-                    buildTextField(
-                      "Mã khách thuê",
-                      "Nhập ID khách thuê",
-                      _customerController,
-                      (v) {
-                        if (v == null || v.isEmpty) return "Không được để trống";
-                        if (!RegExp(r'^\d+$').hasMatch(v)) {
-                          return "Phải là số ID";
-                        }
-                        return null;
-                      },
-                    ),
-
-                    SizedBox(height: 16),
-
-                    // Dropdown Nội quy
-                    Text("Nội quy vi phạm:", style: TextStyle(fontWeight: FontWeight.bold)),
-                    DropdownButtonFormField<String>(
-                      value: selectedReport,
-                      items: Report
-                          .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    // ================== DROPDOWN PHÒNG ==================
+                    Dropdown(
+                      label: "Chọn phòng vi phạm",
+                      value: selectedRoom,
+                      items: provider.roombuilding
+                          .map((room) => room.maPhong.toString())
                           .toList(),
-                      onChanged: (v) => setState(() => selectedReport = v),
-                      validator: (v) {
-                        if (v == null || v == Report.first)
-                          return "Vui lòng chọn nội quy";
-                        return null;
+                      displayTextMapper: (value) {
+                        final room = provider.roombuilding.firstWhere(
+                          (e) => e.maPhong.toString() == value,
+                        );
+                        return room.tenPhong;
+                      },
+                      onChanged: (value) async {
+                        setState(() {
+                          selectedRoom = value;
+                          selectedTenant = null; // reset tenant khi đổi phòng
+                        });
+
+                        ///  Gọi API lấy khách theo phòng
+                        await provider.fetchTenantByRoom(int.parse(value!));
+                      },
+                    ),
+
+                    SizedBox(height: 12),
+
+                    // ================== DROPDOWN KHÁCH THUÊ ==================
+                    Dropdown(
+                      label: "Khách thuê vi phạm",
+                      value: selectedTenant,
+                      items: provider.tenantbyroom
+                          .map((t) => t.maKhachThue.toString())
+                          .toList(),
+                      displayTextMapper: (value) {
+                        final tenant = provider.tenantbyroom.firstWhere(
+                            (e) => e.maKhachThue.toString() == value);
+                        return tenant.hoTen;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedTenant = value;
+                        });
                       },
                     ),
 
                     SizedBox(height: 16),
 
-                    buildDatePickerField(
-                      context,
-                      "Ngày báo cáo",
-                      selectDate,
-                      (d) => setState(() => selectDate = d),
+                    // ================== DROPDOWN NỘI QUY ==================
+                    CustomDropdown(
+                      label: "Nội quy bị vi phạm",
+                      value: selectedReport,
+                      items: Report,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedReport = value;
+                        });
+                      },
                     ),
 
-                    SizedBox(height: 16),
+                    SizedBox(height: 12),
 
+                    // ================== DROPDOWN MỨC ĐỘ ==================
+                    Dropdown(
+                      label: "Mức độ",
+                      value: selectedLevel,
+                      items: listLevel,
+                      displayTextMapper: convertSeverityToVietnamese,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedLevel = value;
+                        });
+                      },
+                    ),
+                    SizedBox(height: 12),
                     buildContendField(
                       "Mô tả báo cáo",
                       "Nhập mô tả chi tiết...",
@@ -177,3 +230,4 @@ class _AddReportPageState extends State<AddReportPage> {
     );
   }
 }
+

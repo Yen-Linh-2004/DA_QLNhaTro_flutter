@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application/data/model/Khachthue.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +16,12 @@ class _RoomPageState extends State<RoomPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<CustomerProvider>(context, listen: false).fetchRoomInfo();
-      Provider.of<CustomerProvider>(context, listen: false).fetchRoomStatus();
+    Future.microtask(() async {
+      final customerProvider = Provider.of<CustomerProvider>(context, listen: false);
+      await customerProvider.fetchRoomInfo();
+      
+      final roomStatusProvider = Provider.of<CustomerProvider>(context, listen: false);
+      await roomStatusProvider.fetchRoomStatus();
     });
   }
 
@@ -40,7 +44,7 @@ class _RoomPageState extends State<RoomPage> {
           }
 
           final room = provider.RoomList.first;
-          final khachchinh = provider.roomStatusList.expand((e) => e.danhSachNguoiThue).where((tv) => tv.vaiTro == "KHÁCH_CHÍNH").toList();
+          final khachchinh = provider.roomStatusList.expand((e) => e.danhSachNguoiThue).firstWhereOrNull((tv) => tv.vaiTro == "KHÁCH_CHÍNH");
           final thanhVien = provider.roomStatusList.expand((e) => e.danhSachNguoiThue).where((tv) => tv.vaiTro == "THÀNH_VIÊN").toList();
           
           return SingleChildScrollView(
@@ -54,20 +58,22 @@ class _RoomPageState extends State<RoomPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    
                     // ==== THÔNG TIN PHÒNG ====
                     _sectionTitle("Thông tin phòng", Icons.home_outlined),
+                    SizedBox(height: 10),
                     _roomInfoCard(room),
 
-                    const SizedBox(height: 20),
-
                     // ==== NGƯỜI THUÊ CHÍNH ====
+                    SizedBox(height: 20),
                     _sectionTitle("Người thuê chính", Icons.person_pin_outlined),
-                    _mainTenantCard(khachchinh),
-
-                    const SizedBox(height: 20),
+                    SizedBox(height: 10),
+                   if (khachchinh != null)
+                      _mainTenantCard(khachchinh)
+                    else
+                    Text("Không có người thuê chính"),
 
                     // ==== DANH SÁCH THÀNH VIÊN ====
+                    SizedBox(height: 20),
                     _sectionTitle("Thành viên trong phòng", Icons.group_outlined),
                     SizedBox(height: 10),
                     _membersCard(thanhVien),

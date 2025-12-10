@@ -6,7 +6,7 @@ import 'package:flutter_application/data/service/CustomerService.dart';
 
 class CustomerRepository {
  final service = CustomerSerrvice();
-
+  // HÓA DƠN
   Future<List<HoaDonKhachThue>> getInvoice() async {
     final res = await service.getInvoice();
 
@@ -35,6 +35,7 @@ class CustomerRepository {
     }
   }
 
+  // THÔNG TIN PHÒNG
   Future<List<HoaDonKhachThue>> getIRoomStatus() async {
     final res = await service.getRoomStatus();
     final data = res.data['data'];
@@ -48,6 +49,7 @@ class CustomerRepository {
     }
   }
 
+  // NỘI QUY VÀ VI PHẠM
   Future<List<ViPhamKhachThue>> getCustomerViolations() async {
     final res = await service.getCustomerViolations();
 
@@ -71,6 +73,35 @@ class CustomerRepository {
     }
   }
 
+  Future<List<RoomInBuilding>> getRoomBuilding() async {
+    final res = await service.getRoomBuilding();
+
+    final data = res.data['data'];
+    if (data is List) {
+      return data
+          .map((json) => RoomInBuilding.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } else {
+      print("Dữ liệu không phải List: $data");
+      return [];
+    }
+  }
+
+  Future<List<TenantByRoom>> getTenantByRoom(int id) async {
+    final res = await service.getRoomTeam(id);
+
+    final data = res.data['data'];
+    if (data is List) {
+      return data
+          .map((json) => TenantByRoom.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } else {
+      print("Dữ liệu không phải List: $data");
+      return [];
+    }
+  }
+
+  // YÊU CẦU SỬA CHỮA
   Future<List<YeuCauSuaChuaKhachThue>> getMaintainerRequest() async {
     final res = await service.getMaintenanceRequest();
 
@@ -99,6 +130,39 @@ class CustomerRepository {
       print("Lỗi khi lấy yêu cầu sửa chữa theo ID: $e");
       print(stacktrace);
       return null;
+    }
+  }
+
+  Future<CreateYeuCauSuaChuaRequest> createReport(Map<String, dynamic> data) async {
+    try {
+      final res = await service.createReport(data);
+      return CreateYeuCauSuaChuaRequest.fromJson(res.data['data']);
+    } on DioException catch (e) {
+      throw Exception(e.response?.data);
+    }
+  }
+
+  Future<YeuCauBaoTri> updateReport(int id, Map<String, dynamic> data) async {
+    final res = await service.updateReport(id, data);
+    return YeuCauBaoTri.fromJson(res.data['data']);
+  }
+
+  Future<YeuCauBaoTri> updateReportStattus(int id, Map<String, dynamic> data) async {
+    final res = await service.updateStatusReport(id, data);
+    return YeuCauBaoTri.fromJson(res.data['data']);
+  }
+
+  Future<List<YeuCauSuaChuaKhachThue>> getProfile() async {
+    final res = await service.getProfile();
+
+    final data = res.data['data'];
+    if (data is List) {
+      return data
+          .map((json) => YeuCauSuaChuaKhachThue.fromJson(json as Map<String, dynamic>))
+          .toList();
+    } else {
+      print("Dữ liệu không phải List: $data");
+      return [];
     }
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/UI/shared/buildCard.dart';
-import 'package:flutter_application/data/model/Customer.dart';
+import 'package:flutter_application/data/model/HoaDon.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../provider/CustomerProvider.dart';
-import 'package:intl/intl.dart';
+import '../../data/model/Customer.dart'; // sửa nếu model nằm folder khác
 
 class BillPage extends StatefulWidget {
   const BillPage({super.key});
@@ -17,10 +18,152 @@ class _BillPageState extends State<BillPage> {
   void initState() {
     super.initState();
 
-    // Gọi API đúng chuẩn trong initState
-    Future.microtask(() {
+    Future.microtask(() async {
       final provider = Provider.of<CustomerProvider>(context, listen: false);
-      provider.fetchInvoice(); // load dữ liệu
+      await provider.fetchInvoice();
+    });
+  }
+
+  // ================== FORMAT ===================
+  String formatCurrency(num value) {
+    return NumberFormat.currency(locale: 'vi_VN', symbol: 'đ', decimalDigits: 0)
+        .format(value);
+  }
+
+  String formatDate(DateTime date) {
+    return DateFormat('dd/MM/yyyy').format(date);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Consumer<CustomerProvider>(
+        builder: (context, provider, _) {
+          if (provider.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (provider.InvoicesList.isEmpty) {
+            return const Center(child: Text("Không có hóa đơn"));
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(16),
+            itemCount: provider.InvoicesList.length,
+            itemBuilder: (context, index) {
+              final invoice = provider.InvoicesList[index];
+              return _invoiceCard(invoice);
+            },
+          );
+        },
+      ),
+    );
+  }
+
+  // ================== INVOICE CARD ===================
+  Widget _invoiceCard(HoaDonKhachThue invoice) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 18),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black12,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          )
+        ],
+      ),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Hóa Đơn ${invoice.thang ?? ""}",
+            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
+
+          const SizedBox(height: 4),
+
+          Text(
+            "Ngày lập: ${invoice.ngayLap != null ? formatDate(DateTime.parse(invoice.ngayLap)) : "Chưa cập nhật"}",
+            style: const TextStyle(color: Colors.grey),
+          ),
+
+          Text(
+            "Ngày hết hạn: ${invoice.ngayHetHan != null ? formatDate(DateTime.parse(invoice.ngayHetHan)) : "Chưa cập nhật"}",
+            style: const TextStyle(color: Colors.grey),
+          ),
+
+          const SizedBox(height: 16),
+          const Divider(),
+          const SizedBox(height: 12),
+
+          _rowItem("Tổng tiền", formatCurrency(invoice.tongTien)),
+          const SizedBox(height: 6),
+          _rowItem("Còn lại", formatCurrency(invoice.conLai),
+              isBold: true),
+
+          const SizedBox(height: 18),
+
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton.icon(
+              icon: const Icon(Icons.receipt_long),
+              label: const Text("Xem chi tiết"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BillDetailPage(invoice: invoice),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _rowItem(String left, String right, {bool isBold = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(left,
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+        Text(right,
+            style: TextStyle(
+                fontSize: 16,
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+      ],
+    );
+  }
+}
+
+// ============================================================
+// ================  BILL DETAIL PAGE  ========================
+// ============================================================
+class BillDetailPage extends StatefulWidget {
+  final HoaDonKhachThue invoice;
+  const BillDetailPage({super.key, required this.invoice});
+
+  @override
+  State<BillDetailPage> createState() => _InvoicePageState();
+}
+
+class _InvoicePageState extends State<BillDetailPage> {
+ @override
+  void initState() {
+    super.initState();
+
+    Future.microtask(() async {
+      final provider = Provider.of<CustomerProvider>(context, listen: false);
+      await provider.fetchInvoice(); 
     });
   }
 
@@ -30,18 +173,15 @@ class _BillPageState extends State<BillPage> {
   }
 
   String formatDate(DateTime date) {
-    final formatter = DateFormat('dd/MM/yyyy'); // hoặc định dạng bạn muốn
+    final formatter = DateFormat('dd/MM/yyyy'); 
     return formatter.format(date);
   }
-
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff1f4f9),
 
-      // Consumer lắng nghe provider
       body: Consumer<CustomerProvider>(
         builder: (context, provider, _) {
           if (provider.isLoading) {
@@ -98,6 +238,8 @@ class _BillPageState extends State<BillPage> {
                 // ---------------- BUTTONS ----------------
                 Row(
                   children: [
+                    buildActionBtn(Icons.payment, "Thanh toán ngay", Colors.blue, () {}),
+                    SizedBox(width: 10),
                     buildActionBtn(Icons.picture_as_pdf, "Tải PDF", Colors.green, () {}),
                   ],
                 ),

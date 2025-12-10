@@ -166,21 +166,6 @@ void _submitLogin() async {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text("Chưa có tài khoản? "),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(builder: (_) => const RegisterPage()),
-                      //     );
-                      //   },
-                      //   child: const Text("Đăng ký ngay", style: TextStyle(color: Colors.blue)),
-                      // ),
-                    ],
-                  ),
                 ],
               ),
             ),

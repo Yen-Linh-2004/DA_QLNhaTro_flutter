@@ -26,6 +26,9 @@ class Endpoints {
   static const String roomStatus = "/customer/room-status";
   static const String violations = "/customer/violations";
   static const String maintenance = "/customer/maintenance-requests";
+  static const String roombuilding = "/customer/rooms-in-building";
+  static const String profile = "/profile";
+  static String team(int id) => "/customer/tenants-by-room/$id";
 
   static String khachThueId(int id) => "/admin/khach-thue/$id";
   static String phongtroId(int id) => "/admin/phong-tro/$id";
@@ -35,7 +38,8 @@ class Endpoints {
   static String thietbiId(int id) => "/admin/thiet-bi/$id";
   static String phongtrongId(int id) => "/public/phong-tro/$id";
   static String loaiphongId(int id) => "/admin/loai-phong/$id";
-  static String maintenanceId(int id) => "/customer/maintenance-requests/$id";
+  static String maintenanceId(int id) => "/admin/yeu-cau-bao-tri/$id";
+  static String maintenanceStatus(int id) => "/admin/yeu-cau-bao-tri/$id/status";
 
 }
   

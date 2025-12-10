@@ -18,9 +18,9 @@ class _InvoicePageState extends State<InvoicePage> {
     super.initState();
 
     // Gọi API đúng chuẩn trong initState
-    Future.microtask(() {
+    Future.microtask(() async {
       final provider = Provider.of<CustomerProvider>(context, listen: false);
-      provider.fetchInvoice(); // load dữ liệu
+      await provider.fetchInvoice(); 
     });
   }
 

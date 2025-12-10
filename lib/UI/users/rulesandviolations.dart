@@ -14,9 +14,9 @@ class _RulesAndViolationsPageState extends State<RulesAndViolationsPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<CustomerProvider>(context, listen: false)
-          .fetchCustomerViolations();
+    Future.microtask(() async{
+     final provider =  Provider.of<CustomerProvider>(context, listen: false);
+      await provider.fetchCustomerViolations();
     });
   }
 
@@ -92,7 +92,7 @@ class _RulesAndViolationsPageState extends State<RulesAndViolationsPage> {
           );
         },
         backgroundColor: Colors.blue,
-        icon: const Icon(Icons.add),
+        icon: const Icon(Icons.add, color: Colors.white),
         label: const Text(
           "Báo cáo mới",
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),

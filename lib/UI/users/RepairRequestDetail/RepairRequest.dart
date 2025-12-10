@@ -17,9 +17,9 @@ class _RepairRequestPageState extends State<RepairRequestPage> {
   @override
   void initState() {
     super.initState();
-    Future.microtask(() {
-      Provider.of<CustomerProvider>(context, listen: false)
-          .fetchMaintenanceRequest();
+    Future.microtask(() async{
+     final provider =  Provider.of<CustomerProvider>(context, listen: false);
+        await provider.fetchMaintenanceRequest();
     });
   }
 
@@ -181,7 +181,7 @@ class _RepairRequestPageState extends State<RepairRequestPage> {
                                                   context,
                                                   MaterialPageRoute(
                                                     builder: (context) =>
-                                                        UpdateRepairPage(),
+                                                        UpdateRepairPage(reportId: r.maYeuCau),
                                                   ),
                                                 );
                                               },

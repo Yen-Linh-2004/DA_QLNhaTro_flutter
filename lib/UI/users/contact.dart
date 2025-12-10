@@ -20,14 +20,9 @@ class _ContractPageState extends State<ContractPage> {
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(Duration.zero, () {
-      final provider = Provider.of<CustomerProvider>(context, listen: false);
-
-      if ((provider.ContactList == null || provider.ContactList!.isEmpty) &&
-          !provider.isLoading) {
-        provider.fetchContactInfo();
-      }
+    Future.microtask(() async {
+      final customerProvider = Provider.of<CustomerProvider>(context, listen: false);
+      await customerProvider.fetchContactInfo();
     });
   }
 
